@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "knightquest:item/husk_helmet2_icon"
+  }
+}

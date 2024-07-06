@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "knightquest:item/pirate2_helmet_icon"
+  }
+}

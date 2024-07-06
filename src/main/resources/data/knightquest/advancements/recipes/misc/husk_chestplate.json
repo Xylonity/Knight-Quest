@@ -1,0 +1,87 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_filled_goblet": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "knightquest:filled_goblet"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_lapis_lazuli": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:lapis_lazuli"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_netherite_chestplate": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:netherite_chestplate"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_sandstone": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:sandstone"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:husk_chestplate"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_yellow_dye": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:yellow_dye"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_sandstone",
+      "has_lapis_lazuli",
+      "has_yellow_dye",
+      "has_filled_goblet",
+      "has_netherite_chestplate",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:husk_chestplate"
+    ]
+  },
+  "sends_telemetry_event": false
+}

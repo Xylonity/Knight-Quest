@@ -1,0 +1,61 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_diamond_axe": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:diamond_axe"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_ink_sac": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:ink_sac"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_ratman_eye": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "knightquest:ratman_eye"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:cleaver_heavy_axe"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_ink_sac",
+      "has_ratman_eye",
+      "has_diamond_axe",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:cleaver_heavy_axe"
+    ]
+  },
+  "sends_telemetry_event": false
+}

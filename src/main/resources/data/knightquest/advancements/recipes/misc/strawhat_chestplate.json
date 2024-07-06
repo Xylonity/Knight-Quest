@@ -1,0 +1,87 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_clock": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:clock"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_filled_goblet": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "knightquest:filled_goblet"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_ink_sac": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:ink_sac"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_netherite_chestplate": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:netherite_chestplate"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:strawhat_chestplate"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_white_wool": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:white_wool"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_white_wool",
+      "has_clock",
+      "has_ink_sac",
+      "has_filled_goblet",
+      "has_netherite_chestplate",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:strawhat_chestplate"
+    ]
+  },
+  "sends_telemetry_event": false
+}

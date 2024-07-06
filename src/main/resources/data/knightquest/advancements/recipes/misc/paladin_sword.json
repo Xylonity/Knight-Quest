@@ -1,0 +1,61 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_filled_goblet": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "knightquest:filled_goblet"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_netherite_sword": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:netherite_sword"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_ratman_eye": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "knightquest:ratman_eye"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:paladin_sword"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_ratman_eye",
+      "has_filled_goblet",
+      "has_netherite_sword",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:paladin_sword"
+    ]
+  },
+  "sends_telemetry_event": false
+}

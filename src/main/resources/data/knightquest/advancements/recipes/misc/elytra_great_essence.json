@@ -1,0 +1,48 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_elytra": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:elytra"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_shears": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:shears"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:elytra_great_essence"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_elytra",
+      "has_shears",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:elytra_great_essence"
+    ]
+  },
+  "sends_telemetry_event": false
+}

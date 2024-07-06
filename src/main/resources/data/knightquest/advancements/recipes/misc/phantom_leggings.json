@@ -1,0 +1,87 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_cyan_bed": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:cyan_bed"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_filled_goblet": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "knightquest:filled_goblet"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_lime_dye": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:lime_dye"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_netherite_leggings": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:netherite_leggings"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_phantom_membrane": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:phantom_membrane"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:phantom_leggings"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_cyan_bed",
+      "has_phantom_membrane",
+      "has_lime_dye",
+      "has_filled_goblet",
+      "has_netherite_leggings",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:phantom_leggings"
+    ]
+  },
+  "sends_telemetry_event": false
+}

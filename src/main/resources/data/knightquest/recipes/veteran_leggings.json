@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:iron_horse_armor"
+    },
+    {
+      "item": "minecraft:diamond_sword"
+    },
+    {
+      "item": "minecraft:enchanted_golden_apple"
+    },
+    {
+      "item": "knightquest:filled_goblet"
+    },
+    {
+      "item": "minecraft:netherite_leggings"
+    }
+  ],
+  "result": {
+    "item": "knightquest:veteran_leggings"
+  }
+}

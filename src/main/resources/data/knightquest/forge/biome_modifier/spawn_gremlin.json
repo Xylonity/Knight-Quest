@@ -7,8 +7,8 @@
   ],
   "spawners": {
     "type": "knightquest:gremlin",
-    "weight": 60,
+    "weight": 25,
     "minCount": 1,
-    "maxCount": 2
+    "maxCount": 1
   }
 }

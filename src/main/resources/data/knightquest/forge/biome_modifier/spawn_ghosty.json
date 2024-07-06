@@ -8,7 +8,7 @@
   ],
   "spawners": {
     "type": "knightquest:ghosty",
-    "weight": 25,
+    "weight": 15,
     "minCount": 1,
     "maxCount": 1
   }

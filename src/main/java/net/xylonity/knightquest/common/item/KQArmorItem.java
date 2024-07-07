@@ -249,15 +249,24 @@ public class KQArmorItem extends ArmorItem {
     private static boolean hasFullSetOn(Player player, KQArmorMaterials material) {
         ItemStack boots = player.getInventory().getArmor(0);
         ItemStack leggings = player.getInventory().getArmor(1);
-        ItemStack breastplate = player.getInventory().getArmor(2);
+        ItemStack chestplate = player.getInventory().getArmor(2);
         ItemStack helmet = player.getInventory().getArmor(3);
 
-        return !helmet.isEmpty() && !breastplate.isEmpty()
-                && !leggings.isEmpty() && !boots.isEmpty()
-                && ((ArmorItem) helmet.getItem()).getMaterial() == material
-                && ((ArmorItem) breastplate.getItem()).getMaterial() == material
-                && ((ArmorItem) leggings.getItem()).getMaterial() == material
-                && ((ArmorItem) boots.getItem()).getMaterial() == material;
+        if (helmet.isEmpty() || chestplate.isEmpty() || leggings.isEmpty() || boots.isEmpty()) {
+            return false;
+        }
+
+        if (!(helmet.getItem() instanceof ArmorItem helmetArmor) ||
+                !(chestplate.getItem() instanceof ArmorItem chestplateArmor) ||
+                !(leggings.getItem() instanceof ArmorItem leggingsArmor) ||
+                !(boots.getItem() instanceof ArmorItem bootsArmor)) {
+            return false;
+        }
+
+        return helmetArmor.getMaterial() == material &&
+                chestplateArmor.getMaterial() == material &&
+                leggingsArmor.getMaterial() == material &&
+                bootsArmor.getMaterial() == material;
     }
 
     private static boolean isTeleportPositionValid(Level level, BlockPos pos) {

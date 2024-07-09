@@ -1,18 +1,18 @@
 package net.xylonity.knightquest.common.client;
 
 import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.core.Holder;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.xylonity.knightquest.common.item.KQArmorItem;
-import net.xylonity.knightquest.common.material.KQArmorMaterials;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoItem;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.*;
-import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animatable.instance.SingletonAnimatableInstanceCache;
+import software.bernie.geckolib.animation.*;
 
 import java.util.function.Consumer;
 
@@ -23,7 +23,7 @@ public class GeoItemArmor extends KQArmorItem implements GeoItem {
     private final String b;
 
 
-    public GeoItemArmor(KQArmorMaterials material, Type type, Properties properties, String a, String b) {
+    public GeoItemArmor(Holder<ArmorMaterial> material, Type type, Properties properties, String a, String b) {
         super(material, type, properties);
         this.a = a;
         this.b = b;
@@ -48,10 +48,10 @@ public class GeoItemArmor extends KQArmorItem implements GeoItem {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController(this, "controller", 0, this::predicate));
+        controllers.add(new AnimationController<>(this, "controller", 0, this::predicate));
     }
 
-    private PlayState predicate(AnimationState animationState) {
+    private PlayState predicate(AnimationState<?> animationState) {
         animationState.getController().setAnimation(RawAnimation.begin().then("idle", Animation.LoopType.LOOP));
         return PlayState.CONTINUE;
     }

@@ -19,7 +19,7 @@ public class EldKnightRenderer extends GeoEntityRenderer<EldKnightEntity> {
 
     @Override
     public ResourceLocation getTextureLocation(EldKnightEntity animatable) {
-        return new ResourceLocation(KnightQuest.MOD_ID, "textures/entity/eldknight.png");
+        return ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "textures/entity/eldknight.png");
     }
 
     @Override

@@ -21,7 +21,6 @@ import net.xylonity.knightquest.registry.KnightQuestParticles;
 import net.xylonity.knightquest.config.KnightQuestCommonConfigs;
 import net.xylonity.knightquest.datagen.KQLootModifiers;
 import org.slf4j.Logger;
-import software.bernie.geckolib.GeckoLib;
 
 @Mod(KnightQuest.MOD_ID)
 public class KnightQuest
@@ -40,8 +39,6 @@ public class KnightQuest
         KQLootModifiers.LOOT_MODIFIER_SERIALIZERS.register(modEventBus);
         KnightQuestParticles.PARTICLES.register(modEventBus);
 
-        GeckoLib.initialize();
-
         // ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, KnightQuestClientConfigs.SPEC, "knightquest-client.toml");
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, KnightQuestCommonConfigs.SPEC, "knightquest.toml");
 
@@ -49,7 +46,7 @@ public class KnightQuest
 
     }
 
-    @SubscribeEvent public void onServerStarting(ServerStartingEvent event) { ;; }
+    @SubscribeEvent public void onServerStarting(ServerStartingEvent event) {  }
 
     @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class ClientModEvents

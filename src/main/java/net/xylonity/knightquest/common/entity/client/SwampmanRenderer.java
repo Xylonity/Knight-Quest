@@ -19,7 +19,7 @@ public class SwampmanRenderer extends GeoEntityRenderer<SwampmanEntity> {
 
     @Override
     public ResourceLocation getTextureLocation(SwampmanEntity animatable) {
-        return new ResourceLocation(KnightQuest.MOD_ID, "textures/entity/swampman.png");
+        return ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "textures/entity/swampman.png");
     }
 
     @Override

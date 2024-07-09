@@ -20,10 +20,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.core.animatable.GeoAnimatable;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.*;
-import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.animatable.GeoAnimatable;
+import software.bernie.geckolib.animatable.GeoEntity;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animation.*;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.Objects;
@@ -116,50 +116,22 @@ public class ShieldEntity extends Monster implements GeoEntity {
         }
     }
 
-    @Override
-    protected void pushEntities() {
-
-    }
-
-    @Override
-    public void push(Entity pEntity) {
-
-    }
-
-    @Override
-    public void handleInsidePortal(BlockPos pPos) {
-
-    }
-
-    @Override
-    public boolean isOnFire() {
+    @Override protected void pushEntities() {}
+    @Override public void push(Entity pEntity) {}
+    @Override public boolean isOnFire() {
         return false;
     }
-
-    @Override
-    public boolean isInLava() {
+    @Override public boolean isInLava() {
         return false;
     }
-
-    @Override
-    public boolean isInWater() {
+    @Override public boolean isInWater() {
         return false;
     }
-
-    @Override
-    public boolean isInWall() {
+    @Override public boolean isInWall() {
         return false;
     }
+    @Override protected void spawnSprintParticle() {}
 
-    @Override
-    protected void spawnSprintParticle() {
-
-    }
-
-    @Override
-    protected void spawnSoulSpeedParticle() {
-
-    }
 
     private GremlinEntity findClosestGremlin() {
         double closestDistance = Double.MAX_VALUE;

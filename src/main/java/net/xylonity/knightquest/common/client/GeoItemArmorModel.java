@@ -16,17 +16,17 @@ public class GeoItemArmorModel extends GeoModel<GeoItemArmor> {
 
     @Override
     public ResourceLocation getModelResource(GeoItemArmor animatable) {
-        return new ResourceLocation(KnightQuest.MOD_ID, b);
+        return ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, b);
     }
 
     @Override
     public ResourceLocation getTextureResource(GeoItemArmor animatable) {
-        return new ResourceLocation(KnightQuest.MOD_ID, a);
+        return ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, a);
     }
 
     @Override
     public ResourceLocation getAnimationResource(GeoItemArmor animatable) {
-        return new ResourceLocation(KnightQuest.MOD_ID, "animations/helmet.animation.json");
+        return ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "animations/helmet.animation.json");
     }
 
 }

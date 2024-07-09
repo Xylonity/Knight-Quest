@@ -23,16 +23,16 @@ import net.minecraft.world.entity.animal.Turtle;
 import net.minecraft.world.entity.monster.Skeleton;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Arrow;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ProjectileWeaponItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.core.animatable.GeoAnimatable;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.*;
-import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.animatable.GeoAnimatable;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animation.*;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.Random;
@@ -55,19 +55,19 @@ public class RatmanEntity extends Skeleton implements GeoEntity {
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(ATTACK1, false);
+    protected void defineSynchedData(SynchedEntityData.@NotNull Builder pBuilder) {
+        super.defineSynchedData(pBuilder);
+        pBuilder.define(ATTACK1, false);
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag pCompound) {
+    public void addAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.addAdditionalSaveData(pCompound);
         pCompound.putBoolean("attack1", this.getAttack1());
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag compound) {
+    public void readAdditionalSaveData(@NotNull CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         this.setAttack1(compound.getBoolean("attack1"));
     }
@@ -110,7 +110,7 @@ public class RatmanEntity extends Skeleton implements GeoEntity {
         return pProjectileWeapon == Items.CROSSBOW;
     }
 
-    private PlayState attackPredicate(AnimationState event) {
+    private PlayState attackPredicate(AnimationState<?> event) {
 
         if (isUsingItem()) {
             event.getController().forceAnimationReset();
@@ -147,7 +147,7 @@ public class RatmanEntity extends Skeleton implements GeoEntity {
     }
 
     @Override
-    protected SoundEvent getHurtSound(DamageSource pDamageSource) {
+    protected SoundEvent getHurtSound(@NotNull DamageSource pDamageSource) {
         return SoundEvents.FOX_HURT;
     }
 
@@ -157,7 +157,7 @@ public class RatmanEntity extends Skeleton implements GeoEntity {
     }
 
     @Override
-    protected void playStepSound(BlockPos pPos, BlockState pState) {
+    protected void playStepSound(@NotNull BlockPos pPos, @NotNull BlockState pState) {
         this.playSound(SoundEvents.WOLF_STEP, 0.15F, 1.0F);
     }
 
@@ -192,9 +192,9 @@ public class RatmanEntity extends Skeleton implements GeoEntity {
         double arrowY = getEyeY();
         double arrowZ = Math.sin(Math.toRadians(angle));
 
-        Arrow arrow = new Arrow(serverWorld, this);
+        Arrow arrow = new Arrow(serverWorld, this, new ItemStack(Items.ARROW), new ItemStack(Items.CROSSBOW));
         arrow.setPos(getX() + arrowX, arrowY - 1.5, getZ() + arrowZ);
-        arrow.setShotFromCrossbow(false);
+        arrow.shotFromCrossbow();
 
         double velX = Math.cos(Math.toRadians(angle));
         double velZ = Math.sin(Math.toRadians(angle));

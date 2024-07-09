@@ -2,6 +2,7 @@ package net.xylonity.knightquest.datagen;
 
 import com.google.common.base.Suppliers;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.world.item.Item;
@@ -18,11 +19,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.function.Supplier;
 
 public class KQAddItemModifier extends LootModifier {
-    public static final Supplier<Codec<KQAddItemModifier>> CODEC = Suppliers.memoize(() ->
-            RecordCodecBuilder.create(inst -> codecStart(inst).and(ForgeRegistries.ITEMS.getCodec()
-                            .fieldOf("item").forGetter(m -> m.item))
-                    .and(Codec.FLOAT.fieldOf("chance").forGetter(m -> m.chance))
-                    .apply(inst, KQAddItemModifier::new)));
+
+    public static final Supplier<MapCodec<KQAddItemModifier>> CODEC = Suppliers.memoize(() ->
+            RecordCodecBuilder.mapCodec(inst ->
+                    codecStart(inst).and(ForgeRegistries.ITEMS.getCodec().fieldOf("item").forGetter(KQAddItemModifier::getItem))
+                            .and(Codec.FLOAT.fieldOf("chance").forGetter(KQAddItemModifier::getChance))
+                            .apply(inst, KQAddItemModifier::new)));
 
     private final Item item;
     private float chance;
@@ -31,6 +33,14 @@ public class KQAddItemModifier extends LootModifier {
         super(conditionsIn);
         this.item = item;
         this.chance = chance;
+    }
+
+    public Item getItem() {
+        return item;
+    }
+
+    public float getChance() {
+        return chance;
     }
 
     @Override
@@ -55,7 +65,8 @@ public class KQAddItemModifier extends LootModifier {
     }
 
     @Override
-    public Codec<? extends IGlobalLootModifier> codec() {
+    public MapCodec<? extends IGlobalLootModifier> codec() {
         return CODEC.get();
     }
+
 }

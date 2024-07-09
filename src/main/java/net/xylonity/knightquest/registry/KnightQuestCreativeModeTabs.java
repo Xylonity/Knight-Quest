@@ -5,7 +5,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 import net.xylonity.knightquest.KnightQuest;
@@ -260,8 +259,7 @@ public class KnightQuestCreativeModeTabs {
                                 output.accept(KnightQuestItems.SKULK_BOOTS.get());
 
                             })
-                            .withBackgroundLocation(new ResourceLocation(KnightQuest.MOD_ID, "textures/gui/container/creative_inventory/tab_knightquest.png"))
-                            .withTabsImage(new ResourceLocation(KnightQuest.MOD_ID, "textures/gui/container/creative_inventory/tabs_knightquest.png"))
+                            .backgroundTexture(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "textures/gui/container/creative_inventory/tab_knightquest.png"))
                             .build());
 
 }

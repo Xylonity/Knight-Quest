@@ -14,14 +14,14 @@ public class KQTags {
 
 
         private static TagKey<Block> tag(String name) {
-            return BlockTags.create(new ResourceLocation(KnightQuest.MOD_ID, name));
+            return BlockTags.create(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, name));
         }
     }
 
     public static class Items {
 
         private static TagKey<Item> tag(String name) {
-            return ItemTags.create(new ResourceLocation(KnightQuest.MOD_ID, name));
+            return ItemTags.create(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, name));
         }
     }
 }

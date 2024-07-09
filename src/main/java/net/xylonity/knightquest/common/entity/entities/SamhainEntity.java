@@ -1,10 +1,13 @@
 package net.xylonity.knightquest.common.entity.entities;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -25,16 +28,17 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.xylonity.knightquest.registry.KnightQuestItems;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.core.animatable.GeoAnimatable;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.*;
-import software.bernie.geckolib.core.animation.AnimationState;
-import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.animatable.GeoAnimatable;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animation.*;
+import software.bernie.geckolib.animation.AnimationState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 public class SamhainEntity extends TamableAnimal implements GeoEntity {
     private AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
@@ -60,7 +64,7 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new SitWhenOrderedToGoal(this));
         this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, Monster.class, 6.0F, 0.65D, 0.65D));
-        this.goalSelector.addGoal(3, new FollowOwnerGoal(this, 0.6D, 6.0F, 2.0F, false));
+        this.goalSelector.addGoal(3, new FollowOwnerGoal(this, 0.6D, 6.0F, 2.0F));
         this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(6, new MoveToPumpkinGoal(this, 0.68F));
@@ -174,10 +178,25 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
+    public void readAdditionalSaveData(@NotNull CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         setSitting(tag.getBoolean("isSitting"));
-        this.entityData.set(ARMOR_SLOT, ItemStack.of(tag.getCompound("ArmorItem")));
+        this.entityData.set(ARMOR_SLOT, ItemStack.parseOptional(new HolderLookup.Provider() {
+            @Override
+            public Stream<ResourceKey<? extends Registry<?>>> listRegistries() {
+                return Stream.empty();
+            }
+
+            @Override
+            public <T> Optional<HolderLookup.RegistryLookup<T>> lookup(ResourceKey<? extends Registry<? extends T>> resourceKey) {
+                return Optional.empty();
+            }
+        },tag.getCompound("ArmorItem")));
+    }
+
+    @Override
+    public boolean isFood(@NotNull ItemStack pStack) {
+        return false;
     }
 
     @Override
@@ -185,15 +204,25 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
         super.addAdditionalSaveData(tag);
         tag.putBoolean("isSitting", this.isSitting());
         CompoundTag armorTag = new CompoundTag();
-        this.getArmor().save(armorTag);
+        this.getArmor().save(new HolderLookup.Provider() {
+            @Override
+            public Stream<ResourceKey<? extends Registry<?>>> listRegistries() {
+                return Stream.empty();
+            }
+
+            @Override
+            public <T> Optional<HolderLookup.RegistryLookup<T>> lookup(ResourceKey<? extends Registry<? extends T>> resourceKey) {
+                return Optional.empty();
+            }
+        },armorTag);
         tag.put("ArmorItem", armorTag);
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(SITTING, false);
-        this.entityData.define(ARMOR_SLOT, ItemStack.EMPTY);
+    protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+        super.defineSynchedData(pBuilder);
+        pBuilder.define(SITTING, false);
+        pBuilder.define(ARMOR_SLOT, ItemStack.EMPTY);
     }
 
     public void equipArmor(ItemStack itemStack) {
@@ -221,13 +250,13 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
             this.entityData.set(ARMOR_SLOT, ItemStack.EMPTY);
         }
 
-        this.getAttribute(Attributes.ARMOR).setBaseValue(0.0);
+        Objects.requireNonNull(this.getAttribute(Attributes.ARMOR)).setBaseValue(0.0);
         this.entityData.set(ARMOR_SLOT, ItemStack.EMPTY);
     }
 
     @Override
-    protected void dropCustomDeathLoot(DamageSource pSource, int pLooting, boolean pRecentlyHit) {
-        super.dropCustomDeathLoot(pSource, pLooting, pRecentlyHit);
+    protected void dropCustomDeathLoot(@NotNull ServerLevel pLevel, @NotNull DamageSource pSource, boolean pBool) {
+        super.dropCustomDeathLoot(pLevel, pSource, pBool);
         ItemStack armorStack = this.entityData.get(ARMOR_SLOT);
         if (!armorStack.isEmpty()) {
             this.spawnAtLocation(armorStack);
@@ -248,16 +277,16 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
     }
 
     @Override
-    public void setTame(boolean tamed) {
-        super.setTame(tamed);
-        if (tamed) {
-            getAttribute(Attributes.MAX_HEALTH).setBaseValue(25.0D);
-            getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(4D);
-            getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.5f);
+    public void setTame(boolean pBool1, boolean pBool2) {
+        super.setTame(pBool1, pBool2);
+        if (pBool1) {
+            Objects.requireNonNull(getAttribute(Attributes.MAX_HEALTH)).setBaseValue(25.0D);
+            Objects.requireNonNull(getAttribute(Attributes.ATTACK_DAMAGE)).setBaseValue(4D);
+            Objects.requireNonNull(getAttribute(Attributes.MOVEMENT_SPEED)).setBaseValue(0.5f);
         } else {
-            getAttribute(Attributes.MAX_HEALTH).setBaseValue(30.0D);
-            getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(4D);
-            getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.5f);
+            Objects.requireNonNull(getAttribute(Attributes.MAX_HEALTH)).setBaseValue(30.0D);
+            Objects.requireNonNull(getAttribute(Attributes.ATTACK_DAMAGE)).setBaseValue(4D);
+            Objects.requireNonNull(getAttribute(Attributes.MOVEMENT_SPEED)).setBaseValue(0.25f);
         }
     }
 

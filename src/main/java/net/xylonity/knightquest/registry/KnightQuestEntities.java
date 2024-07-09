@@ -27,17 +27,17 @@ public class KnightQuestEntities {
     public static final RegistryObject<EntityType<GhostyEntity>> GHOSTY;
 
     static {
-        GREMLIN = ENTITY.register("gremlin", () -> EntityType.Builder.of(GremlinEntity::new, MobCategory.MONSTER).sized(1f, 1f).build(new ResourceLocation(KnightQuest.MOD_ID, "gremlin").toString()));
-        ELDBOMB = ENTITY.register("eldbomb", () -> EntityType.Builder.of(EldBombEntity::new, MobCategory.MONSTER).sized(1f, 1f).build(new ResourceLocation(KnightQuest.MOD_ID, "eldbomb").toString()));
-        ELDKINGHT = ENTITY.register("eldknight", () -> EntityType.Builder.of(EldKnightEntity::new, MobCategory.MONSTER).sized(1f, 2.6f).build(new ResourceLocation(KnightQuest.MOD_ID, "eldknight").toString()));
-        SAMHAIN = ENTITY.register("samhain", () -> EntityType.Builder.of(SamhainEntity::new, MobCategory.MONSTER).sized(1f, 1.5f).build(new ResourceLocation(KnightQuest.MOD_ID, "samhain").toString()));
-        SWAMPMAN = ENTITY.register("swampman", () -> EntityType.Builder.of(SwampmanEntity::new, MobCategory.MONSTER).sized(1f, 2f).build(new ResourceLocation(KnightQuest.MOD_ID, "swampman").toString()));
-        RATMAN = ENTITY.register("ratman", () -> EntityType.Builder.of(RatmanEntity::new, MobCategory.MONSTER).sized(1f, 1f).build(new ResourceLocation(KnightQuest.MOD_ID, "ratman").toString()));
-        LIZZY = ENTITY.register("lizzy", () -> EntityType.Builder.of(LizzyEntity::new, MobCategory.MONSTER).sized(1f, 0.3f).build(new ResourceLocation(KnightQuest.MOD_ID, "lizzy").toString()));
-        BADPATCH = ENTITY.register("bad_patch", () -> EntityType.Builder.of(BadPatchEntity::new, MobCategory.MONSTER).sized(1f, 1f).build(new ResourceLocation(KnightQuest.MOD_ID, "bad_patch").toString()));
-        SHIELD = ENTITY.register("ghastling", () -> EntityType.Builder.of(ShieldEntity::new, MobCategory.MONSTER).sized(0.65f, 0.65f).build(new ResourceLocation(KnightQuest.MOD_ID, "ghastling").toString()));
-        MOMMA_LIZZY = ENTITY.register("momma_lizzy", () -> EntityType.Builder.of(MommaLizzyEntity::new, MobCategory.MONSTER).sized(1f, 0.3f).build(new ResourceLocation(KnightQuest.MOD_ID, "momma_lizzy").toString()));
-        GHOSTY = ENTITY.register("ghosty", () -> EntityType.Builder.of(GhostyEntity::new, MobCategory.MONSTER).sized(1f, 1f).build(new ResourceLocation(KnightQuest.MOD_ID, "ghosty").toString()));
+        GREMLIN = ENTITY.register("gremlin", () -> EntityType.Builder.of(GremlinEntity::new, MobCategory.MONSTER).sized(1f, 1f).build(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "gremlin").toString()));
+        ELDBOMB = ENTITY.register("eldbomb", () -> EntityType.Builder.of(EldBombEntity::new, MobCategory.MONSTER).sized(1f, 1f).build(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "eldbomb").toString()));
+        ELDKINGHT = ENTITY.register("eldknight", () -> EntityType.Builder.of(EldKnightEntity::new, MobCategory.MONSTER).sized(1f, 2.6f).build(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "eldknight").toString()));
+        SAMHAIN = ENTITY.register("samhain", () -> EntityType.Builder.of(SamhainEntity::new, MobCategory.MONSTER).sized(1f, 1.5f).build(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "samhain").toString()));
+        SWAMPMAN = ENTITY.register("swampman", () -> EntityType.Builder.of(SwampmanEntity::new, MobCategory.MONSTER).sized(1f, 2f).build(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "swampman").toString()));
+        RATMAN = ENTITY.register("ratman", () -> EntityType.Builder.of(RatmanEntity::new, MobCategory.MONSTER).sized(1f, 1f).build(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "ratman").toString()));
+        LIZZY = ENTITY.register("lizzy", () -> EntityType.Builder.of(LizzyEntity::new, MobCategory.MONSTER).sized(1f, 0.3f).build(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "lizzy").toString()));
+        BADPATCH = ENTITY.register("bad_patch", () -> EntityType.Builder.of(BadPatchEntity::new, MobCategory.MONSTER).sized(1f, 1f).build(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "bad_patch").toString()));
+        SHIELD = ENTITY.register("ghastling", () -> EntityType.Builder.of(ShieldEntity::new, MobCategory.MONSTER).sized(0.65f, 0.65f).build(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "ghastling").toString()));
+        MOMMA_LIZZY = ENTITY.register("momma_lizzy", () -> EntityType.Builder.of(MommaLizzyEntity::new, MobCategory.MONSTER).sized(1f, 0.3f).build(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "momma_lizzy").toString()));
+        GHOSTY = ENTITY.register("ghosty", () -> EntityType.Builder.of(GhostyEntity::new, MobCategory.MONSTER).sized(1f, 1f).build(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "ghosty").toString()));
     }
 
 }

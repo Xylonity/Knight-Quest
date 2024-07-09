@@ -1,13 +1,14 @@
 package net.xylonity.knightquest.common.item;
 
+import net.minecraft.core.Holder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
-import net.xylonity.knightquest.common.material.KQArmorMaterials;
 
 public class KQFullSetChecker {
 
-    protected static boolean hasFullSuitOfArmorOn(Player player, KQArmorMaterials material) {
+    protected static boolean hasFullSuitOfArmorOn(Player player, Holder<ArmorMaterial> material) {
 
         for (ItemStack armorStack : player.getInventory().armor) {
             if(!(armorStack.getItem() instanceof ArmorItem)) {

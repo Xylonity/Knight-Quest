@@ -1,62 +1,76 @@
 package net.xylonity.knightquest.common.material;
 
-import net.minecraft.resources.ResourceLocation;
+import com.google.common.base.Suppliers;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Tier;
-import net.minecraft.world.item.Tiers;
+import net.minecraft.world.item.component.Tool;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraftforge.common.ForgeTier;
-import net.minecraftforge.common.TierSortingRegistry;
-import net.xylonity.knightquest.KnightQuest;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.Block;
 import net.xylonity.knightquest.registry.KnightQuestItems;
-import net.xylonity.knightquest.common.tags.KQTags;
 
-import java.util.List;
+import java.util.Objects;
+import java.util.function.Supplier;
 
-public class KQItemMaterials {
+public enum KQItemMaterials implements Tier {
 
-    public static final Tier PALADIN = TierSortingRegistry.registerTier(new ForgeTier(4, 2131, 0.5f, 3.5f, 15,
-            KQTags.Blocks.KNIGHTQUEST_TOOLS, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
-            new ResourceLocation(KnightQuest.MOD_ID, "paladin_sword"), List.of(Tiers.NETHERITE), List.of());
+    PALADIN(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 2131, 9.0F, 4F, 15, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
+    NAIL(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 1821, 9.0F, 2.5F, 15, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
+    UCHIGATANA(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 1080, 9.0F, 3F, 15, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
+    KUKRI(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 200, 9.0F, 0F, 14, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
+    KHOPESH(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 1831, 9.0F, 3.5F, 15, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
+    CLEAVER(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 1931, 9.0F, 3.8F, 15, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
+    CRIMSON_SWORD(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 1450, 9.0F, 2.5F, 14, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
+    WATER_SWORD(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 850, 9.0F, 2F, 14, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
+    STEEL_SWORD(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 300, 9.0F, 2.5F, 14, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
+    WATER_AXE(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 850, 9.0F, 1.5F, 14, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
+    STEEL_AXE(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 300, 9.0F, 1.5F, 14, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()));
 
-    public static final Tier NAIL = TierSortingRegistry.registerTier(new ForgeTier(4, 1821, 0.5f, 2.5f, 15,
-                    KQTags.Blocks.KNIGHTQUEST_TOOLS, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
-            new ResourceLocation(KnightQuest.MOD_ID, "nail_glaive"), List.of(Tiers.NETHERITE), List.of());
+    private final TagKey<Block> incorrectBlocksForDrops;
+    private final int uses;
+    private final float speed;
+    private final float damage;
+    private final int enchantmentValue;
+    private final Supplier<Ingredient> repairIngredient;
 
-    public static final Tier UCHIGATANA = TierSortingRegistry.registerTier(new ForgeTier(4, 1080, 0.5f, 3f, 14,
-                    KQTags.Blocks.KNIGHTQUEST_TOOLS, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
-            new ResourceLocation(KnightQuest.MOD_ID, "uchigatana_katana"), List.of(Tiers.NETHERITE), List.of());
+    KQItemMaterials(final TagKey p_334032_, final int p_43332_, final float p_43334_, final float p_43335_, final int p_43333_, final Supplier<Ingredient> p_43337_) {
+        this.incorrectBlocksForDrops = p_334032_;
+        this.uses = p_43332_;
+        this.speed = p_43334_;
+        this.damage = p_43335_;
+        this.enchantmentValue = p_43333_;
+        Objects.requireNonNull(p_43337_);
+        this.repairIngredient = Suppliers.memoize(p_43337_::get);
+    }
 
-    public static final Tier KUKRI = TierSortingRegistry.registerTier(new ForgeTier(4, 200, 0.5f, 1f, 14,
-                    KQTags.Blocks.KNIGHTQUEST_TOOLS, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
-            new ResourceLocation(KnightQuest.MOD_ID, "kukri_dagger"), List.of(Tiers.NETHERITE), List.of());
+    public int getUses() {
+        return this.uses;
+    }
 
-    public static final Tier KHOPESH = TierSortingRegistry.registerTier(new ForgeTier(4, 1831, 0.5f, 3.5f, 15,
-                    KQTags.Blocks.KNIGHTQUEST_TOOLS, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
-            new ResourceLocation(KnightQuest.MOD_ID, "khopesh_claymore"), List.of(Tiers.NETHERITE), List.of());
+    public float getSpeed() {
+        return this.speed;
+    }
 
-    public static final Tier CLEAVER = TierSortingRegistry.registerTier(new ForgeTier(4, 1831, 0.5f, 3.2f, 15,
-                    KQTags.Blocks.KNIGHTQUEST_TOOLS, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
-            new ResourceLocation(KnightQuest.MOD_ID, "cleaver_heavy_axe"), List.of(Tiers.NETHERITE), List.of());
+    public float getAttackDamageBonus() {
+        return this.damage;
+    }
 
-    public static final Tier CRIMSON_SWORD = TierSortingRegistry.registerTier(new ForgeTier(4, 1450, 0.5f, 2.5f, 14,
-                    KQTags.Blocks.KNIGHTQUEST_TOOLS, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
-            new ResourceLocation(KnightQuest.MOD_ID, "crimson_sword"), List.of(Tiers.NETHERITE), List.of());
+    public TagKey<Block> getIncorrectBlocksForDrops() {
+        return this.incorrectBlocksForDrops;
+    }
 
-    public static final Tier WATER_SWORD = TierSortingRegistry.registerTier(new ForgeTier(4, 850, 0.5f, 2f, 14,
-                    KQTags.Blocks.KNIGHTQUEST_TOOLS, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
-            new ResourceLocation(KnightQuest.MOD_ID, "water_sword"), List.of(Tiers.NETHERITE), List.of());
+    public int getEnchantmentValue() {
+        return this.enchantmentValue;
+    }
 
-    public static final Tier STEEL_SWORD = TierSortingRegistry.registerTier(new ForgeTier(4, 300, 0.5f, 2.5f, 14,
-                    KQTags.Blocks.KNIGHTQUEST_TOOLS, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
-            new ResourceLocation(KnightQuest.MOD_ID, "steel_sword"), List.of(Tiers.NETHERITE), List.of());
+    public Ingredient getRepairIngredient() {
+        return (Ingredient)this.repairIngredient.get();
+    }
 
-    public static final Tier WATER_AXE = TierSortingRegistry.registerTier(new ForgeTier(4, 850, 6.0f, 1.5f, 14,
-                    KQTags.Blocks.KNIGHTQUEST_TOOLS, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
-            new ResourceLocation(KnightQuest.MOD_ID, "water_axe"), List.of(Tiers.NETHERITE), List.of());
-
-    public static final Tier STEEL_AXE = TierSortingRegistry.registerTier(new ForgeTier(4, 300, 6.5f, 1.5f, 14,
-                    KQTags.Blocks.KNIGHTQUEST_TOOLS, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
-            new ResourceLocation(KnightQuest.MOD_ID, "steel_axe"), List.of(Tiers.NETHERITE), List.of());
-
+    @Override
+    public Tool createToolProperties(TagKey<Block> pBlock) {
+        return Tier.super.createToolProperties(pBlock);
+    }
 
 }

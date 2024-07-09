@@ -22,12 +22,9 @@ import net.xylonity.knightquest.registry.KnightQuestParticles;
 import net.xylonity.knightquest.config.values.KQConfigValues;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.core.animatable.GeoAnimatable;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.AnimatableManager;
-import software.bernie.geckolib.core.animation.AnimationController;
-import software.bernie.geckolib.core.animation.AnimationState;
-import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.animatable.GeoAnimatable;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animation.*;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.List;
@@ -87,7 +84,7 @@ public class GhostyEntity extends Monster implements GeoEntity {
         super.tick();
 
         if (isSunBurnTick()) {
-            this.setSecondsOnFire(2);
+            this.setRemainingFireTicks(40);
         }
 
         if (tickCount % 15 == 0) {
@@ -177,13 +174,11 @@ public class GhostyEntity extends Monster implements GeoEntity {
     @Override public boolean canBeCollidedWith() {return false;}
     @Override protected void pushEntities() {}
     @Override public void push(Entity pEntity) {}
-    @Override public void handleInsidePortal(BlockPos pPos) {}
     @Override public boolean isOnFire() {return false;}
     @Override public boolean isInLava() {return false;}
     @Override public boolean isInWater() {return false;}
     @Override public boolean isInWall() {return false;}
     @Override protected void spawnSprintParticle() {}
-    @Override protected void spawnSoulSpeedParticle() {}
     @Override public AnimatableInstanceCache getAnimatableInstanceCache() {return cache;}
     @Override protected SoundEvent getSwimSound() {return null;}
     @Override protected SoundEvent getDeathSound() {return null;}

@@ -16,7 +16,7 @@ public class GhostyRenderer extends GeoEntityRenderer<GhostyEntity> {
 
     @Override
     public ResourceLocation getTextureLocation(GhostyEntity animatable) {
-        return new ResourceLocation(KnightQuest.MOD_ID, "textures/entity/ghosty.png");
+        return ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "textures/entity/ghosty.png");
     }
 
     @Override

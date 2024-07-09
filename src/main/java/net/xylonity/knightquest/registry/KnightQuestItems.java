@@ -2,7 +2,6 @@ package net.xylonity.knightquest.registry;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.*;
-import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -14,7 +13,6 @@ import net.xylonity.knightquest.common.item.KQItem;
 import net.xylonity.knightquest.common.material.KQArmorMaterials;
 import net.xylonity.knightquest.common.material.KQItemMaterials;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -30,36 +28,36 @@ public class KnightQuestItems {
     public static final RegistryObject<Item> LIZZY_SCALE = ITEMS.register("lizzy_scale", () -> new KQItem(new Item.Properties(), "lizzy_scale"));
 
     public static final RegistryObject<Item> PALADIN_SWORD = ITEMS.register("paladin_sword",
-            () -> new SwordItem(KQItemMaterials.PALADIN, 4, -2.8f, new Item.Properties())
+            () -> new SwordItem(KQItemMaterials.PALADIN, (new Item.Properties().stacksTo(1)).fireResistant().attributes(SwordItem.createAttributes(KQItemMaterials.PALADIN, 4, -2.8F)))
             {
                 @Override
-                public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-                    pTooltipComponents.add(Component.translatable("tooltip.item.knightquest.paladin_sword"));
-                    super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+                public void appendHoverText(@NotNull ItemStack p_41421_, @NotNull TooltipContext p_333372_, @NotNull List<Component> p_41423_, @NotNull TooltipFlag p_41424_) {
+                    p_41423_.add(Component.translatable("tooltip.item.knightquest.paladin_sword"));
+                    super.appendHoverText(p_41421_, p_333372_, p_41423_, p_41424_);
                 }
             });
 
     public static final RegistryObject<Item> NAIL_SWORD = ITEMS.register("nail_glaive",
-            () -> new SwordItem(KQItemMaterials.NAIL, 4, -2.6f, new Item.Properties()));
+            () -> new SwordItem(KQItemMaterials.NAIL, (new Item.Properties().stacksTo(1)).fireResistant().attributes(SwordItem.createAttributes(KQItemMaterials.NAIL, 4, -2.6F))));
     public static final RegistryObject<Item> UCHIGATANA = ITEMS.register("uchigatana_katana",
-            () -> new SwordItem(KQItemMaterials.UCHIGATANA, 4, -2.2f, new Item.Properties()));
+            () -> new SwordItem(KQItemMaterials.UCHIGATANA,(new Item.Properties().stacksTo(1)).fireResistant().attributes(SwordItem.createAttributes(KQItemMaterials.UCHIGATANA, 4, -2.2F))));
     public static final RegistryObject<Item> KUKRI = ITEMS.register("kukri_dagger",
-            () -> new SwordItem(KQItemMaterials.KUKRI, 4, -1f, new Item.Properties()));
+            () -> new SwordItem(KQItemMaterials.KUKRI,(new Item.Properties().stacksTo(1)).attributes(SwordItem.createAttributes(KQItemMaterials.KUKRI, 4, -1F))));
     public static final RegistryObject<Item> KHOPESH = ITEMS.register("khopesh_claymore",
-            () -> new SwordItem(KQItemMaterials.KHOPESH, 4, -2.2f, new Item.Properties()));
+            () -> new SwordItem(KQItemMaterials.KHOPESH,(new Item.Properties().stacksTo(1)).fireResistant().attributes(SwordItem.createAttributes(KQItemMaterials.KHOPESH, 4, -2.8F))));
     public static final RegistryObject<Item> CLEAVER = ITEMS.register("cleaver_heavy_axe",
-            () -> new SwordItem(KQItemMaterials.CLEAVER, 4, -3f, new Item.Properties()));
+            () -> new SwordItem(KQItemMaterials.CLEAVER, (new Item.Properties().stacksTo(1)).fireResistant().attributes(SwordItem.createAttributes(KQItemMaterials.CLEAVER, 4, -3F))));
     public static final RegistryObject<Item> CRIMSON_SWORD = ITEMS.register("crimson_sword",
-            () -> new SwordItem(KQItemMaterials.CRIMSON_SWORD, 4, -2f, new Item.Properties()));
+            () -> new SwordItem(KQItemMaterials.CRIMSON_SWORD, (new Item.Properties().stacksTo(1)).fireResistant().attributes(SwordItem.createAttributes(KQItemMaterials.CRIMSON_SWORD, 4, -2F))));
     public static final RegistryObject<Item> WATER_SWORD = ITEMS.register("water_sword",
-            () -> new SwordItem(KQItemMaterials.WATER_SWORD, 4, -2f, new Item.Properties()));
+            () -> new SwordItem(KQItemMaterials.WATER_SWORD,(new Item.Properties().stacksTo(1)).attributes(SwordItem.createAttributes(KQItemMaterials.WATER_SWORD, 4, -2F))));
     public static final RegistryObject<Item> STEEL_SWORD = ITEMS.register("steel_sword",
-            () -> new SwordItem(KQItemMaterials.STEEL_SWORD, 4, -2f, new Item.Properties()));
+            () -> new SwordItem(KQItemMaterials.STEEL_SWORD, (new Item.Properties().stacksTo(1)).attributes(SwordItem.createAttributes(KQItemMaterials.STEEL_SWORD, 4, -2F))));
 
     public static final RegistryObject<Item> WATER_AXE = ITEMS.register("water_axe",
-            () -> new AxeItem(KQItemMaterials.WATER_AXE, 4, -2.8f, new Item.Properties()));
+            () -> new AxeItem(KQItemMaterials.WATER_AXE, (new Item.Properties().stacksTo(1)).attributes(SwordItem.createAttributes(KQItemMaterials.WATER_AXE, 4, -2.8F))));
     public static final RegistryObject<Item> STEEL_AXE = ITEMS.register("steel_axe",
-            () -> new AxeItem(KQItemMaterials.STEEL_AXE, 4, -2.8f, new Item.Properties()));
+            () -> new AxeItem(KQItemMaterials.STEEL_AXE, (new Item.Properties().stacksTo(1)).attributes(SwordItem.createAttributes(KQItemMaterials.STEEL_AXE, 4, -2.8F))));
 
     public static final RegistryObject<Item> APPLE_HELMET = ITEMS.register("apple_helmet",
             () ->  new GeoItemArmor(KQArmorMaterials.APPLE_SET, ArmorItem.Type.HELMET,new Item.Properties()
@@ -412,9 +410,9 @@ public class KnightQuestItems {
             () -> new GeoItemArmor(KQArmorMaterials.SQUIRESET, ArmorItem.Type.HELMET,new Item.Properties()
                     , "textures/armor/squire_helmet.png", "geo/squire_helmet.geo.json") {
                 @Override
-                public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
+                public void appendHoverText(ItemStack pStack, TooltipContext pContext, List<Component> pTooltipComponents, TooltipFlag pTooltipFlag) {
                     pTooltipComponents.add(Component.translatable("tooltip.item.knightquest.squire_helmet"));
-                    super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+                    super.appendHoverText(pStack, pContext, pTooltipComponents, pTooltipFlag);
                 }
             });
     public static final RegistryObject<Item> SQUIRE_CHESTPLATE = ITEMS.register("squire_chestplate",
@@ -512,9 +510,9 @@ public class KnightQuestItems {
     public static final RegistryObject<Item> GHASTLING_EGG = ITEMS.register("ghastling_spawn_egg",
             () -> new ForgeSpawnEggItem(KnightQuestEntities.SHIELD, 0x930c13, 0xfb9600, new Item.Properties()){
                 @Override
-                public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
+                public void appendHoverText(@NotNull ItemStack pStack, @NotNull TooltipContext pContext, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pTooltipFlag) {
                     pTooltipComponents.add(Component.translatable("tooltip.item.knightquest.ghastling_spawn_egg"));
-                    super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+                    super.appendHoverText(pStack, pContext, pTooltipComponents, pTooltipFlag);
                 }
             });
     

@@ -18,7 +18,7 @@ public class ShieldRenderer extends GeoEntityRenderer<ShieldEntity> {
 
     @Override
     public ResourceLocation getTextureLocation(ShieldEntity animatable) {
-        return new ResourceLocation(KnightQuest.MOD_ID, "textures/entity/shield.png");
+        return ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "textures/entity/shield.png");
     }
 
     @Override

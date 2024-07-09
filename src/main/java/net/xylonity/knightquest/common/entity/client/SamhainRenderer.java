@@ -20,9 +20,9 @@ public class SamhainRenderer extends GeoEntityRenderer<SamhainEntity> {
     @Override
     public ResourceLocation getTextureLocation(SamhainEntity animatable) {
         if (animatable.hasArmor()) {
-            return new ResourceLocation(KnightQuest.MOD_ID, "textures/entity/samhain_squire.png");
+            return ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "textures/entity/samhain_squire.png");
         }
-        return new ResourceLocation(KnightQuest.MOD_ID, "textures/entity/samhain.png");
+        return ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "textures/entity/samhain.png");
     }
 
     @Override

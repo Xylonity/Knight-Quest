@@ -16,7 +16,7 @@ public class MommaLizzyRenderer extends GeoEntityRenderer<MommaLizzyEntity> {
 
     @Override
     public ResourceLocation getTextureLocation(MommaLizzyEntity animatable) {
-        return new ResourceLocation(KnightQuest.MOD_ID, "textures/entity/momma_lizzy.png");
+        return ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "textures/entity/momma_lizzy.png");
     }
 
     @Override

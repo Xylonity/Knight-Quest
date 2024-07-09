@@ -2,6 +2,7 @@ package net.xylonity.knightquest.common.item;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
@@ -34,7 +35,6 @@ import net.xylonity.knightquest.KnightQuest;
 import net.xylonity.knightquest.common.material.KQArmorMaterials;
 import net.xylonity.knightquest.registry.KnightQuestItems;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -42,9 +42,16 @@ public class KQArmorItem extends ArmorItem {
 
     private final String bonusTooltip;
 
-    public KQArmorItem(KQArmorMaterials material, Type type, Properties settings) {
-        super(material, type, settings);
-        this.bonusTooltip = material.getKeyName();
+    /**
+     * Manages individual jump states for each player on the server, ensuring that there will
+     * not be infinite jumps when there are more than two players present.
+     */
+
+    private static final Map<UUID, Boolean> doubleJumpStates = new HashMap<>();
+
+    public KQArmorItem(Holder<ArmorMaterial> material, Type type, Properties settings) {
+        super(material, type, settings.stacksTo(1).durability(type.getDurability(37)));
+        this.bonusTooltip = KQArmorMaterials.getKeyNameFromMaterial(material);
     }
 
     /**
@@ -53,15 +60,15 @@ public class KQArmorItem extends ArmorItem {
      */
 
     @Override
-    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-       if (!Objects.equals(bonusTooltip, "chainmail") && !Objects.equals(bonusTooltip, "tengu")) {
-           pTooltipComponents.add(Component.translatable("tooltip.item.knightquest.full_set_bonus"));
-           pTooltipComponents.add(Component.translatable("tooltip.item.knightquest." + bonusTooltip + "_helmet.bonus"));
-       } else if (Objects.equals(bonusTooltip, "tengu")) {
-           pTooltipComponents.add(Component.translatable("tooltip.item.knightquest.full_helmet_bonus"));
-           pTooltipComponents.add(Component.translatable("tooltip.item.knightquest." + bonusTooltip + "_helmet.bonus"));
-       }
-        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+    public void appendHoverText(ItemStack pStack, TooltipContext pContext, List<Component> pTooltipComponents, TooltipFlag pTooltipFlag) {
+        if (!Objects.equals(bonusTooltip, "knightquest.chainmail") && !Objects.equals(bonusTooltip, "knightquest.tengu")) {
+            pTooltipComponents.add(Component.translatable("tooltip.item.knightquest.full_set_bonus"));
+            pTooltipComponents.add(Component.translatable("tooltip.item." + bonusTooltip + "_helmet.bonus"));
+        } else if (Objects.equals(bonusTooltip, "knightquest.tengu")) {
+            pTooltipComponents.add(Component.translatable("tooltip.item.knightquest.full_helmet_bonus"));
+            pTooltipComponents.add(Component.translatable("tooltip.item." + bonusTooltip + "_helmet.bonus"));
+        }
+        super.appendHoverText(pStack, pContext, pTooltipComponents, pTooltipFlag);
     }
 
     /**
@@ -89,7 +96,7 @@ public class KQArmorItem extends ArmorItem {
      * incompatibility when either post-indirect or pre-direct status effects are applied.
      */
 
-    private static final Map<UUID, Map<KQArmorMaterials, Boolean>> effectAppliedByArmorMap = new HashMap<>();
+    private static final Map<UUID, Map<Holder<ArmorMaterial>, Boolean>> effectAppliedByArmorMap = new HashMap<>();
 
     @Override
     public void onInventoryTick(ItemStack stack, @NotNull Level level, Player player, int slotIndex, int selectedIndex) {
@@ -246,7 +253,7 @@ public class KQArmorItem extends ArmorItem {
         super.onInventoryTick(stack, level, player, slotIndex, selectedIndex);
     }
 
-    private static boolean hasFullSetOn(Player player, KQArmorMaterials material) {
+    private static boolean hasFullSetOn(Player player, Holder<ArmorMaterial> material) {
         ItemStack boots = player.getInventory().getArmor(0);
         ItemStack leggings = player.getInventory().getArmor(1);
         ItemStack chestplate = player.getInventory().getArmor(2);
@@ -276,13 +283,6 @@ public class KQArmorItem extends ArmorItem {
     @Mod.EventBusSubscriber(modid = KnightQuest.MOD_ID)
     public class ArmorStatusManagerEvents {
 
-        /**
-         * Manages individual jump states for each player on the server, ensuring that there will
-         * not be infinite jumps when there are more than two players present.
-         */
-
-        private static final Map<UUID, Boolean> doubleJumpStates = new HashMap<>();
-
         @SubscribeEvent
         public static void onLivingHurt(LivingHurtEvent event) {
 
@@ -309,7 +309,7 @@ public class KQArmorItem extends ArmorItem {
                 if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.BLAZESET)) {
                     Random random = new Random();
                     if (event.getSource().getEntity() != null && random.nextFloat() < 0.3)
-                        event.getSource().getEntity().setSecondsOnFire(random.nextInt(1, 5));
+                        event.getSource().getEntity().setRemainingFireTicks(random.nextInt(1, 5) * 20);
                 }
 
                 if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.DRAGONSET))
@@ -420,7 +420,7 @@ public class KQArmorItem extends ArmorItem {
                 if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.SILVERSET) && player.level().isNight()) {
                     Random random = new Random();
                     if (random.nextFloat() < 0.20) {
-                        event.getEntity().setSecondsOnFire(random.nextInt(1, 7));
+                        event.getEntity().setRemainingFireTicks(random.nextInt(1, 7) * 20);
                     }
                 }
 
@@ -544,28 +544,28 @@ public class KQArmorItem extends ArmorItem {
             }
         }
 
-        @OnlyIn(Dist.CLIENT)
-        private static void handleClientSideDoubleJump(Player player) {
-            if (Minecraft.getInstance().options.keyJump.isDown()) {
-                boolean canDoubleJump = doubleJumpStates.getOrDefault(player.getUUID(), true);
+    }
 
-                if (canDoubleJump) {
-                    doubleJumpStates.put(player.getUUID(), false);
+    @OnlyIn(Dist.CLIENT)
+    private static void handleClientSideDoubleJump(Player player) {
+        if (Minecraft.getInstance().options.keyJump.isDown()) {
+            boolean canDoubleJump = doubleJumpStates.getOrDefault(player.getUUID(), true);
 
-                    for (int i = 0; i < 360; i += 60) {
-                        double angleRadians = Math.toRadians(i);
+            if (canDoubleJump) {
+                doubleJumpStates.put(player.getUUID(), false);
 
-                        double particleX = player.getX() + 0.4 * Math.cos(angleRadians);
-                        double particleZ = player.getZ() + 0.4 * Math.sin(angleRadians);
+                for (int i = 0; i < 360; i += 60) {
+                    double angleRadians = Math.toRadians(i);
 
-                        player.level().addParticle(ParticleTypes.CLOUD, particleX, player.getY(), particleZ, 0d, 0.35d, 0d);
-                    }
+                    double particleX = player.getX() + 0.4 * Math.cos(angleRadians);
+                    double particleZ = player.getZ() + 0.4 * Math.sin(angleRadians);
 
-                    player.jumpFromGround();
+                    player.level().addParticle(ParticleTypes.CLOUD, particleX, player.getY(), particleZ, 0d, 0.35d, 0d);
                 }
+
+                player.jumpFromGround();
             }
         }
-
     }
 
 }

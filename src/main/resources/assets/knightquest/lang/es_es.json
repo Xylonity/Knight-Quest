@@ -222,7 +222,7 @@
   "tooltip.item.knightquest.blaze_helmet.bonus": "§7§o-30% de probabilidad de quemar al oponente al golpear",
   "tooltip.item.knightquest.tengu_helmet.bonus": "§7§o-Puede saltar doblemente en el aire",
   "tooltip.item.knightquest.pirate_helmet.bonus": "§7§o-Concede suerte",
-  "tooltip.item.knightquest.appleset_helmet.bonus": "§7§o-Comer manzanas concede saturación",
+  "tooltip.item.knightquest.appleset_helmet.bonus": "§7§o-Cura 1 HP cada 30 segundos",
   "tooltip.item.knightquest.bamboo_green_helmet.bonus": "§7§o-Concede protección contra el veneno",
   "tooltip.item.knightquest.dragon_helmet.bonus": "§7§o-Daño adicional del 10% y no se ve afectado por el aliento del dragón",
   "tooltip.item.knightquest.squire_helmet.bonus": "§7§o-Concede un 15% de reducción de daño",

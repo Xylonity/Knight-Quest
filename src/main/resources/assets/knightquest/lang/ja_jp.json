@@ -224,7 +224,7 @@
   "tooltip.item.knightquest.blaze_helmet.bonus": "§7§o-敵を打つと30%の確率で燃やす",
   "tooltip.item.knightquest.tengu_helmet.bonus": "§7§o-空中で二段ジャンプ可能",
   "tooltip.item.knightquest.pirate_helmet.bonus": "§7§o-幸運を付与",
-  "tooltip.item.knightquest.appleset_helmet.bonus": "§7§o-リンゴを食べると満腹度を与える",
+  "tooltip.item.knightquest.appleset_helmet.bonus": "§7§o-夜間に30秒ごとにHPを1回復",
   "tooltip.item.knightquest.bamboo_green_helmet.bonus": "§7§o-毒に対する保護を付与",
   "tooltip.item.knightquest.dragon_helmet.bonus": "§7§o-追加の10%のダメージを与え、ドラゴンの息に影響されない",
   "tooltip.item.knightquest.squire_helmet.bonus": "§7§o-ダメージ軽減率15%を付与",

@@ -1,0 +1,41 @@
+{
+	"schemaVersion": 1,
+	"id": "knightquest",
+	"version": "${version}",
+	"name": "Knight Quest",
+	"description": "Unravel a questline full of mysteries and treasures, battle new enemies and obtain rare materials, and craft armor and equipment with unique designs. With over 30 armor sets to discover, you're sure to find the perfect one that'll make you a true paladin.",
+	"authors": [
+		"xylonity"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "MIT",
+	"icon": "assets/knightquest/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"net.xylonity.KnightQuest"
+		],
+		"client": [
+			"net.xylonity.KnightQuestClient"
+		],
+		"fabric-datagen": [
+			"net.xylonity.KnightQuestDataGenerator"
+		]
+	},
+	"mixins": [
+		"knightquest.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.15.10",
+		"minecraft": "~1.20.1",
+		"java": ">=17",
+		"fabric-api": "*",
+		"geckolib": ">=4.4.4"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}

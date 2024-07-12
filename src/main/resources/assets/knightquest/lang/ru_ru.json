@@ -220,7 +220,7 @@
   "tooltip.item.knightquest.blaze_helmet.bonus": "§7§o-30% шанс поджечь противника при ударе",
   "tooltip.item.knightquest.tengu_helmet.bonus": "§7§o-Можно совершить двойной прыжок в воздухе",
   "tooltip.item.knightquest.pirate_helmet.bonus": "§7§o-Предоставляет удачу",
-  "tooltip.item.knightquest.appleset_helmet.bonus": "§7§o-Прием яблок даёт насыщение",
+  "tooltip.item.knightquest.appleset_helmet.bonus": "§7§o-Восстанавливает 1 HP каждые 30 секунд",
   "tooltip.item.knightquest.bamboo_green_helmet.bonus": "§7§o-Предоставляет защиту от яда",
   "tooltip.item.knightquest.dragon_helmet.bonus": "§7§o-Дополнительный урон 10% и не подвержен дыханию дракона",
   "tooltip.item.knightquest.squire_helmet.bonus": "§7§o-Предоставляет снижение урона на 15%",

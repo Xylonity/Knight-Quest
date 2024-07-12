@@ -220,7 +220,7 @@
   "tooltip.item.knightquest.blaze_helmet.bonus": "§7§o-30% Chance, den Gegner bei Treffer zu verbrennen",
   "tooltip.item.knightquest.tengu_helmet.bonus": "§7§o-Kann in der Luft doppelten Sprung ausführen",
   "tooltip.item.knightquest.pirate_helmet.bonus": "§7§o-Gewährt Glück",
-  "tooltip.item.knightquest.appleset_helmet.bonus": "§7§o-Essen von Äpfeln gewährt Sättigung",
+  "tooltip.item.knightquest.appleset_helmet.bonus": "§7§o-Heilt alle 30 Sekunden 1 HP",
   "tooltip.item.knightquest.bamboo_green_helmet.bonus": "§7§o-Gewährt Schutz vor Gift",
   "tooltip.item.knightquest.dragon_helmet.bonus": "§7§o-Zusätzlicher 10% Schaden und nicht von Drachenatem betroffen",
   "tooltip.item.knightquest.squire_helmet.bonus": "§7§o-Gewährt 15% Schadensreduktion",

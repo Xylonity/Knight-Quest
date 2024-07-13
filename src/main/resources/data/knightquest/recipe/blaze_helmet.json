@@ -1,0 +1,24 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "category": "misc",
+    "ingredients": [
+        {
+            "item": "minecraft:blaze_rod"
+        },
+        {
+            "item": "knightquest:ratman_eye"
+        },
+        {
+            "item": "minecraft:blaze_powder"
+        },
+        {
+            "item": "knightquest:filled_goblet"
+        },
+        {
+            "item": "minecraft:netherite_helmet"
+        }
+    ],
+    "result": {
+        "id": "knightquest:blaze_helmet"
+    }
+}

@@ -1,0 +1,24 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "category": "misc",
+    "ingredients": [
+        {
+            "item": "minecraft:red_dye"
+        },
+        {
+            "item": "minecraft:bamboo"
+        },
+        {
+            "item": "minecraft:coal"
+        },
+        {
+            "item": "knightquest:filled_goblet"
+        },
+        {
+            "item": "minecraft:netherite_boots"
+        }
+    ],
+    "result": {
+        "id": "knightquest:bamboo_boots"
+    }
+}

@@ -1,0 +1,24 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "misc",
+    "key": {
+        "I": {
+            "item": "knightquest:lizzy_scale"
+        },
+        "S": {
+            "item": "minecraft:diamond_sword"
+        },
+        "X": {
+            "item": "minecraft:diamond"
+        }
+    },
+    "pattern": [
+        "X",
+        "I",
+        "S"
+    ],
+    "result": {
+        "id": "knightquest:uchigatana_katana"
+    },
+    "show_notification": true
+}

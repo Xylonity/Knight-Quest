@@ -1,0 +1,24 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "category": "misc",
+    "ingredients": [
+        {
+            "item": "minecraft:sandstone"
+        },
+        {
+            "item": "minecraft:emerald"
+        },
+        {
+            "item": "minecraft:yellow_dye"
+        },
+        {
+            "item": "knightquest:filled_goblet"
+        },
+        {
+            "item": "minecraft:netherite_helmet"
+        }
+    ],
+    "result": {
+        "id": "knightquest:husk_helmet2"
+    }
+}

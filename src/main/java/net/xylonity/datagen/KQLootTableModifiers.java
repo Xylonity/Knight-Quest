@@ -1,6 +1,6 @@
 package net.xylonity.datagen;
 
-import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
+import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.minecraft.item.Items;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.condition.RandomChanceLootCondition;
@@ -42,39 +42,39 @@ public class KQLootTableModifiers {
 
     public static void modifyLootTables() {
 
-        //LootTableEvents.MODIFY.register((resourceManager, lootManager, id, tableBuilder, source) -> {
-        //    for (Identifier mobId : MOB_IDS) {
-        //        if (mobId.equals(id)) {
-        //            LootPool.Builder poolBuilder = LootPool.builder()
-        //                    .rolls(ConstantLootNumberProvider.create(1))
-        //                    .conditionally(RandomChanceLootCondition.builder(0.15f))
-        //                    .with(ItemEntry.builder(KnightQuestItems.SMALL_ESSENCE))
-        //                    .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1.0f, 1.0f)));
-        //            //tableBuilder.pool(poolBuilder.build());
-        //            break;
-        //        }
-        //    }
-//
-        //    if (RATMAN_ID.equals(id)) {
-        //        LootPool.Builder poolBuilder = LootPool.builder()
-        //                .rolls(ConstantLootNumberProvider.create(1))
-        //                .conditionally(RandomChanceLootCondition.builder(0.4f))
-        //                .with(ItemEntry.builder(KnightQuestItems.RATMAN_EYE))
-        //                .with(ItemEntry.builder(Items.CROSSBOW))
-        //                .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1.0f, 1.0f)));
-        //        //tableBuilder.pool(poolBuilder.build());
-        //    }
-//
-        //    if (LIZZY_ID.equals(id)) {
-        //        LootPool.Builder poolBuilder = LootPool.builder()
-        //                .rolls(ConstantLootNumberProvider.create(1))
-        //                .conditionally(RandomChanceLootCondition.builder(0.3f))
-        //                .with(ItemEntry.builder(KnightQuestItems.LIZZY_SCALE))
-        //                .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1.0f, 2.0f)));
-        //        //tableBuilder.pool(poolBuilder.build());
-        //    }
-//
-        //});
+        LootTableEvents.MODIFY.register((resourceManager, lootManager, id, tableBuilder) -> {
+            for (Identifier mobId : MOB_IDS) {
+                if (mobId.equals(resourceManager.getValue())) {
+                    LootPool.Builder poolBuilder = LootPool.builder()
+                            .rolls(ConstantLootNumberProvider.create(1))
+                            .conditionally(RandomChanceLootCondition.builder(0.15f))
+                            .with(ItemEntry.builder(KnightQuestItems.SMALL_ESSENCE))
+                            .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1.0f, 1.0f)).build());
+                    lootManager.pool(poolBuilder.build());
+                    break;
+                }
+            }
+
+            if (RATMAN_ID.equals(resourceManager.getValue())) {
+                LootPool.Builder poolBuilder = LootPool.builder()
+                        .rolls(ConstantLootNumberProvider.create(1))
+                        .conditionally(RandomChanceLootCondition.builder(0.4f))
+                        .with(ItemEntry.builder(KnightQuestItems.RATMAN_EYE))
+                        .with(ItemEntry.builder(Items.CROSSBOW))
+                        .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1.0f, 1.0f)).build());
+                lootManager.pool(poolBuilder.build());
+            }
+
+            if (LIZZY_ID.equals(resourceManager.getValue())) {
+                LootPool.Builder poolBuilder = LootPool.builder()
+                        .rolls(ConstantLootNumberProvider.create(1))
+                        .conditionally(RandomChanceLootCondition.builder(0.3f))
+                        .with(ItemEntry.builder(KnightQuestItems.LIZZY_SCALE))
+                        .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1.0f, 2.0f)).build());
+                lootManager.pool(poolBuilder.build());
+            }
+
+        });
 
     }
 

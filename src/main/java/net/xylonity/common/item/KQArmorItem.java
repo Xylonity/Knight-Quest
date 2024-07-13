@@ -3,7 +3,6 @@ package net.xylonity.common.item;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -397,13 +396,14 @@ public class KQArmorItem extends ArmorItem {
                 }
 
                 if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.CREEPERSET)) {
-                    if (source.getSource() != null && (source.isOf(DamageTypes.EXPLOSION) || source.isOf(DamageTypes.PLAYER_EXPLOSION))) {
+                    if (source.isOf(DamageTypes.EXPLOSION) || source.isOf(DamageTypes.PLAYER_EXPLOSION)) {
                         player.damage(player.getDamageSources().generic(), amount * 0.2F);
+                        return false;
                     }
                 }
 
                 if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.POLAR)) {
-                    if (source.getSource() != null && (source.isOf(DamageTypes.FREEZE)))
+                    if (source.isOf(DamageTypes.FREEZE))
                         return false;
                 }
 
@@ -411,7 +411,7 @@ public class KQArmorItem extends ArmorItem {
 
             // Attacker: Player
 
-            if (source.getSource() instanceof PlayerEntity player && source.getSource() != null) {
+            if (source.getSource() instanceof PlayerEntity player && entity != null) {
 
                 if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.SILVERSET) && player.getWorld().isNight()) {
                     Random random = new Random();
@@ -421,7 +421,6 @@ public class KQArmorItem extends ArmorItem {
                 }
 
                 if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.HOLLOWSET) && source.getSource() instanceof LivingEntity livingEntity) {
-                    System.out.println("Se cargó la condición correctamente");
                     player.heal(Math.min((float) (amount * 0.15), livingEntity.getHealth()));
                 }
 
@@ -432,8 +431,8 @@ public class KQArmorItem extends ArmorItem {
 
                 if (source.isOf(DamageTypes.ARROW) && KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.WITHERSET)) {
                     Random random = new Random();
-                    if (source.getSource() != null && random.nextFloat() < 0.3 && source.getSource() instanceof LivingEntity livingEntity)
-                        livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.WITHER, 100, 0, false, false, false));
+                    if (random.nextFloat() < 0.3)
+                        entity.addStatusEffect(new StatusEffectInstance(StatusEffects.WITHER, 100, 0, false, false, false));
                 }
             }
 

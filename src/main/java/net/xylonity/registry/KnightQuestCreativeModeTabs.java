@@ -11,8 +11,8 @@ import net.xylonity.KnightQuest;
 
 public class KnightQuestCreativeModeTabs {
     public static final ItemGroup Knight_Quest = Registry.register(Registries.ITEM_GROUP,
-            new Identifier(KnightQuest.MOD_ID, "knightquest"),
-            FabricItemGroup.builder().texture("knightquest.png").displayName(Text.translatable("itemgroup.knightquest"))
+            Identifier.of(KnightQuest.MOD_ID, "knightquest"),
+            FabricItemGroup.builder().texture(Identifier.of(KnightQuest.MOD_ID, "textures/gui/container/creative_inventory/tab_knightquest.png")).displayName(Text.translatable("itemgroup.knightquest"))
                     .icon(() -> new ItemStack(KnightQuestItems.PALADIN_SWORD)).entries((displayContext, entries) -> {
                         entries.add(KnightQuestBlocks.GREAT_CHALICE);
 

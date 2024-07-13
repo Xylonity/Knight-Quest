@@ -32,8 +32,6 @@ public class KnightQuest implements ModInitializer {
 		KnightQuestBlocks.register();
 		KnightQuestCreativeModeTabs.register();
 
-		GeckoLib.initialize();
-
 		KnightQuestParticles.register();
 		FabricDefaultAttributeRegistry.register(KnightQuestEntities.GREMLIN, GremlinEntity.setAttributes());
 		FabricDefaultAttributeRegistry.register(KnightQuestEntities.ELDBOMB, EldBombEntity.setAttributes());

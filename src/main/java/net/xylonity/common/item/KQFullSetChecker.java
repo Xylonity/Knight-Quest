@@ -2,12 +2,14 @@ package net.xylonity.common.item;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ArmorItem;
+import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.xylonity.common.material.KQArmorMaterials;
 
 public class KQFullSetChecker {
 
-    protected static boolean hasFullSuitOfArmorOn(PlayerEntity player, KQArmorMaterials material) {
+    protected static boolean hasFullSuitOfArmorOn(PlayerEntity player, RegistryEntry<ArmorMaterial> material) {
 
         for (ItemStack armorStack : player.getInventory().armor) {
             if(!(armorStack.getItem() instanceof ArmorItem)) {

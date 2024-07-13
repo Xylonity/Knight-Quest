@@ -2,7 +2,7 @@ package net.xylonity.datagen;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
-import net.minecraft.data.server.recipe.RecipeJsonProvider;
+import net.minecraft.data.server.recipe.RecipeExporter;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
 import net.minecraft.item.ArmorItem;
@@ -11,11 +11,13 @@ import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.book.RecipeCategory;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.Identifier;
 import net.xylonity.registry.KnightQuestItems;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 /**
@@ -23,7 +25,15 @@ import java.util.function.Consumer;
  */
 
 public class KQRecipeGenerator extends FabricRecipeProvider {
+    public KQRecipeGenerator(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+        super(output, registriesFuture);
+    }
 
+    @Override
+    public void generate(RecipeExporter exporter) {
+
+    }
+/*
     Item[] APPLE = {KnightQuestItems.APPLE_HELMET, KnightQuestItems.APPLE_CHESTPLATE, KnightQuestItems.APPLE_LEGGINGS, KnightQuestItems.APPLE_BOOTS};
     Item[] BAMBOO_BLUE = {KnightQuestItems.BAMBOO_BLUE_HELMET, KnightQuestItems.BAMBOO_BLUE_CHESTPLATE, KnightQuestItems.BAMBOO_BLUE_LEGGINGS, KnightQuestItems.BAMBOO_BLUE_BOOTS};
     Item[] BAMBOO_GREEN = {KnightQuestItems.BAMBOO_GREEN_HELMET, KnightQuestItems.BAMBOO_GREEN_CHESTPLATE, KnightQuestItems.BAMBOO_GREEN_LEGGINGS, KnightQuestItems.BAMBOO_GREEN_BOOTS};
@@ -58,8 +68,8 @@ public class KQRecipeGenerator extends FabricRecipeProvider {
     Item[] WITHER = {KnightQuestItems.WITHER_HELMET, KnightQuestItems.WITHER_CHESTPLATE, KnightQuestItems.WITHER_LEGGINGS, KnightQuestItems.WITHER_BOOTS};
     Item[] SQUIRE = {KnightQuestItems.SQUIRE_HELMET, KnightQuestItems.SQUIRE_CHESTPLATE, KnightQuestItems.SQUIRE_LEGGINGS, KnightQuestItems.SQUIRE_BOOTS};
 
-    public KQRecipeGenerator(FabricDataOutput output) {
-        super(output);
+    public KQRecipeGenerator(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+        super(output, registriesFuture);
     }
 
     private ItemConvertible getEquivalentNetheriteItem(Item item) {
@@ -67,9 +77,9 @@ public class KQRecipeGenerator extends FabricRecipeProvider {
 
         return switch (armorType) {
             case HELMET -> Items.NETHERITE_HELMET;
-            case CHESTPLATE -> Items.NETHERITE_CHESTPLATE;
             case LEGGINGS -> Items.NETHERITE_LEGGINGS;
             case BOOTS -> Items.NETHERITE_BOOTS;
+            default -> Items.NETHERITE_CHESTPLATE;
         };
     }
 
@@ -88,7 +98,7 @@ public class KQRecipeGenerator extends FabricRecipeProvider {
 
     }
 
-    private static void createShapelessRecipe(Item k, List<ItemConvertible> inputs, Consumer<RecipeJsonProvider> exporter) {
+    private static void createShapelessRecipe(Item k, List<ItemConvertible> inputs, RecipeExporter exporter) {
         ShapelessRecipeJsonBuilder builder = ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, k, 1);
 
         for (ItemConvertible input : inputs) {
@@ -96,10 +106,10 @@ public class KQRecipeGenerator extends FabricRecipeProvider {
                     .criterion(hasItem(input), conditionsFromItem(input));
         }
 
-        builder.offerTo(exporter, new Identifier(getRecipeName(k)));
+        builder.offerTo(exporter, Identifier.of(getRecipeName(k)));
     }
 
-    public void createShapedRecipe(Item k, String[] pattern, Ingredient[] ingredients, Consumer<RecipeJsonProvider> exporter) {
+    public void createShapedRecipe(Item k, String[] pattern, Ingredient[] ingredients, RecipeExporter exporter) {
         ShapedRecipeJsonBuilder builder = ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, k, 1);
 
         builder.pattern(Arrays.toString(pattern));
@@ -113,11 +123,11 @@ public class KQRecipeGenerator extends FabricRecipeProvider {
             builder.criterion(hasItem(ingredient.getMatchingStacks()[0].getItem()), conditionsFromItem(ingredient.getMatchingStacks()[0].getItem()));
         }
 
-        builder.offerTo(exporter, new Identifier(getRecipeName(k)));
+        builder.offerTo(exporter, Identifier.of(getRecipeName(k)));
     }
 
     @Override
-    public void generate(Consumer<RecipeJsonProvider> exporter) {
+    public void generate(RecipeExporter exporter) {
 
         for (Item k : APPLE) {
             List<ItemConvertible> inputs = Arrays.asList(Items.GOLDEN_APPLE, KnightQuestItems.FILLED_GOBLET, getEquivalentNetheriteItem(k));
@@ -425,5 +435,5 @@ public class KQRecipeGenerator extends FabricRecipeProvider {
                 exporter
         );
 
-    }
+    }*/
 }

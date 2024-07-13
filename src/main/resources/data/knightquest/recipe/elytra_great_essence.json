@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "category": "misc",
+    "ingredients": [
+        {
+            "item": "minecraft:elytra"
+        },
+        {
+            "item": "minecraft:shears"
+        }
+    ],
+    "result": {
+        "count": 4,
+        "id": "knightquest:great_essence"
+    }
+}

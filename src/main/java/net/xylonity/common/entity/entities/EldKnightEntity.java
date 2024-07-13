@@ -21,11 +21,10 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.xylonity.registry.KnightQuestParticles;
 import net.xylonity.registry.KnightQuestEntities;
+import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.core.animatable.GeoAnimatable;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.*;
-import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animation.*;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class EldKnightEntity extends HostileEntity implements GeoEntity {

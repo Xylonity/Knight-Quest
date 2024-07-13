@@ -18,6 +18,8 @@ import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.entity.passive.TurtleEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundCategory;
@@ -25,11 +27,10 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.core.animatable.GeoAnimatable;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.*;
-import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animation.*;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.Random;
@@ -43,9 +44,9 @@ public class RatmanEntity extends SkeletonEntity implements GeoEntity {
     private static final TrackedData<Boolean> ATTACK1 = DataTracker.registerData(RatmanEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 
     @Override
-    protected void initDataTracker() {
-        super.initDataTracker();
-        this.dataTracker.startTracking(ATTACK1, false);
+    protected void initDataTracker(DataTracker.Builder builder) {
+        super.initDataTracker(builder);
+        builder.add(ATTACK1, false);
     }
 
     public boolean getAttack1() {
@@ -83,9 +84,9 @@ public class RatmanEntity extends SkeletonEntity implements GeoEntity {
         double arrowY = getEyeY();
         double arrowZ = Math.sin(Math.toRadians(angle));
 
-        ArrowEntity arrow = new ArrowEntity(serverWorld, this);
+        ArrowEntity arrow = new ArrowEntity(serverWorld, this, new ItemStack(Items.ARROW), new ItemStack(Items.CROSSBOW));
         arrow.setPos(getX() + arrowX, arrowY - 1.5, getZ() + arrowZ);
-        arrow.setShotFromCrossbow(false);
+        arrow.isShotFromCrossbow();
 
         double velX = Math.cos(Math.toRadians(angle));
         double velZ = Math.sin(Math.toRadians(angle));

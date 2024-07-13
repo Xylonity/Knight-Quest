@@ -26,7 +26,7 @@ public class KQModelProvider extends FabricModelProvider {
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
 
         itemModelGenerator.register(KnightQuestItems.GREAT_ESSENCE, Models.GENERATED);
-        itemModelGenerator.register(KnightQuestItems.SMALL_ESSENCE, Models.GENERATED);
+       /* itemModelGenerator.register(KnightQuestItems.SMALL_ESSENCE, Models.GENERATED);
         itemModelGenerator.register(KnightQuestItems.RATMAN_EYE, Models.GENERATED);
         itemModelGenerator.register(KnightQuestItems.LIZZY_SCALE, Models.GENERATED);
         itemModelGenerator.register(KnightQuestItems.PALADIN_SWORD, Models.HANDHELD);
@@ -42,21 +42,21 @@ public class KQModelProvider extends FabricModelProvider {
         itemModelGenerator.register(KnightQuestItems.WATER_AXE, Models.HANDHELD);
 
         itemModelGenerator.register(KnightQuestItems.GREMLIN_EGG,
-                new Model(Optional.of(new Identifier("item/template_spawn_egg")), Optional.empty()));
+                new Model(Optional.of(Identifier.of("item/template_spawn_egg")), Optional.empty()));
         itemModelGenerator.register(KnightQuestItems.RATMAN_EGG,
-                new Model(Optional.of(new Identifier("item/template_spawn_egg")), Optional.empty()));
+                new Model(Optional.of(Identifier.of("item/template_spawn_egg")), Optional.empty()));
         itemModelGenerator.register(KnightQuestItems.ELD_KNIGHT_EGG,
-                new Model(Optional.of(new Identifier("item/template_spawn_egg")), Optional.empty()));
+                new Model(Optional.of(Identifier.of("item/template_spawn_egg")), Optional.empty()));
         itemModelGenerator.register(KnightQuestItems.ELD_BOMB_EGG,
-                new Model(Optional.of(new Identifier("item/template_spawn_egg")), Optional.empty()));
+                new Model(Optional.of(Identifier.of("item/template_spawn_egg")), Optional.empty()));
         itemModelGenerator.register(KnightQuestItems.SAMHAIN_EGG,
-                new Model(Optional.of(new Identifier("item/template_spawn_egg")), Optional.empty()));
+                new Model(Optional.of(Identifier.of("item/template_spawn_egg")), Optional.empty()));
         itemModelGenerator.register(KnightQuestItems.SWAMPMAN_EGG,
-                new Model(Optional.of(new Identifier("item/template_spawn_egg")), Optional.empty()));
+                new Model(Optional.of(Identifier.of("item/template_spawn_egg")), Optional.empty()));
         itemModelGenerator.register(KnightQuestItems.LIZZY_EGG,
-                new Model(Optional.of(new Identifier("item/template_spawn_egg")), Optional.empty()));
+                new Model(Optional.of(Identifier.of("item/template_spawn_egg")), Optional.empty()));
         itemModelGenerator.register(KnightQuestItems.BADPATCH_EGG,
-                new Model(Optional.of(new Identifier("item/template_spawn_egg")), Optional.empty()));
+                new Model(Optional.of(Identifier.of("item/template_spawn_egg")), Optional.empty()));*/
     }
 
 }

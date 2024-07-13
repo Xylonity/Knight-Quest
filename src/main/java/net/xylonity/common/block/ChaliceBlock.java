@@ -1,12 +1,12 @@
 package net.xylonity.common.block;
 
 import net.minecraft.block.*;
-import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -59,9 +59,9 @@ public class ChaliceBlock extends Block {
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
+    public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType options) {
         tooltip.add(Text.translatable("tooltip.item.knightquest.great_chalice"));
-        super.appendTooltip(stack, world, tooltip, options);
+        super.appendTooltip(stack, context, tooltip, options);
     }
 
     /**
@@ -74,10 +74,9 @@ public class ChaliceBlock extends Block {
      */
 
     @Override
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+    protected ItemActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
 
         Block block = world.getBlockState(pos).getBlock();
-        ItemStack stack = player.getStackInHand(hand);
         Item item = stack.getItem();
 
         if (block.equals(KnightQuestBlocks.GREAT_CHALICE) && item.equals(KnightQuestItems.GREAT_ESSENCE) && (Arrays.asList(1, 2, 3, 4).contains(state.get(fill)))) {
@@ -154,7 +153,7 @@ public class ChaliceBlock extends Block {
             }
         }
 
-        return super.onUse(state, world, pos, player, hand, hit);
+        return super.onUseWithItem(stack, state, world, pos, player, hand, hit);
     }
 
     /**

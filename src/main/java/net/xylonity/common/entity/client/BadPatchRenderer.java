@@ -16,7 +16,7 @@ public class BadPatchRenderer extends GeoEntityRenderer<BadPatchEntity> {
 
     @Override
     public Identifier getTextureLocation(BadPatchEntity animatable) {
-        return new Identifier(KnightQuest.MOD_ID, "textures/entity/bad_patch.png");
+        return Identifier.of(KnightQuest.MOD_ID, "textures/entity/bad_patch.png");
     }
 
     @Override

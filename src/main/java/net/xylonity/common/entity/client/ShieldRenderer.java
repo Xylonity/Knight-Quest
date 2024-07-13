@@ -16,7 +16,7 @@ public class ShieldRenderer extends GeoEntityRenderer<ShieldEntity> {
 
     @Override
     public Identifier getTextureLocation(ShieldEntity animatable) {
-        return new Identifier(KnightQuest.MOD_ID, "textures/entity/shield.png");
+        return Identifier.of(KnightQuest.MOD_ID, "textures/entity/shield.png");
     }
 
     @Override

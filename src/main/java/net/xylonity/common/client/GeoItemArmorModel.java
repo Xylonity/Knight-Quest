@@ -16,17 +16,17 @@ public class GeoItemArmorModel extends GeoModel<GeoItemArmor> {
 
     @Override
     public Identifier getModelResource(GeoItemArmor animatable) {
-        return new Identifier(KnightQuest.MOD_ID, helmet);
+        return Identifier.of(KnightQuest.MOD_ID, helmet);
     }
 
     @Override
     public Identifier getTextureResource(GeoItemArmor animatable) {
-        return new Identifier(KnightQuest.MOD_ID, path);
+        return Identifier.of(KnightQuest.MOD_ID, path);
     }
 
     @Override
     public Identifier getAnimationResource(GeoItemArmor animatable) {
-        return new Identifier(KnightQuest.MOD_ID, "animations/helmet.animation.json");
+        return Identifier.of(KnightQuest.MOD_ID, "animations/helmet.animation.json");
     }
 
 }

@@ -3,6 +3,7 @@ package net.xylonity.datagen;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.minecraft.entity.SpawnGroup;
+import net.minecraft.entity.SpawnLocationTypes;
 import net.minecraft.entity.SpawnRestriction;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.world.Heightmap;
@@ -61,23 +62,23 @@ public class KQEntitySpawn {
         BiomeModifications.addSpawn(BiomeSelectors.includeByKey(BiomeKeys.NETHER_WASTES), SpawnGroup.MONSTER, KnightQuestEntities.BADPATCH, 10, 1, 1);
         BiomeModifications.addSpawn(BiomeSelectors.includeByKey(BiomeKeys.JUNGLE), SpawnGroup.MONSTER, KnightQuestEntities.BADPATCH, 10, 1, 2);
 
-        SpawnRestriction.register(KnightQuestEntities.RATMAN, SpawnRestriction.Location.ON_GROUND,
+        SpawnRestriction.register(KnightQuestEntities.RATMAN, SpawnLocationTypes.ON_GROUND,
                 Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
-        SpawnRestriction.register(KnightQuestEntities.GHOSTY, SpawnRestriction.Location.ON_GROUND,
+        SpawnRestriction.register(KnightQuestEntities.GHOSTY, SpawnLocationTypes.ON_GROUND,
                 Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
-        SpawnRestriction.register(KnightQuestEntities.GREMLIN, SpawnRestriction.Location.ON_GROUND,
+        SpawnRestriction.register(KnightQuestEntities.GREMLIN, SpawnLocationTypes.ON_GROUND,
                 Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
-        SpawnRestriction.register(KnightQuestEntities.SWAMPMAN, SpawnRestriction.Location.IN_WATER,
+        SpawnRestriction.register(KnightQuestEntities.SWAMPMAN, SpawnLocationTypes.IN_WATER,
                 Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnIgnoreLightLevel);
-        SpawnRestriction.register(KnightQuestEntities.ELDBOMB, SpawnRestriction.Location.ON_GROUND,
+        SpawnRestriction.register(KnightQuestEntities.ELDBOMB, SpawnLocationTypes.ON_GROUND,
                 Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnIgnoreLightLevel);
-        SpawnRestriction.register(KnightQuestEntities.ELDKNIGHT, SpawnRestriction.Location.ON_GROUND,
+        SpawnRestriction.register(KnightQuestEntities.ELDKNIGHT, SpawnLocationTypes.ON_GROUND,
                 Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnIgnoreLightLevel);
-        SpawnRestriction.register(KnightQuestEntities.SAMHAIN, SpawnRestriction.Location.ON_GROUND,
+        SpawnRestriction.register(KnightQuestEntities.SAMHAIN, SpawnLocationTypes.ON_GROUND,
                 Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, SamhainEntity::canMobSpawn);
-        SpawnRestriction.register(KnightQuestEntities.LIZZY, SpawnRestriction.Location.ON_GROUND,
+        SpawnRestriction.register(KnightQuestEntities.LIZZY, SpawnLocationTypes.ON_GROUND,
                 Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, LizzyEntity::canMobSpawn);
-        SpawnRestriction.register(KnightQuestEntities.BADPATCH, SpawnRestriction.Location.ON_GROUND,
+        SpawnRestriction.register(KnightQuestEntities.BADPATCH, SpawnLocationTypes.ON_GROUND,
                 Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
     }
 

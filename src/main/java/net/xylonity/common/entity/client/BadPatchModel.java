@@ -4,9 +4,9 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.xylonity.KnightQuest;
 import net.xylonity.common.entity.entities.BadPatchEntity;
+import software.bernie.geckolib.animation.AnimationState;
+import software.bernie.geckolib.cache.object.GeoBone;
 import software.bernie.geckolib.constant.DataTickets;
-import software.bernie.geckolib.core.animatable.model.CoreGeoBone;
-import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.model.data.EntityModelData;
 
@@ -14,22 +14,22 @@ public class BadPatchModel extends GeoModel<BadPatchEntity> {
 
     @Override
     public Identifier getModelResource(BadPatchEntity animatable) {
-        return new Identifier(KnightQuest.MOD_ID, "geo/bad_patch.geo.json");
+        return Identifier.of(KnightQuest.MOD_ID, "geo/bad_patch.geo.json");
     }
 
     @Override
     public Identifier getTextureResource(BadPatchEntity animatable) {
-        return new Identifier(KnightQuest.MOD_ID, "textures/entity/bad_patch.png");
+        return Identifier.of(KnightQuest.MOD_ID, "textures/entity/bad_patch.png");
     }
 
     @Override
     public Identifier getAnimationResource(BadPatchEntity animatable) {
-        return new Identifier(KnightQuest.MOD_ID, "animations/bad_patch.animation.json");
+        return Identifier.of(KnightQuest.MOD_ID, "animations/bad_patch.animation.json");
     }
 
     @Override
     public void setCustomAnimations(BadPatchEntity animatable, long instanceId, AnimationState<BadPatchEntity> animationState) {
-        CoreGeoBone head = getAnimationProcessor().getBone("body");
+        GeoBone head = getAnimationProcessor().getBone("body");
 
         if (head != null) {
             EntityModelData entityData = animationState.getData(DataTickets.ENTITY_MODEL_DATA);

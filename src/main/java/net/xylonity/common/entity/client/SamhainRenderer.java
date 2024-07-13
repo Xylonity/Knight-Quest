@@ -19,7 +19,7 @@ public class SamhainRenderer extends GeoEntityRenderer<SamhainEntity> {
 
     @Override
     public Identifier getTextureLocation(SamhainEntity animatable) {
-        return new Identifier(KnightQuest.MOD_ID, "textures/entity/samhain.png");
+        return Identifier.of(KnightQuest.MOD_ID, "textures/entity/samhain.png");
     }
 
     @Override

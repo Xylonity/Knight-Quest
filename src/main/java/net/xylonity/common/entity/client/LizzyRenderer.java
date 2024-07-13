@@ -16,7 +16,7 @@ public class LizzyRenderer extends GeoEntityRenderer<LizzyEntity> {
 
     @Override
     public Identifier getTextureLocation(LizzyEntity animatable) {
-        return new Identifier(KnightQuest.MOD_ID, "textures/entity/lizzy.png");
+        return Identifier.of(KnightQuest.MOD_ID, "textures/entity/lizzy.png");
     }
 
     @Override

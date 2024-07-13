@@ -19,7 +19,7 @@ public class RatmanRenderer extends GeoEntityRenderer<RatmanEntity> {
 
     @Override
     public Identifier getTextureLocation(RatmanEntity animatable) {
-        return new Identifier(KnightQuest.MOD_ID, "textures/entity/ratman.png");
+        return Identifier.of(KnightQuest.MOD_ID, "textures/entity/ratman.png");
     }
 
     @Override

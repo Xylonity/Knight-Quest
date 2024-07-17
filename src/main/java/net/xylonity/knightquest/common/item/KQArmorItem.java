@@ -44,7 +44,7 @@ public class KQArmorItem extends ArmorItem {
     private final String bonusTooltip;
 
     public KQArmorItem(KQArmorMaterials pMaterial, EquipmentSlot pSlot, Properties pProperties) {
-        super(pMaterial, pSlot, pProperties.tab(KnightQuestCreativeModeTabs.CREATIVE_MODE_TAB));
+        super(pMaterial, pSlot, pProperties.tab(KnightQuest.CREATIVE_MODE_TAB));
         this.bonusTooltip = pMaterial.getKeyName();
     }
 

@@ -33,7 +33,7 @@ public class KnightQuestItems {
     public static final RegistryObject<Item> LIZZY_SCALE = ITEMS.register("lizzy_scale", () -> new KQItem(new Item.Properties(), "lizzy_scale"));
 
     public static final RegistryObject<Item> PALADIN_SWORD = ITEMS.register("paladin_sword",
-            () -> new SwordItem(KQItemMaterials.PALADIN, 4, -2.8f, new Item.Properties().tab(KnightQuestCreativeModeTabs.CREATIVE_MODE_TAB))
+            () -> new SwordItem(KQItemMaterials.PALADIN, 4, -2.8f, new Item.Properties().tab(KnightQuest.CREATIVE_MODE_TAB))
             {
                 @Override
                 public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
@@ -43,26 +43,26 @@ public class KnightQuestItems {
             });
 
     public static final RegistryObject<Item> NAIL_SWORD = ITEMS.register("nail_glaive",
-            () -> new SwordItem(KQItemMaterials.NAIL, 4, -2.6f, new Item.Properties().tab(KnightQuestCreativeModeTabs.CREATIVE_MODE_TAB)));
+            () -> new SwordItem(KQItemMaterials.NAIL, 4, -2.6f, new Item.Properties().tab(KnightQuest.CREATIVE_MODE_TAB)));
     public static final RegistryObject<Item> UCHIGATANA = ITEMS.register("uchigatana_katana",
-            () -> new SwordItem(KQItemMaterials.UCHIGATANA, 4, -2.2f, new Item.Properties().tab(KnightQuestCreativeModeTabs.CREATIVE_MODE_TAB)));
+            () -> new SwordItem(KQItemMaterials.UCHIGATANA, 4, -2.2f, new Item.Properties().tab(KnightQuest.CREATIVE_MODE_TAB)));
     public static final RegistryObject<Item> KUKRI = ITEMS.register("kukri_dagger",
-            () -> new SwordItem(KQItemMaterials.KUKRI, 4, -1f, new Item.Properties().tab(KnightQuestCreativeModeTabs.CREATIVE_MODE_TAB)));
+            () -> new SwordItem(KQItemMaterials.KUKRI, 4, -1f, new Item.Properties().tab(KnightQuest.CREATIVE_MODE_TAB)));
     public static final RegistryObject<Item> KHOPESH = ITEMS.register("khopesh_claymore",
-            () -> new SwordItem(KQItemMaterials.KHOPESH, 4, -2.2f, new Item.Properties().tab(KnightQuestCreativeModeTabs.CREATIVE_MODE_TAB)));
+            () -> new SwordItem(KQItemMaterials.KHOPESH, 4, -2.2f, new Item.Properties().tab(KnightQuest.CREATIVE_MODE_TAB)));
     public static final RegistryObject<Item> CLEAVER = ITEMS.register("cleaver_heavy_axe",
-            () -> new SwordItem(KQItemMaterials.CLEAVER, 4, -3f, new Item.Properties().tab(KnightQuestCreativeModeTabs.CREATIVE_MODE_TAB)));
+            () -> new SwordItem(KQItemMaterials.CLEAVER, 4, -3f, new Item.Properties().tab(KnightQuest.CREATIVE_MODE_TAB)));
     public static final RegistryObject<Item> CRIMSON_SWORD = ITEMS.register("crimson_sword",
-            () -> new SwordItem(KQItemMaterials.CRIMSON_SWORD, 4, -2f, new Item.Properties().tab(KnightQuestCreativeModeTabs.CREATIVE_MODE_TAB)));
+            () -> new SwordItem(KQItemMaterials.CRIMSON_SWORD, 4, -2f, new Item.Properties().tab(KnightQuest.CREATIVE_MODE_TAB)));
     public static final RegistryObject<Item> WATER_SWORD = ITEMS.register("water_sword",
-            () -> new SwordItem(KQItemMaterials.WATER_SWORD, 4, -2f, new Item.Properties().tab(KnightQuestCreativeModeTabs.CREATIVE_MODE_TAB)));
+            () -> new SwordItem(KQItemMaterials.WATER_SWORD, 4, -2f, new Item.Properties().tab(KnightQuest.CREATIVE_MODE_TAB)));
     public static final RegistryObject<Item> STEEL_SWORD = ITEMS.register("steel_sword",
-            () -> new SwordItem(KQItemMaterials.STEEL_SWORD, 4, -2f, new Item.Properties().tab(KnightQuestCreativeModeTabs.CREATIVE_MODE_TAB)));
+            () -> new SwordItem(KQItemMaterials.STEEL_SWORD, 4, -2f, new Item.Properties().tab(KnightQuest.CREATIVE_MODE_TAB)));
 
     public static final RegistryObject<Item> WATER_AXE = ITEMS.register("water_axe",
-            () -> new AxeItem(KQItemMaterials.WATER_AXE, 4, -2.8f, new Item.Properties().tab(KnightQuestCreativeModeTabs.CREATIVE_MODE_TAB)));
+            () -> new AxeItem(KQItemMaterials.WATER_AXE, 4, -2.8f, new Item.Properties().tab(KnightQuest.CREATIVE_MODE_TAB)));
     public static final RegistryObject<Item> STEEL_AXE = ITEMS.register("steel_axe",
-            () -> new AxeItem(KQItemMaterials.STEEL_AXE, 4, -2.8f, new Item.Properties().tab(KnightQuestCreativeModeTabs.CREATIVE_MODE_TAB)));
+            () -> new AxeItem(KQItemMaterials.STEEL_AXE, 4, -2.8f, new Item.Properties().tab(KnightQuest.CREATIVE_MODE_TAB)));
 
     public static final RegistryObject<Item> APPLE_HELMET = ITEMS.register("apple_helmet",
             () ->  new GeoItemArmor(KQArmorMaterials.APPLE_SET, EquipmentSlot.HEAD,new Item.Properties()
@@ -493,27 +493,27 @@ public class KnightQuestItems {
             () -> new KQArmorItem(KQArmorMaterials.SKULK, EquipmentSlot.FEET,new Item.Properties()));
 
     public static final RegistryObject<Item> GREMLIN_EGG = ITEMS.register("gremlin_spawn_egg",
-            () -> new ForgeSpawnEggItem(KnightQuestEntities.GREMLIN, 0xc22f26, 0x45545d, new Item.Properties().tab(KnightQuestCreativeModeTabs.CREATIVE_MODE_TAB)));
+            () -> new ForgeSpawnEggItem(KnightQuestEntities.GREMLIN, 0xc22f26, 0x45545d, new Item.Properties().tab(KnightQuest.CREATIVE_MODE_TAB)));
     public static final RegistryObject<Item> ELD_BOMB_EGG = ITEMS.register("eldbomb_spawn_egg",
-            () -> new ForgeSpawnEggItem(KnightQuestEntities.ELDBOMB, 0x43404e, 0x81da25, new Item.Properties().tab(KnightQuestCreativeModeTabs.CREATIVE_MODE_TAB)));
+            () -> new ForgeSpawnEggItem(KnightQuestEntities.ELDBOMB, 0x43404e, 0x81da25, new Item.Properties().tab(KnightQuest.CREATIVE_MODE_TAB)));
     public static final RegistryObject<Item> ELD_KNIGHT_EGG = ITEMS.register("eldknight_spawn_egg",
-            () -> new ForgeSpawnEggItem(KnightQuestEntities.ELDKINGHT, 0x7f8ab2, 0x8a392e, new Item.Properties().tab(KnightQuestCreativeModeTabs.CREATIVE_MODE_TAB)));
+            () -> new ForgeSpawnEggItem(KnightQuestEntities.ELDKINGHT, 0x7f8ab2, 0x8a392e, new Item.Properties().tab(KnightQuest.CREATIVE_MODE_TAB)));
     public static final RegistryObject<Item> RATMAN_EGG = ITEMS.register("ratman_spawn_egg",
-            () -> new ForgeSpawnEggItem(KnightQuestEntities.RATMAN, 0x3a303d, 0xb75383, new Item.Properties().tab(KnightQuestCreativeModeTabs.CREATIVE_MODE_TAB)));
+            () -> new ForgeSpawnEggItem(KnightQuestEntities.RATMAN, 0x3a303d, 0xb75383, new Item.Properties().tab(KnightQuest.CREATIVE_MODE_TAB)));
     public static final RegistryObject<Item> SAMHAIN_EGG = ITEMS.register("samhain_spawn_egg",
-            () -> new ForgeSpawnEggItem(KnightQuestEntities.SAMHAIN, 0xfdde03, 0x982938, new Item.Properties().tab(KnightQuestCreativeModeTabs.CREATIVE_MODE_TAB)));
+            () -> new ForgeSpawnEggItem(KnightQuestEntities.SAMHAIN, 0xfdde03, 0x982938, new Item.Properties().tab(KnightQuest.CREATIVE_MODE_TAB)));
     public static final RegistryObject<Item> SWAMPMAN_EGG = ITEMS.register("swampman_spawn_egg",
-            () -> new ForgeSpawnEggItem(KnightQuestEntities.SWAMPMAN, 0x108773, 0x9e304f, new Item.Properties().tab(KnightQuestCreativeModeTabs.CREATIVE_MODE_TAB)));
+            () -> new ForgeSpawnEggItem(KnightQuestEntities.SWAMPMAN, 0x108773, 0x9e304f, new Item.Properties().tab(KnightQuest.CREATIVE_MODE_TAB)));
     public static final RegistryObject<Item> LIZZY_EGG = ITEMS.register("lizzy_spawn_egg",
-            () -> new ForgeSpawnEggItem(KnightQuestEntities.LIZZY, 0x0babf2, 0xd1802b, new Item.Properties().tab(KnightQuestCreativeModeTabs.CREATIVE_MODE_TAB)));
+            () -> new ForgeSpawnEggItem(KnightQuestEntities.LIZZY, 0x0babf2, 0xd1802b, new Item.Properties().tab(KnightQuest.CREATIVE_MODE_TAB)));
     public static final RegistryObject<Item> BADPATCH_EGG = ITEMS.register("bad_patch_spawn_egg",
-            () -> new ForgeSpawnEggItem(KnightQuestEntities.BADPATCH, 0xec160b, 0xeff1f8, new Item.Properties().tab(KnightQuestCreativeModeTabs.CREATIVE_MODE_TAB)));
+            () -> new ForgeSpawnEggItem(KnightQuestEntities.BADPATCH, 0xec160b, 0xeff1f8, new Item.Properties().tab(KnightQuest.CREATIVE_MODE_TAB)));
     public static final RegistryObject<Item> GHOSTY_EGG = ITEMS.register("ghosty_spawn_egg",
-            () -> new ForgeSpawnEggItem(KnightQuestEntities.GHOSTY, 0x2cb87e, 0xfbe105, new Item.Properties().tab(KnightQuestCreativeModeTabs.CREATIVE_MODE_TAB)));
+            () -> new ForgeSpawnEggItem(KnightQuestEntities.GHOSTY, 0x2cb87e, 0xfbe105, new Item.Properties().tab(KnightQuest.CREATIVE_MODE_TAB)));
     public static final RegistryObject<Item> MOMMA_LIZZY_EGG = ITEMS.register("momma_lizzy_spawn_egg",
-            () -> new ForgeSpawnEggItem(KnightQuestEntities.MOMMA_LIZZY, 0x0babf2, 0x9f5b14, new Item.Properties().tab(KnightQuestCreativeModeTabs.CREATIVE_MODE_TAB)));
+            () -> new ForgeSpawnEggItem(KnightQuestEntities.MOMMA_LIZZY, 0x0babf2, 0x9f5b14, new Item.Properties().tab(KnightQuest.CREATIVE_MODE_TAB)));
     public static final RegistryObject<Item> GHASTLING_EGG = ITEMS.register("ghastling_spawn_egg",
-            () -> new ForgeSpawnEggItem(KnightQuestEntities.SHIELD, 0x930c13, 0xfb9600, new Item.Properties().tab(KnightQuestCreativeModeTabs.CREATIVE_MODE_TAB)){
+            () -> new ForgeSpawnEggItem(KnightQuestEntities.SHIELD, 0x930c13, 0xfb9600, new Item.Properties().tab(KnightQuest.CREATIVE_MODE_TAB)){
                 @Override
                 public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
                     pTooltipComponents.add(Component.translatable("tooltip.item.knightquest.ghastling_spawn_egg"));

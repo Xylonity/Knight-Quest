@@ -5,6 +5,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import net.xylonity.knightquest.KnightQuest;
 import net.xylonity.knightquest.common.material.KQArmorMaterials;
 import net.xylonity.knightquest.registry.KnightQuestCreativeModeTabs;
 import org.jetbrains.annotations.NotNull;
@@ -31,7 +32,7 @@ public class GeoItemArmor extends GeoArmorItem implements IAnimatable {
     private final String bonusTooltip;
 
     public GeoItemArmor(KQArmorMaterials material, EquipmentSlot type, Properties properties, String textureResource, String modelResource) {
-        super(material, type, properties.tab(KnightQuestCreativeModeTabs.CREATIVE_MODE_TAB));
+        super(material, type, properties.tab(KnightQuest.CREATIVE_MODE_TAB));
         this.bonusTooltip = material.getKeyName();
         this.textureResource = textureResource;
         this.modelResource = modelResource;

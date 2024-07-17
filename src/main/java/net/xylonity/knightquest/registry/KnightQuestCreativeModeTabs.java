@@ -4,20 +4,19 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.xylonity.knightquest.KnightQuest;
-import org.jetbrains.annotations.NotNull;
 
-public class KnightQuestCreativeModeTabs {
+public class KnightQuestCreativeModeTabs extends CreativeModeTab {
 
-    public static CreativeModeTab CREATIVE_MODE_TAB = new CreativeModeTab("knightquest_tab") {
-        @Override
-        public @NotNull ItemStack makeIcon() {
-            return new ItemStack(KnightQuestItems.PALADIN_SWORD.get());
-        }
+    private static final String PATH = "textures/gui/container/creative_inventory/";
 
-        @Override
-        public @NotNull CreativeModeTab setBackgroundImage(@NotNull ResourceLocation texture) {
-            return super.setBackgroundImage(new ResourceLocation(KnightQuest.MOD_ID, "textures/gui/container/creative_inventory/tab_knightquest.png"));
-        }
-    };
+    public KnightQuestCreativeModeTabs(String label) {
+        super(label);
+        this.setBackgroundImage(new ResourceLocation(KnightQuest.MOD_ID, PATH + "tab_knightquest.png"));
+    }
+
+    @Override
+    public ItemStack makeIcon() {
+        return new ItemStack(KnightQuestItems.PALADIN_SWORD.get());
+    }
 
 }

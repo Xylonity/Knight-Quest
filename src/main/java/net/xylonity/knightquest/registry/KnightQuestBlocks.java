@@ -27,7 +27,7 @@ public class KnightQuestBlocks {
             DeferredRegister.create(ForgeRegistries.BLOCKS, KnightQuest.MOD_ID);
 
     private static <T extends Block> RegistryObject<Item> registerBlockItem(String name, RegistryObject<T> block) {
-        return KnightQuestItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties().tab(KnightQuestCreativeModeTabs.CREATIVE_MODE_TAB)));
+        return KnightQuestItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties().tab(KnightQuest.CREATIVE_MODE_TAB)));
     }
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {

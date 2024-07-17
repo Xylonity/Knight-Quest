@@ -2,6 +2,7 @@ package net.xylonity.knightquest;
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -12,11 +13,8 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.xylonity.knightquest.registry.KnightQuestBlocks;
-import net.xylonity.knightquest.registry.KnightQuestItems;
-import net.xylonity.knightquest.registry.KnightQuestEntities;
+import net.xylonity.knightquest.registry.*;
 import net.xylonity.knightquest.common.entity.client.*;
-import net.xylonity.knightquest.registry.KnightQuestParticles;
 import net.xylonity.knightquest.config.KnightQuestCommonConfigs;
 import net.xylonity.knightquest.datagen.KQLootModifiers;
 import org.slf4j.Logger;
@@ -27,6 +25,7 @@ public class KnightQuest
 {
     public static final String MOD_ID = "knightquest";
     private static final Logger LOGGER = LogUtils.getLogger();
+    public static final CreativeModeTab CREATIVE_MODE_TAB = new KnightQuestCreativeModeTabs(MOD_ID);
 
     public KnightQuest()
     {

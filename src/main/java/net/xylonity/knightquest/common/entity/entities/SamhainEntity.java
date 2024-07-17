@@ -26,18 +26,21 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.xylonity.knightquest.registry.KnightQuestItems;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.core.animatable.GeoAnimatable;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.*;
-import software.bernie.geckolib.core.animation.AnimationState;
-import software.bernie.geckolib.core.object.PlayState;
-import software.bernie.geckolib.util.GeckoLibUtil;
+import software.bernie.geckolib3.core.AnimationState;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.builder.ILoopType;
+import software.bernie.geckolib3.core.controller.AnimationController;
+import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib3.util.GeckoLibUtil;
 
 import java.util.*;
 
-public class SamhainEntity extends TamableAnimal implements GeoEntity {
-    private AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+public class SamhainEntity extends TamableAnimal implements IAnimatable {
+    private final AnimationFactory factory = GeckoLibUtil.createFactory(this);
     private UUID ownerUUID;
     private static final EntityDataAccessor<Boolean> SITTING =
             SynchedEntityData.defineId(SamhainEntity.class, EntityDataSerializers.BOOLEAN);
@@ -67,44 +70,44 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-        controllerRegistrar.add(new AnimationController(this, "controller", 0, this::predicate));
-        controllerRegistrar.add(new AnimationController(this, "attackcontroller", 0, this::attackPredicate));
+    public void registerControllers(AnimationData animationData) {
+        animationData.addAnimationController(new AnimationController<>(this, "controller", 0, this::predicate));
+        animationData.addAnimationController(new AnimationController<>(this, "attackcontroller", 0, this::attackPredicate));
     }
 
-    private PlayState attackPredicate(AnimationState event) {
+    private <E extends IAnimatable> PlayState attackPredicate(AnimationEvent<E> event) {
 
-        if (this.swinging && event.getController().getAnimationState().equals(AnimationController.State.STOPPED)) {
-            event.getController().forceAnimationReset();
-            event.getController().setAnimation(RawAnimation.begin().then("walk", Animation.LoopType.PLAY_ONCE));
+        if (this.swinging && event.getController().getAnimationState().equals(AnimationState.Stopped)) {
+            event.getController().markNeedsReload();
+            event.getController().setAnimation((new AnimationBuilder()).addAnimation("attack", ILoopType.EDefaultLoopTypes.PLAY_ONCE));
             this.swinging = false;
         }
 
         return PlayState.CONTINUE;
     }
 
-    private <T extends GeoAnimatable> PlayState predicate(AnimationState<T> event) {
+    private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
 
         if (event.isMoving()) {
-            event.getController().setAnimation(RawAnimation.begin().then("walk", Animation.LoopType.LOOP));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("walk", ILoopType.EDefaultLoopTypes.LOOP));
         } else {
-            event.getController().setAnimation(RawAnimation.begin().then("idle", Animation.LoopType.LOOP));
-        }
-
-        if (this.isSitting()) {
-            event.getController().setAnimation(RawAnimation.begin().then("sit", Animation.LoopType.LOOP));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", ILoopType.EDefaultLoopTypes.LOOP));
         }
 
         if (this.dead) {
-            event.getController().setAnimation(RawAnimation.begin().then("death", Animation.LoopType.LOOP));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("sit", ILoopType.EDefaultLoopTypes.LOOP));
+        }
+
+        if (this.dead) {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("death", ILoopType.EDefaultLoopTypes.LOOP));
         }
 
         return PlayState.CONTINUE;
     }
 
     @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return cache;
+    public AnimationFactory getFactory() {
+        return this.factory;
     }
 
     @Override
@@ -115,7 +118,7 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
         Item itemForTaming = KnightQuestItems.GREAT_ESSENCE.get();
 
         if (item == itemForTaming && !isTame()) {
-            if (this.level().isClientSide) {
+            if (this.getLevel().isClientSide) {
                 return InteractionResult.CONSUME;
             } else {
                 if (!player.getAbilities().instabuild) {
@@ -123,11 +126,11 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
                 }
 
                 if (!ForgeEventFactory.onAnimalTame(this, player)) {
-                    if (!this.level().isClientSide) {
+                    if (!this.getLevel().isClientSide) {
                         super.tame(player);
                         this.navigation.recomputePath();
                         this.setTarget(null);
-                        this.level().broadcastEntityEvent(this, (byte)7);
+                        this.getLevel().broadcastEntityEvent(this, (byte)7);
                         setSitting(true);
                     }
                 }
@@ -136,7 +139,7 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
             }
         }
 
-        if (isTame() && !this.level().isClientSide && hand == InteractionHand.MAIN_HAND) {
+        if (isTame() && !this.getLevel().isClientSide && hand == InteractionHand.MAIN_HAND) {
             if ((itemstack.getItem().equals(KnightQuestItems.GREAT_ESSENCE.get()) || itemstack.getItem().equals(KnightQuestItems.SMALL_ESSENCE.get()))
                     && this.getHealth() < this.getMaxHealth()) {
 
@@ -309,7 +312,7 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
         @Override
         public boolean canUse() {
             BlockPos entityPos = entity.blockPosition();
-            Level level = entity.level();
+            Level level = entity.getLevel();
 
             targetPumpkinPos = findNearestPumpkin(level, entityPos, searchRadius);
             return targetPumpkinPos != null;
@@ -317,7 +320,7 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
 
         @Override
         public boolean canContinueToUse() {
-            return targetPumpkinPos != null && entity.level().getBlockState(targetPumpkinPos).is(Blocks.PUMPKIN);
+            return targetPumpkinPos != null && entity.getLevel().getBlockState(targetPumpkinPos).is(Blocks.PUMPKIN);
         }
 
         @Override

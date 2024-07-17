@@ -1,17 +1,17 @@
 package net.xylonity.knightquest.common.particle;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Quaternion;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.joml.Quaternionf;
 
 public class YellowParticle extends TextureSheetParticle {
     private final SpriteSet spritesset;
-    private static Quaternionf QUATERNION = new Quaternionf(0F, -0.7F, 0.7F, 0F);
+    private static Quaternion QUATERNION = new Quaternion(0F, -0.7F, 0.7F, 0F);
 
     YellowParticle(ClientLevel world, double x, double y, double z, SpriteSet sprites, double velX, double velY, double velZ) {
         super(world, x, y + 0.5, z, 0.0, 0.0, 0.0);

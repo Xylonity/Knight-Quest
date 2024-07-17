@@ -1,4 +1,4 @@
-package net.xylonity.knightquest.common.client;
+package net.xylonity.knightquest.common.client.chest;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -23,14 +23,14 @@ import software.bernie.geckolib3.util.GeckoLibUtil;
 import java.util.List;
 import java.util.Objects;
 
-public class GeoItemArmor extends GeoArmorItem implements IAnimatable {
+public class GeoItemArmorChest extends GeoArmorItem implements IAnimatable {
 
     private AnimationFactory factory = GeckoLibUtil.createFactory(this);
     private final String modelResource;
     private final String textureResource;
     private final String bonusTooltip;
 
-    public GeoItemArmor(KQArmorMaterials material, EquipmentSlot type, Properties properties, String textureResource, String modelResource) {
+    public GeoItemArmorChest(KQArmorMaterials material, EquipmentSlot type, Properties properties, String textureResource, String modelResource) {
         super(material, type, properties.tab(KnightQuestCreativeModeTabs.CREATIVE_MODE_TAB));
         this.bonusTooltip = material.getKeyName();
         this.textureResource = textureResource;

@@ -19,17 +19,21 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.core.animatable.GeoAnimatable;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.*;
-import software.bernie.geckolib.core.object.PlayState;
-import software.bernie.geckolib.util.GeckoLibUtil;
+import software.bernie.geckolib3.core.AnimationState;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.builder.ILoopType;
+import software.bernie.geckolib3.core.controller.AnimationController;
+import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib3.util.GeckoLibUtil;
 
 import java.util.Objects;
 
-public class ShieldEntity extends Monster implements GeoEntity {
-    private AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+public class ShieldEntity extends Monster implements IAnimatable {
+    private final AnimationFactory factory = GeckoLibUtil.createFactory(this);
     private final Level serverWorld;
     private static final double RADIUS = 2.0;
     private static final double ANGULAR_SPEED = 0.1;
@@ -50,18 +54,16 @@ public class ShieldEntity extends Monster implements GeoEntity {
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-        controllerRegistrar.add(new AnimationController(this, "controller", 0, this::predicate));
+    public void registerControllers(AnimationData animationData) {
+        animationData.addAnimationController(new AnimationController<>(this, "controller", 0, this::predicate));
     }
 
-    private <T extends GeoAnimatable> PlayState predicate(AnimationState<T> event) {
-        return PlayState.CONTINUE;
-    }
+    private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) { return PlayState.CONTINUE; }
 
     @Override
     public boolean hurt(DamageSource pSource, float pAmount) {
         serverWorld.addParticle(ParticleTypes.EXPLOSION, this.getX(), this.getY() + 0.5, this.getZ(), 1.2d, 0d, 0d);
-        level().playSound(null, this.blockPosition(), SoundEvents.VEX_HURT, SoundSource.HOSTILE, 1.0F, 1.0F);
+        getLevel().playSound(null, this.blockPosition(), SoundEvents.VEX_HURT, SoundSource.HOSTILE, 1.0F, 1.0F);
 
         serverWorld.getEntitiesOfClass(Player.class, this.getBoundingBox().inflate(3)).forEach(player -> {
             Vec3 direction = player.position().subtract(this.position()).normalize().scale(0.4);
@@ -99,8 +101,8 @@ public class ShieldEntity extends Monster implements GeoEntity {
         double offsetZ = Math.sin(angle) * RADIUS;
         double offsetY = Math.sin(angle * 2) * 0.5;
         this.setPos(ownerPos.x() + offsetX, ownerPos.y() + 0.5 + offsetY, ownerPos.z() + offsetZ);
-        if (this.level().getNearestPlayer(this, -1.0) != null)
-            this.lookAt(Objects.requireNonNull(this.level().getNearestPlayer(this, -1.0)), 360, 360);
+        if (this.getLevel().getNearestPlayer(this, -1.0) != null)
+            this.lookAt(Objects.requireNonNull(this.getLevel().getNearestPlayer(this, -1.0)), 360, 360);
 
         angle += ANGULAR_SPEED;
         if (angle >= Math.PI * 2) {
@@ -112,7 +114,7 @@ public class ShieldEntity extends Monster implements GeoEntity {
             double d0 = this.random.nextGaussian() * 0.02D;
             double d1 = this.random.nextGaussian() * 0.02D;
             double d2 = this.random.nextGaussian() * 0.02D;
-            this.level().addParticle(particleType, this.getX() + (this.random.nextFloat() * this.getBbWidth() * 2.0F) - this.getBbWidth(), this.getY() + (this.random.nextFloat() * this.getBbHeight()), this.getZ() + (this.random.nextFloat() * this.getBbWidth() * 2.0F) - this.getBbWidth(), d0, d1, d2);
+            this.getLevel().addParticle(particleType, this.getX() + (this.random.nextFloat() * this.getBbWidth() * 2.0F) - this.getBbWidth(), this.getY() + (this.random.nextFloat() * this.getBbHeight()), this.getZ() + (this.random.nextFloat() * this.getBbWidth() * 2.0F) - this.getBbWidth(), d0, d1, d2);
         }
     }
 
@@ -165,7 +167,7 @@ public class ShieldEntity extends Monster implements GeoEntity {
         double closestDistance = Double.MAX_VALUE;
         GremlinEntity closestGremlin = null;
 
-        for (GremlinEntity entity : level().getEntitiesOfClass(GremlinEntity.class, getBoundingBox().inflate(RADIUS * 2))) {
+        for (GremlinEntity entity : getLevel().getEntitiesOfClass(GremlinEntity.class, getBoundingBox().inflate(RADIUS * 2))) {
             if (entity instanceof GremlinEntity) {
                 double distance = distanceToSqr(entity);
                 if (distance < closestDistance) {
@@ -178,9 +180,7 @@ public class ShieldEntity extends Monster implements GeoEntity {
         return closestGremlin;
     }
 
-    @Override public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return cache;
-    }
+    @Override public AnimationFactory getFactory() {return this.factory;}
     @Override protected SoundEvent getSwimSound() {
         return null;
     }

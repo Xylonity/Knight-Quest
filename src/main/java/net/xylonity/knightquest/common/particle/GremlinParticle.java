@@ -1,6 +1,8 @@
 package net.xylonity.knightquest.common.particle;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Quaternion;
+import com.mojang.math.Vector3f;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
@@ -9,12 +11,10 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.joml.Quaternionf;
-import org.joml.Vector3f;
 
 public class GremlinParticle extends TextureSheetParticle {
     private final SpriteSet spritesset;
-    private static Quaternionf QUATERNION = new Quaternionf(0F, -0.7F, 0.7F, 0F);
+    private static Quaternion QUATERNION = new Quaternion(0F, -0.7F, 0.7F, 0F);
 
     GremlinParticle(ClientLevel world, double x, double y, double z, SpriteSet sprites, double velX, double velY, double velZ) {
         super(world, x, y + 0.5, z, 0.0, 0.0, 0.0);
@@ -48,12 +48,12 @@ public class GremlinParticle extends TextureSheetParticle {
 
         for (int i = 0; i < 4; ++i) {
             Vector3f vector3f = vector3fs[i];
-            vector3f.rotate(QUATERNION);
+            vector3f.transform(QUATERNION);
             vector3f.mul(f4);
             vector3f.add(x, y, z);
 
             Vector3f vector3fBottom = vector3fsBottom[i];
-            vector3fBottom.rotate(QUATERNION);
+            vector3fBottom.transform(QUATERNION);
             vector3fBottom.mul(f4);
             vector3fBottom.add(x, y - 0.1F, z);
         }

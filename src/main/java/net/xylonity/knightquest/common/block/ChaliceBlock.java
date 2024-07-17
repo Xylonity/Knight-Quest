@@ -24,6 +24,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.xylonity.knightquest.registry.KnightQuestBlocks;
+import net.xylonity.knightquest.registry.KnightQuestCreativeModeTabs;
 import net.xylonity.knightquest.registry.KnightQuestItems;
 import net.xylonity.knightquest.registry.KnightQuestParticles;
 import org.jetbrains.annotations.NotNull;

@@ -8,10 +8,10 @@ import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
@@ -32,6 +32,7 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.xylonity.knightquest.KnightQuest;
 import net.xylonity.knightquest.common.material.KQArmorMaterials;
+import net.xylonity.knightquest.registry.KnightQuestCreativeModeTabs;
 import net.xylonity.knightquest.registry.KnightQuestItems;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -42,9 +43,9 @@ public class KQArmorItem extends ArmorItem {
 
     private final String bonusTooltip;
 
-    public KQArmorItem(KQArmorMaterials material, Type type, Properties settings) {
-        super(material, type, settings);
-        this.bonusTooltip = material.getKeyName();
+    public KQArmorItem(KQArmorMaterials pMaterial, EquipmentSlot pSlot, Properties pProperties) {
+        super(pMaterial, pSlot, pProperties.tab(KnightQuestCreativeModeTabs.CREATIVE_MODE_TAB));
+        this.bonusTooltip = pMaterial.getKeyName();
     }
 
     /**
@@ -68,21 +69,21 @@ public class KQArmorItem extends ArmorItem {
      * Declaration of static effects for certain armors.
      */
 
-    private static final MobEffectInstance SHIELD_ARMOR = new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, -1, 0, false, false, true);
-    private static final MobEffectInstance BAT_ARMOR = new MobEffectInstance(MobEffects.NIGHT_VISION, -1, 0, false, false, true);
-    private static final MobEffectInstance PATH_ARMOR = new MobEffectInstance(MobEffects.INVISIBILITY, -1, 2, false, true, true);
-    private static final MobEffectInstance BOW_ARMOR = new MobEffectInstance(MobEffects.MOVEMENT_SPEED, -1, 0, false, false, true);
+    private static final MobEffectInstance SHIELD_ARMOR = new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 0, false, false, true);
+    private static final MobEffectInstance BAT_ARMOR = new MobEffectInstance(MobEffects.NIGHT_VISION, Integer.MAX_VALUE, 0, false, false, true);
+    private static final MobEffectInstance PATH_ARMOR = new MobEffectInstance(MobEffects.INVISIBILITY, Integer.MAX_VALUE, 2, false, true, true);
+    private static final MobEffectInstance BOW_ARMOR = new MobEffectInstance(MobEffects.MOVEMENT_SPEED, Integer.MAX_VALUE, 0, false, false, true);
     private static final MobEffectInstance HORN_ARMOR = new MobEffectInstance(MobEffects.DAMAGE_BOOST, 400, 0, false, false, true);
-    private static final MobEffectInstance SEA_ARMOR = new MobEffectInstance(MobEffects.DOLPHINS_GRACE, -1, 0, false, false, true);
-    private static final MobEffectInstance PIRATE_ARMOR = new MobEffectInstance(MobEffects.LUCK, -1, 0, false, false, true);
-    private static final MobEffectInstance SPIDER_ARMOR = new MobEffectInstance(MobEffects.JUMP, -1, 1, false, false, false);
-    private static final MobEffectInstance PHATOM_ARMOR =  new MobEffectInstance(MobEffects.MOVEMENT_SPEED, -1, 0, false, false, true);
-    private static final MobEffectInstance NETHER_ARMOR =  new MobEffectInstance(MobEffects.FIRE_RESISTANCE, -1, 0, false, false, true);
-    private static final MobEffectInstance HUSK_ARMOR =  new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, -1, 1, false, false, true);
-    private static final MobEffectInstance BAMBOO_BLUE =  new MobEffectInstance(MobEffects.MOVEMENT_SPEED, -1, 0, false, false, true);
-    private static final MobEffectInstance SILVERFISH_ARMOR =  new MobEffectInstance(MobEffects.DIG_SPEED, -1, 0, false, false, true);
-    private static final MobEffectInstance SKULK_ARMOR =  new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, -1, 1, false, false, true);
-    private static final MobEffectInstance STRAWHAT_ARMOR =  new MobEffectInstance(MobEffects.WATER_BREATHING, -1, 0, false, false, true);
+    private static final MobEffectInstance SEA_ARMOR = new MobEffectInstance(MobEffects.DOLPHINS_GRACE, Integer.MAX_VALUE, 0, false, false, true);
+    private static final MobEffectInstance PIRATE_ARMOR = new MobEffectInstance(MobEffects.LUCK, Integer.MAX_VALUE, 0, false, false, true);
+    private static final MobEffectInstance SPIDER_ARMOR = new MobEffectInstance(MobEffects.JUMP, Integer.MAX_VALUE, 1, false, false, false);
+    private static final MobEffectInstance PHATOM_ARMOR =  new MobEffectInstance(MobEffects.MOVEMENT_SPEED, Integer.MAX_VALUE, 0, false, false, true);
+    private static final MobEffectInstance NETHER_ARMOR =  new MobEffectInstance(MobEffects.FIRE_RESISTANCE, Integer.MAX_VALUE, 0, false, false, true);
+    private static final MobEffectInstance HUSK_ARMOR =  new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 1, false, false, true);
+    private static final MobEffectInstance BAMBOO_BLUE =  new MobEffectInstance(MobEffects.MOVEMENT_SPEED, Integer.MAX_VALUE, 0, false, false, true);
+    private static final MobEffectInstance SILVERFISH_ARMOR =  new MobEffectInstance(MobEffects.DIG_SPEED, Integer.MAX_VALUE, 0, false, false, true);
+    private static final MobEffectInstance SKULK_ARMOR =  new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 1, false, false, true);
+    private static final MobEffectInstance STRAWHAT_ARMOR =  new MobEffectInstance(MobEffects.WATER_BREATHING, Integer.MAX_VALUE, 0, false, false, true);
 
     /**
      * Dual Hashmap that inherits old declared effects when a new set is equipped, preventing
@@ -92,8 +93,8 @@ public class KQArmorItem extends ArmorItem {
     private static final Map<UUID, Map<KQArmorMaterials, Boolean>> effectAppliedByArmorMap = new HashMap<>();
 
     @Override
-    public void onInventoryTick(ItemStack stack, @NotNull Level level, Player player, int slotIndex, int selectedIndex) {
-        if(!level.isClientSide()) {
+    public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
+        if(!pLevel.isClientSide() && pEntity instanceof Player player) {
 
             UUID playerUUID = player.getUUID();
 
@@ -121,7 +122,7 @@ public class KQArmorItem extends ArmorItem {
                 }
             }
 
-            if (hasFullSetOn(player, KQArmorMaterials.BATSET) && level.isNight()) {
+            if (hasFullSetOn(player, KQArmorMaterials.BATSET) && pLevel.isNight()) {
                 if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new HashMap<>()).getOrDefault(KQArmorMaterials.BATSET, false))) {
                     player.addEffect(BAT_ARMOR);
                     effectAppliedByArmorMap.get(playerUUID).put(KQArmorMaterials.BATSET, true);
@@ -145,7 +146,7 @@ public class KQArmorItem extends ArmorItem {
                 }
             }
 
-            if (hasFullSetOn(player, KQArmorMaterials.PHANTOMSET) && level.isNight()) {
+            if (hasFullSetOn(player, KQArmorMaterials.PHANTOMSET) && pLevel.isNight()) {
                 if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new HashMap<>()).getOrDefault(KQArmorMaterials.PHANTOMSET, false))) {
                     player.addEffect(PHATOM_ARMOR);
                     effectAppliedByArmorMap.get(playerUUID).put(KQArmorMaterials.PHANTOMSET, true);
@@ -157,7 +158,7 @@ public class KQArmorItem extends ArmorItem {
                 }
             }
 
-            if (hasFullSetOn(player, KQArmorMaterials.HORNSET) && player.getLastAttacker() != null) {
+            if (hasFullSetOn(player, KQArmorMaterials.HORNSET) && player.getLastHurtByMob() != null) {
                 if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new HashMap<>()).getOrDefault(KQArmorMaterials.HORNSET, false))) {
                     player.addEffect(HORN_ARMOR);
                     effectAppliedByArmorMap.get(playerUUID).put(KQArmorMaterials.HORNSET, true);
@@ -217,7 +218,7 @@ public class KQArmorItem extends ArmorItem {
                 }
             }
 
-            if (hasFullSetOn(player, KQArmorMaterials.SKULK) && player.level().getMaxLocalRawBrightness(player.blockPosition()) <= 4) {
+            if (hasFullSetOn(player, KQArmorMaterials.SKULK) && player.getLevel().getMaxLocalRawBrightness(player.blockPosition()) <= 4) {
                 if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new HashMap<>()).getOrDefault(KQArmorMaterials.SKULK, false))) {
                     player.addEffect(SKULK_ARMOR);
                     effectAppliedByArmorMap.get(playerUUID).put(KQArmorMaterials.SKULK, true);
@@ -243,7 +244,7 @@ public class KQArmorItem extends ArmorItem {
 
         }
 
-        super.onInventoryTick(stack, level, player, slotIndex, selectedIndex);
+        super.inventoryTick(pStack, pLevel, pEntity, pSlotId, pIsSelected);
     }
 
     private static boolean hasFullSetOn(Player player, KQArmorMaterials material) {
@@ -290,7 +291,7 @@ public class KQArmorItem extends ArmorItem {
 
             if (event.getEntity() instanceof Player player) {
 
-                if (event.getSource().is(DamageTypes.FALL) && KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.DEEPSLATESET)) {
+                if (event.getSource().isFall() && KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.DEEPSLATESET)) {
                     float originalDamage = event.getAmount();
                     float reducedDamage = originalDamage * 0.25f;
                     event.setAmount(reducedDamage);
@@ -313,11 +314,11 @@ public class KQArmorItem extends ArmorItem {
                 }
 
                 if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.DRAGONSET))
-                    if (event.getSource().is(DamageTypes.DRAGON_BREATH))
-                        event.setAmount(0);
+                    if (event.getSource().isBypassMagic())
+                        event.setAmount(event.getAmount() * 0.2F);
 
                 if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.BAMBOOSET_GREEN))
-                    if (player.hasEffect(MobEffects.POISON) && (event.getSource().is(DamageTypes.MAGIC) || event.getSource().is(DamageTypes.INDIRECT_MAGIC))) {
+                    if (player.hasEffect(MobEffects.POISON) && (event.getSource().isMagic() || event.getSource().isBypassMagic())) {
                         event.setAmount(0);
                         player.removeEffect(MobEffects.POISON);
                     }
@@ -326,7 +327,7 @@ public class KQArmorItem extends ArmorItem {
                     player.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, 160, 0, false, false, true));
                 }
 
-                if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.BAMBOOSET) && event.getSource().is(DamageTypes.FALL) ) {
+                if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.BAMBOOSET) && event.getSource().isFall()) {
 
                     ServerPlayer serverPlayer = (ServerPlayer) player;
 
@@ -352,7 +353,7 @@ public class KQArmorItem extends ArmorItem {
                         ));
                     }
 
-                    player.level().getEntitiesOfClass(Monster.class, player.getBoundingBox().inflate(3.5)).forEach(entity -> {
+                    player.getLevel().getEntitiesOfClass(Monster.class, player.getBoundingBox().inflate(3.5)).forEach(entity -> {
                         Vec3 direction = entity.position().subtract(player.position()).normalize().scale(event.getAmount() * 0.5);
                         entity.push(direction.x, direction.y + 0.5, direction.z);
                     });
@@ -372,7 +373,7 @@ public class KQArmorItem extends ArmorItem {
                                 for (int z = -radius; z <= radius; z++) {
                                     BlockPos targetPos = new BlockPos(playerPos.getX() + x, playerPos.getY() + y, playerPos.getZ() + z);
 
-                                    if (isTeleportPositionValid(player.level(), targetPos)) {
+                                    if (isTeleportPositionValid(player.getLevel(), targetPos)) {
                                         validPositions.add(targetPos);
                                     }
                                 }
@@ -383,7 +384,7 @@ public class KQArmorItem extends ArmorItem {
                             BlockPos randomPos = validPositions.get(random.nextInt(validPositions.size()));
                             event.setAmount(0);
 
-                            player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
+                            player.getLevel().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
                             player.teleportTo(randomPos.getX(), randomPos.getY(), randomPos.getZ());
                         }
 
@@ -402,13 +403,13 @@ public class KQArmorItem extends ArmorItem {
                 }
 
                 if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.CREEPERSET)) {
-                    if (event.getSource().getEntity() != null && (event.getSource().is(DamageTypes.EXPLOSION) || event.getSource().is(DamageTypes.PLAYER_EXPLOSION)))
+                    if (event.getSource().getEntity() != null && event.getSource().isExplosion())
                         event.setAmount(event.getAmount() * 0.2F);
                 }
 
                 if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.POLAR)) {
-                    if (event.getSource().getEntity() != null && (event.getSource().is(DamageTypes.FREEZE)))
-                        event.setAmount(0);
+                    if (event.getSource().getEntity() != null && (event.getSource().isBypassMagic()))
+                        event.setAmount(event.getAmount() * 0.2F);
                 }
 
             }
@@ -417,7 +418,7 @@ public class KQArmorItem extends ArmorItem {
 
             if (event.getSource().getEntity() instanceof Player player && event.getEntity() != null) {
 
-                if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.SILVERSET) && player.level().isNight()) {
+                if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.SILVERSET) && player.getLevel().isNight()) {
                     Random random = new Random();
                     if (random.nextFloat() < 0.20) {
                         event.getEntity().setSecondsOnFire(random.nextInt(1, 7));
@@ -430,7 +431,7 @@ public class KQArmorItem extends ArmorItem {
                 if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.DRAGONSET))
                     event.setAmount((float) (event.getAmount() * 1.15));
 
-                if (event.getSource().is(DamageTypes.ARROW) && KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.WITHERSET)) {
+                if (event.getSource().isProjectile() && KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.WITHERSET)) {
                     Random random = new Random();
                     if (event.getSource().getEntity() != null && random.nextFloat() < 0.3)
                         event.getEntity().addEffect(new MobEffectInstance(MobEffects.WITHER, 100, 0, false, false, false));
@@ -468,17 +469,17 @@ public class KQArmorItem extends ArmorItem {
                 if (helmet.getItem().equals(KnightQuestItems.TENGU_HELMET.get())) {
                     boolean canDoubleJump = doubleJumpStates.getOrDefault(player.getUUID(), true);
 
-                    if (!player.onGround() && player.getDeltaMovement().y < 0 && canDoubleJump) {
+                    if (!player.isOnGround() && player.getDeltaMovement().y < 0 && canDoubleJump) {
                         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> handleClientSideDoubleJump(player));
                     }
 
-                    if (player.onGround())
+                    if (player.isOnGround())
                         doubleJumpStates.put(player.getUUID(), true);
                 }
 
-                if (hasFullSetOn(player, KQArmorMaterials.HUSKSET) && (player.level().getBiome(new BlockPos((int) player.getX(), (int) player.getY(), (int) player.getZ())).is(Biomes.DESERT)
-                        || player.level().getBiome(new BlockPos((int) player.getX(), (int) player.getY(), (int) player.getZ())).is(Biomes.BADLANDS)
-                            || player.level().getBiome(new BlockPos((int) player.getX(), (int) player.getY(), (int) player.getZ())).is(Biomes.BEACH))) {
+                if (hasFullSetOn(player, KQArmorMaterials.HUSKSET) && (player.getLevel().getBiome(new BlockPos((int) player.getX(), (int) player.getY(), (int) player.getZ())).is(Biomes.DESERT)
+                        || player.getLevel().getBiome(new BlockPos((int) player.getX(), (int) player.getY(), (int) player.getZ())).is(Biomes.BADLANDS)
+                            || player.getLevel().getBiome(new BlockPos((int) player.getX(), (int) player.getY(), (int) player.getZ())).is(Biomes.BEACH))) {
                     if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(player.getUUID(), k -> new HashMap<>()).getOrDefault(KQArmorMaterials.HUSKSET, false))) {
                         player.addEffect(HUSK_ARMOR);
                         effectAppliedByArmorMap.get(player.getUUID()).put(KQArmorMaterials.HUSKSET, true);
@@ -490,9 +491,9 @@ public class KQArmorItem extends ArmorItem {
                     }
                 }
 
-                if (hasFullSetOn(player, KQArmorMaterials.BAMBOOSET_BLUE) && (player.level().getBiome(new BlockPos((int) player.getX(), (int) player.getY(), (int) player.getZ())).is(Biomes.JUNGLE)
-                        || player.level().getBiome(new BlockPos((int) player.getX(), (int) player.getY(), (int) player.getZ())).is(Biomes.BAMBOO_JUNGLE)
-                            || player.level().getBiome(new BlockPos((int) player.getX(), (int) player.getY(), (int) player.getZ())).is(Biomes.SPARSE_JUNGLE))) {
+                if (hasFullSetOn(player, KQArmorMaterials.BAMBOOSET_BLUE) && (player.getLevel().getBiome(new BlockPos((int) player.getX(), (int) player.getY(), (int) player.getZ())).is(Biomes.JUNGLE)
+                        || player.getLevel().getBiome(new BlockPos((int) player.getX(), (int) player.getY(), (int) player.getZ())).is(Biomes.BAMBOO_JUNGLE)
+                            || player.getLevel().getBiome(new BlockPos((int) player.getX(), (int) player.getY(), (int) player.getZ())).is(Biomes.SPARSE_JUNGLE))) {
                     if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(player.getUUID(), k -> new HashMap<>()).getOrDefault(KQArmorMaterials.BAMBOOSET_BLUE, false))) {
                         player.addEffect(BAMBOO_BLUE);
                         effectAppliedByArmorMap.get(player.getUUID()).put(KQArmorMaterials.BAMBOOSET_BLUE, true);
@@ -505,15 +506,15 @@ public class KQArmorItem extends ArmorItem {
                 }
 
                 if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.WARLORDSET)) {
-                    for (Entity entity : player.level().getEntitiesOfClass(Player.class, player.getBoundingBox().inflate(15.0))) {
+                    for (Entity entity : player.getLevel().getEntitiesOfClass(Player.class, player.getBoundingBox().inflate(15.0))) {
                         if (entity instanceof Player nearbyPlayer && entity != player) {
                             nearbyPlayer.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 100, 0, false, false, true));
                         }
                     }
                 }
 
-                if (!player.level().isClientSide) {
-                    if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.ZOMBIESET) && player.level().isNight()) {
+                if (!player.getLevel().isClientSide) {
+                    if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.ZOMBIESET) && player.getLevel().isNight()) {
                         if (player.tickCount % 200 == 0) {
                             player.heal(1.0F);
                         }
@@ -558,7 +559,7 @@ public class KQArmorItem extends ArmorItem {
                         double particleX = player.getX() + 0.4 * Math.cos(angleRadians);
                         double particleZ = player.getZ() + 0.4 * Math.sin(angleRadians);
 
-                        player.level().addParticle(ParticleTypes.CLOUD, particleX, player.getY(), particleZ, 0d, 0.35d, 0d);
+                        player.getLevel().addParticle(ParticleTypes.CLOUD, particleX, player.getY(), particleZ, 0d, 0.35d, 0d);
                     }
 
                     player.jumpFromGround();

@@ -2,7 +2,7 @@ package net.xylonity.knightquest.common.material;
 
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.xylonity.knightquest.KnightQuest;
@@ -13,71 +13,71 @@ import java.util.function.Supplier;
 
 public enum KQArmorMaterials implements ArmorMaterial {
 
-    APPLE_SET("appleset", 37, new int[]{ 3, 8, 6, 3 }, 25,
+    APPLE_SET("appleset", 37, new int[]{ 3, 6, 8, 3 }, 25,
             SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
-    BAMBOOSET_BLUE("bamboo_blue", 37, new int[]{ 3, 8, 6, 3 }, 25,
+    BAMBOOSET_BLUE("bamboo_blue", 37, new int[]{ 3, 6, 8, 3 }, 25,
             SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
-    BAMBOOSET_GREEN("bamboo_green", 37, new int[]{ 3, 8, 6, 3 }, 25,
+    BAMBOOSET_GREEN("bamboo_green", 37, new int[]{ 3, 6, 8, 3 }, 25,
             SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
-    BAMBOOSET("bamboo", 37, new int[]{ 3, 8, 6, 3 }, 25,
+    BAMBOOSET("bamboo", 37, new int[]{ 3, 6, 8, 3 }, 25,
             SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
-    BATSET("bat", 37, new int[]{ 3, 8, 6, 3 }, 25,
+    BATSET("bat", 37, new int[]{ 3, 6, 8, 3 }, 25,
             SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
-    BLAZESET("blaze", 37, new int[]{ 3, 8, 6, 3 }, 25,
+    BLAZESET("blaze", 37, new int[]{ 3, 6, 8, 3 }, 25,
             SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
-    BOWSET("bow", 37, new int[]{ 3, 8, 6, 3 }, 25,
+    BOWSET("bow", 37, new int[]{ 3, 6, 8, 3 }, 25,
             SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
-    HORNSET("horn", 37, new int[]{ 3, 8, 6, 3 }, 25,
+    HORNSET("horn", 37, new int[]{ 3, 6, 8, 3 }, 25,
             SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
-    CREEPERSET("creeper", 37, new int[]{ 3, 8, 6, 3 }, 25,
+    CREEPERSET("creeper", 37, new int[]{ 3, 6, 8, 3 }, 25,
             SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
-    DEEPSLATESET("deepslate", 37, new int[]{ 3, 8, 6, 3 }, 25,
+    DEEPSLATESET("deepslate", 37, new int[]{ 3, 6, 8, 3 }, 25,
             SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
-    DRAGONSET("dragon", 37, new int[]{ 3, 8, 6, 3 }, 25,
+    DRAGONSET("dragon", 37, new int[]{ 3, 6, 8, 3 }, 25,
             SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
-    ENDERMANSET("enderman", 37, new int[]{ 3, 8, 6, 3 }, 25,
+    ENDERMANSET("enderman", 37, new int[]{ 3, 6, 8, 3 }, 25,
             SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
-    EVOKERSET("evoker", 37, new int[]{ 3, 8, 6, 3 }, 25,
+    EVOKERSET("evoker", 37, new int[]{ 3, 6, 8, 3 }, 25,
             SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
-    FORZESET("forze", 37, new int[]{ 3, 8, 6, 3 }, 25,
+    FORZESET("forze", 37, new int[]{ 3, 6, 8, 3 }, 25,
             SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
-    HOLLOWSET("hollow", 37, new int[]{ 3, 8, 6, 3 }, 25,
+    HOLLOWSET("hollow", 37, new int[]{ 3, 6, 8, 3 }, 25,
             SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
-    NETHERSET("nether", 37, new int[]{ 3, 8, 6, 3 }, 25,
+    NETHERSET("nether", 37, new int[]{ 3, 6, 8, 3 }, 25,
             SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
-    VETERANSET("veteran", 37, new int[]{ 3, 8, 6, 3 }, 25,
+    VETERANSET("veteran", 37, new int[]{ 3, 6, 8, 3 }, 25,
             SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
-    PATHSET("path", 37, new int[]{ 3, 8, 6, 3 }, 25,
+    PATHSET("path", 37, new int[]{ 3, 6, 8, 3 }, 25,
             SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
-    PHANTOMSET("phantom", 37, new int[]{ 3, 8, 6, 3 }, 25,
+    PHANTOMSET("phantom", 37, new int[]{ 3, 6, 8, 3 }, 25,
             SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
-    SEASET("sea", 37, new int[]{ 3, 8, 6, 3 }, 25,
+    SEASET("sea", 37, new int[]{ 3, 6, 8, 3 }, 25,
             SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
-    SHIELDSET("shield", 37, new int[]{ 3, 8, 6, 3 }, 25,
+    SHIELDSET("shield", 37, new int[]{ 3, 6, 8, 3 }, 25,
             SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
-    SILVERSET("silver", 37, new int[]{ 3, 8, 6, 3 }, 25,
+    SILVERSET("silver", 37, new int[]{ 3, 6, 8, 3 }, 25,
             SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
-    SILVERFISHSET("silverfish", 37, new int[]{ 3, 8, 6, 3 }, 25,
+    SILVERFISHSET("silverfish", 37, new int[]{ 3, 6, 8, 3 }, 25,
             SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
-    SKELETONSET("skeleton", 37, new int[]{ 3, 8, 6, 3 }, 25,
+    SKELETONSET("skeleton", 37, new int[]{ 3, 6, 8, 3 }, 25,
             SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
-    SPIDERSET("spider", 37, new int[]{ 3, 8, 6, 3 }, 25,
+    SPIDERSET("spider", 37, new int[]{ 3, 6, 8, 3 }, 25,
             SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
-    WARLORDSET("warlord", 37, new int[]{ 3, 8, 6, 3 }, 25,
+    WARLORDSET("warlord", 37, new int[]{ 3, 6, 8, 3 }, 25,
             SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
-    STRAWHATSET("strawhat", 37, new int[]{ 3, 8, 6, 3 }, 25,
+    STRAWHATSET("strawhat", 37, new int[]{ 3, 6, 8, 3 }, 25,
             SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
-    PIRATESET("pirate", 37, new int[]{ 3, 8, 6, 3 }, 25,
+    PIRATESET("pirate", 37, new int[]{ 3, 6, 8, 3 }, 25,
             SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
-    CONQUISTADORSET("conquistador", 37, new int[]{ 3, 8, 6, 3 }, 25,
+    CONQUISTADORSET("conquistador", 37, new int[]{ 3, 6, 8, 3 }, 25,
             SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
-    ZOMBIESET("zombie", 37, new int[]{ 3, 8, 6, 3 }, 25,
+    ZOMBIESET("zombie", 37, new int[]{ 3, 6, 8, 3 }, 25,
             SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
-    HUSKSET("husk", 37, new int[]{ 3, 8, 6, 3 }, 25,
+    HUSKSET("husk", 37, new int[]{ 3, 6, 8, 3 }, 25,
         SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
-    WITHERSET("wither", 37, new int[]{ 3, 8, 6, 3 }, 25,
+    WITHERSET("wither", 37, new int[]{ 3, 6, 8, 3 }, 25,
             SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
-    SQUIRESET("squire", 37, new int[]{ 3, 8, 6, 3 }, 25,
+    SQUIRESET("squire", 37, new int[]{ 3, 6, 8, 3 }, 25,
             SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
     TUNIC_BLUE("tunic_blue", 20, new int[]{ 2, 5, 5, 2 }, 25,
             SoundEvents.ARMOR_EQUIP_LEATHER, 0.4f, 0F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
@@ -91,15 +91,15 @@ public enum KQArmorMaterials implements ArmorMaterial {
             SoundEvents.ARMOR_EQUIP_LEATHER, 0.4f, 0F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
     CHAINMAIL("chainmail", 20, new int[]{ 2, 5, 5, 2 }, 25,
             SoundEvents.ARMOR_EQUIP_NETHERITE, 0.4f, 0F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
-    WITCH("witch", 37, new int[]{ 3, 8, 6, 3 }, 25,
+    WITCH("witch", 37, new int[]{ 3, 6, 8, 3 }, 25,
             SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
-    POLAR("polar", 37, new int[]{ 3, 8, 6, 3 }, 25,
+    POLAR("polar", 37, new int[]{ 3, 6, 8, 3 }, 25,
             SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
-    SHINOBI("shinobi", 37, new int[]{ 3, 8, 6, 3 }, 25,
+    SHINOBI("shinobi", 37, new int[]{ 3, 6, 8, 3 }, 25,
             SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
-    SKULK("skulk", 37, new int[]{ 3, 8, 6, 3 }, 25,
+    SKULK("skulk", 37, new int[]{ 3, 6, 8, 3 }, 25,
             SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
-    TENGU("tengu", 37, new int[]{ 3, 8, 6, 3 }, 25,
+    TENGU("tengu", 37, new int[]{ 3, 6, 8, 3 }, 25,
     SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()));
 
 
@@ -125,13 +125,13 @@ public enum KQArmorMaterials implements ArmorMaterial {
     }
 
     @Override
-    public int getDurabilityForType(ArmorItem.Type pType) {
-        return protectionAmounts[pType.ordinal()] * this.durabilityMultiplier;
+    public int getDurabilityForSlot(EquipmentSlot equipmentSlot) {
+        return protectionAmounts[equipmentSlot.getIndex()] * this.durabilityMultiplier;
     }
 
     @Override
-    public int getDefenseForType(ArmorItem.Type pType) {
-        return this.protectionAmounts[pType.ordinal()];
+    public int getDefenseForSlot(EquipmentSlot equipmentSlot) {
+        return this.protectionAmounts[equipmentSlot.getIndex()];
     }
 
     @Override

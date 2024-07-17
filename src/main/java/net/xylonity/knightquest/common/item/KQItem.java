@@ -5,6 +5,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import net.xylonity.knightquest.registry.KnightQuestCreativeModeTabs;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -15,7 +16,7 @@ public class KQItem extends Item {
     private final String tooltipInfoName;
 
     public KQItem(Properties pProperties, String tooltipInfoName) {
-        super(pProperties);
+        super(pProperties.tab(KnightQuestCreativeModeTabs.CREATIVE_MODE_TAB));
         this.tooltipInfoName = tooltipInfoName;
     }
 

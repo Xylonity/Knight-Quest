@@ -9,8 +9,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.MapColor;
-import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraft.world.level.material.Material;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -28,7 +27,7 @@ public class KnightQuestBlocks {
             DeferredRegister.create(ForgeRegistries.BLOCKS, KnightQuest.MOD_ID);
 
     private static <T extends Block> RegistryObject<Item> registerBlockItem(String name, RegistryObject<T> block) {
-        return KnightQuestItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
+        return KnightQuestItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties().tab(KnightQuestCreativeModeTabs.CREATIVE_MODE_TAB)));
     }
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {
@@ -38,7 +37,7 @@ public class KnightQuestBlocks {
     }
 
     public static final RegistryObject<Block> GREAT_CHALICE = registerBlock("great_chalice",
-            () -> new ChaliceBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_ORANGE).requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.COPPER).lightLevel(state -> state.getValue(ChaliceBlock.fill).equals(5) ? 5 : 0))
+            () -> new ChaliceBlock(BlockBehaviour.Properties.of(Material.HEAVY_METAL).requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.COPPER).lightLevel(state -> state.getValue(ChaliceBlock.fill).equals(5) ? 5 : 0))
             {
                 @Override
                 public void appendHoverText(@NotNull ItemStack pStack, @Nullable BlockGetter pLevel, @NotNull List<Component> pTooltip, @NotNull TooltipFlag pFlag) {

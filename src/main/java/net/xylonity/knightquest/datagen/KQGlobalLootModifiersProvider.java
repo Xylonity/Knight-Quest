@@ -1,17 +1,17 @@
 package net.xylonity.knightquest.datagen;
 
-import net.minecraft.data.PackOutput;
+import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraftforge.common.data.GlobalLootModifierProvider;
 import net.minecraftforge.common.loot.LootTableIdCondition;
-import net.xylonity.knightquest.KnightQuest;
 import net.xylonity.knightquest.registry.KnightQuestItems;
 
 public class KQGlobalLootModifiersProvider extends GlobalLootModifierProvider {
-    public KQGlobalLootModifiersProvider(PackOutput output) {
-        super(output, KnightQuest.MOD_ID);
+
+    public KQGlobalLootModifiersProvider(DataGenerator gen, String modid) {
+        super(gen, modid);
     }
 
     /**

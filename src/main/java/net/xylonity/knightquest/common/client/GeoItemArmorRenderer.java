@@ -1,9 +1,18 @@
 package net.xylonity.knightquest.common.client;
 
-import software.bernie.geckolib.renderer.GeoArmorRenderer;
+import software.bernie.geckolib3.renderers.geo.GeoArmorRenderer;
 
 public class GeoItemArmorRenderer extends GeoArmorRenderer<GeoItemArmor> {
-    public GeoItemArmorRenderer(String a, String b) {
-        super(new GeoItemArmorModel(a, b));
+    public GeoItemArmorRenderer() {
+        super(new GeoItemArmorModel());
+
+        this.headBone = "armorHead";
+        this.bodyBone = null;
+        this.rightArmBone = null;
+        this.leftArmBone = null;
+        this.rightBootBone = null;
+        this.leftBootBone = null;
+        this.rightLegBone = null;
+        this.leftLegBone = null;
     }
 }

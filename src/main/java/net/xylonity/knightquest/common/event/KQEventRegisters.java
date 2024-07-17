@@ -1,7 +1,6 @@
 package net.xylonity.knightquest.common.event;
 
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.PackOutput;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.animal.Animal;
@@ -53,9 +52,8 @@ public class KQEventRegisters {
     @SubscribeEvent
     public static void gatherData(GatherDataEvent event) {
         DataGenerator generator = event.getGenerator();
-        PackOutput packOutput = generator.getPackOutput();
 
-        generator.addProvider(event.includeServer(), new KQGlobalLootModifiersProvider(packOutput));
+        generator.addProvider(event.includeServer(), new KQGlobalLootModifiersProvider(generator, KnightQuest.MOD_ID));
     }
 
 }

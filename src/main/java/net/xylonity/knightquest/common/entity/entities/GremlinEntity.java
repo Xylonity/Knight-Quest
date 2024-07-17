@@ -23,15 +23,19 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.xylonity.knightquest.registry.KnightQuestEntities;
 import net.xylonity.knightquest.registry.KnightQuestParticles;
 import org.jetbrains.annotations.NotNull;
-import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.core.animatable.GeoAnimatable;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.*;
-import software.bernie.geckolib.core.object.PlayState;
-import software.bernie.geckolib.util.GeckoLibUtil;
+import software.bernie.geckolib3.core.AnimationState;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.builder.ILoopType;
+import software.bernie.geckolib3.core.controller.AnimationController;
+import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib3.util.GeckoLibUtil;
 
-public class GremlinEntity extends Monster implements GeoEntity {
-    private AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+public class GremlinEntity extends Monster implements IAnimatable {
+    private final AnimationFactory factory = GeckoLibUtil.createFactory(this);
     private static final EntityDataAccessor<Boolean> INVULNERABLE = SynchedEntityData.defineId(GremlinEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> PHASE = SynchedEntityData.defineId(GremlinEntity.class, EntityDataSerializers.INT);
     private final Level serverWorld;
@@ -88,32 +92,32 @@ public class GremlinEntity extends Monster implements GeoEntity {
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-        controllerRegistrar.add(new AnimationController<>(this, "controller", 0, this::predicate));
-        controllerRegistrar.add(new AnimationController<>(this, "attackcontroller", 0, this::attackPredicate));
+    public void registerControllers(AnimationData animationData) {
+        animationData.addAnimationController(new AnimationController<>(this, "controller", 0, this::predicate));
+        animationData.addAnimationController(new AnimationController<>(this, "attackcontroller", 0, this::attackPredicate));
     }
 
-    private PlayState attackPredicate(AnimationState event) {
+    private <E extends IAnimatable> PlayState attackPredicate(AnimationEvent<E> event) {
 
-        if (this.swinging && event.getController().getAnimationState().equals(AnimationController.State.STOPPED)) {
-            event.getController().forceAnimationReset();
-            event.getController().setAnimation(RawAnimation.begin().then("attack", Animation.LoopType.PLAY_ONCE));
+        if (this.swinging && event.getController().getAnimationState().equals(AnimationState.Stopped)) {
+            event.getController().markNeedsReload();
+            event.getController().setAnimation((new AnimationBuilder()).addAnimation("attack", ILoopType.EDefaultLoopTypes.PLAY_ONCE));
             this.swinging = false;
         }
 
         return PlayState.CONTINUE;
     }
 
-    private <T extends GeoAnimatable> PlayState predicate(AnimationState<T> event) {
+    private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
 
         if (event.isMoving()) {
-            event.getController().setAnimation(RawAnimation.begin().then("walk", Animation.LoopType.LOOP));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("walk", ILoopType.EDefaultLoopTypes.LOOP));
         } else {
-            event.getController().setAnimation(RawAnimation.begin().then("idle", Animation.LoopType.LOOP));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", ILoopType.EDefaultLoopTypes.LOOP));
         }
 
         if (this.isDeadOrDying()) {
-            event.getController().setAnimation(RawAnimation.begin().then("death", Animation.LoopType.LOOP));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("death", ILoopType.EDefaultLoopTypes.LOOP));
         }
 
         return PlayState.CONTINUE;
@@ -125,8 +129,8 @@ public class GremlinEntity extends Monster implements GeoEntity {
         if (this.getHealth() < getMaxHealth() * 0.5) {
 
             if (!this.isHalfHealth) {
-                this.level().addParticle(KnightQuestParticles.GREMLIN_PARTICLE.get(), this.getX(), getY() - 0.48, getZ(), 2d, 0d, 0d);
-                this.level().playSound(null, this.blockPosition(), SoundEvents.EVOKER_PREPARE_SUMMON, SoundSource.HOSTILE, 1.0F, 1.0F);
+                this.getLevel().addParticle(KnightQuestParticles.GREMLIN_PARTICLE.get(), this.getX(), getY() - 0.48, getZ(), 2d, 0d, 0d);
+                this.getLevel().playSound(null, this.blockPosition(), SoundEvents.EVOKER_PREPARE_SUMMON, SoundSource.HOSTILE, 1.0F, 1.0F);
                 this.isHalfHealth = true;
                 spawnShield();
                 setPhase(2);
@@ -145,7 +149,7 @@ public class GremlinEntity extends Monster implements GeoEntity {
         double closestDistance = Double.MAX_VALUE;
         LivingEntity closestShield = null;
 
-        for (LivingEntity entity : level().getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(5))) {
+        for (LivingEntity entity : getLevel().getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(5))) {
             if (entity instanceof ShieldEntity) {
                 double distance = distanceToSqr(entity);
                 if (distance < closestDistance) {
@@ -176,8 +180,8 @@ public class GremlinEntity extends Monster implements GeoEntity {
     }
 
     @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return cache;
+    public AnimationFactory getFactory() {
+        return this.factory;
     }
 
     @Override

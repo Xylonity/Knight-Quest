@@ -12,19 +12,26 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.PolarBear;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
-import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.core.animatable.GeoAnimatable;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.*;
-import software.bernie.geckolib.core.object.PlayState;
-import software.bernie.geckolib.util.GeckoLibUtil;
+import net.minecraftforge.event.ForgeEventFactory;
+import software.bernie.geckolib3.core.AnimationState;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.builder.ILoopType;
+import software.bernie.geckolib3.core.controller.AnimationController;
+import software.bernie.geckolib3.core.easing.EasingType;
+import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib3.util.GeckoLibUtil;
 
 import java.util.Collection;
 
-public class EldBombEntity extends Creeper implements GeoEntity {
-    private AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+public class EldBombEntity extends Creeper implements IAnimatable {
+    private final AnimationFactory factory = GeckoLibUtil.createFactory(this);
     private int oldSwell;
     private int swell;
     private int maxSwell = 30;
@@ -54,14 +61,14 @@ public class EldBombEntity extends Creeper implements GeoEntity {
         this.targetSelector.addGoal(2, new HurtByTargetGoal(this, new Class[0]));
     }
 
-    private <T extends GeoAnimatable> PlayState predicate(AnimationState<T> event) {
+    private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
 
         if (this.swell > 10) {
-            event.getController().setAnimation(RawAnimation.begin().then("sneak", Animation.LoopType.LOOP));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("sneak", ILoopType.EDefaultLoopTypes.LOOP));
         } else if (event.isMoving()) {
-            event.getController().setAnimation(RawAnimation.begin().then("walk", Animation.LoopType.LOOP));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("walk", ILoopType.EDefaultLoopTypes.LOOP));
         } else {
-            event.getController().setAnimation(RawAnimation.begin().then("idle", Animation.LoopType.LOOP));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", ILoopType.EDefaultLoopTypes.LOOP));
         }
 
         return PlayState.CONTINUE;
@@ -98,7 +105,7 @@ public class EldBombEntity extends Creeper implements GeoEntity {
     private void spawnLingeringCloud() {
         Collection<MobEffectInstance> collection = this.getActiveEffects();
         if (!collection.isEmpty()) {
-            AreaEffectCloud areaeffectcloud = new AreaEffectCloud(this.level(), this.getX(), this.getY(), this.getZ());
+            AreaEffectCloud areaeffectcloud = new AreaEffectCloud(this.getLevel(), this.getX(), this.getY(), this.getZ());
             areaeffectcloud.setRadius(1.5F);
             areaeffectcloud.setRadiusOnUse(-0.5F);
             areaeffectcloud.setWaitTime(10);
@@ -109,16 +116,17 @@ public class EldBombEntity extends Creeper implements GeoEntity {
                 areaeffectcloud.addEffect(new MobEffectInstance(mobeffectinstance));
             }
 
-            this.level().addFreshEntity(areaeffectcloud);
+            this.getLevel().addFreshEntity(areaeffectcloud);
         }
 
     }
 
     private void explode() {
-        if (!this.level().isClientSide) {
+        if (!this.getLevel().isClientSide) {
+            Explosion.BlockInteraction explosion$blockinteraction = ForgeEventFactory.getMobGriefingEvent(this.level, this) ? Explosion.BlockInteraction.DESTROY : Explosion.BlockInteraction.NONE;
             float $$0 = this.isPowered() ? 2.5F : 1.0F;
             this.dead = true;
-            this.level().explode(this, this.getX(), this.getY(), this.getZ(), (float)this.explosionRadius * $$0, Level.ExplosionInteraction.MOB);
+            this.getLevel().explode(this, this.getX(), this.getY(), this.getZ(), (float)this.explosionRadius * $$0, explosion$blockinteraction);
             this.spawnLingeringCloud();
             this.discard();
         }
@@ -126,13 +134,13 @@ public class EldBombEntity extends Creeper implements GeoEntity {
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "controller", 1, this::predicate).setOverrideEasingType(EasingType.LINEAR));
+    public void registerControllers(AnimationData animationData) {
+        animationData.addAnimationController(new AnimationController<>(this, "controller", 1, EasingType.Linear, this::predicate));
     }
 
     @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return cache;
+    public AnimationFactory getFactory() {
+        return this.factory;
     }
 
 }

@@ -1,5 +1,5 @@
-// 1.20.1	2024-06-10T04:28:58.3486535	Global Loot Modifiers : knightquest
-ecfe73982bfaf986b69021179d9fb5dfddfa9829 data/forge/loot_modifiers/global_loot_modifiers.json
+// 1.19.2	2024-07-17T14:15:45.9514708	Global Loot Modifiers : knightquest
+4c43b22f674ffb2ccd6293fdafb4294711636c56 data/forge/loot_modifiers/global_loot_modifiers.json
 e455c2d2d3a6b2e6c49d9a45b4ac28eae52805f7 data/knightquest/loot_modifiers/entities/bad_patch_small_essence.json
 77253ec90ef97944de68e34efd24d06cc6c0934b data/knightquest/loot_modifiers/entities/blaze_small_essence.json
 04a6959a4d29c593bec37a22787fb438be10796a data/knightquest/loot_modifiers/entities/cave_spider_small_essence.json
@@ -19,6 +19,7 @@ d4db47234344444412819bcaafaec3f73285572b data/knightquest/loot_modifiers/entitie
 69e4b5fced57f13387e537b062ca8f704803b462 data/knightquest/loot_modifiers/entities/samhain_small_essence.json
 b3da66d4a955b7808a43c16fe3e17931bfb43d91 data/knightquest/loot_modifiers/entities/skeleton_small_essence.json
 d32b4978fd12ea44286b2333cbe3841d9926cd98 data/knightquest/loot_modifiers/entities/slime_small_essence.json
+36cf54e32f23e0ef7522ae368709a70d4d16fae6 data/knightquest/loot_modifiers/entities/spider_small_essence.json
 860ab2f4e217d39e88a7859d184585bf816d352c data/knightquest/loot_modifiers/entities/stray_small_essence.json
 f9fd57a0c465e1142cb71c8a3bd901c7d7834fb4 data/knightquest/loot_modifiers/entities/swampman_small_essence.json
 4b24b9e5a46a509bd12fa57b1b194b1d13d27a4f data/knightquest/loot_modifiers/entities/vex_small_essence.json

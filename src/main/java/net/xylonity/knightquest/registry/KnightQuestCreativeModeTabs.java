@@ -5,8 +5,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 import net.xylonity.knightquest.KnightQuest;
 
 public class KnightQuestCreativeModeTabs {
@@ -14,12 +15,12 @@ public class KnightQuestCreativeModeTabs {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS =
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, KnightQuest.MOD_ID);
 
-    public static final RegistryObject<CreativeModeTab> KNIGHTQUEST_TAB =
+    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> KNIGHTQUEST_TAB =
             CREATIVE_MODE_TABS.register("knightquest_tab",
                     () -> CreativeModeTab.builder()
                             .icon(() -> new ItemStack(KnightQuestItems.PALADIN_SWORD.get()))
                             .title(Component.translatable("itemgroup.knightquest"))
-                            .displayItems((itemDisplayParameters, output) -> {
+                            .displayItems((enabledFeatures, output) -> {
 
                                 output.accept(KnightQuestBlocks.GREAT_CHALICE.get());
 

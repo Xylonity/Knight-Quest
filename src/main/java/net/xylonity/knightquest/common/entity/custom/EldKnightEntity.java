@@ -1,4 +1,4 @@
-package net.xylonity.knightquest.common.entity.entities;
+package net.xylonity.knightquest.common.entity.custom;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -23,9 +23,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.xylonity.knightquest.registry.KnightQuestEntities;
 import net.xylonity.knightquest.registry.KnightQuestParticles;
-import net.xylonity.knightquest.config.values.KQConfigValues;
-import software.bernie.geckolib.animatable.GeoEntity;
+import net.xylonity.knightquest.config.init.KQConfigValues;
 import software.bernie.geckolib.animatable.GeoAnimatable;
+import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.*;
 import software.bernie.geckolib.util.GeckoLibUtil;
@@ -41,13 +41,13 @@ public class EldKnightEntity extends Monster implements GeoEntity {
         serverWorld = world;
     }
 
-    public static AttributeSupplier setAttributes() {
+    public static AttributeSupplier.Builder setAttributes() {
         return Monster.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 90.0D)
                 .add(Attributes.ATTACK_DAMAGE, 12f)
                 .add(Attributes.ATTACK_SPEED, 0.4f)
                 .add(Attributes.MOVEMENT_SPEED, 0.5f)
-                .add(Attributes.KNOCKBACK_RESISTANCE, 0.4f).build();
+                .add(Attributes.KNOCKBACK_RESISTANCE, 0.4f);
     }
 
     @Override
@@ -65,7 +65,7 @@ public class EldKnightEntity extends Monster implements GeoEntity {
         controllerRegistrar.add(new AnimationController<>(this, "attackcontroller", 0, this::attackPredicate));
     }
 
-    private PlayState attackPredicate(AnimationState event) {
+    private PlayState attackPredicate(AnimationState<?> event) {
 
         if (this.swinging && event.getController().getAnimationState().equals(AnimationController.State.STOPPED)) {
             event.getController().forceAnimationReset();
@@ -112,12 +112,6 @@ public class EldKnightEntity extends Monster implements GeoEntity {
         this.playSound(SoundEvents.IRON_GOLEM_STEP, 0.15F, 1.0F);
     }
 
-    /**
-     * Manages actions when the mob's health drops below half of its maximum:
-     * generates minions, pushes nearby players away, and applies poison to players in the vicinity,
-     * visually enhanced with `starset` particles.
-     */
-
     @Override
     public void tick() {
         super.tick();
@@ -143,6 +137,16 @@ public class EldKnightEntity extends Monster implements GeoEntity {
         }
     }
 
+    private void poisonNearbyPlayers() {
+        this.serverWorld.getEntitiesOfClass(Player.class, this.getBoundingBox().inflate(3.5)).forEach(player -> {
+            player.addEffect(new MobEffectInstance(MobEffects.POISON, 200, 1));
+        });
+    }
+
+    private void summonParticle() {
+        serverWorld.addParticle(KnightQuestParticles.STARSET_PARTICLE.get(), this.getX(), getY() - 0.48, getZ(), 4d, 0d, 0d);
+    }
+
     @Override
     public boolean hurt(DamageSource pSource, float pAmount) {
 
@@ -156,11 +160,6 @@ public class EldKnightEntity extends Monster implements GeoEntity {
 
         return super.hurt(pSource, pAmount);
     }
-
-    /**
-     * Manages the second phase of the mob by summoning `NUM_ELDBOMB_ELDKNIGHT` minions
-     * as defined in the common config file value, and pushes players nearby away.
-     */
 
     private void summonMinions() {
         double distance = 3.0;
@@ -216,16 +215,6 @@ public class EldKnightEntity extends Monster implements GeoEntity {
         }
 
         serverWorld.playSound(null, this.blockPosition(), SoundEvents.EVOKER_PREPARE_SUMMON, SoundSource.BLOCKS, 1f, 1f);
-    }
-
-    private void poisonNearbyPlayers() {
-        this.serverWorld.getEntitiesOfClass(Player.class, this.getBoundingBox().inflate(3.5)).forEach(player -> {
-            player.addEffect(new MobEffectInstance(MobEffects.POISON, 200, 1));
-        });
-    }
-
-    private void summonParticle() {
-        serverWorld.addParticle(KnightQuestParticles.STARSET_PARTICLE.get(), this.getX(), getY() - 0.48, getZ(), 4d, 0d, 0d);
     }
 
 }

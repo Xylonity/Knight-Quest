@@ -1,4 +1,4 @@
-package net.xylonity.knightquest.common.entity.entities;
+package net.xylonity.knightquest.common.entity.custom;
 
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -14,8 +14,8 @@ import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
-import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.GeoAnimatable;
+import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.*;
 import software.bernie.geckolib.util.GeckoLibUtil;
@@ -28,17 +28,18 @@ public class EldBombEntity extends Creeper implements GeoEntity {
     private int swell;
     private int maxSwell = 30;
     private int explosionRadius = 3;
+    private int droppedSkulls;
 
     public EldBombEntity(EntityType<? extends Creeper> entityType, Level world) {
         super(entityType, world);
     }
 
-    public static AttributeSupplier setAttributes() {
+    public static AttributeSupplier.Builder setAttributes() {
         return Creeper.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 7.0D)
                 .add(Attributes.ATTACK_DAMAGE, 0.5f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
-                .add(Attributes.MOVEMENT_SPEED, 0.5f).build();
+                .add(Attributes.MOVEMENT_SPEED, 0.5f);
     }
 
     @Override
@@ -125,8 +126,9 @@ public class EldBombEntity extends Creeper implements GeoEntity {
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "controller", 1, this::predicate).setOverrideEasingType(EasingType.LINEAR));
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
+        controllerRegistrar.add(new AnimationController<>(this, "controller", 1, this::predicate).setOverrideEasingType(EasingType.LINEAR));
+
     }
 
     @Override

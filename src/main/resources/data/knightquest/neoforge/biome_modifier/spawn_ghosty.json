@@ -1,15 +1,14 @@
 {
-  "type": "forge:add_spawns",
+  "type": "neoforge:add_spawns",
   "biomes": [
     "minecraft:forest",
     "minecraft:taiga",
-    "minecraft:desert",
     "minecraft:lush_caves",
-    "minecraft:flower_forest"
+    "minecraft:badlands"
   ],
   "spawners": {
-    "type": "knightquest:lizzy",
-    "weight": 2,
+    "type": "knightquest:ghosty",
+    "weight": 15,
     "minCount": 1,
     "maxCount": 1
   }

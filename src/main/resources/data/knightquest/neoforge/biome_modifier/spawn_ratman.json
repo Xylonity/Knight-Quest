@@ -1,10 +1,11 @@
 {
-  "type": "forge:add_spawns",
+  "type": "neoforge:add_spawns",
   "biomes": [
     "minecraft:desert",
     "minecraft:dripstone_caves",
     "minecraft:lush_caves",
-    "minecraft:jungle"
+    "minecraft:jungle",
+    "minecraft:badlands"
   ],
   "spawners": {
     "type": "knightquest:ratman",

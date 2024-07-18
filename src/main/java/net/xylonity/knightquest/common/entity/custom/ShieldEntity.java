@@ -1,4 +1,4 @@
-package net.xylonity.knightquest.common.entity.entities;
+package net.xylonity.knightquest.common.entity.custom;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
@@ -11,6 +11,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
@@ -18,12 +19,15 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.*;
+import software.bernie.geckolib.animation.AnimatableManager;
+import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animation.AnimationState;
+import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.Objects;
@@ -40,13 +44,13 @@ public class ShieldEntity extends Monster implements GeoEntity {
         this.serverWorld = world;
     }
 
-    public static AttributeSupplier setAttributes() {
+    public static AttributeSupplier.Builder setAttributes() {
         return Monster.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 1.0D)
                 .add(Attributes.ATTACK_DAMAGE, 5f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
                 .add(Attributes.MOVEMENT_SPEED, 0.63f)
-                .add(Attributes.FOLLOW_RANGE, 35.0).build();
+                .add(Attributes.FOLLOW_RANGE, 35.0);
     }
 
     @Override
@@ -62,18 +66,16 @@ public class ShieldEntity extends Monster implements GeoEntity {
     public boolean hurt(DamageSource pSource, float pAmount) {
         serverWorld.addParticle(ParticleTypes.EXPLOSION, this.getX(), this.getY() + 0.5, this.getZ(), 1.2d, 0d, 0d);
         level().playSound(null, this.blockPosition(), SoundEvents.VEX_HURT, SoundSource.HOSTILE, 1.0F, 1.0F);
-
         serverWorld.getEntitiesOfClass(Player.class, this.getBoundingBox().inflate(3)).forEach(player -> {
             Vec3 direction = player.position().subtract(this.position()).normalize().scale(0.4);
             player.push(direction.x, direction.y + 0.5, direction.z);
         });
-
         this.remove(RemovalReason.KILLED);
         return false;
     }
 
     @Override
-    protected InteractionResult mobInteract(Player pPlayer, InteractionHand pHand) {
+    protected @NotNull InteractionResult mobInteract(Player pPlayer, InteractionHand pHand) {
         return super.mobInteract(pPlayer, pHand);
     }
 
@@ -82,14 +84,13 @@ public class ShieldEntity extends Monster implements GeoEntity {
         return false;
     }
 
-
     @Override
     public void tick() {
         super.tick();
 
-        GremlinEntity owner = findClosestGremlin();
+        LivingEntity owner = findClosestGremlin();
 
-        if (owner == null || owner.isDeadOrDying() || owner.getPhase() == 1) {
+        if (owner == null || owner.isDeadOrDying()) {
             this.remove(RemovalReason.KILLED);
             return;
         }
@@ -116,28 +117,46 @@ public class ShieldEntity extends Monster implements GeoEntity {
         }
     }
 
-    @Override protected void pushEntities() {}
-    @Override public void push(Entity pEntity) {}
-    @Override public boolean isOnFire() {
-        return false;
-    }
-    @Override public boolean isInLava() {
-        return false;
-    }
-    @Override public boolean isInWater() {
-        return false;
-    }
-    @Override public boolean isInWall() {
-        return false;
-    }
-    @Override protected void spawnSprintParticle() {}
+    @Override
+    protected void pushEntities() {
 
+    }
 
-    private GremlinEntity findClosestGremlin() {
+    @Override
+    public void push(Entity pEntity) {
+
+    }
+
+    @Override
+    public boolean isOnFire() {
+        return false;
+    }
+
+    @Override
+    public boolean isInLava() {
+        return false;
+    }
+
+    @Override
+    public boolean isInWater() {
+        return false;
+    }
+
+    @Override
+    public boolean isInWall() {
+        return false;
+    }
+
+    @Override
+    protected void spawnSprintParticle() {
+
+    }
+
+    private LivingEntity findClosestGremlin() {
         double closestDistance = Double.MAX_VALUE;
-        GremlinEntity closestGremlin = null;
+        LivingEntity closestGremlin = null;
 
-        for (GremlinEntity entity : level().getEntitiesOfClass(GremlinEntity.class, getBoundingBox().inflate(RADIUS * 2))) {
+        for (LivingEntity entity : level().getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(RADIUS * 2))) {
             if (entity instanceof GremlinEntity) {
                 double distance = distanceToSqr(entity);
                 if (distance < closestDistance) {
@@ -150,25 +169,53 @@ public class ShieldEntity extends Monster implements GeoEntity {
         return closestGremlin;
     }
 
-    @Override public AnimatableInstanceCache getAnimatableInstanceCache() {
+    @Override
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
         return cache;
     }
-    @Override protected SoundEvent getSwimSound() {
+
+    @Override
+    protected SoundEvent getSwimSound() {
         return null;
     }
-    @Override protected SoundEvent getDeathSound() {
+
+    @Override
+    protected SoundEvent getDeathSound() {
         return null;
     }
-    @Override public void playSound(SoundEvent pSound) {}
-    @Override public void playSound(SoundEvent pSound, float pVolume, float pPitch) {}
-    @Override public boolean isNoGravity() {
+
+    @Override
+    public void playSound(SoundEvent pSound) {
+
+    }
+
+    @Override
+    public void playSound(SoundEvent pSound, float pVolume, float pPitch) {
+
+    }
+
+    @Override
+    public boolean isNoGravity() {
         return true;
     }
-    @Nullable @Override protected SoundEvent getAmbientSound() {
+
+    @Nullable
+    @Override
+    protected SoundEvent getAmbientSound() {
         return null;
     }
-    @Override protected void playHurtSound(DamageSource pSource) { ;; }
-    @Override protected SoundEvent getHurtSound(DamageSource pDamageSource) { return null; }
-    @Override protected void playStepSound(BlockPos pPos, BlockState pState) { ;; }
+
+    @Override
+    protected void playHurtSound(DamageSource pSource) {
+    }
+
+    @Override
+    protected SoundEvent getHurtSound(DamageSource pDamageSource) {
+        return null;
+    }
+
+    @Override
+    protected void playStepSound(BlockPos pPos, BlockState pState) {
+    }
 
 }

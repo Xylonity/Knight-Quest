@@ -6,7 +6,6 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.component.Tool;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.xylonity.knightquest.registry.KnightQuestItems;
 
@@ -72,5 +71,4 @@ public enum KQItemMaterials implements Tier {
     public Tool createToolProperties(TagKey<Block> pBlock) {
         return Tier.super.createToolProperties(pBlock);
     }
-
 }

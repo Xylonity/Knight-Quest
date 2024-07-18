@@ -1,4 +1,4 @@
-package net.xylonity.knightquest.common.entity.entities;
+package net.xylonity.knightquest.common.entity.custom;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -14,7 +14,9 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
@@ -26,18 +28,19 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.event.ForgeEventFactory;
+import net.neoforged.neoforge.event.EventHooks;
 import net.xylonity.knightquest.registry.KnightQuestItems;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.GeoAnimatable;
+import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.*;
-import software.bernie.geckolib.animation.AnimationState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-import java.util.*;
+import java.util.EnumSet;
+import java.util.Optional;
+import java.util.Random;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 public class SamhainEntity extends TamableAnimal implements GeoEntity {
@@ -51,12 +54,12 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
         super(pEntityType, pLevel);
     }
 
-    public static AttributeSupplier setAttributes() {
+    public static AttributeSupplier.Builder setAttributes() {
         return TamableAnimal.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 12.0D)
                 .add(Attributes.ATTACK_DAMAGE, 0.5f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
-                .add(Attributes.MOVEMENT_SPEED, 0.6f).build();
+                .add(Attributes.MOVEMENT_SPEED, 0.6f);
     }
 
     @Override
@@ -126,7 +129,7 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
                     itemstack.shrink(1);
                 }
 
-                if (!ForgeEventFactory.onAnimalTame(this, player)) {
+                if (!EventHooks.onAnimalTame(this, player)) {
                     if (!this.level().isClientSide) {
                         super.tame(player);
                         this.navigation.recomputePath();
@@ -178,7 +181,7 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
     }
 
     @Override
-    public void readAdditionalSaveData(@NotNull CompoundTag tag) {
+    public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         setSitting(tag.getBoolean("isSitting"));
         this.entityData.set(ARMOR_SLOT, ItemStack.parseOptional(new HolderLookup.Provider() {
@@ -195,7 +198,7 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
     }
 
     @Override
-    public boolean isFood(@NotNull ItemStack pStack) {
+    public boolean isFood(ItemStack itemStack) {
         return false;
     }
 
@@ -219,10 +222,10 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
-        super.defineSynchedData(pBuilder);
-        pBuilder.define(SITTING, false);
-        pBuilder.define(ARMOR_SLOT, ItemStack.EMPTY);
+    protected void defineSynchedData(SynchedEntityData.Builder p_329630_) {
+        super.defineSynchedData(p_329630_);
+        p_329630_.define(SITTING, false);
+        p_329630_.define(ARMOR_SLOT, ItemStack.EMPTY);
     }
 
     public void equipArmor(ItemStack itemStack) {
@@ -241,22 +244,19 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
 
     public void removeArmor(Player pPlayer) {
         ItemStack armorStack = this.entityData.get(ARMOR_SLOT);
-
         if (!armorStack.isEmpty()) {
             if (!pPlayer.getInventory().add(armorStack)) {
                 this.spawnAtLocation(armorStack);
             }
-
             this.entityData.set(ARMOR_SLOT, ItemStack.EMPTY);
         }
-
-        Objects.requireNonNull(this.getAttribute(Attributes.ARMOR)).setBaseValue(0.0);
+        this.getAttribute(Attributes.ARMOR).setBaseValue(0.0);
         this.entityData.set(ARMOR_SLOT, ItemStack.EMPTY);
     }
 
     @Override
-    protected void dropCustomDeathLoot(@NotNull ServerLevel pLevel, @NotNull DamageSource pSource, boolean pBool) {
-        super.dropCustomDeathLoot(pLevel, pSource, pBool);
+    protected void dropCustomDeathLoot(ServerLevel p_345102_, DamageSource p_21385_, boolean p_21387_) {
+        super.dropCustomDeathLoot(p_345102_, p_21385_, p_21387_);
         ItemStack armorStack = this.entityData.get(ARMOR_SLOT);
         if (!armorStack.isEmpty()) {
             this.spawnAtLocation(armorStack);
@@ -277,16 +277,16 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
     }
 
     @Override
-    public void setTame(boolean pBool1, boolean pBool2) {
-        super.setTame(pBool1, pBool2);
-        if (pBool1) {
-            Objects.requireNonNull(getAttribute(Attributes.MAX_HEALTH)).setBaseValue(25.0D);
-            Objects.requireNonNull(getAttribute(Attributes.ATTACK_DAMAGE)).setBaseValue(4D);
-            Objects.requireNonNull(getAttribute(Attributes.MOVEMENT_SPEED)).setBaseValue(0.5f);
+    public void setTame(boolean p_21836_, boolean p_332364_) {
+        super.setTame(p_21836_, p_332364_);
+        if (p_21836_) {
+            getAttribute(Attributes.MAX_HEALTH).setBaseValue(25.0D);
+            getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(4D);
+            getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue((double)0.5f);
         } else {
-            Objects.requireNonNull(getAttribute(Attributes.MAX_HEALTH)).setBaseValue(30.0D);
-            Objects.requireNonNull(getAttribute(Attributes.ATTACK_DAMAGE)).setBaseValue(4D);
-            Objects.requireNonNull(getAttribute(Attributes.MOVEMENT_SPEED)).setBaseValue(0.25f);
+            getAttribute(Attributes.MAX_HEALTH).setBaseValue(30.0D);
+            getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(4D);
+            getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue((double)0.25f);
         }
     }
 
@@ -332,7 +332,7 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
         public MoveToPumpkinGoal(SamhainEntity entity, double speed) {
             this.entity = entity;
             this.speed = speed;
-            this.setFlags(EnumSet.of(Goal.Flag.MOVE));
+            this.setFlags(EnumSet.of(Flag.MOVE));
         }
 
         @Override

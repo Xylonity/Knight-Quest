@@ -182,5 +182,4 @@ public class ChaliceBlock extends Block {
         super.animateTick(pState, pLevel, pPos, pRandom);
     }
 
-
 }

@@ -3,7 +3,7 @@ package net.xylonity.knightquest.common.entity.client;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.xylonity.knightquest.KnightQuest;
-import net.xylonity.knightquest.common.entity.entities.GremlinEntity;
+import net.xylonity.knightquest.common.entity.custom.GremlinEntity;
 import software.bernie.geckolib.animation.AnimationState;
 import software.bernie.geckolib.cache.object.GeoBone;
 import software.bernie.geckolib.constant.DataTickets;

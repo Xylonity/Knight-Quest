@@ -21,19 +21,17 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.event.entity.EntityJoinLevelEvent;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
-import net.minecraftforge.event.entity.living.LivingEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.common.Mod;
-import net.xylonity.knightquest.KnightQuest;
-import net.xylonity.knightquest.common.material.KQArmorMaterials;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
+import net.neoforged.neoforge.event.entity.living.LivingEntityUseItemEvent;
+import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
+import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.xylonity.knightquest.registry.KnightQuestItems;
+import net.xylonity.knightquest.common.material.KQArmorMaterials;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -60,7 +58,7 @@ public class KQArmorItem extends ArmorItem {
      */
 
     @Override
-    public void appendHoverText(ItemStack pStack, TooltipContext pContext, List<Component> pTooltipComponents, TooltipFlag pTooltipFlag) {
+    public void appendHoverText(@NotNull ItemStack pStack, @NotNull TooltipContext pContext, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pTooltipFlag) {
         if (!Objects.equals(bonusTooltip, "knightquest.chainmail") && !Objects.equals(bonusTooltip, "knightquest.tengu")) {
             pTooltipComponents.add(Component.translatable("tooltip.item.knightquest.full_set_bonus"));
             pTooltipComponents.add(Component.translatable("tooltip.item." + bonusTooltip + "_helmet.bonus"));
@@ -99,8 +97,9 @@ public class KQArmorItem extends ArmorItem {
     private static final Map<UUID, Map<Holder<ArmorMaterial>, Boolean>> effectAppliedByArmorMap = new HashMap<>();
 
     @Override
-    public void onInventoryTick(ItemStack stack, @NotNull Level level, Player player, int slotIndex, int selectedIndex) {
-        if(!level.isClientSide()) {
+    public void inventoryTick(@NotNull ItemStack pStack, Level level, @NotNull Entity pEntity, int pSlotId, boolean pIsSelected) {
+
+        if(!level.isClientSide() && pEntity instanceof Player player) {
 
             UUID playerUUID = player.getUUID();
 
@@ -250,7 +249,7 @@ public class KQArmorItem extends ArmorItem {
 
         }
 
-        super.onInventoryTick(stack, level, player, slotIndex, selectedIndex);
+        super.inventoryTick(pStack, level, pEntity, pSlotId, pIsSelected);
     }
 
     private static boolean hasFullSetOn(Player player, Holder<ArmorMaterial> material) {
@@ -280,11 +279,10 @@ public class KQArmorItem extends ArmorItem {
         return !level.getBlockState(pos.below()).isAir() && level.getBlockState(pos).isAir() && level.getBlockState(pos.above()).isAir();
     }
 
-    @Mod.EventBusSubscriber(modid = KnightQuest.MOD_ID)
-    public class ArmorStatusManagerEvents {
+    public static class ArmorStatusManagerEvents {
 
         @SubscribeEvent
-        public static void onLivingHurt(LivingHurtEvent event) {
+        public static void onLivingHurt(LivingIncomingDamageEvent event) {
 
             // Victim: Player (Source ~-> Attacker)
 
@@ -415,7 +413,7 @@ public class KQArmorItem extends ArmorItem {
 
             // Attacker: Player
 
-            if (event.getSource().getEntity() instanceof Player player && event.getEntity() != null) {
+            if (event.getSource().getEntity() instanceof Player player) {
 
                 if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.SILVERSET) && player.level().isNight()) {
                     Random random = new Random();
@@ -448,7 +446,7 @@ public class KQArmorItem extends ArmorItem {
 
         @SubscribeEvent
         public static void onLivingDead(LivingDeathEvent event) {
-            if (event.getEntity() != null && event.getSource().getEntity() instanceof Player player) {
+            if (event.getSource().getEntity() instanceof Player player) {
 
                 if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.CONQUISTADORSET)) {
                     player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 200, 1, false, true, true));
@@ -462,15 +460,23 @@ public class KQArmorItem extends ArmorItem {
         }
 
         @SubscribeEvent
-        public static void onLivingTick(LivingEvent.LivingTickEvent event) {
+        public static void onArrowHit(EntityJoinLevelEvent event) {
+            if (event.getEntity() instanceof AbstractArrow arrow) {
+                if (arrow.getOwner() instanceof Player player && KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.SKELETONSET)) {
+                    arrow.setPierceLevel((byte) 2);
+                }
+            }
+        }
+
+        @SubscribeEvent
+        public static void onLivingTick(EntityTickEvent.Post event) {
             if (event.getEntity() instanceof Player player) {
                 ItemStack helmet = player.getInventory().getArmor(3);
                 if (helmet.getItem().equals(KnightQuestItems.TENGU_HELMET.get())) {
                     boolean canDoubleJump = doubleJumpStates.getOrDefault(player.getUUID(), true);
 
-                    if (!player.onGround() && player.getDeltaMovement().y < 0 && canDoubleJump) {
-                        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> handleClientSideDoubleJump(player));
-                    }
+                    if (!player.onGround() && player.getDeltaMovement().y < 0 && canDoubleJump)
+                        if (FMLEnvironment.dist == Dist.CLIENT) handleClientSideDoubleJump(player);
 
                     if (player.onGround())
                         doubleJumpStates.put(player.getUUID(), true);
@@ -478,7 +484,7 @@ public class KQArmorItem extends ArmorItem {
 
                 if (hasFullSetOn(player, KQArmorMaterials.HUSKSET) && (player.level().getBiome(new BlockPos((int) player.getX(), (int) player.getY(), (int) player.getZ())).is(Biomes.DESERT)
                         || player.level().getBiome(new BlockPos((int) player.getX(), (int) player.getY(), (int) player.getZ())).is(Biomes.BADLANDS)
-                            || player.level().getBiome(new BlockPos((int) player.getX(), (int) player.getY(), (int) player.getZ())).is(Biomes.BEACH))) {
+                        || player.level().getBiome(new BlockPos((int) player.getX(), (int) player.getY(), (int) player.getZ())).is(Biomes.BEACH))) {
                     if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(player.getUUID(), k -> new HashMap<>()).getOrDefault(KQArmorMaterials.HUSKSET, false))) {
                         player.addEffect(HUSK_ARMOR);
                         effectAppliedByArmorMap.get(player.getUUID()).put(KQArmorMaterials.HUSKSET, true);
@@ -492,7 +498,7 @@ public class KQArmorItem extends ArmorItem {
 
                 if (hasFullSetOn(player, KQArmorMaterials.BAMBOOSET_BLUE) && (player.level().getBiome(new BlockPos((int) player.getX(), (int) player.getY(), (int) player.getZ())).is(Biomes.JUNGLE)
                         || player.level().getBiome(new BlockPos((int) player.getX(), (int) player.getY(), (int) player.getZ())).is(Biomes.BAMBOO_JUNGLE)
-                            || player.level().getBiome(new BlockPos((int) player.getX(), (int) player.getY(), (int) player.getZ())).is(Biomes.SPARSE_JUNGLE))) {
+                        || player.level().getBiome(new BlockPos((int) player.getX(), (int) player.getY(), (int) player.getZ())).is(Biomes.SPARSE_JUNGLE))) {
                     if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(player.getUUID(), k -> new HashMap<>()).getOrDefault(KQArmorMaterials.BAMBOOSET_BLUE, false))) {
                         player.addEffect(BAMBOO_BLUE);
                         effectAppliedByArmorMap.get(player.getUUID()).put(KQArmorMaterials.BAMBOOSET_BLUE, true);
@@ -532,15 +538,6 @@ public class KQArmorItem extends ArmorItem {
                     }
                 }
 
-            }
-        }
-
-        @SubscribeEvent
-        public static void onArrowHit(EntityJoinLevelEvent event) {
-            if (event.getEntity() instanceof AbstractArrow arrow) {
-                if (arrow.getOwner() instanceof Player player && KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.SKELETONSET)) {
-                    arrow.setPierceLevel((byte) 2);
-                }
             }
         }
 

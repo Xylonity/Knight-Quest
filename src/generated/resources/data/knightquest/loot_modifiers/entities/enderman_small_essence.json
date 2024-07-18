@@ -1,9 +1,9 @@
 {
   "type": "knightquest:add_item",
-  "chance": 0.5,
+  "chance": 1.0,
   "conditions": [
     {
-      "condition": "forge:loot_table_id",
+      "condition": "neoforge:loot_table_id",
       "loot_table_id": "minecraft:entities/enderman"
     }
   ],

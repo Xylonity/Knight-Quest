@@ -5,7 +5,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.xylonity.knightquest.KnightQuest;
-import net.xylonity.knightquest.common.entity.entities.GremlinEntity;
+import net.xylonity.knightquest.common.entity.custom.GremlinEntity;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 import software.bernie.geckolib.renderer.layer.AutoGlowingGeoLayer;
 

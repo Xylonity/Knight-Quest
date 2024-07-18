@@ -5,7 +5,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.xylonity.knightquest.KnightQuest;
-import net.xylonity.knightquest.common.entity.entities.LizzyEntity;
+import net.xylonity.knightquest.common.entity.custom.LizzyEntity;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 
 public class LizzyRenderer extends GeoEntityRenderer<LizzyEntity> {

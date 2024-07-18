@@ -5,17 +5,16 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
-import net.minecraftforge.common.data.GlobalLootModifierProvider;
-import net.minecraftforge.common.loot.LootTableIdCondition;
+import net.neoforged.neoforge.common.data.GlobalLootModifierProvider;
+import net.neoforged.neoforge.common.loot.LootTableIdCondition;
 import net.xylonity.knightquest.registry.KnightQuestItems;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.CompletableFuture;
 
 public class KQGlobalLootModifiersProvider extends GlobalLootModifierProvider {
 
-    public KQGlobalLootModifiersProvider(PackOutput output, String modid, CompletableFuture<HolderLookup.Provider> registries) {
-        super(output, modid, registries);
+    public KQGlobalLootModifiersProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries, String modid) {
+        super(output, registries, modid);
     }
 
     /**
@@ -24,7 +23,6 @@ public class KQGlobalLootModifiersProvider extends GlobalLootModifierProvider {
 
     private static final ResourceLocation[] MOB_IDS = {
             ResourceLocation.fromNamespaceAndPath("minecraft", "entities/creeper"),
-            ResourceLocation.fromNamespaceAndPath("minecraft", "entities/spider"),
             ResourceLocation.fromNamespaceAndPath("minecraft", "entities/skeleton"),
             ResourceLocation.fromNamespaceAndPath("minecraft", "entities/zombie"),
             ResourceLocation.fromNamespaceAndPath("minecraft", "entities/cave_spider"),
@@ -37,6 +35,7 @@ public class KQGlobalLootModifiersProvider extends GlobalLootModifierProvider {
             ResourceLocation.fromNamespaceAndPath("minecraft", "entities/stray"),
             ResourceLocation.fromNamespaceAndPath("minecraft", "entities/vex"),
             ResourceLocation.fromNamespaceAndPath("minecraft", "entities/drowned"),
+            ResourceLocation.fromNamespaceAndPath("minecraft", "entities/spider"),
             ResourceLocation.fromNamespaceAndPath("knightquest", "entities/gremlin"),
             ResourceLocation.fromNamespaceAndPath("knightquest", "entities/eldknight"),
             ResourceLocation.fromNamespaceAndPath("knightquest", "entities/samhain"),
@@ -51,22 +50,20 @@ public class KQGlobalLootModifiersProvider extends GlobalLootModifierProvider {
     private static final ResourceLocation LIZZY_ID = ResourceLocation.fromNamespaceAndPath("knightquest", "entities/lizzy");
 
     @Override
-    protected void start(HolderLookup.@NotNull Provider registries) {
-
+    protected void start() {
         for (ResourceLocation mobId : MOB_IDS) {
             add(mobId.getPath() + "_small_essence", new KQAddItemModifier(new LootItemCondition[]{
                     new LootTableIdCondition.Builder(mobId).build(),
-            }, new ItemStack(KnightQuestItems.SMALL_ESSENCE.get()).getItem(), 0.5F));
+            }, new ItemStack(KnightQuestItems.SMALL_ESSENCE.get()).getItem(), 1F));
         }
 
         add(RATMAN_ID.getPath() + "_ratman_eye", new KQAddItemModifier(new LootItemCondition[]{
                 new LootTableIdCondition.Builder(RATMAN_ID).build()
-        }, new ItemStack(KnightQuestItems.RATMAN_EYE.get()).getItem(), 0.5F));
+        }, new ItemStack(KnightQuestItems.RATMAN_EYE.get()).getItem(), 1F));
 
         add(LIZZY_ID.getPath() + "_lizzy_scale", new KQAddItemModifier(new LootItemCondition[]{
                 new LootTableIdCondition.Builder(LIZZY_ID).build()
-        }, new ItemStack(KnightQuestItems.LIZZY_SCALE.get()).getItem(), 0.5F));
-
+        }, new ItemStack(KnightQuestItems.LIZZY_SCALE.get()).getItem(), 1F));
     }
 
 }

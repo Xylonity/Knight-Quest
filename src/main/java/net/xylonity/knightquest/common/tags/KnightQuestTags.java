@@ -8,7 +8,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.xylonity.knightquest.KnightQuest;
 
-public class KQTags {
+public class KnightQuestTags {
     public static class Blocks {
         public static final TagKey<Block> KNIGHTQUEST_TOOLS = tag("knightquest_tools");
 

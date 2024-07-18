@@ -1,4 +1,4 @@
-package net.xylonity.knightquest.common.entity.entities;
+package net.xylonity.knightquest.common.entity.custom;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -18,35 +18,31 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.*;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class MommaLizzyEntity extends Animal implements GeoEntity {
+public class LizzyEntity extends Animal implements GeoEntity {
     private AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
-    private boolean condicion = false;
-    private int a  = 1;
 
-    public MommaLizzyEntity(EntityType<? extends Animal> entityType, Level world) {
+    public LizzyEntity(EntityType<? extends Animal> entityType, Level world) {
         super(entityType, world);
     }
 
     @Override
-    public boolean isFood(ItemStack pStack) {
+    public boolean isFood(ItemStack itemStack) {
         return false;
     }
 
-    public static AttributeSupplier setAttributes() {
+    public static AttributeSupplier.Builder setAttributes() {
         return Animal.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 10.0D)
                 .add(Attributes.ATTACK_DAMAGE, 0.5f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
-                .add(Attributes.MOVEMENT_SPEED, 0.6f).build();
+                .add(Attributes.MOVEMENT_SPEED, 0.6f);
     }
-
 
     @Override
     protected void registerGoals() {
@@ -63,24 +59,18 @@ public class MommaLizzyEntity extends Animal implements GeoEntity {
         controllerRegistrar.add(new AnimationController<>(this, "controller", 0, this::predicate));
     }
 
-   private boolean isPlayerNearby() {
-       return this.level().getEntitiesOfClass(Player.class, this.getBoundingBox().inflate(2.0D)).stream()
-               .anyMatch(player -> !player.isShiftKeyDown() && player.distanceToSqr(this) <= 4.0D);
-   }
-
-    @Override
-    public void tick() {
-        super.tick();
-
-    }
-
     private <T extends GeoAnimatable> PlayState predicate(AnimationState<T> event) {
+
         if (this.isSwimming()) {
             event.getController().setAnimation(RawAnimation.begin().then("swim", Animation.LoopType.LOOP));
         } else if (event.isMoving()) {
             event.getController().setAnimation(RawAnimation.begin().then("walk", Animation.LoopType.LOOP));
         } else {
             event.getController().setAnimation(RawAnimation.begin().then("idle", Animation.LoopType.LOOP));
+        }
+
+        if (this.dead) {
+            event.getController().setAnimation(RawAnimation.begin().then("death", Animation.LoopType.LOOP));
         }
 
         return PlayState.CONTINUE;
@@ -92,7 +82,6 @@ public class MommaLizzyEntity extends Animal implements GeoEntity {
     }
 
     @Override
-
     protected SoundEvent getSwimSound() {
         return SoundEvents.AXOLOTL_SWIM;
     }

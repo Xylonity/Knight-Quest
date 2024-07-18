@@ -4,9 +4,10 @@ import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.core.Holder;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.xylonity.knightquest.common.item.KQArmorItem;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -23,7 +24,6 @@ public class GeoItemArmor extends KQArmorItem implements GeoItem {
     private final AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
     private final String a;
     private final String b;
-
 
     public GeoItemArmor(Holder<ArmorMaterial> material, Type type, Properties properties, String a, String b) {
         super(material, type, properties);
@@ -61,4 +61,3 @@ public class GeoItemArmor extends KQArmorItem implements GeoItem {
         return this.cache;
     }
 }
-

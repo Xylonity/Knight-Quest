@@ -6,14 +6,11 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.event.level.BlockEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.xylonity.knightquest.KnightQuest;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.level.BlockEvent;
+import net.xylonity.knightquest.common.entity.custom.SamhainEntity;
 import net.xylonity.knightquest.registry.KnightQuestEntities;
-import net.xylonity.knightquest.common.entity.entities.SamhainEntity;
 
-@Mod.EventBusSubscriber(modid = KnightQuest.MOD_ID)
 public class KQExtraEvents {
 
     /**
@@ -36,5 +33,4 @@ public class KQExtraEvents {
             level.addFreshEntity(samhain);
         }
     }
-
 }

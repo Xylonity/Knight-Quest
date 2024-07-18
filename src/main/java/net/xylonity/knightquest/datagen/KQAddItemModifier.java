@@ -25,7 +25,7 @@ public class KQAddItemModifier extends LootModifier {
                     .apply(inst, KQAddItemModifier::new)));
 
     private final Item item;
-    private float chance;
+    private final float chance;
 
     public KQAddItemModifier(LootItemCondition[] conditionsIn, Item item, float chance) {
         super(conditionsIn);

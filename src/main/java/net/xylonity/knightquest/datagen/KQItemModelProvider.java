@@ -10,7 +10,5 @@ public class KQItemModelProvider extends ItemModelProvider {
     }
 
     @Override
-    protected void registerModels() {
-        //withExistingParent(KnightQuestItems.GREMLIN_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));
-    }
+    protected void registerModels() { ;; }
 }

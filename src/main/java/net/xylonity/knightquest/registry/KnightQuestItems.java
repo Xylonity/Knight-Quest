@@ -1,6 +1,8 @@
 package net.xylonity.knightquest.registry;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ForgeSpawnEggItem;
@@ -21,6 +23,18 @@ import java.util.List;
 public class KnightQuestItems {
 
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, KnightQuest.MOD_ID);
+
+    private static RegistryObject<Item> registerGeoArmorItem(String name, KQArmorMaterials material, ArmorItem.Type type) {
+        return ITEMS.register(name, () -> new GeoItemArmor(material, type, new Item.Properties(), name));
+    }
+
+    private static RegistryObject<Item> registerArmorItem(String name, KQArmorMaterials material, ArmorItem.Type type) {
+        return ITEMS.register(name, () -> new KQArmorItem(material, type, new Item.Properties()));
+    }
+
+    private static <X extends Mob> RegistryObject<Item> registerSpawnEggItem(String name, RegistryObject<EntityType<X>> entity, int backgroundColor, int highlightColor) {
+        return ITEMS.register(name, () -> new ForgeSpawnEggItem(entity, backgroundColor, highlightColor, new Item.Properties()));
+    }
 
     public static final RegistryObject<Item> GREAT_ESSENCE = ITEMS.register("great_essence", () -> new KQItem(new Item.Properties(), "great_essence"));
     public static final RegistryObject<Item> SMALL_ESSENCE = ITEMS.register("small_essence", () -> new KQItem(new Item.Properties(), "small_essence"));
@@ -61,454 +75,228 @@ public class KnightQuestItems {
     public static final RegistryObject<Item> STEEL_AXE = ITEMS.register("steel_axe",
             () -> new AxeItem(KQItemMaterials.STEEL_AXE, 4, -2.8f, new Item.Properties()));
 
-    public static final RegistryObject<Item> APPLE_HELMET = ITEMS.register("apple_helmet",
-            () ->  new GeoItemArmor(KQArmorMaterials.APPLE_SET, ArmorItem.Type.HELMET,new Item.Properties()
-                    , "textures/armor/apple_helmet.png", "geo/apple_helmet.geo.json"));
-    public static final RegistryObject<Item> APPLE_CHESTPLATE = ITEMS.register("apple_chestplate",
-            () ->  new KQArmorItem(KQArmorMaterials.APPLE_SET, ArmorItem.Type.CHESTPLATE, new Item.Properties()));
-    public static final RegistryObject<Item> APPLE_LEGGINGS = ITEMS.register("apple_leggings",
-            () ->  new KQArmorItem(KQArmorMaterials.APPLE_SET, ArmorItem.Type.LEGGINGS,new Item.Properties()));
-    public static final RegistryObject<Item> APPLE_BOOTS = ITEMS.register("apple_boots",
-            () ->  new KQArmorItem(KQArmorMaterials.APPLE_SET, ArmorItem.Type.BOOTS, new Item.Properties()));
+    public static final RegistryObject<Item> APPLE_HELMET = registerGeoArmorItem("apple_helmet", KQArmorMaterials.APPLE_SET, ArmorItem.Type.HELMET);
+    public static final RegistryObject<Item> APPLE_CHESTPLATE = registerArmorItem("apple_chestplate", KQArmorMaterials.APPLE_SET, ArmorItem.Type.CHESTPLATE);
+    public static final RegistryObject<Item> APPLE_LEGGINGS = registerArmorItem("apple_leggings", KQArmorMaterials.APPLE_SET, ArmorItem.Type.LEGGINGS);
+    public static final RegistryObject<Item> APPLE_BOOTS = registerArmorItem("apple_boots", KQArmorMaterials.APPLE_SET, ArmorItem.Type.BOOTS);
 
-    public static final RegistryObject<Item> BAMBOO_BLUE_HELMET = ITEMS.register("bamboo_blue_helmet",
-            () -> new GeoItemArmor(KQArmorMaterials.BAMBOOSET_BLUE, ArmorItem.Type.HELMET, new Item.Properties()
-                    , "textures/armor/bamboo_blue_helmet.png", "geo/bambooblue_helmet.geo.json"));
-    public static final RegistryObject<Item> BAMBOO_BLUE_CHESTPLATE = ITEMS.register("bamboo_blue_chestplate",
-            () ->  new KQArmorItem(KQArmorMaterials.BAMBOOSET_BLUE, ArmorItem.Type.CHESTPLATE, new Item.Properties()));
-    public static final RegistryObject<Item> BAMBOO_BLUE_LEGGINGS = ITEMS.register("bamboo_blue_leggings",
-            () ->  new KQArmorItem(KQArmorMaterials.BAMBOOSET_BLUE, ArmorItem.Type.LEGGINGS, new Item.Properties()));
-    public static final RegistryObject<Item> BAMBOO_BLUE_BOOTS = ITEMS.register("bamboo_blue_boots",
-            () ->  new KQArmorItem(KQArmorMaterials.BAMBOOSET_BLUE, ArmorItem.Type.BOOTS,new Item.Properties()));
+    public static final RegistryObject<Item> BAMBOO_BLUE_HELMET = registerGeoArmorItem("bamboo_blue_helmet", KQArmorMaterials.BAMBOOSET_BLUE, ArmorItem.Type.HELMET);
+    public static final RegistryObject<Item> BAMBOO_BLUE_CHESTPLATE = registerArmorItem("bamboo_blue_chestplate", KQArmorMaterials.BAMBOOSET_BLUE, ArmorItem.Type.CHESTPLATE);
+    public static final RegistryObject<Item> BAMBOO_BLUE_LEGGINGS = registerArmorItem("bamboo_blue_leggings", KQArmorMaterials.BAMBOOSET_BLUE, ArmorItem.Type.LEGGINGS);
+    public static final RegistryObject<Item> BAMBOO_BLUE_BOOTS = registerArmorItem("bamboo_blue_boots", KQArmorMaterials.BAMBOOSET_BLUE, ArmorItem.Type.BOOTS);
 
-    public static final RegistryObject<Item> BAMBOO_GREEN_HELMET = ITEMS.register("bamboo_green_helmet",
-            () -> new GeoItemArmor(KQArmorMaterials.BAMBOOSET_GREEN, ArmorItem.Type.HELMET,new Item.Properties()
-                    , "textures/armor/bamboo_green_helmet.png", "geo/bamboogreen_helmet.geo.json"));
-    public static final RegistryObject<Item> BAMBOO_GREEN_CHESTPLATE = ITEMS.register("bamboo_green_chestplate",
-            () ->  new KQArmorItem(KQArmorMaterials.BAMBOOSET_GREEN, ArmorItem.Type.CHESTPLATE,new Item.Properties()));
-    public static final RegistryObject<Item> BAMBOO_GREEN_LEGGINGS = ITEMS.register("bamboo_green_leggings",
-            () ->  new KQArmorItem(KQArmorMaterials.BAMBOOSET_GREEN, ArmorItem.Type.LEGGINGS,new Item.Properties()));
-    public static final RegistryObject<Item> BAMBOO_GREEN_BOOTS = ITEMS.register("bamboo_green_boots",
-            () ->  new KQArmorItem(KQArmorMaterials.BAMBOOSET_GREEN, ArmorItem.Type.BOOTS,new Item.Properties()));
+    public static final RegistryObject<Item> BAMBOO_GREEN_HELMET = registerGeoArmorItem("bamboo_green_helmet", KQArmorMaterials.BAMBOOSET_GREEN, ArmorItem.Type.HELMET);
+    public static final RegistryObject<Item> BAMBOO_GREEN_CHESTPLATE = registerArmorItem("bamboo_green_chestplate", KQArmorMaterials.BAMBOOSET_GREEN, ArmorItem.Type.CHESTPLATE);
+    public static final RegistryObject<Item> BAMBOO_GREEN_LEGGINGS = registerArmorItem("bamboo_green_leggings", KQArmorMaterials.BAMBOOSET_GREEN, ArmorItem.Type.LEGGINGS);
+    public static final RegistryObject<Item> BAMBOO_GREEN_BOOTS = registerArmorItem("bamboo_green_boots", KQArmorMaterials.BAMBOOSET_GREEN, ArmorItem.Type.BOOTS);
 
-    public static final RegistryObject<Item> TENGU_HELMET = ITEMS.register("tengu_helmet",
-            () ->  new GeoItemArmor(KQArmorMaterials.TENGU, ArmorItem.Type.HELMET, new Item.Properties()
-                    , "textures/armor/tengu_helmet.png", "geo/tengu_helmet.geo.json"));
-    public static final RegistryObject<Item> BAMBOO_HELMET = ITEMS.register("bamboo_helmet",
-            () ->  new GeoItemArmor(KQArmorMaterials.BAMBOOSET, ArmorItem.Type.HELMET,new Item.Properties()
-                    , "textures/armor/bamboo_helmet.png", "geo/bamboo_helmet.geo.json"));
-    public static final RegistryObject<Item> BAMBOO_CHESTPLATE = ITEMS.register("bamboo_chestplate",
-            () ->  new KQArmorItem(KQArmorMaterials.BAMBOOSET, ArmorItem.Type.CHESTPLATE,new Item.Properties()));
-    public static final RegistryObject<Item> BAMBOO_LEGGINGS = ITEMS.register("bamboo_leggings",
-            () ->  new KQArmorItem(KQArmorMaterials.BAMBOOSET, ArmorItem.Type.LEGGINGS, new Item.Properties()));
-    public static final RegistryObject<Item> BAMBOO_BOOTS = ITEMS.register("bamboo_boots",
-            () ->  new KQArmorItem(KQArmorMaterials.BAMBOOSET, ArmorItem.Type.BOOTS,new Item.Properties()));
+    public static final RegistryObject<Item> TENGU_HELMET = registerGeoArmorItem("tengu_helmet", KQArmorMaterials.TENGU, ArmorItem.Type.HELMET);
+    public static final RegistryObject<Item> BAMBOO_HELMET = registerGeoArmorItem("bamboo_helmet", KQArmorMaterials.BAMBOOSET, ArmorItem.Type.HELMET);
+    public static final RegistryObject<Item> BAMBOO_CHESTPLATE = registerArmorItem("bamboo_chestplate", KQArmorMaterials.BAMBOOSET, ArmorItem.Type.CHESTPLATE);
+    public static final RegistryObject<Item> BAMBOO_LEGGINGS = registerArmorItem("bamboo_leggings", KQArmorMaterials.BAMBOOSET, ArmorItem.Type.LEGGINGS);
+    public static final RegistryObject<Item> BAMBOO_BOOTS = registerArmorItem("bamboo_boots", KQArmorMaterials.BAMBOOSET, ArmorItem.Type.BOOTS);
 
-    public static final RegistryObject<Item> BAT_HELMET = ITEMS.register("bat_helmet",
-            () -> new GeoItemArmor(KQArmorMaterials.BATSET, ArmorItem.Type.HELMET,new Item.Properties()
-                    , "textures/armor/bat_helmet.png", "geo/bat_helmet.geo.json"));
-    public static final RegistryObject<Item> BAT_CHESTPLATE = ITEMS.register("bat_chestplate",
-            () -> new KQArmorItem(KQArmorMaterials.BATSET, ArmorItem.Type.CHESTPLATE, new Item.Properties()));
-    public static final RegistryObject<Item> BAT_LEGGINGS = ITEMS.register("bat_leggings",
-            () -> new KQArmorItem(KQArmorMaterials.BATSET, ArmorItem.Type.LEGGINGS,new Item.Properties()));
-    public static final RegistryObject<Item> BAT_BOOTS = ITEMS.register("bat_boots",
-            () -> new KQArmorItem(KQArmorMaterials.BATSET, ArmorItem.Type.BOOTS,new Item.Properties()));
+    public static final RegistryObject<Item> BAT_HELMET = registerGeoArmorItem("bat_helmet", KQArmorMaterials.BATSET, ArmorItem.Type.HELMET);
+    public static final RegistryObject<Item> BAT_CHESTPLATE = registerArmorItem("bat_chestplate", KQArmorMaterials.BATSET, ArmorItem.Type.CHESTPLATE);
+    public static final RegistryObject<Item> BAT_LEGGINGS = registerArmorItem("bat_leggings", KQArmorMaterials.BATSET, ArmorItem.Type.LEGGINGS);
+    public static final RegistryObject<Item> BAT_BOOTS = registerArmorItem("bat_boots", KQArmorMaterials.BATSET, ArmorItem.Type.BOOTS);
 
-    public static final RegistryObject<Item> BLAZE_HELMET = ITEMS.register("blaze_helmet",
-            () -> new GeoItemArmor(KQArmorMaterials.BLAZESET, ArmorItem.Type.HELMET,new Item.Properties()
-                    , "textures/armor/blaze_helmet.png", "geo/blaze_helmet.geo.json"));
-    public static final RegistryObject<Item> BLAZE_CHESTPLATE = ITEMS.register("blaze_chestplate",
-            () -> new KQArmorItem(KQArmorMaterials.BLAZESET, ArmorItem.Type.CHESTPLATE,new Item.Properties()));
-    public static final RegistryObject<Item> BLAZE_LEGGINGS = ITEMS.register("blaze_leggings",
-            () -> new KQArmorItem(KQArmorMaterials.BLAZESET, ArmorItem.Type.LEGGINGS,new Item.Properties()));
-    public static final RegistryObject<Item> BLAZE_BOOTS = ITEMS.register("blaze_boots",
-            () -> new KQArmorItem(KQArmorMaterials.BLAZESET, ArmorItem.Type.BOOTS,new Item.Properties()));
+    public static final RegistryObject<Item> BLAZE_HELMET = registerGeoArmorItem("blaze_helmet", KQArmorMaterials.BLAZESET, ArmorItem.Type.HELMET);
+    public static final RegistryObject<Item> BLAZE_CHESTPLATE = registerArmorItem("blaze_chestplate", KQArmorMaterials.BLAZESET, ArmorItem.Type.CHESTPLATE);
+    public static final RegistryObject<Item> BLAZE_LEGGINGS = registerArmorItem("blaze_leggings", KQArmorMaterials.BLAZESET, ArmorItem.Type.LEGGINGS);
+    public static final RegistryObject<Item> BLAZE_BOOTS = registerArmorItem("blaze_boots", KQArmorMaterials.BLAZESET, ArmorItem.Type.BOOTS);
 
-    public static final RegistryObject<Item> BOW_HELMET = ITEMS.register("bow_helmet",
-            () -> new GeoItemArmor(KQArmorMaterials.BOWSET, ArmorItem.Type.HELMET,new Item.Properties()
-                    , "textures/armor/bow_helmet.png", "geo/bow_helmet.geo.json"));
-    public static final RegistryObject<Item> BOW_CHESTPLATE = ITEMS.register("bow_chestplate",
-            () -> new KQArmorItem(KQArmorMaterials.BOWSET, ArmorItem.Type.CHESTPLATE,new Item.Properties()));
-    public static final RegistryObject<Item> BOW_LEGGINGS = ITEMS.register("bow_leggings",
-            () -> new KQArmorItem(KQArmorMaterials.BOWSET, ArmorItem.Type.LEGGINGS,new Item.Properties()));
-    public static final RegistryObject<Item> BOW_BOOTS = ITEMS.register("bow_boots",
-            () -> new KQArmorItem(KQArmorMaterials.BOWSET, ArmorItem.Type.BOOTS,new Item.Properties()));
+    public static final RegistryObject<Item> BOW_HELMET = registerGeoArmorItem("bow_helmet", KQArmorMaterials.BOWSET, ArmorItem.Type.HELMET);
+    public static final RegistryObject<Item> BOW_CHESTPLATE = registerArmorItem("bow_chestplate", KQArmorMaterials.BOWSET, ArmorItem.Type.CHESTPLATE);
+    public static final RegistryObject<Item> BOW_LEGGINGS = registerArmorItem("bow_leggings", KQArmorMaterials.BOWSET, ArmorItem.Type.LEGGINGS);
+    public static final RegistryObject<Item> BOW_BOOTS = registerArmorItem("bow_boots", KQArmorMaterials.BOWSET, ArmorItem.Type.BOOTS);
 
-    public static final RegistryObject<Item> HORN_HELMET = ITEMS.register("horn_helmet",
-            () -> new GeoItemArmor(KQArmorMaterials.HORNSET, ArmorItem.Type.HELMET,new Item.Properties()
-                    , "textures/armor/horn_helmet.png", "geo/horn_helmet.geo.json"));
-    public static final RegistryObject<Item> HORN_CHESTPLATE = ITEMS.register("horn_chestplate",
-            () -> new KQArmorItem(KQArmorMaterials.HORNSET, ArmorItem.Type.CHESTPLATE,new Item.Properties()));
-    public static final RegistryObject<Item> HORN_LEGGINGS = ITEMS.register("horn_leggings",
-            () -> new KQArmorItem(KQArmorMaterials.HORNSET, ArmorItem.Type.LEGGINGS,new Item.Properties()));
-    public static final RegistryObject<Item> HORN_BOOTS = ITEMS.register("horn_boots",
-            () -> new KQArmorItem(KQArmorMaterials.HORNSET, ArmorItem.Type.BOOTS,new Item.Properties()));
+    public static final RegistryObject<Item> HORN_HELMET = registerGeoArmorItem("horn_helmet", KQArmorMaterials.HORNSET, ArmorItem.Type.HELMET);
+    public static final RegistryObject<Item> HORN_CHESTPLATE = registerArmorItem("horn_chestplate", KQArmorMaterials.HORNSET, ArmorItem.Type.CHESTPLATE);
+    public static final RegistryObject<Item> HORN_LEGGINGS = registerArmorItem("horn_leggings", KQArmorMaterials.HORNSET, ArmorItem.Type.LEGGINGS);
+    public static final RegistryObject<Item> HORN_BOOTS = registerArmorItem("horn_boots", KQArmorMaterials.HORNSET, ArmorItem.Type.BOOTS);
 
-    public static final RegistryObject<Item> CREEPER_HELMET = ITEMS.register("creeper_helmet",
-            () -> new KQArmorItem(KQArmorMaterials.CREEPERSET, ArmorItem.Type.HELMET,new Item.Properties()));
-    public static final RegistryObject<Item> CREEPER_CHESTPLATE = ITEMS.register("creeper_chestplate",
-            () -> new KQArmorItem(KQArmorMaterials.CREEPERSET, ArmorItem.Type.CHESTPLATE,new Item.Properties()));
-    public static final RegistryObject<Item> CREEPER_LEGGINGS = ITEMS.register("creeper_leggings",
-            () -> new KQArmorItem(KQArmorMaterials.CREEPERSET, ArmorItem.Type.LEGGINGS,new Item.Properties()));
-    public static final RegistryObject<Item> CREEPER_BOOTS = ITEMS.register("creeper_boots",
-            () -> new KQArmorItem(KQArmorMaterials.CREEPERSET, ArmorItem.Type.BOOTS,new Item.Properties()));
+    public static final RegistryObject<Item> CREEPER_HELMET = registerArmorItem("creeper_helmet", KQArmorMaterials.CREEPERSET, ArmorItem.Type.HELMET);
+    public static final RegistryObject<Item> CREEPER_CHESTPLATE = registerArmorItem("creeper_chestplate", KQArmorMaterials.CREEPERSET, ArmorItem.Type.CHESTPLATE);
+    public static final RegistryObject<Item> CREEPER_LEGGINGS = registerArmorItem("creeper_leggings", KQArmorMaterials.CREEPERSET, ArmorItem.Type.LEGGINGS);
+    public static final RegistryObject<Item> CREEPER_BOOTS = registerArmorItem("creeper_boots", KQArmorMaterials.CREEPERSET, ArmorItem.Type.BOOTS);
 
-    public static final RegistryObject<Item> DEEPSLATE_HELMET = ITEMS.register("deepslate_helmet",
-            () -> new GeoItemArmor(KQArmorMaterials.DEEPSLATESET, ArmorItem.Type.HELMET,new Item.Properties()
-                    , "textures/armor/deepslate_helmet.png", "geo/deepslate_helmet.geo.json"));
-    public static final RegistryObject<Item> DEEPSLATE_CHESTPLATE = ITEMS.register("deepslate_chestplate",
-            () -> new KQArmorItem(KQArmorMaterials.DEEPSLATESET, ArmorItem.Type.CHESTPLATE,new Item.Properties()));
-    public static final RegistryObject<Item> DEEPSLATE_LEGGINGS = ITEMS.register("deepslate_leggings",
-            () -> new KQArmorItem(KQArmorMaterials.DEEPSLATESET, ArmorItem.Type.LEGGINGS,new Item.Properties()));
-    public static final RegistryObject<Item> DEEPSLATE_BOOTS = ITEMS.register("deepslate_boots",
-            () -> new KQArmorItem(KQArmorMaterials.DEEPSLATESET, ArmorItem.Type.BOOTS,new Item.Properties()));
+    public static final RegistryObject<Item> DEEPSLATE_HELMET = registerGeoArmorItem("deepslate_helmet", KQArmorMaterials.DEEPSLATESET, ArmorItem.Type.HELMET);
+    public static final RegistryObject<Item> DEEPSLATE_CHESTPLATE = registerArmorItem("deepslate_chestplate", KQArmorMaterials.DEEPSLATESET, ArmorItem.Type.CHESTPLATE);
+    public static final RegistryObject<Item> DEEPSLATE_LEGGINGS = registerArmorItem("deepslate_leggings", KQArmorMaterials.DEEPSLATESET, ArmorItem.Type.LEGGINGS);
+    public static final RegistryObject<Item> DEEPSLATE_BOOTS = registerArmorItem("deepslate_boots", KQArmorMaterials.DEEPSLATESET, ArmorItem.Type.BOOTS);
 
-    public static final RegistryObject<Item> DRAGON_HELMET = ITEMS.register("dragon_helmet",
-            () -> new GeoItemArmor(KQArmorMaterials.DRAGONSET, ArmorItem.Type.HELMET,new Item.Properties()
-                    , "textures/armor/dragon_helmet.png", "geo/dragon_helmet.geo.json"));
-    public static final RegistryObject<Item> DRAGON_CHESTPLATE = ITEMS.register("dragon_chestplate",
-            () -> new KQArmorItem(KQArmorMaterials.DRAGONSET, ArmorItem.Type.CHESTPLATE,new Item.Properties()));
-    public static final RegistryObject<Item> DRAGON_LEGGINGS = ITEMS.register("dragon_leggings",
-            () -> new KQArmorItem(KQArmorMaterials.DRAGONSET, ArmorItem.Type.LEGGINGS,new Item.Properties()));
-    public static final RegistryObject<Item> DRAGON_BOOTS = ITEMS.register("dragon_boots",
-            () -> new KQArmorItem(KQArmorMaterials.DRAGONSET, ArmorItem.Type.BOOTS,new Item.Properties()));
+    public static final RegistryObject<Item> DRAGON_HELMET = registerGeoArmorItem("dragon_helmet", KQArmorMaterials.DRAGONSET, ArmorItem.Type.HELMET);
+    public static final RegistryObject<Item> DRAGON_CHESTPLATE = registerArmorItem("dragon_chestplate", KQArmorMaterials.DRAGONSET, ArmorItem.Type.CHESTPLATE);
+    public static final RegistryObject<Item> DRAGON_LEGGINGS = registerArmorItem("dragon_leggings", KQArmorMaterials.DRAGONSET, ArmorItem.Type.LEGGINGS);
+    public static final RegistryObject<Item> DRAGON_BOOTS = registerArmorItem("dragon_boots", KQArmorMaterials.DRAGONSET, ArmorItem.Type.BOOTS);
 
-    public static final RegistryObject<Item> ENDERMAN_HELMET = ITEMS.register("enderman_helmet",
-            () -> new GeoItemArmor(KQArmorMaterials.ENDERMANSET, ArmorItem.Type.HELMET,new Item.Properties()
-                    , "textures/armor/enderman_helmet.png", "geo/enderman_helmet.geo.json"));
-    public static final RegistryObject<Item> ENDERMAN_CHESTPLATE = ITEMS.register("enderman_chestplate",
-            () -> new KQArmorItem(KQArmorMaterials.ENDERMANSET, ArmorItem.Type.CHESTPLATE,new Item.Properties()));
-    public static final RegistryObject<Item> ENDERMAN_LEGGINGS = ITEMS.register("enderman_leggings",
-            () -> new KQArmorItem(KQArmorMaterials.ENDERMANSET, ArmorItem.Type.LEGGINGS,new Item.Properties()));
-    public static final RegistryObject<Item> ENDERMAN_BOOTS = ITEMS.register("enderman_boots",
-            () -> new KQArmorItem(KQArmorMaterials.ENDERMANSET, ArmorItem.Type.BOOTS,new Item.Properties()));
+    public static final RegistryObject<Item> ENDERMAN_HELMET = registerGeoArmorItem("enderman_helmet", KQArmorMaterials.ENDERMANSET, ArmorItem.Type.HELMET);
+    public static final RegistryObject<Item> ENDERMAN_CHESTPLATE = registerArmorItem("enderman_chestplate", KQArmorMaterials.ENDERMANSET, ArmorItem.Type.CHESTPLATE);
+    public static final RegistryObject<Item> ENDERMAN_LEGGINGS = registerArmorItem("enderman_leggings", KQArmorMaterials.ENDERMANSET, ArmorItem.Type.LEGGINGS);
+    public static final RegistryObject<Item> ENDERMAN_BOOTS = registerArmorItem("enderman_boots", KQArmorMaterials.ENDERMANSET, ArmorItem.Type.BOOTS);
 
-    public static final RegistryObject<Item> EVOKER_HELMET = ITEMS.register("evoker_helmet",
-            () -> new GeoItemArmor(KQArmorMaterials.EVOKERSET, ArmorItem.Type.HELMET,new Item.Properties()
-                    , "textures/armor/evoker_helmet.png", "geo/evoker_helmet.geo.json"));
-    public static final RegistryObject<Item> EVOKER_CHESTPLATE = ITEMS.register("evoker_chestplate",
-            () -> new KQArmorItem(KQArmorMaterials.EVOKERSET, ArmorItem.Type.CHESTPLATE,new Item.Properties()));
-    public static final RegistryObject<Item> EVOKER_LEGGINGS = ITEMS.register("evoker_leggings",
-            () -> new KQArmorItem(KQArmorMaterials.EVOKERSET, ArmorItem.Type.LEGGINGS,new Item.Properties()));
-    public static final RegistryObject<Item> EVOKER_BOOTS = ITEMS.register("evoker_boots",
-            () -> new KQArmorItem(KQArmorMaterials.EVOKERSET, ArmorItem.Type.BOOTS,new Item.Properties()));
+    public static final RegistryObject<Item> EVOKER_HELMET = registerGeoArmorItem("evoker_helmet", KQArmorMaterials.EVOKERSET, ArmorItem.Type.HELMET);
+    public static final RegistryObject<Item> EVOKER_CHESTPLATE = registerArmorItem("evoker_chestplate", KQArmorMaterials.EVOKERSET, ArmorItem.Type.CHESTPLATE);
+    public static final RegistryObject<Item> EVOKER_LEGGINGS = registerArmorItem("evoker_leggings", KQArmorMaterials.EVOKERSET, ArmorItem.Type.LEGGINGS);
+    public static final RegistryObject<Item> EVOKER_BOOTS = registerArmorItem("evoker_boots", KQArmorMaterials.EVOKERSET, ArmorItem.Type.BOOTS);
 
-    public static final RegistryObject<Item> FORZE_HELMET = ITEMS.register("forze_helmet",
-            () -> new GeoItemArmor(KQArmorMaterials.FORZESET, ArmorItem.Type.HELMET,new Item.Properties()
-                    , "textures/armor/forze_helmet.png", "geo/forze_helmet.geo.json"));
-    public static final RegistryObject<Item> FORZE_CHESTPLATE = ITEMS.register("forze_chestplate",
-            () -> new GeoItemArmor(KQArmorMaterials.FORZESET, ArmorItem.Type.CHESTPLATE,new Item.Properties()
-                    , "textures/armor/forze_main.png", "geo/forze_main.geo.json"));
-    public static final RegistryObject<Item> FORZE_LEGGINGS = ITEMS.register("forze_leggings",
-            () -> new KQArmorItem(KQArmorMaterials.FORZESET, ArmorItem.Type.LEGGINGS,new Item.Properties()));
-    public static final RegistryObject<Item> FORZE_BOOTS = ITEMS.register("forze_boots",
-            () -> new KQArmorItem(KQArmorMaterials.FORZESET, ArmorItem.Type.BOOTS,new Item.Properties()));
+    public static final RegistryObject<Item> FORZE_HELMET = registerGeoArmorItem("forze_helmet", KQArmorMaterials.FORZESET, ArmorItem.Type.HELMET);
+    public static final RegistryObject<Item> FORZE_CHESTPLATE = registerGeoArmorItem("forze_chestplate", KQArmorMaterials.FORZESET, ArmorItem.Type.CHESTPLATE);
+    public static final RegistryObject<Item> FORZE_LEGGINGS = registerArmorItem("forze_leggings", KQArmorMaterials.FORZESET, ArmorItem.Type.LEGGINGS);
+    public static final RegistryObject<Item> FORZE_BOOTS = registerArmorItem("forze_boots", KQArmorMaterials.FORZESET, ArmorItem.Type.BOOTS);
 
-    public static final RegistryObject<Item> HOLLOW_HELMET = ITEMS.register("hollow_helmet",
-            () -> new GeoItemArmor(KQArmorMaterials.HOLLOWSET, ArmorItem.Type.HELMET,new Item.Properties()
-                    , "textures/armor/hollow_helmet.png", "geo/hollow_helmet.geo.json"));
-    public static final RegistryObject<Item> HOLLOW_CHESTPLATE = ITEMS.register("hollow_chestplate",
-            () -> new KQArmorItem(KQArmorMaterials.HOLLOWSET, ArmorItem.Type.CHESTPLATE, new Item.Properties()));
-    public static final RegistryObject<Item> HOLLOW_LEGGINGS = ITEMS.register("hollow_leggings",
-            () -> new KQArmorItem(KQArmorMaterials.HOLLOWSET, ArmorItem.Type.LEGGINGS, new Item.Properties()));
-    public static final RegistryObject<Item> HOLLOW_BOOTS = ITEMS.register("hollow_boots",
-            () -> new KQArmorItem(KQArmorMaterials.HOLLOWSET, ArmorItem.Type.BOOTS, new Item.Properties()));
+    public static final RegistryObject<Item> HOLLOW_HELMET = registerGeoArmorItem("hollow_helmet", KQArmorMaterials.HOLLOWSET, ArmorItem.Type.HELMET);
+    public static final RegistryObject<Item> HOLLOW_CHESTPLATE = registerArmorItem("hollow_chestplate", KQArmorMaterials.HOLLOWSET, ArmorItem.Type.CHESTPLATE);
+    public static final RegistryObject<Item> HOLLOW_LEGGINGS = registerArmorItem("hollow_leggings", KQArmorMaterials.HOLLOWSET, ArmorItem.Type.LEGGINGS);
+    public static final RegistryObject<Item> HOLLOW_BOOTS = registerArmorItem("hollow_boots", KQArmorMaterials.HOLLOWSET, ArmorItem.Type.BOOTS);
 
-    public static final RegistryObject<Item> NETHER_HELMET = ITEMS.register("nether_helmet",
-            () -> new GeoItemArmor(KQArmorMaterials.NETHERSET, ArmorItem.Type.HELMET,new Item.Properties()
-                    , "textures/armor/nether_helmet.png", "geo/nether_helmet.geo.json"));
-    public static final RegistryObject<Item> NETHER_CHESTPLATE = ITEMS.register("nether_chestplate",
-            () -> new KQArmorItem(KQArmorMaterials.NETHERSET, ArmorItem.Type.CHESTPLATE,new Item.Properties()));
-    public static final RegistryObject<Item> NETHER_LEGGINGS = ITEMS.register("nether_leggings",
-            () -> new KQArmorItem(KQArmorMaterials.NETHERSET, ArmorItem.Type.LEGGINGS,new Item.Properties()));
-    public static final RegistryObject<Item> NETHER_BOOTS = ITEMS.register("nether_boots",
-            () -> new KQArmorItem(KQArmorMaterials.NETHERSET, ArmorItem.Type.BOOTS,new Item.Properties()));
+    public static final RegistryObject<Item> NETHER_HELMET = registerGeoArmorItem("nether_helmet", KQArmorMaterials.NETHERSET, ArmorItem.Type.HELMET);
+    public static final RegistryObject<Item> NETHER_CHESTPLATE = registerArmorItem("nether_chestplate", KQArmorMaterials.NETHERSET, ArmorItem.Type.CHESTPLATE);
+    public static final RegistryObject<Item> NETHER_LEGGINGS = registerArmorItem("nether_leggings", KQArmorMaterials.NETHERSET, ArmorItem.Type.LEGGINGS);
+    public static final RegistryObject<Item> NETHER_BOOTS = registerArmorItem("nether_boots", KQArmorMaterials.NETHERSET, ArmorItem.Type.BOOTS);
 
-    public static final RegistryObject<Item> VETERAN_HELMET = ITEMS.register("veteran_helmet",
-            () -> new GeoItemArmor(KQArmorMaterials.VETERANSET, ArmorItem.Type.HELMET,new Item.Properties()
-                    , "textures/armor/veteran_helmet.png", "geo/veteran_helmet.geo.json"));
-    public static final RegistryObject<Item> VETERAN_CHESTPLATE = ITEMS.register("veteran_chestplate",
-            () -> new GeoItemArmor(KQArmorMaterials.VETERANSET, ArmorItem.Type.CHESTPLATE,new Item.Properties()
-                    , "textures/armor/veteran_main.png", "geo/veteran_main.geo.json"));
-    public static final RegistryObject<Item> VETERAN_LEGGINGS = ITEMS.register("veteran_leggings",
-            () -> new GeoItemArmor(KQArmorMaterials.VETERANSET, ArmorItem.Type.LEGGINGS,new Item.Properties()
-                    , "textures/armor/veteran_leggings.png", "geo/veteran_leggings.geo.json"));
-    public static final RegistryObject<Item> VETERAN_BOOTS = ITEMS.register("veteran_boots",
-            () -> new KQArmorItem(KQArmorMaterials.VETERANSET, ArmorItem.Type.BOOTS,new Item.Properties()));
+    public static final RegistryObject<Item> VETERAN_HELMET = registerGeoArmorItem("veteran_helmet", KQArmorMaterials.VETERANSET, ArmorItem.Type.HELMET);
+    public static final RegistryObject<Item> VETERAN_CHESTPLATE = registerGeoArmorItem("veteran_chestplate", KQArmorMaterials.VETERANSET, ArmorItem.Type.CHESTPLATE);
+    public static final RegistryObject<Item> VETERAN_LEGGINGS = registerGeoArmorItem("veteran_leggings", KQArmorMaterials.VETERANSET, ArmorItem.Type.LEGGINGS);
+    public static final RegistryObject<Item> VETERAN_BOOTS = registerArmorItem("veteran_boots", KQArmorMaterials.VETERANSET, ArmorItem.Type.BOOTS);
 
-    public static final RegistryObject<Item> PATH_HELMET = ITEMS.register("path_helmet",
-            () -> new GeoItemArmor(KQArmorMaterials.PATHSET, ArmorItem.Type.HELMET,new Item.Properties()
-                    , "textures/armor/path_helmet.png", "geo/path_helmet.geo.json"));
-    public static final RegistryObject<Item> PATH_CHESTPLATE = ITEMS.register("path_chestplate",
-            () -> new KQArmorItem(KQArmorMaterials.PATHSET, ArmorItem.Type.CHESTPLATE,new Item.Properties()));
-    public static final RegistryObject<Item> PATH_LEGGINGS = ITEMS.register("path_leggings",
-            () -> new KQArmorItem(KQArmorMaterials.PATHSET, ArmorItem.Type.LEGGINGS,new Item.Properties()));
-    public static final RegistryObject<Item> PATH_BOOTS = ITEMS.register("path_boots",
-            () -> new KQArmorItem(KQArmorMaterials.PATHSET, ArmorItem.Type.BOOTS,new Item.Properties()));
+    public static final RegistryObject<Item> PATH_HELMET = registerGeoArmorItem("path_helmet", KQArmorMaterials.PATHSET, ArmorItem.Type.HELMET);
+    public static final RegistryObject<Item> PATH_CHESTPLATE = registerArmorItem("path_chestplate", KQArmorMaterials.PATHSET, ArmorItem.Type.CHESTPLATE);
+    public static final RegistryObject<Item> PATH_LEGGINGS = registerArmorItem("path_leggings", KQArmorMaterials.PATHSET, ArmorItem.Type.LEGGINGS);
+    public static final RegistryObject<Item> PATH_BOOTS = registerArmorItem("path_boots", KQArmorMaterials.PATHSET, ArmorItem.Type.BOOTS);
 
-    public static final RegistryObject<Item> PHANTOM_HELMET = ITEMS.register("phantom_helmet",
-            () -> new GeoItemArmor(KQArmorMaterials.PHANTOMSET, ArmorItem.Type.HELMET,new Item.Properties()
-                    , "textures/armor/phantom_helmet.png", "geo/phantom_helmet.geo.json"));
-    public static final RegistryObject<Item> PHANTOM_CHESTPLATE = ITEMS.register("phantom_chestplate",
-            () -> new KQArmorItem(KQArmorMaterials.PHANTOMSET, ArmorItem.Type.CHESTPLATE,new Item.Properties()));
-    public static final RegistryObject<Item> PHANTOM_LEGGINGS = ITEMS.register("phantom_leggings",
-            () -> new KQArmorItem(KQArmorMaterials.PHANTOMSET, ArmorItem.Type.LEGGINGS,new Item.Properties()));
-    public static final RegistryObject<Item> PHANTOM_BOOTS = ITEMS.register("phantom_boots",
-            () -> new KQArmorItem(KQArmorMaterials.PHANTOMSET, ArmorItem.Type.BOOTS,new Item.Properties()));
+    public static final RegistryObject<Item> PHANTOM_HELMET = registerGeoArmorItem("phantom_helmet", KQArmorMaterials.PHANTOMSET, ArmorItem.Type.HELMET);
+    public static final RegistryObject<Item> PHANTOM_CHESTPLATE = registerArmorItem("phantom_chestplate", KQArmorMaterials.PHANTOMSET, ArmorItem.Type.CHESTPLATE);
+    public static final RegistryObject<Item> PHANTOM_LEGGINGS = registerArmorItem("phantom_leggings", KQArmorMaterials.PHANTOMSET, ArmorItem.Type.LEGGINGS);
+    public static final RegistryObject<Item> PHANTOM_BOOTS = registerArmorItem("phantom_boots", KQArmorMaterials.PHANTOMSET, ArmorItem.Type.BOOTS);
 
-    public static final RegistryObject<Item> SEA_HELMET = ITEMS.register("sea_helmet",
-            () -> new GeoItemArmor(KQArmorMaterials.SEASET, ArmorItem.Type.HELMET,new Item.Properties()
-                    , "textures/armor/sea_helmet.png", "geo/sea_helmet.geo.json"));
-    public static final RegistryObject<Item> SEA_CHESTPLATE = ITEMS.register("sea_chestplate",
-            () -> new KQArmorItem(KQArmorMaterials.SEASET, ArmorItem.Type.CHESTPLATE,new Item.Properties()));
-    public static final RegistryObject<Item> SEA_LEGGINGS = ITEMS.register("sea_leggings",
-            () -> new KQArmorItem(KQArmorMaterials.SEASET, ArmorItem.Type.LEGGINGS,new Item.Properties()));
-    public static final RegistryObject<Item> SEA_BOOTS = ITEMS.register("sea_boots",
-            () -> new KQArmorItem(KQArmorMaterials.SEASET, ArmorItem.Type.BOOTS,new Item.Properties()));
+    public static final RegistryObject<Item> SEA_HELMET = registerGeoArmorItem("sea_helmet", KQArmorMaterials.SEASET, ArmorItem.Type.HELMET);
+    public static final RegistryObject<Item> SEA_CHESTPLATE = registerArmorItem("sea_chestplate", KQArmorMaterials.SEASET, ArmorItem.Type.CHESTPLATE);
+    public static final RegistryObject<Item> SEA_LEGGINGS = registerArmorItem("sea_leggings", KQArmorMaterials.SEASET, ArmorItem.Type.LEGGINGS);
+    public static final RegistryObject<Item> SEA_BOOTS = registerArmorItem("sea_boots", KQArmorMaterials.SEASET, ArmorItem.Type.BOOTS);
 
-    public static final RegistryObject<Item> SHIELD_HELMET = ITEMS.register("shield_helmet",
-            () -> new GeoItemArmor(KQArmorMaterials.SHIELDSET, ArmorItem.Type.HELMET,new Item.Properties()
-                    , "textures/armor/shield_helmet.png", "geo/shield_helmet.geo.json"));
-    public static final RegistryObject<Item> SHIELD_CHESTPLATE = ITEMS.register("shield_chestplate",
-            () -> new KQArmorItem(KQArmorMaterials.SHIELDSET, ArmorItem.Type.CHESTPLATE,new Item.Properties()));
-    public static final RegistryObject<Item> SHIELD_LEGGINGS = ITEMS.register("shield_leggings",
-            () -> new KQArmorItem(KQArmorMaterials.SHIELDSET, ArmorItem.Type.LEGGINGS,new Item.Properties()));
-    public static final RegistryObject<Item> SHIELD_BOOTS = ITEMS.register("shield_boots",
-            () -> new KQArmorItem(KQArmorMaterials.SHIELDSET, ArmorItem.Type.BOOTS,new Item.Properties()));
+    public static final RegistryObject<Item> SHIELD_HELMET = registerGeoArmorItem("shield_helmet", KQArmorMaterials.SHIELDSET, ArmorItem.Type.HELMET);
+    public static final RegistryObject<Item> SHIELD_CHESTPLATE = registerArmorItem("shield_chestplate", KQArmorMaterials.SHIELDSET, ArmorItem.Type.CHESTPLATE);
+    public static final RegistryObject<Item> SHIELD_LEGGINGS = registerArmorItem("shield_leggings", KQArmorMaterials.SHIELDSET, ArmorItem.Type.LEGGINGS);
+    public static final RegistryObject<Item> SHIELD_BOOTS = registerArmorItem("shield_boots", KQArmorMaterials.SHIELDSET, ArmorItem.Type.BOOTS);
 
-    public static final RegistryObject<Item> SILVER_HELMET = ITEMS.register("silver_helmet",
-            () -> new GeoItemArmor(KQArmorMaterials.SILVERSET, ArmorItem.Type.HELMET,new Item.Properties()
-                    , "textures/armor/silver_helmet.png", "geo/silver_helmet.geo.json"));
-    public static final RegistryObject<Item> SILVER_CHESTPLATE = ITEMS.register("silver_chestplate",
-            () -> new GeoItemArmor(KQArmorMaterials.SILVERSET, ArmorItem.Type.CHESTPLATE,new Item.Properties()
-                    , "textures/armor/silver_main.png", "geo/silver_main.geo.json"));
-    public static final RegistryObject<Item> SILVER_LEGGINGS = ITEMS.register("silver_leggings",
-            () -> new KQArmorItem(KQArmorMaterials.SILVERSET, ArmorItem.Type.LEGGINGS,new Item.Properties()));
-    public static final RegistryObject<Item> SILVER_BOOTS = ITEMS.register("silver_boots",
-            () -> new KQArmorItem(KQArmorMaterials.SILVERSET, ArmorItem.Type.BOOTS,new Item.Properties()));
+    public static final RegistryObject<Item> SILVER_HELMET = registerGeoArmorItem("silver_helmet", KQArmorMaterials.SILVERSET, ArmorItem.Type.HELMET);
+    public static final RegistryObject<Item> SILVER_CHESTPLATE = registerGeoArmorItem("silver_chestplate", KQArmorMaterials.SILVERSET, ArmorItem.Type.CHESTPLATE);
+    public static final RegistryObject<Item> SILVER_LEGGINGS = registerArmorItem("silver_leggings", KQArmorMaterials.SILVERSET, ArmorItem.Type.LEGGINGS);
+    public static final RegistryObject<Item> SILVER_BOOTS = registerArmorItem("silver_boots", KQArmorMaterials.SILVERSET, ArmorItem.Type.BOOTS);
 
-    public static final RegistryObject<Item> SILVERFISH_HELMET = ITEMS.register("silverfish_helmet",
-            () -> new GeoItemArmor(KQArmorMaterials.SILVERFISHSET, ArmorItem.Type.HELMET,new Item.Properties()
-                    , "textures/armor/silverfish_helmet.png", "geo/silverfish_helmet.geo.json"));
-    public static final RegistryObject<Item> SILVERFISH_CHESTPLATE = ITEMS.register("silverfish_chestplate",
-            () -> new KQArmorItem(KQArmorMaterials.SILVERFISHSET, ArmorItem.Type.CHESTPLATE,new Item.Properties()));
-    public static final RegistryObject<Item> SILVERFISH_LEGGINGS = ITEMS.register("silverfish_leggings",
-            () -> new KQArmorItem(KQArmorMaterials.SILVERFISHSET, ArmorItem.Type.LEGGINGS,new Item.Properties()));
-    public static final RegistryObject<Item> SILVERFISH_BOOTS = ITEMS.register("silverfish_boots",
-            () -> new KQArmorItem(KQArmorMaterials.SILVERFISHSET, ArmorItem.Type.BOOTS,new Item.Properties()));
+    public static final RegistryObject<Item> SILVERFISH_HELMET = registerGeoArmorItem("silverfish_helmet", KQArmorMaterials.SILVERFISHSET, ArmorItem.Type.HELMET);
+    public static final RegistryObject<Item> SILVERFISH_CHESTPLATE = registerArmorItem("silverfish_chestplate", KQArmorMaterials.SILVERFISHSET, ArmorItem.Type.CHESTPLATE);
+    public static final RegistryObject<Item> SILVERFISH_LEGGINGS = registerArmorItem("silverfish_leggings", KQArmorMaterials.SILVERFISHSET, ArmorItem.Type.LEGGINGS);
+    public static final RegistryObject<Item> SILVERFISH_BOOTS = registerArmorItem("silverfish_boots", KQArmorMaterials.SILVERFISHSET, ArmorItem.Type.BOOTS);
 
-    public static final RegistryObject<Item> SKELETON_HELMET = ITEMS.register("skeleton_helmet",
-            () -> new GeoItemArmor(KQArmorMaterials.SKELETONSET, ArmorItem.Type.HELMET,new Item.Properties()
-                    , "textures/armor/skeleton_helmet.png", "geo/skeleton_helmet.geo.json"));
-    public static final RegistryObject<Item> SKELETON_CHESTPLATE = ITEMS.register("skeleton_chestplate",
-            () -> new KQArmorItem(KQArmorMaterials.SKELETONSET, ArmorItem.Type.CHESTPLATE,new Item.Properties()));
-    public static final RegistryObject<Item> SKELETON_LEGGINGS = ITEMS.register("skeleton_leggings",
-            () -> new KQArmorItem(KQArmorMaterials.SKELETONSET, ArmorItem.Type.LEGGINGS,new Item.Properties()));
-    public static final RegistryObject<Item> SKELETON_BOOTS = ITEMS.register("skeleton_boots",
-            () -> new KQArmorItem(KQArmorMaterials.SKELETONSET, ArmorItem.Type.BOOTS,new Item.Properties()));
+    public static final RegistryObject<Item> SKELETON_HELMET = registerGeoArmorItem("skeleton_helmet", KQArmorMaterials.SKELETONSET, ArmorItem.Type.HELMET);
+    public static final RegistryObject<Item> SKELETON_CHESTPLATE = registerArmorItem("skeleton_chestplate", KQArmorMaterials.SKELETONSET, ArmorItem.Type.CHESTPLATE);
+    public static final RegistryObject<Item> SKELETON_LEGGINGS = registerArmorItem("skeleton_leggings", KQArmorMaterials.SKELETONSET, ArmorItem.Type.LEGGINGS);
+    public static final RegistryObject<Item> SKELETON_BOOTS = registerArmorItem("skeleton_boots", KQArmorMaterials.SKELETONSET, ArmorItem.Type.BOOTS);
 
-    public static final RegistryObject<Item> SPIDER_HELMET = ITEMS.register("spider_helmet",
-            () -> new GeoItemArmor(KQArmorMaterials.SPIDERSET, ArmorItem.Type.HELMET,new Item.Properties()
-                    , "textures/armor/spider_helmet.png", "geo/spider_helmet.geo.json"));
-    public static final RegistryObject<Item> SPIDER_CHESTPLATE = ITEMS.register("spider_chestplate",
-            () -> new GeoItemArmor(KQArmorMaterials.SPIDERSET, ArmorItem.Type.CHESTPLATE,new Item.Properties()
-                    , "textures/armor/spider_main.png", "geo/spider_main.geo.json"));
-    public static final RegistryObject<Item> SPIDER_LEGGINGS = ITEMS.register("spider_leggings",
-            () -> new KQArmorItem(KQArmorMaterials.SPIDERSET, ArmorItem.Type.LEGGINGS,new Item.Properties()));
-    public static final RegistryObject<Item> SPIDER_BOOTS = ITEMS.register("spider_boots",
-            () -> new KQArmorItem(KQArmorMaterials.SPIDERSET, ArmorItem.Type.BOOTS,new Item.Properties()));
+    public static final RegistryObject<Item> SPIDER_HELMET = registerGeoArmorItem("spider_helmet", KQArmorMaterials.SPIDERSET, ArmorItem.Type.HELMET);
+    public static final RegistryObject<Item> SPIDER_CHESTPLATE = registerGeoArmorItem("spider_chestplate", KQArmorMaterials.SPIDERSET, ArmorItem.Type.CHESTPLATE);
+    public static final RegistryObject<Item> SPIDER_LEGGINGS = registerArmorItem("spider_leggings", KQArmorMaterials.SPIDERSET, ArmorItem.Type.LEGGINGS);
+    public static final RegistryObject<Item> SPIDER_BOOTS = registerArmorItem("spider_boots", KQArmorMaterials.SPIDERSET, ArmorItem.Type.BOOTS);
 
-    public static final RegistryObject<Item> WARLORD_HELMET = ITEMS.register("warlord_helmet",
-            () -> new GeoItemArmor(KQArmorMaterials.WARLORDSET, ArmorItem.Type.HELMET,new Item.Properties()
-                    , "textures/armor/warlord_helmet.png", "geo/warlord_helmet.geo.json"));
-    public static final RegistryObject<Item> WARLORD_CHESTPLATE = ITEMS.register("warlord_chestplate",
-            () -> new KQArmorItem(KQArmorMaterials.WARLORDSET, ArmorItem.Type.CHESTPLATE,new Item.Properties()));
-    public static final RegistryObject<Item> WARLORD_LEGGINGS = ITEMS.register("warlord_leggings",
-            () -> new KQArmorItem(KQArmorMaterials.WARLORDSET, ArmorItem.Type.LEGGINGS,new Item.Properties()));
-    public static final RegistryObject<Item> WARLORD_BOOTS = ITEMS.register("warlord_boots",
-            () -> new KQArmorItem(KQArmorMaterials.WARLORDSET, ArmorItem.Type.BOOTS,new Item.Properties()));
+    public static final RegistryObject<Item> WARLORD_HELMET = registerGeoArmorItem("warlord_helmet", KQArmorMaterials.WARLORDSET, ArmorItem.Type.HELMET);
+    public static final RegistryObject<Item> WARLORD_CHESTPLATE = registerArmorItem("warlord_chestplate", KQArmorMaterials.WARLORDSET, ArmorItem.Type.CHESTPLATE);
+    public static final RegistryObject<Item> WARLORD_LEGGINGS = registerArmorItem("warlord_leggings", KQArmorMaterials.WARLORDSET, ArmorItem.Type.LEGGINGS);
+    public static final RegistryObject<Item> WARLORD_BOOTS = registerArmorItem("warlord_boots", KQArmorMaterials.WARLORDSET, ArmorItem.Type.BOOTS);
 
-    public static final RegistryObject<Item> STRAWHAT_HELMET = ITEMS.register("strawhat_helmet",
-            () -> new GeoItemArmor(KQArmorMaterials.STRAWHATSET, ArmorItem.Type.HELMET,new Item.Properties()
-                    , "textures/armor/strawhat_helmet.png", "geo/strawhat_helmet.geo.json"));
-    public static final RegistryObject<Item> STRAWHAT_CHESTPLATE = ITEMS.register("strawhat_chestplate",
-            () -> new KQArmorItem(KQArmorMaterials.STRAWHATSET, ArmorItem.Type.CHESTPLATE,new Item.Properties()));
-    public static final RegistryObject<Item> STRAWHAT_LEGGINGS = ITEMS.register("strawhat_leggings",
-            () -> new KQArmorItem(KQArmorMaterials.STRAWHATSET, ArmorItem.Type.LEGGINGS,new Item.Properties()));
-    public static final RegistryObject<Item> STRAWHAT_BOOTS = ITEMS.register("strawhat_boots",
-            () -> new KQArmorItem(KQArmorMaterials.STRAWHATSET, ArmorItem.Type.BOOTS,new Item.Properties()));
+    public static final RegistryObject<Item> STRAWHAT_HELMET = registerGeoArmorItem("strawhat_helmet", KQArmorMaterials.STRAWHATSET, ArmorItem.Type.HELMET);
+    public static final RegistryObject<Item> STRAWHAT_CHESTPLATE = registerArmorItem("strawhat_chestplate", KQArmorMaterials.STRAWHATSET, ArmorItem.Type.CHESTPLATE);
+    public static final RegistryObject<Item> STRAWHAT_LEGGINGS = registerArmorItem("strawhat_leggings", KQArmorMaterials.STRAWHATSET, ArmorItem.Type.LEGGINGS);
+    public static final RegistryObject<Item> STRAWHAT_BOOTS = registerArmorItem("strawhat_boots", KQArmorMaterials.STRAWHATSET, ArmorItem.Type.BOOTS);
 
-    public static final RegistryObject<Item> PIRATE_HELMET = ITEMS.register("pirate_helmet",
-            () -> new GeoItemArmor(KQArmorMaterials.PIRATESET, ArmorItem.Type.HELMET,new Item.Properties()
-                    , "textures/armor/pirate_helmet.png", "geo/pirate_helmet.geo.json"));
-    public static final RegistryObject<Item> PIRATE2_HELMET = ITEMS.register("pirate2_helmet",
-            () -> new GeoItemArmor(KQArmorMaterials.PIRATESET, ArmorItem.Type.HELMET,new Item.Properties()
-                    , "textures/armor/pirate2_helmet.png", "geo/pirate2_helmet.geo.json"));
-    public static final RegistryObject<Item> PIRATE3_HELMET = ITEMS.register("pirate3_helmet",
-            () -> new GeoItemArmor(KQArmorMaterials.PIRATESET, ArmorItem.Type.HELMET,new Item.Properties()
-                    , "textures/armor/pirate3_helmet.png", "geo/pirate3_helmet.geo.json"));
-    public static final RegistryObject<Item> PIRATE_CHESTPLATE = ITEMS.register("pirate_chestplate",
-            () -> new KQArmorItem(KQArmorMaterials.PIRATESET, ArmorItem.Type.CHESTPLATE,new Item.Properties()));
-    public static final RegistryObject<Item> PIRATE_LEGGINGS = ITEMS.register("pirate_leggings",
-            () -> new KQArmorItem(KQArmorMaterials.PIRATESET, ArmorItem.Type.LEGGINGS,new Item.Properties()));
-    public static final RegistryObject<Item> PIRATE_BOOTS = ITEMS.register("pirate_boots",
-            () -> new KQArmorItem(KQArmorMaterials.PIRATESET, ArmorItem.Type.BOOTS,new Item.Properties()));
+    public static final RegistryObject<Item> PIRATE_HELMET = registerGeoArmorItem("pirate_helmet", KQArmorMaterials.PIRATESET, ArmorItem.Type.HELMET);
+    public static final RegistryObject<Item> PIRATE2_HELMET = registerGeoArmorItem("pirate2_helmet", KQArmorMaterials.PIRATESET, ArmorItem.Type.HELMET);
+    public static final RegistryObject<Item> PIRATE3_HELMET = registerGeoArmorItem("pirate3_helmet", KQArmorMaterials.PIRATESET, ArmorItem.Type.HELMET);
+    public static final RegistryObject<Item> PIRATE_CHESTPLATE = registerArmorItem("pirate_chestplate", KQArmorMaterials.PIRATESET, ArmorItem.Type.CHESTPLATE);
+    public static final RegistryObject<Item> PIRATE_LEGGINGS = registerArmorItem("pirate_leggings", KQArmorMaterials.PIRATESET, ArmorItem.Type.LEGGINGS);
+    public static final RegistryObject<Item> PIRATE_BOOTS = registerArmorItem("pirate_boots", KQArmorMaterials.PIRATESET, ArmorItem.Type.BOOTS);
 
-    public static final RegistryObject<Item> CONQUISTADOR_HELMET = ITEMS.register("conquistador_helmet",
-            () -> new GeoItemArmor(KQArmorMaterials.CONQUISTADORSET, ArmorItem.Type.HELMET,new Item.Properties()
-                    , "textures/armor/conquistador_helmet.png", "geo/conquistador_helmet.geo.json"));
-    public static final RegistryObject<Item> CONQUISTADOR2_HELMET = ITEMS.register("conquistador2_helmet",
-            () -> new GeoItemArmor(KQArmorMaterials.CONQUISTADORSET, ArmorItem.Type.HELMET,new Item.Properties()
-                    , "textures/armor/conquistador2_helmet.png", "geo/conquistador2_helmet.geo.json"));
-    public static final RegistryObject<Item> CONQUISTADOR3_HELMET = ITEMS.register("conquistador3_helmet",
-            () -> new GeoItemArmor(KQArmorMaterials.CONQUISTADORSET, ArmorItem.Type.HELMET,new Item.Properties()
-                    , "textures/armor/conquistador3_helmet.png", "geo/conquistador3_helmet.geo.json"));
-    public static final RegistryObject<Item> CONQUISTADOR_CHESTPLATE = ITEMS.register("conquistador_chestplate",
-            () -> new KQArmorItem(KQArmorMaterials.CONQUISTADORSET, ArmorItem.Type.CHESTPLATE,new Item.Properties()));
-    public static final RegistryObject<Item> CONQUISTADOR_LEGGINGS = ITEMS.register("conquistador_leggings",
-            () -> new KQArmorItem(KQArmorMaterials.CONQUISTADORSET, ArmorItem.Type.LEGGINGS,new Item.Properties()));
-    public static final RegistryObject<Item> CONQUISTADOR_BOOTS = ITEMS.register("conquistador_boots",
-            () -> new KQArmorItem(KQArmorMaterials.CONQUISTADORSET, ArmorItem.Type.BOOTS,new Item.Properties()));
+    public static final RegistryObject<Item> CONQUISTADOR_HELMET = registerGeoArmorItem("conquistador_helmet", KQArmorMaterials.CONQUISTADORSET, ArmorItem.Type.HELMET);
+    public static final RegistryObject<Item> CONQUISTADOR2_HELMET = registerGeoArmorItem("conquistador2_helmet", KQArmorMaterials.CONQUISTADORSET, ArmorItem.Type.HELMET);
+    public static final RegistryObject<Item> CONQUISTADOR3_HELMET = registerGeoArmorItem("conquistador3_helmet", KQArmorMaterials.CONQUISTADORSET, ArmorItem.Type.HELMET);
+    public static final RegistryObject<Item> CONQUISTADOR_CHESTPLATE = registerArmorItem("conquistador_chestplate", KQArmorMaterials.CONQUISTADORSET, ArmorItem.Type.CHESTPLATE);
+    public static final RegistryObject<Item> CONQUISTADOR_LEGGINGS = registerArmorItem("conquistador_leggings", KQArmorMaterials.CONQUISTADORSET, ArmorItem.Type.LEGGINGS);
+    public static final RegistryObject<Item> CONQUISTADOR_BOOTS = registerArmorItem("conquistador_boots", KQArmorMaterials.CONQUISTADORSET, ArmorItem.Type.BOOTS);
 
-    public static final RegistryObject<Item> ZOMBIE_HELMET = ITEMS.register("zombie_helmet",
-            () -> new GeoItemArmor(KQArmorMaterials.ZOMBIESET, ArmorItem.Type.HELMET,new Item.Properties()
-                    , "textures/armor/zombie_helmet.png", "geo/zombie_helmet.geo.json"));
-    public static final RegistryObject<Item> ZOMBIE_HELMET2 = ITEMS.register("zombie_helmet2",
-            () -> new GeoItemArmor(KQArmorMaterials.ZOMBIESET, ArmorItem.Type.HELMET,new Item.Properties()
-                    , "textures/armor/zombie_helmet2.png", "geo/zombie_helmet2.geo.json"));
-    public static final RegistryObject<Item> ZOMBIE_CHESTPLATE = ITEMS.register("zombie_chestplate",
-            () -> new KQArmorItem(KQArmorMaterials.ZOMBIESET, ArmorItem.Type.CHESTPLATE,new Item.Properties()));
-    public static final RegistryObject<Item> ZOMBIE_LEGGINGS = ITEMS.register("zombie_leggings",
-            () -> new KQArmorItem(KQArmorMaterials.ZOMBIESET, ArmorItem.Type.LEGGINGS,new Item.Properties()));
-    public static final RegistryObject<Item> ZOMBIE_BOOTS = ITEMS.register("zombie_boots",
-            () -> new KQArmorItem(KQArmorMaterials.ZOMBIESET, ArmorItem.Type.BOOTS,new Item.Properties()));
+    public static final RegistryObject<Item> ZOMBIE_HELMET = registerGeoArmorItem("zombie_helmet", KQArmorMaterials.ZOMBIESET, ArmorItem.Type.HELMET);
+    public static final RegistryObject<Item> ZOMBIE_HELMET2 = registerGeoArmorItem("zombie_helmet2", KQArmorMaterials.ZOMBIESET, ArmorItem.Type.HELMET);
+    public static final RegistryObject<Item> ZOMBIE_CHESTPLATE = registerArmorItem("zombie_chestplate", KQArmorMaterials.ZOMBIESET, ArmorItem.Type.CHESTPLATE);
+    public static final RegistryObject<Item> ZOMBIE_LEGGINGS = registerArmorItem("zombie_leggings", KQArmorMaterials.ZOMBIESET, ArmorItem.Type.LEGGINGS);
+    public static final RegistryObject<Item> ZOMBIE_BOOTS = registerArmorItem("zombie_boots", KQArmorMaterials.ZOMBIESET, ArmorItem.Type.BOOTS);
 
-    public static final RegistryObject<Item> HUSK_HELMET = ITEMS.register("husk_helmet",
-            () -> new GeoItemArmor(KQArmorMaterials.HUSKSET, ArmorItem.Type.HELMET,new Item.Properties()
-                    , "textures/armor/husk_helmet.png", "geo/husk_helmet.geo.json"));
-    public static final RegistryObject<Item> HUSK_HELMET2 = ITEMS.register("husk_helmet2",
-            () -> new GeoItemArmor(KQArmorMaterials.HUSKSET, ArmorItem.Type.HELMET,new Item.Properties()
-                    , "textures/armor/husk_helmet2.png", "geo/husk_helmet2.geo.json"));
-    public static final RegistryObject<Item> HUSK_HELMET3 = ITEMS.register("husk_helmet3",
-            () -> new GeoItemArmor(KQArmorMaterials.HUSKSET, ArmorItem.Type.HELMET,new Item.Properties()
-                    , "textures/armor/husk_helmet3.png", "geo/husk_helmet3.geo.json"));
-    public static final RegistryObject<Item> HUSK_CHESTPLATE = ITEMS.register("husk_chestplate",
-            () -> new KQArmorItem(KQArmorMaterials.HUSKSET, ArmorItem.Type.CHESTPLATE,new Item.Properties()));
-    public static final RegistryObject<Item> HUSK_LEGGINGS = ITEMS.register("husk_leggings",
-            () -> new KQArmorItem(KQArmorMaterials.HUSKSET, ArmorItem.Type.LEGGINGS,new Item.Properties()));
-    public static final RegistryObject<Item> HUSK_BOOTS = ITEMS.register("husk_boots",
-            () -> new KQArmorItem(KQArmorMaterials.HUSKSET, ArmorItem.Type.BOOTS,new Item.Properties()));
+    public static final RegistryObject<Item> HUSK_HELMET = registerGeoArmorItem("husk_helmet", KQArmorMaterials.HUSKSET, ArmorItem.Type.HELMET);
+    public static final RegistryObject<Item> HUSK_HELMET2 = registerGeoArmorItem("husk_helmet2", KQArmorMaterials.HUSKSET, ArmorItem.Type.HELMET);
+    public static final RegistryObject<Item> HUSK_HELMET3 = registerGeoArmorItem("husk_helmet3", KQArmorMaterials.HUSKSET, ArmorItem.Type.HELMET);
+    public static final RegistryObject<Item> HUSK_CHESTPLATE = registerArmorItem("husk_chestplate", KQArmorMaterials.HUSKSET, ArmorItem.Type.CHESTPLATE);
+    public static final RegistryObject<Item> HUSK_LEGGINGS = registerArmorItem("husk_leggings", KQArmorMaterials.HUSKSET, ArmorItem.Type.LEGGINGS);
+    public static final RegistryObject<Item> HUSK_BOOTS = registerArmorItem("husk_boots", KQArmorMaterials.HUSKSET, ArmorItem.Type.BOOTS);
 
-    public static final RegistryObject<Item> WITHER_HELMET = ITEMS.register("wither_helmet",
-            () -> new KQArmorItem(KQArmorMaterials.WITHERSET, ArmorItem.Type.HELMET,new Item.Properties()));
-    public static final RegistryObject<Item> WITHER_CHESTPLATE = ITEMS.register("wither_chestplate",
-            () -> new KQArmorItem(KQArmorMaterials.WITHERSET, ArmorItem.Type.CHESTPLATE,new Item.Properties()));
-    public static final RegistryObject<Item> WITHER_LEGGINGS = ITEMS.register("wither_leggings",
-            () -> new KQArmorItem(KQArmorMaterials.WITHERSET, ArmorItem.Type.LEGGINGS,new Item.Properties()));
-    public static final RegistryObject<Item> WITHER_BOOTS = ITEMS.register("wither_boots",
-            () -> new KQArmorItem(KQArmorMaterials.WITHERSET, ArmorItem.Type.BOOTS,new Item.Properties()));
+    public static final RegistryObject<Item> WITHER_HELMET = registerArmorItem("wither_helmet", KQArmorMaterials.WITHERSET, ArmorItem.Type.HELMET);
+    public static final RegistryObject<Item> WITHER_CHESTPLATE = registerArmorItem("wither_chestplate", KQArmorMaterials.WITHERSET, ArmorItem.Type.CHESTPLATE);
+    public static final RegistryObject<Item> WITHER_LEGGINGS = registerArmorItem("wither_leggings", KQArmorMaterials.WITHERSET, ArmorItem.Type.LEGGINGS);
+    public static final RegistryObject<Item> WITHER_BOOTS = registerArmorItem("wither_boots", KQArmorMaterials.WITHERSET, ArmorItem.Type.BOOTS);
 
     public static final RegistryObject<Item> SQUIRE_HELMET = ITEMS.register("squire_helmet",
             () -> new GeoItemArmor(KQArmorMaterials.SQUIRESET, ArmorItem.Type.HELMET,new Item.Properties()
-                    , "textures/armor/squire_helmet.png", "geo/squire_helmet.geo.json") {
+                    , "squire_helmet") {
                 @Override
                 public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
                     pTooltipComponents.add(Component.translatable("tooltip.item.knightquest.squire_helmet"));
                     super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
                 }
             });
-    public static final RegistryObject<Item> SQUIRE_CHESTPLATE = ITEMS.register("squire_chestplate",
-            () -> new KQArmorItem(KQArmorMaterials.SQUIRESET, ArmorItem.Type.CHESTPLATE,new Item.Properties()));
-    public static final RegistryObject<Item> SQUIRE_LEGGINGS = ITEMS.register("squire_leggings",
-            () -> new KQArmorItem(KQArmorMaterials.SQUIRESET, ArmorItem.Type.LEGGINGS,new Item.Properties()));
-    public static final RegistryObject<Item> SQUIRE_BOOTS = ITEMS.register("squire_boots",
-            () -> new KQArmorItem(KQArmorMaterials.SQUIRESET, ArmorItem.Type.BOOTS,new Item.Properties()));
+    public static final RegistryObject<Item> SQUIRE_CHESTPLATE = registerArmorItem("squire_chestplate", KQArmorMaterials.SQUIRESET, ArmorItem.Type.CHESTPLATE);
+    public static final RegistryObject<Item> SQUIRE_LEGGINGS = registerArmorItem("squire_leggings", KQArmorMaterials.SQUIRESET, ArmorItem.Type.LEGGINGS);
+    public static final RegistryObject<Item> SQUIRE_BOOTS = registerArmorItem("squire_boots", KQArmorMaterials.SQUIRESET, ArmorItem.Type.BOOTS);
 
-    public static final RegistryObject<Item> CHAINMAIL_HELMET = ITEMS.register("chainmail_helmet",
-            () -> new ArmorItem(KQArmorMaterials.CHAINMAIL, ArmorItem.Type.HELMET,new Item.Properties()));
-    public static final RegistryObject<Item> CHAINMAIL_HELMET2 = ITEMS.register("chainmail_helmet2",
-            () -> new GeoItemArmor(KQArmorMaterials.CHAINMAIL, ArmorItem.Type.HELMET,new Item.Properties()
-                    , "textures/armor/chainmail_helmet2.png", "geo/chainmail_helmet2.geo.json"));
-    public static final RegistryObject<Item> TUNIC_BLUE_LEGGINGS = ITEMS.register("tunic_blue_leggings",
-            () -> new ArmorItem(KQArmorMaterials.TUNIC_BLUE, ArmorItem.Type.LEGGINGS,new Item.Properties()));
-    public static final RegistryObject<Item> TUNIC_GREEN_LEGGINGS = ITEMS.register("tunic_green_leggings",
-            () -> new ArmorItem(KQArmorMaterials.TUNIC_GREEN, ArmorItem.Type.LEGGINGS,new Item.Properties()));
-    public static final RegistryObject<Item> TUNIC_YELLOW_LEGGINGS = ITEMS.register("tunic_yellow_leggings",
-            () -> new ArmorItem(KQArmorMaterials.TUNIC_YELLOW, ArmorItem.Type.LEGGINGS,new Item.Properties()));
-    public static final RegistryObject<Item> TUNIC_RED_LEGGINGS = ITEMS.register("tunic_red_leggings",
-            () -> new ArmorItem(KQArmorMaterials.TUNIC_RED, ArmorItem.Type.LEGGINGS,new Item.Properties()));
-    public static final RegistryObject<Item> TUNIC_SEA_LEGGINGS = ITEMS.register("tunic_sea_leggings",
-            () -> new ArmorItem(KQArmorMaterials.TUNIC_SEA, ArmorItem.Type.LEGGINGS,new Item.Properties()));
+    public static final RegistryObject<Item> CHAINMAIL_HELMET = registerArmorItem("chainmail_helmet", KQArmorMaterials.CHAINMAIL, ArmorItem.Type.HELMET);
+    public static final RegistryObject<Item> CHAINMAIL_HELMET2 = registerGeoArmorItem("chainmail_helmet2", KQArmorMaterials.CHAINMAIL, ArmorItem.Type.HELMET);
+    public static final RegistryObject<Item> TUNIC_BLUE_LEGGINGS = registerArmorItem("tunic_blue_leggings", KQArmorMaterials.TUNIC_BLUE, ArmorItem.Type.LEGGINGS);
+    public static final RegistryObject<Item> TUNIC_GREEN_LEGGINGS = registerArmorItem("tunic_green_leggings", KQArmorMaterials.TUNIC_GREEN, ArmorItem.Type.LEGGINGS);
+    public static final RegistryObject<Item> TUNIC_YELLOW_LEGGINGS = registerArmorItem("tunic_yellow_leggings", KQArmorMaterials.TUNIC_YELLOW, ArmorItem.Type.LEGGINGS);
+    public static final RegistryObject<Item> TUNIC_RED_LEGGINGS = registerArmorItem("tunic_red_leggings", KQArmorMaterials.TUNIC_RED, ArmorItem.Type.LEGGINGS);
+    public static final RegistryObject<Item> TUNIC_SEA_LEGGINGS = registerArmorItem("tunic_sea_leggings", KQArmorMaterials.TUNIC_SEA, ArmorItem.Type.LEGGINGS);
 
-    public static final RegistryObject<Item> WITCH_HELMET = ITEMS.register("witch_helmet",
-            () -> new GeoItemArmor(KQArmorMaterials.WITCH, ArmorItem.Type.HELMET,new Item.Properties()
-                    , "textures/armor/witch_helmet.png", "geo/witch_helmet.geo.json"));
-    public static final RegistryObject<Item> WITCH_CHESTPLATE = ITEMS.register("witch_chestplate",
-            () -> new KQArmorItem(KQArmorMaterials.WITCH, ArmorItem.Type.CHESTPLATE,new Item.Properties()));
-    public static final RegistryObject<Item> WITCH_LEGGINGS = ITEMS.register("witch_leggings",
-            () -> new KQArmorItem(KQArmorMaterials.WITCH, ArmorItem.Type.LEGGINGS,new Item.Properties()));
-    public static final RegistryObject<Item> WITCH_BOOTS = ITEMS.register("witch_boots",
-            () -> new KQArmorItem(KQArmorMaterials.WITCH, ArmorItem.Type.BOOTS,new Item.Properties()));
+    public static final RegistryObject<Item> WITCH_HELMET = registerGeoArmorItem("witch_helmet", KQArmorMaterials.WITCH, ArmorItem.Type.HELMET);
+    public static final RegistryObject<Item> WITCH_CHESTPLATE = registerArmorItem("witch_chestplate", KQArmorMaterials.WITCH, ArmorItem.Type.CHESTPLATE);
+    public static final RegistryObject<Item> WITCH_LEGGINGS = registerArmorItem("witch_leggings", KQArmorMaterials.WITCH, ArmorItem.Type.LEGGINGS);
+    public static final RegistryObject<Item> WITCH_BOOTS = registerArmorItem("witch_boots", KQArmorMaterials.WITCH, ArmorItem.Type.BOOTS);
 
-    public static final RegistryObject<Item> POLAR_HELMET = ITEMS.register("polar_helmet",
-            () -> new GeoItemArmor(KQArmorMaterials.POLAR, ArmorItem.Type.HELMET,new Item.Properties()
-                    , "textures/armor/polar_helmet.png", "geo/polar_helmet.geo.json"));
-    public static final RegistryObject<Item> POLAR_CHESTPLATE = ITEMS.register("polar_chestplate",
-            () -> new KQArmorItem(KQArmorMaterials.POLAR, ArmorItem.Type.CHESTPLATE,new Item.Properties()));
-    public static final RegistryObject<Item> POLAR_LEGGINGS = ITEMS.register("polar_leggings",
-            () -> new KQArmorItem(KQArmorMaterials.POLAR, ArmorItem.Type.LEGGINGS,new Item.Properties()));
-    public static final RegistryObject<Item> POLAR_BOOTS = ITEMS.register("polar_boots",
-            () -> new KQArmorItem(KQArmorMaterials.POLAR, ArmorItem.Type.BOOTS,new Item.Properties()));
+    public static final RegistryObject<Item> POLAR_HELMET = registerGeoArmorItem("polar_helmet", KQArmorMaterials.POLAR, ArmorItem.Type.HELMET);
+    public static final RegistryObject<Item> POLAR_CHESTPLATE = registerArmorItem("polar_chestplate", KQArmorMaterials.POLAR, ArmorItem.Type.CHESTPLATE);
+    public static final RegistryObject<Item> POLAR_LEGGINGS = registerArmorItem("polar_leggings", KQArmorMaterials.POLAR, ArmorItem.Type.LEGGINGS);
+    public static final RegistryObject<Item> POLAR_BOOTS = registerArmorItem("polar_boots", KQArmorMaterials.POLAR, ArmorItem.Type.BOOTS);
 
-    public static final RegistryObject<Item> SHINOBI_HELMET = ITEMS.register("shinobi_helmet",
-            () -> new GeoItemArmor(KQArmorMaterials.SHINOBI, ArmorItem.Type.HELMET,new Item.Properties()
-                    , "textures/armor/shinobi_helmet.png", "geo/shinobi_helmet.geo.json"));
-    public static final RegistryObject<Item> SHINOBI_CHESTPLATE = ITEMS.register("shinobi_chestplate",
-            () -> new KQArmorItem(KQArmorMaterials.SHINOBI, ArmorItem.Type.CHESTPLATE,new Item.Properties()));
-    public static final RegistryObject<Item> SHINOBI_LEGGINGS = ITEMS.register("shinobi_leggings",
-            () -> new KQArmorItem(KQArmorMaterials.SHINOBI, ArmorItem.Type.LEGGINGS,new Item.Properties()));
-    public static final RegistryObject<Item> SHINOBI_BOOTS = ITEMS.register("shinobi_boots",
-            () -> new KQArmorItem(KQArmorMaterials.SHINOBI, ArmorItem.Type.BOOTS,new Item.Properties()));
+    public static final RegistryObject<Item> SHINOBI_HELMET = registerGeoArmorItem("shinobi_helmet", KQArmorMaterials.SHINOBI, ArmorItem.Type.HELMET);
+    public static final RegistryObject<Item> SHINOBI_CHESTPLATE = registerArmorItem("shinobi_chestplate", KQArmorMaterials.SHINOBI, ArmorItem.Type.CHESTPLATE);
+    public static final RegistryObject<Item> SHINOBI_LEGGINGS = registerArmorItem("shinobi_leggings", KQArmorMaterials.SHINOBI, ArmorItem.Type.LEGGINGS);
+    public static final RegistryObject<Item> SHINOBI_BOOTS = registerArmorItem("shinobi_boots", KQArmorMaterials.SHINOBI, ArmorItem.Type.BOOTS);
 
-    public static final RegistryObject<Item> SKULK_HELMET = ITEMS.register("skulk_helmet",
-            () -> new GeoItemArmor(KQArmorMaterials.SKULK, ArmorItem.Type.HELMET,new Item.Properties()
-                    , "textures/armor/skulk_helmet.png", "geo/skulk_helmet.geo.json"));
-    public static final RegistryObject<Item> SKULK2_HELMET = ITEMS.register("skulk2_helmet",
-            () -> new GeoItemArmor(KQArmorMaterials.SKULK, ArmorItem.Type.HELMET,new Item.Properties()
-                    , "textures/armor/skulk2_helmet.png", "geo/skulk2_helmet.geo.json"));
-    public static final RegistryObject<Item> SKULK3_HELMET = ITEMS.register("skulk3_helmet",
-            () -> new GeoItemArmor(KQArmorMaterials.SKULK, ArmorItem.Type.HELMET,new Item.Properties()
-                    , "textures/armor/skulk3_helmet.png", "geo/skulk3_helmet.geo.json"));
-    public static final RegistryObject<Item> SKULK4_HELMET = ITEMS.register("skulk4_helmet",
-            () -> new GeoItemArmor(KQArmorMaterials.SKULK, ArmorItem.Type.HELMET,new Item.Properties()
-                    , "textures/armor/skulk4_helmet.png", "geo/skulk4_helmet.geo.json"));
-    public static final RegistryObject<Item> SKULK_CHESTPLATE = ITEMS.register("skulk_chestplate",
-            () -> new KQArmorItem(KQArmorMaterials.SKULK, ArmorItem.Type.CHESTPLATE,new Item.Properties()));
-    public static final RegistryObject<Item> SKULK_LEGGINGS = ITEMS.register("skulk_leggings",
-            () -> new KQArmorItem(KQArmorMaterials.SKULK, ArmorItem.Type.LEGGINGS,new Item.Properties()));
-    public static final RegistryObject<Item> SKULK_BOOTS = ITEMS.register("skulk_boots",
-            () -> new KQArmorItem(KQArmorMaterials.SKULK, ArmorItem.Type.BOOTS,new Item.Properties()));
+    public static final RegistryObject<Item> SKULK_HELMET = registerGeoArmorItem("skulk_helmet", KQArmorMaterials.SKULK, ArmorItem.Type.HELMET);
+    public static final RegistryObject<Item> SKULK2_HELMET = registerGeoArmorItem("skulk2_helmet", KQArmorMaterials.SKULK, ArmorItem.Type.HELMET);
+    public static final RegistryObject<Item> SKULK3_HELMET = registerGeoArmorItem("skulk3_helmet", KQArmorMaterials.SKULK, ArmorItem.Type.HELMET);
+    public static final RegistryObject<Item> SKULK4_HELMET = registerGeoArmorItem("skulk4_helmet", KQArmorMaterials.SKULK, ArmorItem.Type.HELMET);
+    public static final RegistryObject<Item> SKULK_CHESTPLATE = registerArmorItem("skulk_chestplate", KQArmorMaterials.SKULK, ArmorItem.Type.CHESTPLATE);
+    public static final RegistryObject<Item> SKULK_LEGGINGS = registerArmorItem("skulk_leggings", KQArmorMaterials.SKULK, ArmorItem.Type.LEGGINGS);
+    public static final RegistryObject<Item> SKULK_BOOTS = registerArmorItem("skulk_boots", KQArmorMaterials.SKULK, ArmorItem.Type.BOOTS);
 
-    public static final RegistryObject<Item> GREMLIN_EGG = ITEMS.register("gremlin_spawn_egg",
-            () -> new ForgeSpawnEggItem(KnightQuestEntities.GREMLIN, 0xc22f26, 0x45545d, new Item.Properties()));
-    public static final RegistryObject<Item> ELD_BOMB_EGG = ITEMS.register("eldbomb_spawn_egg",
-            () -> new ForgeSpawnEggItem(KnightQuestEntities.ELDBOMB, 0x43404e, 0x81da25, new Item.Properties()));
-    public static final RegistryObject<Item> ELD_KNIGHT_EGG = ITEMS.register("eldknight_spawn_egg",
-            () -> new ForgeSpawnEggItem(KnightQuestEntities.ELDKINGHT, 0x7f8ab2, 0x8a392e, new Item.Properties()));
-    public static final RegistryObject<Item> RATMAN_EGG = ITEMS.register("ratman_spawn_egg",
-            () -> new ForgeSpawnEggItem(KnightQuestEntities.RATMAN, 0x3a303d, 0xb75383, new Item.Properties()));
-    public static final RegistryObject<Item> SAMHAIN_EGG = ITEMS.register("samhain_spawn_egg",
-            () -> new ForgeSpawnEggItem(KnightQuestEntities.SAMHAIN, 0xfdde03, 0x982938, new Item.Properties()));
-    public static final RegistryObject<Item> SWAMPMAN_EGG = ITEMS.register("swampman_spawn_egg",
-            () -> new ForgeSpawnEggItem(KnightQuestEntities.SWAMPMAN, 0x108773, 0x9e304f, new Item.Properties()));
-    public static final RegistryObject<Item> LIZZY_EGG = ITEMS.register("lizzy_spawn_egg",
-            () -> new ForgeSpawnEggItem(KnightQuestEntities.LIZZY, 0x0babf2, 0xd1802b, new Item.Properties()));
-    public static final RegistryObject<Item> BADPATCH_EGG = ITEMS.register("bad_patch_spawn_egg",
-            () -> new ForgeSpawnEggItem(KnightQuestEntities.BADPATCH, 0xec160b, 0xeff1f8, new Item.Properties()));
-    public static final RegistryObject<Item> GHOSTY_EGG = ITEMS.register("ghosty_spawn_egg",
-            () -> new ForgeSpawnEggItem(KnightQuestEntities.GHOSTY, 0x2cb87e, 0xfbe105, new Item.Properties()));
-    public static final RegistryObject<Item> MOMMA_LIZZY_EGG = ITEMS.register("momma_lizzy_spawn_egg",
-            () -> new ForgeSpawnEggItem(KnightQuestEntities.MOMMA_LIZZY, 0x0babf2, 0x9f5b14, new Item.Properties()));
+    public static final RegistryObject<Item> GREMLIN_EGG = registerSpawnEggItem("gremlin_spawn_egg", KnightQuestEntities.GREMLIN, 0xc22f26, 0x45545d);
+    public static final RegistryObject<Item> ELD_BOMB_EGG = registerSpawnEggItem("eldbomb_spawn_egg", KnightQuestEntities.ELDBOMB, 0x43404e, 0x81da25);
+    public static final RegistryObject<Item> ELD_KNIGHT_EGG = registerSpawnEggItem("eldknight_spawn_egg", KnightQuestEntities.ELDKINGHT, 0x7f8ab2, 0x8a392e);
+    public static final RegistryObject<Item> RATMAN_EGG = registerSpawnEggItem("ratman_spawn_egg", KnightQuestEntities.RATMAN, 0x3a303d, 0xb75383);
+    public static final RegistryObject<Item> SAMHAIN_EGG = registerSpawnEggItem("samhain_spawn_egg", KnightQuestEntities.SAMHAIN, 0xfdde03, 0x982938);
+    public static final RegistryObject<Item> SWAMPMAN_EGG = registerSpawnEggItem("swampman_spawn_egg", KnightQuestEntities.SWAMPMAN, 0x108773, 0x9e304f);
+    public static final RegistryObject<Item> LIZZY_EGG = registerSpawnEggItem("lizzy_spawn_egg", KnightQuestEntities.LIZZY, 0x0babf2, 0xd1802b);
+    public static final RegistryObject<Item> BADPATCH_EGG = registerSpawnEggItem("bad_patch_spawn_egg", KnightQuestEntities.BADPATCH, 0xec160b, 0xeff1f8);
+    public static final RegistryObject<Item> GHOSTY_EGG = registerSpawnEggItem("ghosty_spawn_egg", KnightQuestEntities.GHOSTY, 0x2cb87e, 0xfbe105);
+    public static final RegistryObject<Item> MOMMA_LIZZY_EGG = registerSpawnEggItem("momma_lizzy_spawn_egg", KnightQuestEntities.MOMMA_LIZZY, 0x0babf2, 0x9f5b14);
     public static final RegistryObject<Item> GHASTLING_EGG = ITEMS.register("ghastling_spawn_egg",
             () -> new ForgeSpawnEggItem(KnightQuestEntities.SHIELD, 0x930c13, 0xfb9600, new Item.Properties()){
                 @Override

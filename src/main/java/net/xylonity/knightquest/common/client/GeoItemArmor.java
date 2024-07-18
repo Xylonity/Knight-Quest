@@ -19,14 +19,13 @@ import java.util.function.Consumer;
 public class GeoItemArmor extends KQArmorItem implements GeoItem {
 
     private final AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
-    private final String a;
-    private final String b;
+    private final String textureResource;
+    private final String modelResource;
 
-
-    public GeoItemArmor(KQArmorMaterials material, Type type, Properties properties, String a, String b) {
+    public GeoItemArmor(KQArmorMaterials material, Type type, Properties properties, String resourceKey) {
         super(material, type, properties);
-        this.a = a;
-        this.b = b;
+        this.textureResource = "textures/armor/" + resourceKey + ".png";
+        this.modelResource = "geo/" + resourceKey + ".geo.json";
     }
 
     @Override
@@ -38,7 +37,7 @@ public class GeoItemArmor extends KQArmorItem implements GeoItem {
             public @NotNull HumanoidModel<?> getHumanoidArmorModel(LivingEntity livingEntity, ItemStack itemStack, EquipmentSlot equipmentSlot, HumanoidModel<?> original) {
 
                 if (this.renderer == null)
-                    this.renderer = new GeoItemArmorRenderer(a, b);
+                    this.renderer = new GeoItemArmorRenderer(textureResource, modelResource);
 
                 this.renderer.prepForRender(livingEntity, itemStack, equipmentSlot, original);
                 return this.renderer;
@@ -48,10 +47,10 @@ public class GeoItemArmor extends KQArmorItem implements GeoItem {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController(this, "controller", 0, this::predicate));
+        controllers.add(new AnimationController<>(this, "controller", 0, this::predicate));
     }
 
-    private PlayState predicate(AnimationState animationState) {
+    private PlayState predicate(AnimationState<?> animationState) {
         animationState.getController().setAnimation(RawAnimation.begin().then("idle", Animation.LoopType.LOOP));
         return PlayState.CONTINUE;
     }

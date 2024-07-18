@@ -18,30 +18,30 @@ public class KQGlobalLootModifiersProvider extends GlobalLootModifierProvider {
      * Declaration of certain mobs that will drop the small_essence item
      */
 
-    private static final ResourceLocation[] MOB_IDS = {
-            new ResourceLocation("minecraft", "entities/creeper"),
-            new ResourceLocation("minecraft", "entities/spider"),
-            new ResourceLocation("minecraft", "entities/skeleton"),
-            new ResourceLocation("minecraft", "entities/zombie"),
-            new ResourceLocation("minecraft", "entities/cave_spider"),
-            new ResourceLocation("minecraft", "entities/blaze"),
-            new ResourceLocation("minecraft", "entities/enderman"),
-            new ResourceLocation("minecraft", "entities/ghast"),
-            new ResourceLocation("minecraft", "entities/magma_cube"),
-            new ResourceLocation("minecraft", "entities/phantom"),
-            new ResourceLocation("minecraft", "entities/slime"),
-            new ResourceLocation("minecraft", "entities/stray"),
-            new ResourceLocation("minecraft", "entities/vex"),
-            new ResourceLocation("minecraft", "entities/drowned"),
-            new ResourceLocation("knightquest", "entities/gremlin"),
-            new ResourceLocation("knightquest", "entities/eldknight"),
-            new ResourceLocation("knightquest", "entities/samhain"),
-            new ResourceLocation("knightquest", "entities/ratman"),
-            new ResourceLocation("knightquest", "entities/swampman"),
-            new ResourceLocation("knightquest", "entities/eldbomb"),
-            new ResourceLocation("knightquest", "entities/lizzy"),
-            new ResourceLocation("knightquest", "entities/bad_patch")
-    };
+    private static final ResourceLocation[] MOB_IDS;
+
+    static {
+        String[] vanilla = {
+                "creeper", "spider", "skeleton", "zombie", "cave_spider",
+                "blaze", "enderman", "ghast", "magma_cube", "phantom",
+                "slime", "stray", "vex", "drowned", "blaze"
+        };
+
+        String[] knightquest = {
+                "gremlin", "eldknight", "samhain", "ratman", "swampman",
+                "eldbomb", "lizzy", "bad_patch"
+        };
+
+        MOB_IDS = new ResourceLocation[vanilla.length + knightquest.length];
+
+        for (int i = 0; i < vanilla.length; i++) {
+            MOB_IDS[i] = new ResourceLocation("minecraft", "entities/" + vanilla[i]);
+        }
+
+        for (int i = 0; i < knightquest.length; i++) {
+            MOB_IDS[vanilla.length + i] = new ResourceLocation("knightquest", "entities/" + knightquest[i]);
+        }
+    }
 
     private static final ResourceLocation RATMAN_ID = new ResourceLocation("knightquest", "entities/ratman");
     private static final ResourceLocation LIZZY_ID = new ResourceLocation("knightquest", "entities/lizzy");

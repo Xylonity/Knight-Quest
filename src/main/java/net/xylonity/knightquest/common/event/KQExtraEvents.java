@@ -13,12 +13,16 @@ import net.xylonity.knightquest.KnightQuest;
 import net.xylonity.knightquest.registry.KnightQuestEntities;
 import net.xylonity.knightquest.common.entity.entities.SamhainEntity;
 
+/**
+ * Alternative class for extra event definitions. Check KQArmorItem::ArmorStatusManagerEvents.
+ * @see net.xylonity.knightquest.common.item.KQArmorItem
+ */
+
 @Mod.EventBusSubscriber(modid = KnightQuest.MOD_ID)
 public class KQExtraEvents {
 
     /**
-     * Alternative class for extra event definitions. Check KQArmorItem::ArmorStatusManagerEvents.
-     * @see net.xylonity.knightquest.common.item.KQArmorItem
+     * Handles whenever a player tries to summon a Samhain placing its respective blocks.
      */
 
     @SubscribeEvent

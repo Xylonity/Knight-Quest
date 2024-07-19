@@ -40,8 +40,8 @@ public class GhostyParticle extends TextureSheetParticle {
         if (!this.removed) {
             float $$0 = (float)(300 - this.lifetime);
             float $$1 = Math.min($$0 / 300.0F, 1.0F);
-            double $$2 = Math.cos(Math.toRadians((double)(this.particleRandom * 60.0F))) * 2.0 * Math.pow((double)$$1, 1.25);
-            double $$3 = Math.sin(Math.toRadians((double)(this.particleRandom * 60.0F))) * 2.0 * Math.pow((double)$$1, 1.25);
+            double $$2 = Math.cos(Math.toRadians(this.particleRandom * 60.0F)) * 2.0 * Math.pow($$1, 1.25);
+            double $$3 = Math.sin(Math.toRadians(this.particleRandom * 60.0F)) * 2.0 * Math.pow($$1, 1.25);
             this.xd += $$2 * 0.0024999999441206455;
             this.zd += $$3 * 0.0024999999441206455;
             this.yd -= this.gravity;

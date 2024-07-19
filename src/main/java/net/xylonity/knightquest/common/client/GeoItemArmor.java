@@ -19,13 +19,11 @@ import java.util.function.Consumer;
 public class GeoItemArmor extends KQArmorItem implements GeoItem {
 
     private final AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
-    private final String textureResource;
-    private final String modelResource;
+    private final String resourceKey;
 
     public GeoItemArmor(KQArmorMaterials material, Type type, Properties properties, String resourceKey) {
         super(material, type, properties);
-        this.textureResource = "textures/armor/" + resourceKey + ".png";
-        this.modelResource = "geo/" + resourceKey + ".geo.json";
+        this.resourceKey = resourceKey;
     }
 
     @Override
@@ -37,7 +35,7 @@ public class GeoItemArmor extends KQArmorItem implements GeoItem {
             public @NotNull HumanoidModel<?> getHumanoidArmorModel(LivingEntity livingEntity, ItemStack itemStack, EquipmentSlot equipmentSlot, HumanoidModel<?> original) {
 
                 if (this.renderer == null)
-                    this.renderer = new GeoItemArmorRenderer(textureResource, modelResource);
+                    this.renderer = new GeoItemArmorRenderer(resourceKey);
 
                 this.renderer.prepForRender(livingEntity, itemStack, equipmentSlot, original);
                 return this.renderer;

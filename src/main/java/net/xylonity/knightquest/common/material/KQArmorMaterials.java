@@ -74,7 +74,7 @@ public enum KQArmorMaterials implements ArmorMaterial {
     ZOMBIESET("zombie", 37, new int[]{ 3, 8, 6, 3 }, 25,
             SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
     HUSKSET("husk", 37, new int[]{ 3, 8, 6, 3 }, 25,
-        SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
+            SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
     WITHERSET("wither", 37, new int[]{ 3, 8, 6, 3 }, 25,
             SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
     SQUIRESET("squire", 37, new int[]{ 3, 8, 6, 3 }, 25,
@@ -100,8 +100,7 @@ public enum KQArmorMaterials implements ArmorMaterial {
     SKULK("skulk", 37, new int[]{ 3, 8, 6, 3 }, 25,
             SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
     TENGU("tengu", 37, new int[]{ 3, 8, 6, 3 }, 25,
-    SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()));
-
+            SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()));
 
     private final String name;
     private final int durabilityMultiplier;

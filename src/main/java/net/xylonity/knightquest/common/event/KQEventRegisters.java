@@ -20,6 +20,10 @@ import net.xylonity.knightquest.datagen.KQGlobalLootModifiersProvider;
 @Mod.EventBusSubscriber(modid = KnightQuest.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class KQEventRegisters {
 
+    /**
+     * Sets attributes to every entity defined in the scope.
+     */
+
     @SubscribeEvent
     public static void registerEntityAttributes(EntityAttributeCreationEvent event) {
         event.put(KnightQuestEntities.GREMLIN.get(), GremlinEntity.setAttributes());
@@ -35,9 +39,12 @@ public class KQEventRegisters {
         event.put(KnightQuestEntities.GHOSTY.get(), GhostyEntity.setAttributes());
     }
 
+    /**
+     * Limits spawn placement of entities.
+     */
+
     @SubscribeEvent
     public static void registerSpawnPlacements(SpawnPlacementRegisterEvent event) {
-
         event.register(KnightQuestEntities.BADPATCH.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
         event.register(KnightQuestEntities.ELDBOMB.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
         event.register(KnightQuestEntities.ELDKINGHT.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
@@ -47,8 +54,12 @@ public class KQEventRegisters {
         event.register(KnightQuestEntities.RATMAN.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
         event.register(KnightQuestEntities.SAMHAIN.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, TamableAnimal::checkAnimalSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
         event.register(KnightQuestEntities.SWAMPMAN.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
-
     }
+
+    /**
+     * Recipe json generator for certain mobs defined on the array MOB_IDS.
+     * @see KQGlobalLootModifiersProvider
+     */
 
     @SubscribeEvent
     public static void gatherData(GatherDataEvent event) {

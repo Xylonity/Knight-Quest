@@ -6,22 +6,20 @@ import software.bernie.geckolib.model.GeoModel;
 
 public class GeoItemArmorModel extends GeoModel<GeoItemArmor> {
 
-    private final String textureResource;
-    private final String modelResource;
+    private final String resourceKey;
 
-    public GeoItemArmorModel(String textureResource, String modelResource) {
-        this.textureResource = textureResource;
-        this.modelResource = modelResource;
+    public GeoItemArmorModel(String resourceKey) {
+        this.resourceKey = resourceKey;
     }
 
     @Override
     public ResourceLocation getModelResource(GeoItemArmor animatable) {
-        return new ResourceLocation(KnightQuest.MOD_ID, modelResource);
+        return new ResourceLocation(KnightQuest.MOD_ID, "geo/" + resourceKey + ".geo.json");
     }
 
     @Override
     public ResourceLocation getTextureResource(GeoItemArmor animatable) {
-        return new ResourceLocation(KnightQuest.MOD_ID, textureResource);
+        return new ResourceLocation(KnightQuest.MOD_ID, "textures/armor/" + resourceKey + ".png");
     }
 
     @Override

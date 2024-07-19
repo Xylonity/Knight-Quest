@@ -1,6 +1,7 @@
 package net.xylonity.common.entity.entities;
 
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -25,27 +26,38 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class GremlinEntity extends HostileEntity implements GeoEntity {
     private AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
-    private boolean isHalfHealth;
-    private final World serverWorld;
-    private int a = 0;
     private static final TrackedData<Boolean> INVULNERABLE = DataTracker.registerData(GremlinEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+    private static final TrackedData<Integer> PHASE = DataTracker.registerData(GremlinEntity.class, TrackedDataHandlerRegistry.INTEGER);
+    private final World serverWorld;
+    private boolean isHalfHealth;
+    private int tickCounter = 0;
+
+    public GremlinEntity(EntityType<? extends HostileEntity> entityType, World world) {
+        super(entityType, world);
+        this.serverWorld = world;
+    }
 
     @Override
     protected void initDataTracker(DataTracker.Builder builder) {
         super.initDataTracker(builder);
         builder.add(INVULNERABLE, false);
+        builder.add(PHASE, 1);
     }
 
-    public boolean isInvulnerable() {
+    public boolean getInvulnerability() {
         return this.dataTracker.get(INVULNERABLE);
     }
 
-    public void setInvulnerable(boolean invulnerable) {
+    public int getPhase() {
+        return this.dataTracker.get(PHASE);
+    }
+
+    public void setInvulnerability(boolean invulnerable) {
         this.dataTracker.set(INVULNERABLE, invulnerable);
     }
-    public GremlinEntity(EntityType<? extends HostileEntity> entityType, World world) {
-        super(entityType, world);
-        this.serverWorld = world;
+
+    public void setPhase(int phase) {
+        this.dataTracker.set(PHASE, phase);
     }
 
     public static DefaultAttributeContainer.Builder setAttributes() {
@@ -102,6 +114,61 @@ public class GremlinEntity extends HostileEntity implements GeoEntity {
     }
 
     @Override
+    public void tick() {
+        super.tick();
+        if (this.getHealth() < getMaxHealth() * 0.5) {
+
+            if (!this.isHalfHealth) {
+                this.serverWorld.addParticle(KnightQuestParticles.GREMLIN_PARTICLE, this.getX(), getY() - 0.48, getZ(), 2d, 0d, 0d);
+                this.serverWorld.playSound(null, this.getBlockPos(), SoundEvents.ENTITY_EVOKER_PREPARE_SUMMON, SoundCategory.HOSTILE, 1.0F, 1.0F);
+                this.isHalfHealth = true;
+                spawnShield();
+                setPhase(2);
+            }
+
+            setInvulnerability(hasShields());
+
+            tickCounter++;
+            if (tickCounter % 22 == 0 && tickCounter / 25 <= 1) {
+                spawnShield();
+            }
+        }
+    }
+
+    private void spawnShield() {
+        ShieldEntity entity = KnightQuestEntities.SHIELD.create(serverWorld);
+        if (entity != null) {
+            entity.refreshPositionAndAngles(this.getSteppingPos(), 1.0F, 0.0F);
+            serverWorld.spawnEntity(entity);
+        }
+    }
+
+    @Override
+    public boolean damage(DamageSource source, float amount) {
+        if (getInvulnerability())
+            return false;
+        else
+            return super.damage(source, amount);
+    }
+
+    private boolean hasShields() {
+        double closestDistance = Double.MAX_VALUE;
+        LivingEntity closestShield = null;
+
+        for (LivingEntity entity : serverWorld.getNonSpectatingEntities(LivingEntity.class, getBoundingBox().expand(5))) {
+            if (entity instanceof ShieldEntity) {
+                double distance = distanceTo(entity);
+                if (distance < closestDistance) {
+                    closestDistance = distance;
+                    closestShield = entity;
+                }
+            }
+        }
+
+        return closestShield != null;
+    }
+
+    @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
         return cache;
     }
@@ -126,61 +193,5 @@ public class GremlinEntity extends HostileEntity implements GeoEntity {
         return super.createNavigation(world);
     }
 
-    @Override
-    public void tick() {
-        super.tick();
-        if (this.getHealth() < getMaxHealth() * 0.5) {
-            if (!this.isHalfHealth) {
-                this.serverWorld.addParticle(KnightQuestParticles.GREMLIN_PARTICLE, this.getX(), getY() - 0.48, getZ(), 2d, 0d, 0d);
-                this.serverWorld.playSound(null, this.getBlockPos(), SoundEvents.ENTITY_EVOKER_PREPARE_SUMMON, SoundCategory.HOSTILE, 1.0F, 1.0F);
-                this.isHalfHealth = true;
-                spawnShield();
-            }
-
-            if (hasShields()) {
-                setInvulnerable(true);
-            } else {
-                setInvulnerable(false);
-            }
-
-            a++;
-            if (a % 22 == 0 && a / 25 <= 1) {
-                spawnShield();
-            }
-        }
-    }
-
-    private void spawnShield() {
-        ShieldEntity entity = KnightQuestEntities.SHIELD.create(serverWorld);
-        if (entity != null) {
-            entity.refreshPositionAndAngles(this.getSteppingPos(), 1.0F, 0.0F);
-            serverWorld.spawnEntity(entity);
-        }
-    }
-
-    @Override
-    public boolean damage(DamageSource source, float amount) {
-        if (isInvulnerable())
-            return false;
-        else
-            return super.damage(source, amount);
-    }
-
-    private boolean hasShields() {
-        double closestDistance = Double.MAX_VALUE;
-        ShieldEntity closestGremlin = null;
-
-        for (ShieldEntity entity : serverWorld.getNonSpectatingEntities(ShieldEntity.class, getBoundingBox().expand(5))) {
-            if (entity instanceof ShieldEntity) {
-                double distance = distanceTo(entity);
-                if (distance < closestDistance) {
-                    closestDistance = distance;
-                    closestGremlin = entity;
-                }
-            }
-        }
-
-        return closestGremlin != null;
-    }
 
 }

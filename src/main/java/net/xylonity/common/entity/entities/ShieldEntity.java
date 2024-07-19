@@ -71,7 +71,7 @@ public class ShieldEntity extends HostileEntity implements GeoEntity {
 
         GremlinEntity owner = findClosestGremlin();
 
-        if (owner == null || owner.isDead()) {
+        if (owner == null || owner.isDead() || owner.getPhase() == 1) {
             this.remove(RemovalReason.KILLED);
             return;
         }

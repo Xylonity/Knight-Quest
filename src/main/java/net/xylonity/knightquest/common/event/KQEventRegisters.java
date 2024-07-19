@@ -13,6 +13,7 @@ import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.xylonity.knightquest.KnightQuest;
+import net.xylonity.knightquest.common.entity.boss.NethermanEntity;
 import net.xylonity.knightquest.registry.KnightQuestEntities;
 import net.xylonity.knightquest.common.entity.entities.*;
 import net.xylonity.knightquest.datagen.KQGlobalLootModifiersProvider;
@@ -37,6 +38,7 @@ public class KQEventRegisters {
         event.put(KnightQuestEntities.SHIELD.get(), ShieldEntity.setAttributes());
         event.put(KnightQuestEntities.MOMMA_LIZZY.get(), MommaLizzyEntity.setAttributes());
         event.put(KnightQuestEntities.GHOSTY.get(), GhostyEntity.setAttributes());
+        event.put(KnightQuestEntities.NETHERMAN.get(), NethermanEntity.setAttributes());
     }
 
     /**

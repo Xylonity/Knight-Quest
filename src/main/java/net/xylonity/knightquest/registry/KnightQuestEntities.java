@@ -8,6 +8,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.xylonity.knightquest.KnightQuest;
+import net.xylonity.knightquest.common.entity.boss.NethermanEntity;
 import net.xylonity.knightquest.common.entity.entities.*;
 
 public class KnightQuestEntities {
@@ -25,6 +26,7 @@ public class KnightQuestEntities {
     public static final RegistryObject<EntityType<ShieldEntity>> SHIELD;
     public static final RegistryObject<EntityType<MommaLizzyEntity>> MOMMA_LIZZY;
     public static final RegistryObject<EntityType<GhostyEntity>> GHOSTY;
+    public static final RegistryObject<EntityType<NethermanEntity>> NETHERMAN;
 
     static {
         GREMLIN = register("gremlin", GremlinEntity::new, MobCategory.MONSTER , 1f, 1f);
@@ -38,6 +40,7 @@ public class KnightQuestEntities {
         SHIELD = register("ghastling", ShieldEntity::new, MobCategory.MONSTER , 0.65f, 0.65f);
         MOMMA_LIZZY = register("momma_lizzy", MommaLizzyEntity::new, MobCategory.MONSTER, 1f, 0.3f);
         GHOSTY = register("ghosty", GhostyEntity::new, MobCategory.MONSTER, 1f, 1f);
+        NETHERMAN = register("netherman", NethermanEntity::new, MobCategory.MONSTER, 0.8f, 2.8f);
     }
 
     private static <X extends Mob> RegistryObject<EntityType<X>> register(String name, EntityType.EntityFactory<X> entity, MobCategory category, float width, float height) {

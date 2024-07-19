@@ -60,6 +60,7 @@ public class KQArmorItem extends ArmorItem {
     private static final MobEffectInstance SKULK_ARMOR =  new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, -1, 1, false, false, true);
     private static final MobEffectInstance STRAWHAT_ARMOR =  new MobEffectInstance(MobEffects.WATER_BREATHING, -1, 0, false, false, true);
     private final String bonusTooltip;
+    private final boolean hasTooltip;
 
     /**
      * Dual Hashmap that inherits old declared effects when a new set is equipped, preventing
@@ -68,9 +69,10 @@ public class KQArmorItem extends ArmorItem {
 
     private static final Map<UUID, Map<KQArmorMaterials, Boolean>> effectAppliedByArmorMap = new HashMap<>();
 
-    public KQArmorItem(KQArmorMaterials material, Type type, Properties settings) {
+    public KQArmorItem(KQArmorMaterials material, Type type, Properties settings, boolean hasTooltip) {
         super(material, type, settings);
         this.bonusTooltip = material.getKeyName();
+        this.hasTooltip = hasTooltip;
     }
 
     /**
@@ -80,13 +82,15 @@ public class KQArmorItem extends ArmorItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        if (!Objects.equals(bonusTooltip, "chainmail") && !Objects.equals(bonusTooltip, "tengu")) {
-            pTooltipComponents.add(Component.translatable("tooltip.item.knightquest.full_set_bonus"));
-            pTooltipComponents.add(Component.translatable("tooltip.item.knightquest." + bonusTooltip + "_helmet.bonus"));
-        } else if (Objects.equals(bonusTooltip, "tengu")) {
-            pTooltipComponents.add(Component.translatable("tooltip.item.knightquest.full_helmet_bonus"));
-            pTooltipComponents.add(Component.translatable("tooltip.item.knightquest." + bonusTooltip + "_helmet.bonus"));
-        }
+        if (hasTooltip)
+            if (!Objects.equals(bonusTooltip, "chainmail") && !Objects.equals(bonusTooltip, "tengu")) {
+                pTooltipComponents.add(Component.translatable("tooltip.item.knightquest.full_set_bonus"));
+                pTooltipComponents.add(Component.translatable("tooltip.item.knightquest." + bonusTooltip + "_helmet.bonus"));
+            } else if (Objects.equals(bonusTooltip, "tengu")) {
+                pTooltipComponents.add(Component.translatable("tooltip.item.knightquest.full_helmet_bonus"));
+                pTooltipComponents.add(Component.translatable("tooltip.item.knightquest." + bonusTooltip + "_helmet.bonus"));
+            }
+
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 

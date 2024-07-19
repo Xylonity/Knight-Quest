@@ -21,8 +21,8 @@ public class GeoItemArmor extends KQArmorItem implements GeoItem {
     private final AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
     private final String resourceKey;
 
-    public GeoItemArmor(KQArmorMaterials material, Type type, Properties properties, String resourceKey) {
-        super(material, type, properties);
+    public GeoItemArmor(KQArmorMaterials material, Type type, Properties properties, String resourceKey, boolean hasTooltip) {
+        super(material, type, properties, hasTooltip);
         this.resourceKey = resourceKey;
     }
 

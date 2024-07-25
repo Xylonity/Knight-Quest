@@ -1,13 +1,14 @@
 package net.xylonity.knightquest.registry;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.xylonity.knightquest.KnightQuest;
+import net.xylonity.knightquest.common.entity.boss.NethermanTeleportChargeEntity;
 import net.xylonity.knightquest.common.entity.boss.NethermanEntity;
 import net.xylonity.knightquest.common.entity.entities.*;
 
@@ -27,6 +28,7 @@ public class KnightQuestEntities {
     public static final RegistryObject<EntityType<MommaLizzyEntity>> MOMMA_LIZZY;
     public static final RegistryObject<EntityType<GhostyEntity>> GHOSTY;
     public static final RegistryObject<EntityType<NethermanEntity>> NETHERMAN;
+    public static final RegistryObject<EntityType<NethermanTeleportChargeEntity>> NETHERMAN_TELEPORT_CHARGE;
 
     static {
         GREMLIN = register("gremlin", GremlinEntity::new, MobCategory.MONSTER , 1f, 1f);
@@ -41,9 +43,10 @@ public class KnightQuestEntities {
         MOMMA_LIZZY = register("momma_lizzy", MommaLizzyEntity::new, MobCategory.MONSTER, 1f, 0.3f);
         GHOSTY = register("ghosty", GhostyEntity::new, MobCategory.MONSTER, 1f, 1f);
         NETHERMAN = register("netherman", NethermanEntity::new, MobCategory.MONSTER, 0.8f, 2.8f);
+        NETHERMAN_TELEPORT_CHARGE = register("netherman_teleport_charge", NethermanTeleportChargeEntity::new, MobCategory.MONSTER, 0.5f, 0.5f);
     }
 
-    private static <X extends Mob> RegistryObject<EntityType<X>> register(String name, EntityType.EntityFactory<X> entity, MobCategory category, float width, float height) {
+    private static <X extends Entity> RegistryObject<EntityType<X>> register(String name, EntityType.EntityFactory<X> entity, MobCategory category, float width, float height) {
         return ENTITY.register(name, () -> EntityType.Builder.of(entity, category).sized(width, height).build(String.valueOf(new ResourceLocation(KnightQuest.MOD_ID, name))));
     }
 

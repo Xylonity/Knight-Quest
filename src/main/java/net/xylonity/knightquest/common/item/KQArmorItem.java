@@ -508,6 +508,9 @@ public class KQArmorItem extends ArmorItem {
                     }
                 }
 
+                if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.POLAR) && player.getTicksFrozen() > 0)
+                    player.setTicksFrozen(0);
+
                 if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.SILVERFISHSET) && player.getY() < 50) {
                     if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(player.getUUID(), k -> new HashMap<>()).getOrDefault(KQArmorMaterials.SILVERFISHSET, false))) {
                         player.addEffect(SILVERFISH_ARMOR);

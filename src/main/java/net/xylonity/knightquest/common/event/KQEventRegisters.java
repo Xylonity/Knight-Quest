@@ -39,6 +39,7 @@ public class KQEventRegisters {
         event.put(KnightQuestEntities.MOMMA_LIZZY.get(), MommaLizzyEntity.setAttributes());
         event.put(KnightQuestEntities.GHOSTY.get(), GhostyEntity.setAttributes());
         event.put(KnightQuestEntities.NETHERMAN.get(), NethermanEntity.setAttributes());
+        event.put(KnightQuestEntities.LASER_BEAM.get(), NethermanEntity.setAttributes());
     }
 
     /**

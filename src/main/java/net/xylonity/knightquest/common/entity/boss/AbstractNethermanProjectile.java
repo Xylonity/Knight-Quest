@@ -45,20 +45,15 @@ public class AbstractNethermanProjectile extends Projectile {
         this.setRot(pShooter.getYRot(), pShooter.getXRot());
     }
 
-    protected void defineSynchedData() {
-    }
+    protected void defineSynchedData() {  }
 
     /**
      * Checks if the entity is in range to render.
      */
-    public boolean shouldRenderAtSqrDistance(double pDistance) {
-        double d0 = this.getBoundingBox().getSize() * 4.0D;
-        if (Double.isNaN(d0)) {
-            d0 = 4.0D;
-        }
-
-        d0 *= 64.0D;
-        return pDistance < d0 * d0;
+    public boolean shouldRenderAtSqrDistance(double distance) {
+        double size = this.getBoundingBox().getSize() * 4.0D;
+        size = Double.isNaN(size) ? 4.0D : size * 64.0D;
+        return distance < size * size;
     }
 
     /**
@@ -98,12 +93,8 @@ public class AbstractNethermanProjectile extends Projectile {
         }
     }
 
-    protected boolean canHitEntity(Entity p_36842_) {
-        return super.canHitEntity(p_36842_) && !p_36842_.noPhysics;
-    }
-
-    protected boolean shouldBurn() {
-        return true;
+    protected boolean canHitEntity(Entity entity) {
+        return super.canHitEntity(entity) && !entity.noPhysics;
     }
 
     protected ParticleOptions getTrailParticle() {
@@ -119,7 +110,7 @@ public class AbstractNethermanProjectile extends Projectile {
 
     public void addAdditionalSaveData(CompoundTag pCompound) {
         super.addAdditionalSaveData(pCompound);
-        pCompound.put("power", this.newDoubleList(new double[]{this.xPower, this.yPower, this.zPower}));
+        pCompound.put("power", this.newDoubleList(this.xPower, this.yPower, this.zPower));
     }
 
     /**

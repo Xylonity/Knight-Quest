@@ -15,9 +15,25 @@ public class KnightQuestParticles {
     public static final RegistryObject<SimpleParticleType> GREMLIN_PARTICLE = register("gremlin");
     public static final RegistryObject<SimpleParticleType> YELLOW_PARTICLE = register("yellow");
     public static final RegistryObject<SimpleParticleType> GHOSTY_PARTICLE = register("ghosty");
+    public static final RegistryObject<SimpleParticleType> SNOWFLAKE_PARTICLE = register("snowflake");
+
+    public static final RegistryObject<SimpleParticleType> BLASTWAVE = register2("blastwave");
+    public static final RegistryObject<SimpleParticleType> FIREBALL = register2("fireball");
+    public static final RegistryObject<SimpleParticleType> BLANK_FIREBALL = register2("blank_fireball");
+    public static final RegistryObject<SimpleParticleType> SMOKE = register2("smoke");
+    public static final RegistryObject<SimpleParticleType> SPARKS = register2("sparks");
+    public static final RegistryObject<SimpleParticleType> BUBBLE = register2("bubble");
+    public static final RegistryObject<SimpleParticleType> SHOCKWAVE = register2("shockwave");
+    public static final RegistryObject<SimpleParticleType> BLANK_SHOCKWAVE = register2("blank_shockwave");
+    public static final RegistryObject<SimpleParticleType> UNDERWATERBLASTWAVE = register2("underwaterblastwave");
+    public static final RegistryObject<SimpleParticleType> UNDERWATERSPARKS = register2("underwatersparks");
 
     private static RegistryObject<SimpleParticleType> register(String name) {
         return PARTICLES.register(name, () -> new SimpleParticleType(true));
+    }
+
+    private static RegistryObject<SimpleParticleType> register2(String name) {
+        return PARTICLES.register(name, () -> new SimpleParticleType(false));
     }
 
 }

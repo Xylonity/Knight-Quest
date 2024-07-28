@@ -1,5 +1,6 @@
 package net.xylonity.knightquest.common.entity.entities;
 
+import net.minecraft.client.particle.CampfireSmokeParticle;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;

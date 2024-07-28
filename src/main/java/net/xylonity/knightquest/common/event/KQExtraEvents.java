@@ -3,15 +3,27 @@ package net.xylonity.knightquest.common.event;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.level.BlockEvent;
+import net.minecraftforge.event.level.ExplosionEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.xylonity.knightquest.KnightQuest;
+import net.xylonity.knightquest.common.entity.boss.NethermanTeleportChargeEntity;
+import net.xylonity.knightquest.common.item.KQArmorItem;
 import net.xylonity.knightquest.registry.KnightQuestEntities;
 import net.xylonity.knightquest.common.entity.entities.SamhainEntity;
+
+import java.util.Map;
 
 /**
  * Alternative class for extra event definitions. Check KQArmorItem::ArmorStatusManagerEvents.
@@ -39,6 +51,37 @@ public class KQExtraEvents {
             level.playSound(null, pos, SoundEvents.ALLAY_AMBIENT_WITHOUT_ITEM, SoundSource.BLOCKS, 1f, 1f);
             level.addFreshEntity(samhain);
         }
+    }
+
+    /**
+     * Inherits enchantment effects of netherite armor items to KQArmorItem instances after a craft is done
+     */
+
+    @SubscribeEvent
+    public static void onItemCrafted(PlayerEvent.ItemCraftedEvent event) {
+        ItemStack craftedItem = event.getCrafting();
+        Container craftMatrix = event.getInventory();
+
+        if (craftedItem.getItem() instanceof KQArmorItem) {
+            for (int i = 0; i < craftMatrix.getContainerSize(); i++) {
+                ItemStack stackInSlot = craftMatrix.getItem(i);
+                if (isNetheriteArmor(stackInSlot) && stackInSlot.isEnchanted()) {
+                    Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(stackInSlot);
+
+                    EnchantmentHelper.setEnchantments(enchantments, craftedItem);
+
+                    break;
+                }
+            }
+        }
+
+    }
+
+    private static boolean isNetheriteArmor(ItemStack stack) {
+        return stack.getItem() == Items.NETHERITE_HELMET ||
+                stack.getItem() == Items.NETHERITE_CHESTPLATE ||
+                stack.getItem() == Items.NETHERITE_LEGGINGS ||
+                stack.getItem() == Items.NETHERITE_BOOTS;
     }
 
 }

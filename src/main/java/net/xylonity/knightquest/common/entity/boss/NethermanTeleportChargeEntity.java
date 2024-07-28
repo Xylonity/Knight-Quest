@@ -15,10 +15,12 @@ import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.network.NetworkHooks;
+import net.xylonity.knightquest.common.api.explosiveenhancement.ExplosiveConfig;
 import net.xylonity.knightquest.registry.KnightQuestEntities;
 import net.xylonity.knightquest.registry.KnightQuestParticles;
 import org.jetbrains.annotations.NotNull;
@@ -59,8 +61,20 @@ public class NethermanTeleportChargeEntity extends AbstractNethermanProjectile i
    protected void onHit(@NotNull HitResult pResult) {
        super.onHit(pResult);
 
-       if (level().isClientSide && !hasCollided)
+       if (pResult instanceof EntityHitResult entityHitResult && tickCount < 10) {
+           Entity hitEntity = entityHitResult.getEntity();
+
+           if (hitEntity instanceof NethermanEntity) return;
+       }
+
+       if (!level().isClientSide && !hasCollided) {
+           level().playSound(null, getOnPos(), SoundEvents.DRAGON_FIREBALL_EXPLODE, SoundSource.BLOCKS, 1f, 1f);
+           hasCollided = true;
+       }
+
+       if (level().isClientSide && !hasCollided) {
            this.createCustomExplosionParticles();
+       }
 
        this.explode();
    }
@@ -84,12 +98,7 @@ public class NethermanTeleportChargeEntity extends AbstractNethermanProjectile i
     private void explode() {
         if (!this.level().isClientSide) {
 
-            //this.level().explode(this, this.getX(), this.getY(), this.getZ(), 5F, Level.ExplosionInteraction.MOB);
-            this.level().explode(this, damageSources().generic(), null, this.getX(), this.getY(), this.getZ(), 3F, false, Level.ExplosionInteraction.NONE, false);
-
-            //Explosion explosion = new Explosion(this.level(), this, null, null, this.getX(), this.getY(), this.getZ(), 5F, false, Explosion.BlockInteraction.KEEP);
-            //explosion.explode();
-            //explosion.finalizeExplosion(true);
+            this.level().explode(this, damageSources().generic(), null, this.getX(), this.getY(), this.getZ(), 2F, false, Level.ExplosionInteraction.NONE, false);
 
             this.level().getEntitiesOfClass(Player.class, this.getBoundingBox().inflate(4.0)).forEach(player -> {
                 double randomX = this.getX() + (this.random.nextDouble() - 0.5) * 40;
@@ -102,8 +111,7 @@ public class NethermanTeleportChargeEntity extends AbstractNethermanProjectile i
     }
 
     private void createCustomExplosionParticles() {
-        level().playSound(null, getOnPos(), SoundEvents.EVOKER_PREPARE_SUMMON, SoundSource.BLOCKS, 1f, 1f);
-        this.level().addParticle(KnightQuestParticles.GREMLIN_PARTICLE.get(), this.getX(), this.getY(), this.getZ(), 3, 0, 0);
+        ExplosiveConfig.spawnParticles(level(), getX(), getY(), getZ(), 3, false, false);
         hasCollided = !hasCollided;
     }
 
@@ -124,30 +132,6 @@ public class NethermanTeleportChargeEntity extends AbstractNethermanProjectile i
         }
 
     }
-
-    //@Override
-    //public void tick() {
-    //    super.tick();
-    //    if (this.level().isClientSide) {
-    //        this.level().addParticle(ParticleTypes.CAMPFIRE_SIGNAL_SMOKE, this.getX(), this.getY() + 0.2, this.getZ(), 0, 0, 0);
-    //    } else {
-    //        Vec3 movement = this.getDeltaMovement();
-    //        this.targetPosition = this.targetPosition.add(movement.normalize().scale(VELOCITY));
-
-    //        // Interpolación lineal hacia la posición objetivo
-    //        Vec3 currentPosition = this.position();
-    //        Vec3 newPos = currentPosition.lerp(targetPosition, 0.1);
-
-    //        this.setPos(newPos.x, newPos.y, newPos.z);
-
-    //        HitResult hitResult = ProjectileUtil.getHitResultOnMoveVector(this, this::canHitEntity);
-    //        if (hitResult.getType() != HitResult.Type.MISS) {
-    //            this.onHit(hitResult);
-    //        }
-
-    //        this.checkInsideBlocks();
-    //    }
-    //}
 
     @Override
     protected void defineSynchedData() { ;; }

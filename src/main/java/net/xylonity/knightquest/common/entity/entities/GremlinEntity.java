@@ -93,7 +93,7 @@ public class GremlinEntity extends Monster implements GeoEntity {
         controllerRegistrar.add(new AnimationController<>(this, "attackcontroller", 0, this::attackPredicate));
     }
 
-    private PlayState attackPredicate(AnimationState event) {
+    private PlayState attackPredicate(AnimationState<?> event) {
 
         if (this.swinging && event.getController().getAnimationState().equals(AnimationController.State.STOPPED)) {
             event.getController().forceAnimationReset();

@@ -17,7 +17,13 @@ public class NethermanRenderer extends GeoEntityRenderer<NethermanEntity> {
 
     @Override
     public @NotNull ResourceLocation getTextureLocation(@NotNull NethermanEntity animatable) {
-        return new ResourceLocation(KnightQuest.MOD_ID, "textures/entity/netherman.png");
+        String path = switch (animatable.getPhase()) {
+            case 1 -> "textures/entity/netherman_fire.png";
+            case 2 -> "textures/entity/netherman_ice.png";
+            default -> "textures/entity/netherman_magic.png";
+        };
+
+        return new ResourceLocation(KnightQuest.MOD_ID, path);
     }
 
     @Override

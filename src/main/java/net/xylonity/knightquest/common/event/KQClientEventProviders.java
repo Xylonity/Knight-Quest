@@ -8,12 +8,10 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.xylonity.knightquest.KnightQuest;
 import net.xylonity.knightquest.common.entity.client.*;
+import net.xylonity.knightquest.common.particle.*;
+import net.xylonity.knightquest.common.particle.explosiveenhancement.*;
 import net.xylonity.knightquest.registry.KnightQuestEntities;
 import net.xylonity.knightquest.registry.KnightQuestParticles;
-import net.xylonity.knightquest.common.particle.GhostyParticle;
-import net.xylonity.knightquest.common.particle.GremlinParticle;
-import net.xylonity.knightquest.common.particle.StarsetParticle;
-import net.xylonity.knightquest.common.particle.YellowParticle;
 
 @Mod.EventBusSubscriber(modid = KnightQuest.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class KQClientEventProviders {
@@ -24,6 +22,22 @@ public class KQClientEventProviders {
         event.registerSpriteSet(KnightQuestParticles.GREMLIN_PARTICLE.get(), GremlinParticle.Provider::new);
         event.registerSpriteSet(KnightQuestParticles.YELLOW_PARTICLE.get(), YellowParticle.Provider::new);
         event.registerSpriteSet(KnightQuestParticles.GHOSTY_PARTICLE.get(), GhostyParticle.Provider::new);
+        event.registerSpriteSet(KnightQuestParticles.SNOWFLAKE_PARTICLE.get(), SnowflakeParticle.Provider::new);
+
+        /*
+         * Explosive Enhancement particle registers
+         */
+
+        event.registerSpriteSet(KnightQuestParticles.BLASTWAVE.get(), BlastWaveParticle.Provider::new);
+        event.registerSpriteSet(KnightQuestParticles.FIREBALL.get(), FireballParticle.Provider::new);
+        event.registerSpriteSet(KnightQuestParticles.BLANK_FIREBALL.get(), FireballParticle.Provider::new);
+        event.registerSpriteSet(KnightQuestParticles.SMOKE.get(), SmokeParticle.Provider::new);
+        event.registerSpriteSet(KnightQuestParticles.SPARKS.get(), SparksParticle.Provider::new);
+        event.registerSpriteSet(KnightQuestParticles.BUBBLE.get(), BubbleParticle.Provider::new);
+        event.registerSpriteSet(KnightQuestParticles.SHOCKWAVE.get(), ShockwaveParticle.Provider::new);
+        event.registerSpriteSet(KnightQuestParticles.BLANK_SHOCKWAVE.get(), ShockwaveParticle.Provider::new);
+        event.registerSpriteSet(KnightQuestParticles.UNDERWATERBLASTWAVE.get(), UnderwaterBlastwaveParticle.Provider::new);
+        event.registerSpriteSet(KnightQuestParticles.UNDERWATERSPARKS.get(), UnderwaterSparksParticle.Provider::new);
     }
 
     @SubscribeEvent
@@ -41,6 +55,8 @@ public class KQClientEventProviders {
         EntityRenderers.register(KnightQuestEntities.MOMMA_LIZZY.get(), MommaLizzyRenderer::new);
         EntityRenderers.register(KnightQuestEntities.GHOSTY.get(), GhostyRenderer::new);
         EntityRenderers.register(KnightQuestEntities.NETHERMAN.get(), NethermanRenderer::new);
+        EntityRenderers.register(KnightQuestEntities.NETHERMAN_TELEPORT_CHARGE.get(), NethermanTeleportChargeRenderer::new);
+        EntityRenderers.register(KnightQuestEntities.LASER_BEAM.get(), LaserBeamRenderer::new);
     }
 
 }

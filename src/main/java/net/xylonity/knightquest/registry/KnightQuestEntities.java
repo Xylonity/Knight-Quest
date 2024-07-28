@@ -8,6 +8,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.xylonity.knightquest.KnightQuest;
+import net.xylonity.knightquest.common.entity.boss.LaserBeamEntity;
 import net.xylonity.knightquest.common.entity.boss.NethermanTeleportChargeEntity;
 import net.xylonity.knightquest.common.entity.boss.NethermanEntity;
 import net.xylonity.knightquest.common.entity.entities.*;
@@ -29,6 +30,7 @@ public class KnightQuestEntities {
     public static final RegistryObject<EntityType<GhostyEntity>> GHOSTY;
     public static final RegistryObject<EntityType<NethermanEntity>> NETHERMAN;
     public static final RegistryObject<EntityType<NethermanTeleportChargeEntity>> NETHERMAN_TELEPORT_CHARGE;
+    public static final RegistryObject<EntityType<LaserBeamEntity>> LASER_BEAM;
 
     static {
         GREMLIN = register("gremlin", GremlinEntity::new, MobCategory.MONSTER , 1f, 1f);
@@ -44,6 +46,7 @@ public class KnightQuestEntities {
         GHOSTY = register("ghosty", GhostyEntity::new, MobCategory.MONSTER, 1f, 1f);
         NETHERMAN = register("netherman", NethermanEntity::new, MobCategory.MONSTER, 0.8f, 2.8f);
         NETHERMAN_TELEPORT_CHARGE = register("netherman_teleport_charge", NethermanTeleportChargeEntity::new, MobCategory.MONSTER, 0.5f, 0.5f);
+        LASER_BEAM = register("laser_beam", LaserBeamEntity::new, MobCategory.MONSTER, 0.5f, 0.5f);
     }
 
     private static <X extends Entity> RegistryObject<EntityType<X>> register(String name, EntityType.EntityFactory<X> entity, MobCategory category, float width, float height) {

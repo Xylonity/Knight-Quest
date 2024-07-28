@@ -351,7 +351,7 @@ public class KQArmorItem extends ArmorItem {
 
                     Random random = new Random();
                     if (random.nextFloat() < 0.3) {
-                        int radius = 5;
+                        int radius = 10;
                         BlockPos playerPos = player.blockPosition();
                         List<BlockPos> validPositions = new ArrayList<>();
 

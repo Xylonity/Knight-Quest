@@ -16,6 +16,11 @@ public class NethermanRenderer extends GeoEntityRenderer<NethermanEntity> {
     }
 
     @Override
+    protected float getDeathMaxRotation(NethermanEntity animatable) {
+        return 0;
+    }
+
+    @Override
     public @NotNull ResourceLocation getTextureLocation(@NotNull NethermanEntity animatable) {
         String path = switch (animatable.getPhase()) {
             case 1 -> "textures/entity/netherman_fire.png";

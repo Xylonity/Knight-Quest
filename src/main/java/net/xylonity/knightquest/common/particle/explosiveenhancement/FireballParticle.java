@@ -16,7 +16,7 @@ public class FireballParticle extends TextureSheetParticle {
     private double velY;
     private double velZ;
 
-    FireballParticle(ClientLevel world, double x, double y, double z, SpriteSet spriteProvider, double velX, double velY, double velZ) {
+    public FireballParticle(ClientLevel world, double x, double y, double z, SpriteSet spriteProvider, double velX, double velY, double velZ) {
         super(world, x, y, z);
         this.sprites = spriteProvider;
         this.lifetime = (int) (9 + Math.floor(velX / 5));

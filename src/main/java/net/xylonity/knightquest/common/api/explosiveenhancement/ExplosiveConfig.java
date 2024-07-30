@@ -5,7 +5,7 @@ import net.minecraft.world.level.Level;
 public class ExplosiveConfig {
 
     static void spawnParticles(Level world, double x, double y, double z, float power) {
-        spawnParticles(world, x, y, z, power, false, true, false);
+        spawnParticles(world, x, y, z, power, false, false, 1);
     }
 
     /**
@@ -20,7 +20,7 @@ public class ExplosiveConfig {
      * @param didDestroyBlocks Helps to determine the particle type for the vanilla particles
      */
     public static void spawnParticles(Level world, double x, double y, double z, float power, boolean isUnderWater, boolean didDestroyBlocks) {
-        spawnParticles(world, x, y, z, power, isUnderWater, didDestroyBlocks, false);
+        spawnParticles(world, x, y, z, power, isUnderWater, didDestroyBlocks, 1);
     }
 
     /**
@@ -32,10 +32,9 @@ public class ExplosiveConfig {
      * @param power The effect's size
      * @param isUnderWater Show the underwater effect
      * @param didDestroyBlocks Helps to determine the particle type for the vanilla particles
-     * @param isImportant Renders the effect from far away AND on lower particle settings. If true, the user's config option for this specific option is ignored, otherwise, it defaults to the user's config.
      */
-    static void spawnParticles(Level world, double x, double y, double z, float power, boolean isUnderWater, boolean didDestroyBlocks, boolean isImportant) {
-        ExplosiveHandler.spawnParticles(world, x, y, z, power, isUnderWater, didDestroyBlocks, isImportant);
+    public static void spawnParticles(Level world, double x, double y, double z, float power, boolean isUnderWater, boolean didDestroyBlocks, int phase) {
+        ExplosiveHandler.spawnParticles(world, x, y, z, power, isUnderWater, didDestroyBlocks, true, phase);
     }
 
 }

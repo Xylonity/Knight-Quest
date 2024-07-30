@@ -12,7 +12,7 @@ public class ShockwaveParticle extends TextureSheetParticle {
     private final SpriteSet sprites;
     boolean important;
 
-    ShockwaveParticle(ClientLevel world, double x, double y, double z, SpriteSet spriteProvider, double velX, double velY, double velZ) {
+    public ShockwaveParticle(ClientLevel world, double x, double y, double z, SpriteSet spriteProvider, double velX, double velY, double velZ) {
         super(world, x, y, z);
         this.sprites = spriteProvider;
         this.lifetime = (int) (9 + Math.floor(velX / 5));

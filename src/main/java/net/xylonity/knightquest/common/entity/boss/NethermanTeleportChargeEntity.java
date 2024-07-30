@@ -111,7 +111,7 @@ public class NethermanTeleportChargeEntity extends AbstractNethermanProjectile i
     }
 
     private void createCustomExplosionParticles() {
-        ExplosiveConfig.spawnParticles(level(), getX(), getY(), getZ(), 3, false, false);
+        ExplosiveConfig.spawnParticles(level(), getX(), getY(), getZ(), 3, false, false, 2);
         hasCollided = !hasCollided;
     }
 

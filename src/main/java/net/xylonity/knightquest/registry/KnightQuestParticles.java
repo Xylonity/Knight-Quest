@@ -28,6 +28,12 @@ public class KnightQuestParticles {
     public static final RegistryObject<SimpleParticleType> UNDERWATERBLASTWAVE = register2("underwaterblastwave");
     public static final RegistryObject<SimpleParticleType> UNDERWATERSPARKS = register2("underwatersparks");
 
+    public static final RegistryObject<SimpleParticleType> BLUEBLASTWAVE = register2("blue_blastwave");
+    public static final RegistryObject<SimpleParticleType> BLUEFIREBALL = register2("blue_fireball");
+
+    public static final RegistryObject<SimpleParticleType> REDBLASTWAVE = register2("red_blastwave");
+    public static final RegistryObject<SimpleParticleType> REDFIREBALL = register2("red_fireball");
+
     private static RegistryObject<SimpleParticleType> register(String name) {
         return PARTICLES.register(name, () -> new SimpleParticleType(true));
     }

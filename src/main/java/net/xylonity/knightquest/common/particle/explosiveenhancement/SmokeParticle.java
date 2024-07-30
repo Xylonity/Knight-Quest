@@ -12,7 +12,7 @@ public class SmokeParticle extends TextureSheetParticle {
 
     private final SpriteSet sprites;
 
-    SmokeParticle(ClientLevel world, double x, double y, double z, SpriteSet spriteProvider, double velX, double velY, double velZ) {
+    public SmokeParticle(ClientLevel world, double x, double y, double z, SpriteSet spriteProvider, double velX, double velY, double velZ) {
         super(world, x, y, z);
         this.friction = 0.6F;
         this.sprites = spriteProvider;

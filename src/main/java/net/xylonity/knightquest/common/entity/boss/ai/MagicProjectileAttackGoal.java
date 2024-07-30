@@ -29,7 +29,7 @@ public class MagicProjectileAttackGoal extends Goal {
      * Execute a one shot task or start executing a continuous task
      */
     public void start() {
-        this.chargeTime = 0;
+        this.chargeTime = 200;
     }
 
     /**
@@ -37,6 +37,7 @@ public class MagicProjectileAttackGoal extends Goal {
      */
     public void stop() {
         this.netherman.setCharging(false);
+        this.chargeTime = 0;
     }
 
     public boolean requiresUpdateEveryTick() {
@@ -48,37 +49,53 @@ public class MagicProjectileAttackGoal extends Goal {
      */
     public void tick() {
         LivingEntity livingentity = this.netherman.getTarget();
-        if (livingentity != null) {
+        if (livingentity != null && this.netherman.getPhase() == 3) {
             double d0 = 64.0D;
             if (livingentity.distanceToSqr(this.netherman) < 4096.0D && this.netherman.hasLineOfSight(livingentity)) {
                 Level level = this.netherman.level();
-                ++this.chargeTime;
 
-                if (this.chargeTime == 10 && !this.netherman.isSilent()) {
+                if (this.chargeTime > 0) {
+                    --this.chargeTime;
+                }
+
+                if (this.chargeTime == 30) {
+                    this.netherman.setNoMovement(true);
+                    this.netherman.setIsAttacking(true);
+                }
+
+                if (this.chargeTime == 20 && !this.netherman.isSilent()) {
                     level.playSound(null, this.netherman.getOnPos(), SoundEvents.FIREWORK_ROCKET_TWINKLE, SoundSource.BLOCKS, 1f, 1f);
                 }
 
-                if (this.chargeTime == 20) {
+                if (this.chargeTime == 10) {
                     Vec3 vec3 = this.netherman.getViewVector(1.0F);
                     double d2 = livingentity.getX() - (this.netherman.getX() + vec3.x * 4.0D);
                     double d3 = livingentity.getY(0.5D) - (0.5D + this.netherman.getY(0.5D));
                     double d4 = livingentity.getZ() - (this.netherman.getZ() + vec3.z * 4.0D);
 
                     NethermanTeleportChargeEntity nethermanTeleportChargeEntity = new NethermanTeleportChargeEntity(level, this.netherman, d2, d3, d4, this.netherman.getExplosionPower());
-                    nethermanTeleportChargeEntity.setPos(this.netherman.getX() + vec3.x, this.netherman.getEyeY(), nethermanTeleportChargeEntity.getZ() + vec3.z);
+                    nethermanTeleportChargeEntity.setPos(this.netherman.getX() + vec3.x, this.netherman.getEyeY() + 1.5, nethermanTeleportChargeEntity.getZ() + vec3.z);
 
                     if (!this.netherman.isSilent()) {
                         level.playSound(null, this.netherman.getOnPos(), SoundEvents.FIRECHARGE_USE, SoundSource.BLOCKS, 1f, 1f);
                     }
 
                     level.addFreshEntity(nethermanTeleportChargeEntity);
-                    this.chargeTime = -40;
                 }
-            } else if (this.chargeTime > 0) {
-                --this.chargeTime;
+
+                if (this.chargeTime == 0) {
+                    this.netherman.setNoMovement(false);
+                    this.netherman.setIsAttacking(false);
+                    this.chargeTime = 200;
+                }
+
+            } else {
+                this.chargeTime = 200;
             }
 
-            this.netherman.setCharging(this.chargeTime > 1000);
+            this.netherman.setCharging(this.chargeTime > 0);
+        } else {
+            this.chargeTime = 200;
         }
     }
 }

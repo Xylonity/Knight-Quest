@@ -13,12 +13,13 @@ import net.xylonity.knightquest.common.api.explosiveenhancement.ExplosiveValues;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
+
 public class BlastWaveParticle extends TextureSheetParticle {
 
     private final SpriteSet sprites;
     private static final Quaternionf QUATERNION = new Quaternionf(0F, -0.7F, 0.7F, 0F);
 
-    BlastWaveParticle(ClientLevel world, double x, double y, double z, SpriteSet sprites,double velX, double velY, double velZ) {
+    public BlastWaveParticle(ClientLevel world, double x, double y, double z, SpriteSet sprites,double velX, double velY, double velZ) {
         super(world, x, y + 0.5, z, 0.0, 0.0, 0.0);
         this.quadSize = (float) velX;
         this.setParticleSpeed(0D, 0D, 0D);
@@ -26,7 +27,6 @@ public class BlastWaveParticle extends TextureSheetParticle {
         this.sprites = sprites;
         this.setSpriteFromAge(sprites);
     }
-
 
     @Override
     public void render(VertexConsumer buffer, Camera camera, float ticks) {

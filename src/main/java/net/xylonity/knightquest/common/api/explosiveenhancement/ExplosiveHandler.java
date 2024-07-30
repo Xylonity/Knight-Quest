@@ -7,7 +7,7 @@ import net.xylonity.knightquest.registry.KnightQuestParticles;
 import java.util.Random;
 
 public class ExplosiveHandler {
-    public static void spawnParticles(Level world, double x, double y, double z, float power, boolean isUnderWater, boolean didDestroyBlocks, boolean isImportant) {
+    public static void spawnParticles(Level world, double x, double y, double z, float power, boolean isUnderWater, boolean didDestroyBlocks, boolean isImportant, int phase) {
 
         if(isUnderWater) {
             power = ExplosiveValues.dynamicUnderwater ? power : 4;
@@ -31,38 +31,37 @@ public class ExplosiveHandler {
             for(int total = ExplosiveValues.bubbleAmount; total >= 1; total--) {
                 world.addParticle(KnightQuestParticles.BUBBLE.get(), isImportant, x, y, z, nextBetween(1, 7) * 0.3 * nextBetween(-1, 1), nextBetween(1, 10) * 0.1, nextBetween(1, 7) * 0.3 * nextBetween(-1, 1));
             }
-            if(ExplosiveValues.showDefaultExplosionUnderwater) {
-                showDefaultParticles(world, x, y, z, power, didDestroyBlocks, isImportant);
-            }
         } else {
+
             if(ExplosiveValues.showBlastWave) {
-                world.addParticle(KnightQuestParticles.BLASTWAVE.get(), isImportant, x, y, z, blastwavePower, 0, 0);
+                if (phase == 0)
+                    world.addParticle(KnightQuestParticles.REDBLASTWAVE.get(), isImportant, x, y + 0.5, z, fireballPower, isImportant ? 1 : 0, 0);
+                else if (phase == 1)
+                    world.addParticle(KnightQuestParticles.BLUEBLASTWAVE.get(), isImportant, x, y, z, blastwavePower, 0, 0);
+                else
+                    world.addParticle(KnightQuestParticles.BLASTWAVE.get(), isImportant, x, y, z, blastwavePower, 0, 0);
             }
             if(ExplosiveValues.showFireball) {
-                world.addParticle(KnightQuestParticles.FIREBALL.get(), isImportant, x, y + 0.5, z, fireballPower, isImportant ? 1 : 0, 0);
+                if (phase == 0)
+                    world.addParticle(KnightQuestParticles.REDFIREBALL.get(), isImportant, x, y + 0.5, z, fireballPower, isImportant ? 1 : 0, 0);
+                else if (phase == 1)
+                    world.addParticle(KnightQuestParticles.BLUEFIREBALL.get(), isImportant, x, y + 0.5, z, fireballPower, isImportant ? 1 : 0, 0);
+                else
+                    world.addParticle(KnightQuestParticles.FIREBALL.get(), isImportant, x, y + 0.5, z, fireballPower, isImportant ? 1 : 0, 0);
             } else if (ExplosiveValues.showSparks) {
                 world.addParticle(KnightQuestParticles.BLANK_FIREBALL.get(), isImportant, x, y + 0.5, z, fireballPower, isImportant ? 1 : 0, 0);
             }
             if(ExplosiveValues.showMushroomCloud) {
-                world.addParticle(KnightQuestParticles.SMOKE.get(), isImportant, x, y, z, power, power * 0.25, 0);
-                world.addParticle(KnightQuestParticles.SMOKE.get(), isImportant, x, y, z, power, smokePower, 0);
+                if (phase == 2) {
+                    world.addParticle(KnightQuestParticles.SMOKE.get(), isImportant, x, y, z, power, power * 0.25, 0);
+                    world.addParticle(KnightQuestParticles.SMOKE.get(), isImportant, x, y, z, power, smokePower, 0);
 
-                world.addParticle(KnightQuestParticles.SMOKE.get(), isImportant, x, y, z, 0.15, smokePower, power);
-                world.addParticle(KnightQuestParticles.SMOKE.get(), isImportant, x, y, z, -0.15, smokePower, power);
-                world.addParticle(KnightQuestParticles.SMOKE.get(), isImportant, x, y, z, power, smokePower, 0.15);
-                world.addParticle(KnightQuestParticles.SMOKE.get(), isImportant, x, y, z, power, smokePower, -0.15);
+                    world.addParticle(KnightQuestParticles.SMOKE.get(), isImportant, x, y, z, 0.15, smokePower, power);
+                    world.addParticle(KnightQuestParticles.SMOKE.get(), isImportant, x, y, z, -0.15, smokePower, power);
+                    world.addParticle(KnightQuestParticles.SMOKE.get(), isImportant, x, y, z, power, smokePower, 0.15);
+                    world.addParticle(KnightQuestParticles.SMOKE.get(), isImportant, x, y, z, power, smokePower, -0.15);
+                }
             }
-            if(ExplosiveValues.showDefaultExplosion) {
-                showDefaultParticles(world, x, y, z, power, didDestroyBlocks, isImportant);
-            }
-        }
-    }
-
-    private static void showDefaultParticles(Level world, double x, double y, double z, float power, boolean didDestroyBlocks, boolean isImportant) {
-        if(!(power < 2.0f) && didDestroyBlocks) {
-            world.addParticle(ParticleTypes.EXPLOSION_EMITTER, isImportant, x, y, z, 1.0, 0.0, 0.0);
-        } else {
-            world.addParticle(ParticleTypes.EXPLOSION, isImportant, x, y, z, 1.0, 0.0, 0.0);
         }
     }
 

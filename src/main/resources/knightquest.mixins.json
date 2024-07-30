@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "net.xylonity.knightquest.mixin",
+  "refmap": "knightquest.refmap.json",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "MixinSamhainEntity"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

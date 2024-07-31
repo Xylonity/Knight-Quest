@@ -30,6 +30,7 @@
   "item.knightquest.momma_lizzy_spawn_egg": "Momma Lizzy Spawn Egg",
   "item.knightquest.ghastling_spawn_egg": "Ghastling Spawn Egg",
   "item.knightquest.ghosty_spawn_egg": "Ghosty Spawn Egg",
+  "item.knightquest.netherman_spawn_egg": "Netherman Spawn Egg",
 
   "item.knightquest.apple_helmet": "Apple Helmet",
   "item.knightquest.apple_chestplate": "Apple Chestplate",
@@ -253,6 +254,7 @@
   "tooltip.item.knightquest.skeleton_helmet.bonus": "§7§o-Allows arrows to pierce through enemies",
   "tooltip.item.knightquest.strawhat_helmet.bonus": "§7§o-Grants water breathing",
 
+  "entity.knightquest.netherman": "Netherman, the Architect of Chaos",
   "entity.knightquest.gremlin": "Gremlin",
   "entity.knightquest.bad_patch": "Bad Patch",
   "entity.knightquest.eldbomb": "Eld Bomb",

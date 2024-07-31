@@ -40,7 +40,7 @@ public class SpawnNethermanClonesGoal extends Goal {
      * Execute a one shot task or start executing a continuous task
      */
     public void start() {
-        this.chargeTime = 200;
+        this.chargeTime = 400;
     }
 
     /**
@@ -65,7 +65,12 @@ public class SpawnNethermanClonesGoal extends Goal {
                     --this.chargeTime;
                 }
 
-                if (this.chargeTime == 0) {
+                if (this.chargeTime == 30) {
+                    this.netherman.setNoMovement(true);
+                    this.netherman.setIsAttacking(true);
+                }
+
+                if (this.chargeTime == 10) {
                     Vec3 position = this.netherman.position();
 
                     this.netherman.level().playSound(null, this.netherman.blockPosition(), SoundEvents.EVOKER_PREPARE_SUMMON, SoundSource.BLOCKS, 1f, 1f);
@@ -88,7 +93,7 @@ public class SpawnNethermanClonesGoal extends Goal {
                             if (player instanceof ServerPlayer serverPlayer) {
                                 for(int u = 0; u < 20; ++u) {
                                     serverPlayer.connection.send(new ClientboundLevelParticlesPacket(
-                                            ParticleTypes.PORTAL,
+                                            ParticleTypes.SOUL_FIRE_FLAME,
                                             true,
                                             nethermanClone.getRandomX(0.5D),
                                             nethermanClone.getRandomY() - 0.25D,
@@ -97,7 +102,7 @@ public class SpawnNethermanClonesGoal extends Goal {
                                             (float) -nethermanClone.getRandom().nextDouble(),
                                             0.2f,
                                             0.0f,
-                                            1
+                                            2
                                     ));
                                 }
                             }
@@ -106,16 +111,21 @@ public class SpawnNethermanClonesGoal extends Goal {
                         this.netherman.level().playSound(null, nethermanClone.blockPosition(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.BLOCKS, 1f, 1f);
                     }
 
-                    this.chargeTime = 200;
+                }
+
+                if (this.chargeTime == 0) {
+                    this.netherman.setNoMovement(false);
+                    this.netherman.setIsAttacking(false);
+                    this.chargeTime = 400;
                 }
 
             } else {
-                this.chargeTime = 200;
+                this.chargeTime = 400;
             }
 
             this.netherman.setCharging(this.chargeTime > 0);
         } else {
-            this.chargeTime = 200;
+            this.chargeTime = 400;
         }
     }
 

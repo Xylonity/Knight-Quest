@@ -9,11 +9,7 @@ import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.xylonity.knightquest.registry.KnightQuestBlocks;
-import net.xylonity.knightquest.registry.KnightQuestCreativeModeTabs;
-import net.xylonity.knightquest.registry.KnightQuestItems;
-import net.xylonity.knightquest.registry.KnightQuestEntities;
-import net.xylonity.knightquest.registry.KnightQuestParticles;
+import net.xylonity.knightquest.registry.*;
 import net.xylonity.knightquest.config.KnightQuestCommonConfigs;
 import net.xylonity.knightquest.datagen.KQLootModifiers;
 import org.slf4j.Logger;
@@ -33,6 +29,7 @@ public class KnightQuest
         KnightQuestCreativeModeTabs.CREATIVE_MODE_TABS.register(modEventBus);
         KnightQuestBlocks.BLOCKS.register(modEventBus);
         KnightQuestEntities.ENTITY.register(modEventBus);
+        KnightQuestSounds.SOUNDS.register(modEventBus);
         KQLootModifiers.LOOT_MODIFIER_SERIALIZERS.register(modEventBus);
         KnightQuestParticles.PARTICLES.register(modEventBus);
 

@@ -1,9 +1,13 @@
 package net.xylonity.knightquest.common.entity.boss;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
+import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -15,6 +19,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
@@ -32,6 +37,7 @@ import net.minecraft.world.phys.Vec3;
 import net.xylonity.knightquest.common.api.explosiveenhancement.ExplosiveConfig;
 import net.xylonity.knightquest.common.entity.boss.ai.*;
 import net.xylonity.knightquest.registry.KnightQuestParticles;
+import net.xylonity.knightquest.registry.KnightQuestSounds;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -51,7 +57,7 @@ public class NethermanEntity extends Monster implements GeoEntity {
     private static final EntityDataAccessor<Boolean> INVULNERABLE = SynchedEntityData.defineId(NethermanEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<String> ANIMATION_STRING = SynchedEntityData.defineId(NethermanEntity.class, EntityDataSerializers.STRING);
     private static final EntityDataAccessor<Boolean> IS_ATTACKING = SynchedEntityData.defineId(NethermanEntity.class, EntityDataSerializers.BOOLEAN);
-    private final Map<BlockPos, BlockState> changedBlocks = new HashMap<>();
+    private final Map<BlockPos, BlockState> changedBlocks = new HashMap<>();    // Restores the previous blocks after they are switched with lava
     private int explosionPower = 1;
     private boolean hasFronzenPlayers = false;
     private int tickCounterFirstPhaseSwitch = 0;
@@ -75,10 +81,10 @@ public class NethermanEntity extends Monster implements GeoEntity {
 
     public static AttributeSupplier setAttributes() {
         return Monster.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 35.0D)
-                .add(Attributes.ATTACK_DAMAGE, 5.5f)
+                .add(Attributes.MAX_HEALTH, 350.0D)
+                .add(Attributes.ATTACK_DAMAGE, 8.0f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
-                .add(Attributes.MOVEMENT_SPEED, 0.63f)
+                .add(Attributes.MOVEMENT_SPEED, 0.70f)
                 .add(Attributes.FOLLOW_RANGE, 35.0)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 5.0).build();
     }
@@ -102,20 +108,51 @@ public class NethermanEntity extends Monster implements GeoEntity {
         this.entityData.set(IS_ATTACKING, attacking);
     }
 
-    private void teleportRandomly() {
-        Random random = new Random();
-        for (int i = 0; i < 10; i++) {
-            double x = this.getX() + (random.nextDouble() - 0.5) * 40.0;
-            double y = this.getY() + (random.nextInt(20) - 10);
-            double z = this.getZ() + (random.nextDouble() - 0.5) * 40.0;
-            BlockPos pos = new BlockPos((int) x, (int) y, (int) z);
+    private boolean isValidTeleportPosition(BlockPos pos) {
+        if (this.level().getBlockState(pos).getBlock() != Blocks.AIR) {
+            return false;
+        }
 
-            if (isValidTeleportLocation(pos)) {
-                level().playSound(null, blockPosition(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.BLOCKS, 1f, 1f);
+        BlockPos blockBelow = pos.below();
+        BlockState stateBelow = this.level().getBlockState(blockBelow);
+        if (stateBelow.getBlock() == Blocks.AIR || stateBelow.getBlock() == Blocks.LAVA || stateBelow.getBlock() == Blocks.WATER) {
+            return false;
+        }
 
-                for (Player player : level().players()) {
+        AABB boundingBox = new AABB(pos.getX() - 0.5, pos.getY(), pos.getZ() - 0.5, pos.getX() + 0.5, pos.getY() + this.getBbHeight(), pos.getZ() + 0.5);
+        return this.level().noCollision(this, boundingBox);
+    }
+
+    private void teleportAroundTarget() {
+        BlockPos bestPos = null;
+        Entity target = this.getTarget();
+        RandomSource random = this.getRandom();
+
+        for (int attempt = 0; attempt < 50; attempt++) {
+            double angle = random.nextDouble() * 2 * Math.PI;
+            double distance = 5 + random.nextDouble() * 15;
+            assert target != null;
+            double x = target.getX() + Math.cos(angle) * distance;
+            double z = target.getZ() + Math.sin(angle) * distance;
+            double y = target.getY() + (random.nextDouble() - 0.5) * 2;
+
+            BlockPos targetPos = new BlockPos((int) x, (int) y, (int) z);
+            if (isValidTeleportPosition(targetPos)) {
+
+                for (Player player : this.level().players()) {
                     if (player instanceof ServerPlayer serverPlayer) {
-                        for(int u = 0; u < 20; ++u) {
+                        for (int u = 0; u < 20; ++u) {
+                            double speed = 0.1 + this.getRandom().nextDouble() * 0.2;
+                            double ux = this.getX() + (this.getRandom().nextDouble() - 0.5) * 0.2;
+                            double uy = this.getY() + this.getEyeHeight() + (this.getRandom().nextDouble() - 0.5) * 0.2;
+                            double uz = this.getZ() + (this.getRandom().nextDouble() - 0.5) * 0.2;
+
+                            Vec3 look = this.getLookAngle();
+
+                            double vx = look.x * speed;
+                            double vy = look.y * speed;
+                            double vz = look.z * speed;
+
                             serverPlayer.connection.send(new ClientboundLevelParticlesPacket(
                                     ParticleTypes.PORTAL,
                                     true,
@@ -132,33 +169,37 @@ public class NethermanEntity extends Monster implements GeoEntity {
                     }
                 }
 
+                this.level().playSound(null, this.blockPosition(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.BLOCKS, 1f, 1f);
                 this.teleportTo(x, y, z);
-
-                level().playSound(null, blockPosition(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.BLOCKS, 1f, 1f);
-                break;
+                this.level().playSound(null, blockPosition(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.BLOCKS, 1f, 1f);
+                return;
+            } else if (bestPos == null || isBetterPosition(targetPos, bestPos)) {
+                bestPos = targetPos;
             }
         }
     }
 
-    private boolean isValidTeleportLocation(BlockPos pos) {
-        BlockState stateBelow = this.level().getBlockState(pos.below());
-        boolean isSolidBelow = !stateBelow.isAir() && stateBelow.getBlock() != Blocks.WATER && stateBelow.getBlock() != Blocks.LAVA;
-        boolean isSpaceFree = this.level().noCollision(this.getBoundingBox().move(pos.getX() - this.getX(), pos.getY() - this.getY(), pos.getZ() - this.getZ()));
-        return isSolidBelow && isSpaceFree;
+    private boolean isBetterPosition(BlockPos pos, BlockPos bestPos) {
+        double currentDistance = this.position().distanceTo(Vec3.atCenterOf(pos));
+        double bestDistance = this.position().distanceTo(Vec3.atCenterOf(bestPos));
+        return currentDistance < bestDistance;
     }
 
     @Override
     public boolean hurt(@NotNull DamageSource pSource, float pAmount) {
-        if (getInvulnerability() || ((pSource.is(DamageTypes.ON_FIRE) || pSource.is(DamageTypes.IN_FIRE) || pSource.is(DamageTypes.LAVA)) && this.getPhase() == 1))
+        if (getInvulnerability()
+                || ((pSource.is(DamageTypes.ON_FIRE) || pSource.is(DamageTypes.IN_FIRE) || pSource.is(DamageTypes.LAVA)) && this.getPhase() == 1)
+                    || (pSource.is(DamageTypes.LIGHTNING_BOLT) && this.getPhase() == 3)
+                        || ((pSource.is(DamageTypes.EXPLOSION) || pSource.is(DamageTypes.PLAYER_EXPLOSION))))
             return false;
         else {
 
             boolean isDamaged = super.hurt(pSource, pAmount);
 
-            // Prevents teleporting when the incoming source amount kills the Netherman
+            // Prevents teleporting when the incoming source kills the Netherman
 
-            if (isDamaged && pAmount < this.getHealth()) {
-                teleportRandomly();
+            if (isDamaged && pAmount < this.getHealth() && new Random().nextInt(0, 2) == 1) {
+                teleportAroundTarget();
             }
 
             return isDamaged;
@@ -174,7 +215,7 @@ public class NethermanEntity extends Monster implements GeoEntity {
     }
 
     @Override
-    public void die(DamageSource pDamageSource) {
+    public void die(@NotNull DamageSource pDamageSource) {
         super.die(pDamageSource);
         restoreBlocks();
     }
@@ -213,7 +254,7 @@ public class NethermanEntity extends Monster implements GeoEntity {
     }
 
     private void winterStormAttack() {
-        double range = 30.0;
+        double range = 26.0;
         AABB area = new AABB(this.getX() - range, this.getY() - range, this.getZ() - range, this.getX() + range, this.getY() + range, this.getZ() + range);
         List<Player> players = this.level().getEntitiesOfClass(Player.class, area);
         for (Player player : players) {
@@ -226,11 +267,13 @@ public class NethermanEntity extends Monster implements GeoEntity {
         double time = this.tickCount / 20.0;
 
         for (int i = 0; i < particleCount; i++) {
+            double offset = i * 0.1;
+
             double angle = 2 * Math.PI * i / particleCount + time;
-            double waveFrequency = 2;
-            double velocityX = particleSpeed * Math.cos(angle);
-            double velocityZ = particleSpeed * Math.sin(angle);
-            double velocityY = 0.5 * Math.sin(waveFrequency * angle);
+
+            double velocityX = particleSpeed * Math.cos(angle + offset);
+            double velocityZ = particleSpeed * Math.sin(angle + offset);
+            double velocityY = 0.5 * Math.sin(2 * Math.PI * i / particleCount + time);
 
             double particleX = this.getX();
             double particleY = this.getY() + 2.2;
@@ -274,12 +317,16 @@ public class NethermanEntity extends Monster implements GeoEntity {
     public void tick() {
         super.tick();
 
+        if (isOnFire() && this.getPhase() == 1) {
+            this.extinguishFire();
+        }
+
         if (this.bossInfo != null) {
             float progress = this.getHealth() / this.getMaxHealth();
             this.bossInfo.setProgress(progress);
         }
 
-        if (getPhase() == 3 && tickCount % 60 == 0) {
+        if (getPhase() == 3 && tickCount % 40 == 0) {
             summonLightning();
         }
 
@@ -526,6 +573,7 @@ public class NethermanEntity extends Monster implements GeoEntity {
     private PlayState rotationPredicate(AnimationState<?> event) {
 
         if (this.getHealth() < this.getMaxHealth() * 0.66F && !hasChangedPhase) {
+            event.getController().forceAnimationReset();
             event.getController().setAnimation(RawAnimation.begin().then("rotation", Animation.LoopType.PLAY_ONCE));
         }
 
@@ -572,7 +620,7 @@ public class NethermanEntity extends Monster implements GeoEntity {
                 default -> "specialAttack";
             };
 
-            if (attackPattern.equals("specialAttack") && getPhase() != 3 && (getHealth() > getMaxHealth() * 0.77 || getHealth() < getMaxHealth() * 0.77)) {
+            if (attackPattern.equals("specialAttack") && getPhase() != 3 && (getHealth() > getMaxHealth() * 0.70 || getHealth() < getMaxHealth() * 0.60)) {
                 specialAttack = true;
                 event.getController().setAnimation(RawAnimation.begin().then("attack_teleport1", Animation.LoopType.PLAY_ONCE).then("attack_teleport2", Animation.LoopType.PLAY_ONCE));
             } else
@@ -597,6 +645,51 @@ public class NethermanEntity extends Monster implements GeoEntity {
     public void stopSeenByPlayer(@NotNull ServerPlayer pPlayer) {
         super.stopSeenByPlayer(pPlayer);
         this.bossInfo.removePlayer(pPlayer);
+    }
+
+    @Override
+    public void onAddedToWorld() {
+        super.onAddedToWorld();
+        if (!this.level().isClientSide) {
+            sendSpawnDataToPlayers();
+        }
+    }
+
+    private void sendSpawnDataToPlayers() {
+        for (Player player : this.level().players()) {
+            if (player.distanceTo(this) <= 100 && player instanceof ServerPlayer serverPlayer) {
+                serverPlayer.connection.send(new ClientboundAddEntityPacket(this));
+                playBossMusic();
+            }
+        }
+    }
+
+    private void playBossMusic() {
+        NethermanBossMusic.play(this);
+    }
+
+    private static class NethermanBossMusic extends AbstractTickableSoundInstance {
+        private final NethermanEntity entity;
+
+        protected NethermanBossMusic(NethermanEntity entity) {
+            super(KnightQuestSounds.NETHERMAN_BOSS_MUSIC.get(), SoundSource.MUSIC, SoundInstance.createUnseededRandom());
+            this.entity = entity;
+            this.x = entity.getX();
+            this.y = entity.getY();
+            this.z = entity.getZ();
+            this.looping = true;
+        }
+
+        public static void play(NethermanEntity entity) {
+            Minecraft.getInstance().getSoundManager().play(new NethermanBossMusic(entity));
+        }
+
+        @Override
+        public void tick() {
+            if (!entity.isAlive()) {
+                stop();
+            }
+        }
     }
 
 }

@@ -132,7 +132,7 @@ public class GremlinEntity extends Monster implements GeoEntity {
                 setPhase(2);
             }
 
-            setInvulnerability(hasShields());
+            //setInvulnerability(hasShields());
 
             tickCounter++;
             if (tickCounter % 22 == 0 && tickCounter / 25 <= 1) {
@@ -146,7 +146,7 @@ public class GremlinEntity extends Monster implements GeoEntity {
         LivingEntity closestShield = null;
 
         for (LivingEntity entity : level().getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(5))) {
-            if (entity instanceof ShieldEntity) {
+            if (entity instanceof GhastlingEntity) {
                 double distance = distanceToSqr(entity);
                 if (distance < closestDistance) {
                     closestDistance = distance;
@@ -168,7 +168,7 @@ public class GremlinEntity extends Monster implements GeoEntity {
     }
 
     private void spawnShield() {
-        ShieldEntity entity = KnightQuestEntities.SHIELD.get().create(serverWorld);
+        GhastlingEntity entity = KnightQuestEntities.SHIELD.get().create(serverWorld);
         if (entity != null) {
             entity.moveTo(this.getOnPos(), 1.0F, 0.0F);
             serverWorld.addFreshEntity(entity);

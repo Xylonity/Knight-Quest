@@ -28,14 +28,14 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.Objects;
 
-public class ShieldEntity extends Monster implements GeoEntity {
+public class GhastlingEntity extends Monster implements GeoEntity {
     private AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private final Level serverWorld;
     private static final double RADIUS = 2.0;
     private static final double ANGULAR_SPEED = 0.1;
     private double angle;
 
-    public ShieldEntity(EntityType<? extends Monster> entityType, Level world) {
+    public GhastlingEntity(EntityType<? extends Monster> entityType, Level world) {
         super(entityType, world);
         this.serverWorld = world;
     }
@@ -51,7 +51,7 @@ public class ShieldEntity extends Monster implements GeoEntity {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-        controllerRegistrar.add(new AnimationController(this, "controller", 0, this::predicate));
+        controllerRegistrar.add(new AnimationController<>(this, "controller", 0, this::predicate));
     }
 
     private <T extends GeoAnimatable> PlayState predicate(AnimationState<T> event) {

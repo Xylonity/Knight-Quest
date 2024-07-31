@@ -19,7 +19,6 @@ public class BlueShockwaveParticle extends ShockwaveParticle {
         important = velY == 1;
         this.setParticleSpeed(0D, 0D, 0D);
         this.setSpriteFromAge(spriteProvider);
-        setColor(180, 20, 10);
     }
 
     @OnlyIn(Dist.CLIENT)

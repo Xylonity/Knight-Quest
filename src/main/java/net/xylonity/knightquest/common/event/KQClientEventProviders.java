@@ -67,7 +67,7 @@ public class KQClientEventProviders {
         EntityRenderers.register(KnightQuestEntities.GHOSTY.get(), GhostyRenderer::new);
         EntityRenderers.register(KnightQuestEntities.NETHERMAN.get(), NethermanRenderer::new);
         EntityRenderers.register(KnightQuestEntities.NETHERMAN_TELEPORT_CHARGE.get(), NethermanTeleportChargeRenderer::new);
-        EntityRenderers.register(KnightQuestEntities.LASER_BEAM.get(), LaserBeamRenderer::new);
+        EntityRenderers.register(KnightQuestEntities.NETHERMAN_CLONE.get(), NethermanCloneRenderer::new);
     }
 
 }

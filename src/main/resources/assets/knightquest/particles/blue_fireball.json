@@ -1,13 +1,13 @@
 {
   "textures": [
-    "knightquest:fireball1",
-    "knightquest:fireball2",
-    "knightquest:fireball3",
-    "knightquest:fireball4",
-    "knightquest:fireball5",
-    "knightquest:fireball6",
-    "knightquest:fireball7",
-    "knightquest:fireball8",
-    "knightquest:fireball9"
+    "knightquest:blue_fireball1",
+    "knightquest:blue_fireball2",
+    "knightquest:blue_fireball3",
+    "knightquest:blue_fireball4",
+    "knightquest:blue_fireball5",
+    "knightquest:blue_fireball6",
+    "knightquest:blue_fireball7",
+    "knightquest:blue_fireball8",
+    "knightquest:blue_fireball9"
   ]
 }

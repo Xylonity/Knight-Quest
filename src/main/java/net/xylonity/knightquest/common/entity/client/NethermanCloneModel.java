@@ -3,32 +3,34 @@ package net.xylonity.knightquest.common.entity.client;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.xylonity.knightquest.KnightQuest;
-import net.xylonity.knightquest.common.entity.entities.GhastlingEntity;
+import net.xylonity.knightquest.common.entity.boss.NethermanCloneEntity;
+import net.xylonity.knightquest.common.entity.boss.NethermanEntity;
 import software.bernie.geckolib.constant.DataTickets;
 import software.bernie.geckolib.core.animatable.model.CoreGeoBone;
 import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.model.data.EntityModelData;
 
-public class ShieldModel extends GeoModel<GhastlingEntity> {
+public class NethermanCloneModel extends GeoModel<NethermanCloneEntity> {
 
     @Override
-    public ResourceLocation getModelResource(GhastlingEntity animatable) {
-        return new ResourceLocation(KnightQuest.MOD_ID, "geo/shield.geo.json");
+    public ResourceLocation getModelResource(NethermanCloneEntity animatable) {
+        return new ResourceLocation(KnightQuest.MOD_ID, "geo/netherman.geo.json");
     }
 
     @Override
-    public ResourceLocation getTextureResource(GhastlingEntity animatable) {
-        return new ResourceLocation(KnightQuest.MOD_ID, "textures/entity/shield.png");
+    public ResourceLocation getTextureResource(NethermanCloneEntity animatable) {
+
+        return new ResourceLocation(KnightQuest.MOD_ID, "textures/entity/netherman_clone.png");
     }
 
     @Override
-    public ResourceLocation getAnimationResource(GhastlingEntity animatable) {
-        return new ResourceLocation(KnightQuest.MOD_ID, "animations/helmet.animation.json");
+    public ResourceLocation getAnimationResource(NethermanCloneEntity animatable) {
+        return new ResourceLocation(KnightQuest.MOD_ID, "animations/netherman.animation.json");
     }
 
     @Override
-    public void setCustomAnimations(GhastlingEntity animatable, long instanceId, AnimationState<GhastlingEntity> animationState) {
+    public void setCustomAnimations(NethermanCloneEntity animatable, long instanceId, AnimationState<NethermanCloneEntity> animationState) {
         CoreGeoBone head = getAnimationProcessor().getBone("head");
 
         if (head != null) {

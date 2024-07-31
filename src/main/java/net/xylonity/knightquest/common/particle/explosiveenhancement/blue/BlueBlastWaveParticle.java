@@ -15,7 +15,6 @@ public class BlueBlastWaveParticle extends BlastWaveParticle {
         this.setParticleSpeed(0D, 0D, 0D);
         this.lifetime = (int) (15 + (Math.floor(velX / 5)));
         this.setSpriteFromAge(sprites);
-        setColor(180, 20, 10);
     }
 
     @OnlyIn(Dist.CLIENT)

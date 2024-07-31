@@ -5,20 +5,13 @@ import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.xylonity.knightquest.common.entity.boss.NethermanCloneEntity;
 import net.xylonity.knightquest.common.entity.boss.NethermanEntity;
-import net.xylonity.knightquest.common.entity.boss.NethermanTeleportChargeEntity;
 import net.xylonity.knightquest.registry.KnightQuestEntities;
-
-import java.util.EnumSet;
-import java.util.Random;
 
 public class SpawnNethermanClonesGoal extends Goal {
     private final NethermanEntity netherman;
@@ -32,6 +25,7 @@ public class SpawnNethermanClonesGoal extends Goal {
      * Returns whether execution should begin. You can also read and cache any state necessary for execution in this
      * method as well.
      */
+
     public boolean canUse() {
         return this.netherman.getTarget() != null;
     }
@@ -39,6 +33,7 @@ public class SpawnNethermanClonesGoal extends Goal {
     /**
      * Execute a one shot task or start executing a continuous task
      */
+
     public void start() {
         this.chargeTime = 400;
     }
@@ -46,6 +41,7 @@ public class SpawnNethermanClonesGoal extends Goal {
     /**
      * Reset the task's internal state. Called when this task is interrupted by another one
      */
+
     public void stop() {
         this.netherman.setCharging(false);
         this.chargeTime = 0;

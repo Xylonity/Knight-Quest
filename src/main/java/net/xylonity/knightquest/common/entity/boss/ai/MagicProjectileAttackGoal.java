@@ -21,6 +21,7 @@ public class MagicProjectileAttackGoal extends Goal {
      * Returns whether execution should begin. You can also read and cache any state necessary for execution in this
      * method as well.
      */
+
     public boolean canUse() {
         return this.netherman.getTarget() != null;
     }
@@ -28,6 +29,7 @@ public class MagicProjectileAttackGoal extends Goal {
     /**
      * Execute a one shot task or start executing a continuous task
      */
+
     public void start() {
         this.chargeTime = 200;
     }
@@ -35,6 +37,7 @@ public class MagicProjectileAttackGoal extends Goal {
     /**
      * Reset the task's internal state. Called when this task is interrupted by another one
      */
+
     public void stop() {
         this.netherman.setCharging(false);
         this.chargeTime = 0;
@@ -47,10 +50,10 @@ public class MagicProjectileAttackGoal extends Goal {
     /**
      * Keep ticking a continuous task that has already been started
      */
+
     public void tick() {
         LivingEntity livingentity = this.netherman.getTarget();
         if (livingentity != null && this.netherman.getPhase() == 3) {
-            double d0 = 64.0D;
             if (livingentity.distanceToSqr(this.netherman) < 4096.0D && this.netherman.hasLineOfSight(livingentity)) {
                 Level level = this.netherman.level();
 

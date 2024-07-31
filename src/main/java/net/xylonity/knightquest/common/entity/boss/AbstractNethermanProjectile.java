@@ -16,6 +16,7 @@ import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 
 public class AbstractNethermanProjectile extends Projectile {
     public double xPower;
@@ -50,6 +51,7 @@ public class AbstractNethermanProjectile extends Projectile {
     /**
      * Checks if the entity is in range to render.
      */
+
     public boolean shouldRenderAtSqrDistance(double distance) {
         double size = this.getBoundingBox().getSize() * 4.0D;
         size = Double.isNaN(size) ? 4.0D : size * 64.0D;
@@ -59,6 +61,7 @@ public class AbstractNethermanProjectile extends Projectile {
     /**
      * Called to update the entity's position/logic.
      */
+
     public void tick() {
         Entity entity = this.getOwner();
         if (this.level().isClientSide || (entity == null || !entity.isRemoved()) && this.level().hasChunkAt(this.blockPosition())) {
@@ -78,14 +81,13 @@ public class AbstractNethermanProjectile extends Projectile {
             float f = this.getInertia();
             if (this.isInWater()) {
                 for(int i = 0; i < 4; ++i) {
-                    float f1 = 0.25F;
                     this.level().addParticle(ParticleTypes.BUBBLE, d0 - vec3.x * 0.25D, d1 - vec3.y * 0.25D, d2 - vec3.z * 0.25D, vec3.x, vec3.y, vec3.z);
                 }
 
                 f = 0.8F;
             }
 
-            this.setDeltaMovement(vec3.add(this.xPower, this.yPower, this.zPower).scale((double)f));
+            this.setDeltaMovement(vec3.add(this.xPower, this.yPower, this.zPower).scale(f));
             this.level().addParticle(this.getTrailParticle(), d0, d1 + 0.5D, d2, 0.0D, 0.0D, 0.0D);
             this.setPos(d0, d1, d2);
         } else {
@@ -93,7 +95,7 @@ public class AbstractNethermanProjectile extends Projectile {
         }
     }
 
-    protected boolean canHitEntity(Entity entity) {
+    protected boolean canHitEntity(@NotNull Entity entity) {
         return super.canHitEntity(entity) && !entity.noPhysics;
     }
 
@@ -104,11 +106,12 @@ public class AbstractNethermanProjectile extends Projectile {
     /**
      * Return the motion factor for this projectile. The factor is multiplied by the original motion.
      */
+
     protected float getInertia() {
         return 0.95F;
     }
 
-    public void addAdditionalSaveData(CompoundTag pCompound) {
+    public void addAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.addAdditionalSaveData(pCompound);
         pCompound.put("power", this.newDoubleList(this.xPower, this.yPower, this.zPower));
     }
@@ -116,7 +119,8 @@ public class AbstractNethermanProjectile extends Projectile {
     /**
      * (abstract) Protected helper method to read subclass entity data from NBT.
      */
-    public void readAdditionalSaveData(CompoundTag pCompound) {
+
+    public void readAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
         if (pCompound.contains("power", 9)) {
             ListTag listtag = pCompound.getList("power", 6);
@@ -132,6 +136,7 @@ public class AbstractNethermanProjectile extends Projectile {
     /**
      * Returns {@code true} if other Entities should be prevented from moving through this Entity.
      */
+
     public boolean isPickable() {
         return true;
     }
@@ -143,7 +148,8 @@ public class AbstractNethermanProjectile extends Projectile {
     /**
      * Called when the entity is attacked.
      */
-    public boolean hurt(DamageSource pSource, float pAmount) {
+
+    public boolean hurt(@NotNull DamageSource pSource, float pAmount) {
         if (this.isInvulnerableTo(pSource)) {
             return false;
         } else {
@@ -170,13 +176,13 @@ public class AbstractNethermanProjectile extends Projectile {
         return 1.0F;
     }
 
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
+    public @NotNull Packet<ClientGamePacketListener> getAddEntityPacket() {
         Entity entity = this.getOwner();
         int i = entity == null ? 0 : entity.getId();
         return new ClientboundAddEntityPacket(this.getId(), this.getUUID(), this.getX(), this.getY(), this.getZ(), this.getXRot(), this.getYRot(), this.getType(), i, new Vec3(this.xPower, this.yPower, this.zPower), 0.0D);
     }
 
-    public void recreateFromPacket(ClientboundAddEntityPacket pPacket) {
+    public void recreateFromPacket(@NotNull ClientboundAddEntityPacket pPacket) {
         super.recreateFromPacket(pPacket);
         double d0 = pPacket.getXa();
         double d1 = pPacket.getYa();

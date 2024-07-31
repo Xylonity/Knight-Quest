@@ -1,6 +1,5 @@
 package net.xylonity.knightquest.common.api.explosiveenhancement;
 
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.level.Level;
 import net.xylonity.knightquest.registry.KnightQuestParticles;
 
@@ -51,16 +50,14 @@ public class ExplosiveHandler {
             } else if (ExplosiveValues.showSparks) {
                 world.addParticle(KnightQuestParticles.BLANK_FIREBALL.get(), isImportant, x, y + 0.5, z, fireballPower, isImportant ? 1 : 0, 0);
             }
-            if(ExplosiveValues.showMushroomCloud) {
-                if (phase == 2) {
-                    world.addParticle(KnightQuestParticles.SMOKE.get(), isImportant, x, y, z, power, power * 0.25, 0);
-                    world.addParticle(KnightQuestParticles.SMOKE.get(), isImportant, x, y, z, power, smokePower, 0);
+            if(ExplosiveValues.showMushroomCloud && phase == 2) {
+                world.addParticle(KnightQuestParticles.SMOKE.get(), isImportant, x, y, z, power, power * 0.25, 0);
+                world.addParticle(KnightQuestParticles.SMOKE.get(), isImportant, x, y, z, power, smokePower, 0);
 
-                    world.addParticle(KnightQuestParticles.SMOKE.get(), isImportant, x, y, z, 0.15, smokePower, power);
-                    world.addParticle(KnightQuestParticles.SMOKE.get(), isImportant, x, y, z, -0.15, smokePower, power);
-                    world.addParticle(KnightQuestParticles.SMOKE.get(), isImportant, x, y, z, power, smokePower, 0.15);
-                    world.addParticle(KnightQuestParticles.SMOKE.get(), isImportant, x, y, z, power, smokePower, -0.15);
-                }
+                world.addParticle(KnightQuestParticles.SMOKE.get(), isImportant, x, y, z, 0.15, smokePower, power);
+                world.addParticle(KnightQuestParticles.SMOKE.get(), isImportant, x, y, z, -0.15, smokePower, power);
+                world.addParticle(KnightQuestParticles.SMOKE.get(), isImportant, x, y, z, power, smokePower, 0.15);
+                world.addParticle(KnightQuestParticles.SMOKE.get(), isImportant, x, y, z, power, smokePower, -0.15);
             }
         }
     }

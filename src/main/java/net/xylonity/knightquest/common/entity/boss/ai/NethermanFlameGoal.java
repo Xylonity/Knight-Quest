@@ -11,8 +11,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.xylonity.knightquest.common.entity.boss.NethermanEntity;
-import net.xylonity.knightquest.common.entity.boss.NethermanTeleportChargeEntity;
-import net.xylonity.knightquest.registry.KnightQuestParticles;
 
 public class NethermanFlameGoal extends Goal {
     private final NethermanEntity netherman;
@@ -26,6 +24,7 @@ public class NethermanFlameGoal extends Goal {
      * Returns whether execution should begin. You can also read and cache any state necessary for execution in this
      * method as well.
      */
+
     public boolean canUse() {
         return this.netherman.getTarget() != null;
     }
@@ -33,6 +32,7 @@ public class NethermanFlameGoal extends Goal {
     /**
      * Execute a one shot task or start executing a continuous task
      */
+
     public void start() {
         this.chargeTime = 200;
     }
@@ -40,6 +40,7 @@ public class NethermanFlameGoal extends Goal {
     /**
      * Reset the task's internal state. Called when this task is interrupted by another one
      */
+
     public void stop() {
         this.netherman.setCharging(false);
         this.chargeTime = 0;
@@ -52,10 +53,10 @@ public class NethermanFlameGoal extends Goal {
     /**
      * Keep ticking a continuous task that has already been started
      */
+
     public void tick() {
         LivingEntity livingentity = this.netherman.getTarget();
         if (livingentity != null && this.netherman.getPhase() == 1 && this.netherman.getHealth() >= this.netherman.getMaxHealth() * 0.75) {
-            double d0 = 64.0D;
             if (livingentity.distanceToSqr(this.netherman) < 4096.0D && this.netherman.hasLineOfSight(livingentity)) {
                 Level level = this.netherman.level();
 
@@ -73,11 +74,6 @@ public class NethermanFlameGoal extends Goal {
                 }
 
                 if (this.chargeTime == 10) {
-                    Vec3 vec3 = this.netherman.getViewVector(1.0F);
-                    double d2 = livingentity.getX() - (this.netherman.getX() + vec3.x * 4.0D);
-                    double d3 = livingentity.getY(0.5D) - (0.5D + this.netherman.getY(0.5D));
-                    double d4 = livingentity.getZ() - (this.netherman.getZ() + vec3.z * 4.0D);
-
                     Vec3 look = this.netherman.getLookAngle();
                     double offsetX = look.x * 0.5;
                     double offsetY = look.y * 0.5;

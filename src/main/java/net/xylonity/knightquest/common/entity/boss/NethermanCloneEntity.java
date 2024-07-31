@@ -50,7 +50,7 @@ public class NethermanCloneEntity extends Monster implements GeoEntity {
 
     @Override
     protected void registerGoals() {
-        
+
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 0.4f, false));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));

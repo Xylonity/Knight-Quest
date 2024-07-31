@@ -32,6 +32,8 @@ import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
+import java.util.Random;
+
 public class NethermanTeleportChargeEntity extends AbstractNethermanProjectile implements GeoEntity {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private static final double VELOCITY = 0.4;
@@ -101,9 +103,9 @@ public class NethermanTeleportChargeEntity extends AbstractNethermanProjectile i
             this.level().explode(this, damageSources().generic(), null, this.getX(), this.getY(), this.getZ(), 2F, false, Level.ExplosionInteraction.NONE, false);
 
             this.level().getEntitiesOfClass(Player.class, this.getBoundingBox().inflate(4.0)).forEach(player -> {
-                double randomX = this.getX() + (this.random.nextDouble() - 0.5) * 40;
-                double randomZ = this.getZ() + (this.random.nextDouble() - 0.5) * 40;
-                player.teleportTo(randomX, player.getY(), randomZ);
+                double randomX = this.getX() + (this.random.nextDouble() - 0.5) * 10;
+                double randomZ = this.getZ() + (this.random.nextDouble() - 0.5) * 10;
+                player.teleportTo(randomX, player.getY() + new Random().nextInt(15, 25), randomZ);
             });
 
             ticksUntilDiscard = 2;

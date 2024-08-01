@@ -413,13 +413,7 @@ public class KnightQuestItems {
 
     public static final RegistryObject<Item> SQUIRE_HELMET = ITEMS.register("squire_helmet",
             () -> new GeoItemArmor(KQArmorMaterials.SQUIRESET, EquipmentSlot.HEAD,new Item.Properties()
-                    , "textures/armor/squire_helmet.png", "geo/squire_helmet.geo.json") {
-                @Override
-                public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-                    pTooltipComponents.add(Component.translatable("tooltip.item.knightquest.squire_helmet"));
-                    super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
-                }
-            });
+                    , "textures/armor/squire_helmet.png", "geo/squire_helmet.geo.json"));
     public static final RegistryObject<Item> SQUIRE_CHESTPLATE = ITEMS.register("squire_chestplate",
             () -> new KQArmorItem(KQArmorMaterials.SQUIRESET, EquipmentSlot.CHEST,new Item.Properties()));
     public static final RegistryObject<Item> SQUIRE_LEGGINGS = ITEMS.register("squire_leggings",

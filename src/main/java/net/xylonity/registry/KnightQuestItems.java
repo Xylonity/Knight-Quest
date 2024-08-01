@@ -437,20 +437,20 @@ public class KnightQuestItems {
             new KQArmorItem(KQArmorMaterials.SQUIRESET, ArmorItem.Type.BOOTS,new Item.Settings()));
 
     public static final Item CHAINMAIL_HELMET = registerItem("chainmail_helmet",
-            new ArmorItem(KQArmorMaterials.CHAINMAIL, ArmorItem.Type.HELMET,new Item.Settings()));
+            new ArmorItem(KQArmorMaterials.CHAINMAIL, ArmorItem.Type.HELMET,new Item.Settings().maxCount(1).maxDamage(ArmorItem.Type.HELMET.getMaxDamage(17))));
     public static final Item CHAINMAIL_HELMET2 = registerItem("chainmail_helmet2",
-            new GeoItemArmor(KQArmorMaterials.CHAINMAIL, ArmorItem.Type.HELMET,new Item.Settings()
+            new GeoItemArmor(KQArmorMaterials.CHAINMAIL, ArmorItem.Type.HELMET,new Item.Settings().maxCount(1).maxDamage(ArmorItem.Type.HELMET.getMaxDamage(17))
                     , "textures/armor/chainmail_helmet2.png", "geo/chainmail_helmet2.geo.json"));
     public static final Item TUNIC_BLUE_LEGGINGS = registerItem("tunic_blue_leggings",
-            new ArmorItem(KQArmorMaterials.TUNIC_BLUE, ArmorItem.Type.LEGGINGS,new Item.Settings()));
+            new ArmorItem(KQArmorMaterials.TUNIC_BLUE, ArmorItem.Type.LEGGINGS,new Item.Settings().maxCount(1).maxDamage(ArmorItem.Type.LEGGINGS.getMaxDamage(17))));
     public static final Item TUNIC_GREEN_LEGGINGS = registerItem("tunic_green_leggings",
-            new ArmorItem(KQArmorMaterials.TUNIC_GREEN, ArmorItem.Type.LEGGINGS,new Item.Settings()));
+            new ArmorItem(KQArmorMaterials.TUNIC_GREEN, ArmorItem.Type.LEGGINGS,new Item.Settings().maxCount(1).maxDamage(ArmorItem.Type.LEGGINGS.getMaxDamage(17))));
     public static final Item TUNIC_YELLOW_LEGGINGS = registerItem("tunic_yellow_leggings",
-            new ArmorItem(KQArmorMaterials.TUNIC_YELLOW, ArmorItem.Type.LEGGINGS,new Item.Settings()));
+            new ArmorItem(KQArmorMaterials.TUNIC_YELLOW, ArmorItem.Type.LEGGINGS,new Item.Settings().maxCount(1).maxDamage(ArmorItem.Type.LEGGINGS.getMaxDamage(17))));
     public static final Item TUNIC_RED_LEGGINGS = registerItem("tunic_red_leggings",
-            new ArmorItem(KQArmorMaterials.TUNIC_RED, ArmorItem.Type.LEGGINGS,new Item.Settings()));
+            new ArmorItem(KQArmorMaterials.TUNIC_RED, ArmorItem.Type.LEGGINGS,new Item.Settings().maxCount(1).maxDamage(ArmorItem.Type.LEGGINGS.getMaxDamage(17))));
     public static final Item TUNIC_SEA_LEGGINGS = registerItem("tunic_sea_leggings",
-            new ArmorItem(KQArmorMaterials.TUNIC_SEA, ArmorItem.Type.LEGGINGS,new Item.Settings()));
+            new ArmorItem(KQArmorMaterials.TUNIC_SEA, ArmorItem.Type.LEGGINGS,new Item.Settings().maxCount(1).maxDamage(ArmorItem.Type.LEGGINGS.getMaxDamage(17))));
 
     public static final Item WITCH_HELMET = registerItem("witch_helmet",
             new GeoItemArmor(KQArmorMaterials.WITCH, ArmorItem.Type.HELMET,new Item.Settings()

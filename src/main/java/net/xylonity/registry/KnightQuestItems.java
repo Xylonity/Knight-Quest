@@ -8,14 +8,12 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.minecraft.world.World;
 import net.xylonity.KnightQuest;
 import net.xylonity.common.client.GeoItemArmor;
 import net.xylonity.common.item.KQArmorItem;
 import net.xylonity.common.item.KQItem;
 import net.xylonity.common.material.KQArmorMaterials;
 import net.xylonity.common.material.KQItemMaterials;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 

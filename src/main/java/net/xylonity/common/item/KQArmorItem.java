@@ -409,29 +409,28 @@ public class KQArmorItem extends ArmorItem {
 
             // Attacker: Player
 
-            if (source.getSource() instanceof PlayerEntity player && source.getSource() != null) {
+            if (source.getAttacker() instanceof PlayerEntity player) {
 
                 if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.SILVERSET) && player.getWorld().isNight()) {
                     Random random = new Random();
                     if (random.nextFloat() < 0.20) {
-                        source.getSource().setFireTicks(random.nextInt(1, 7) * 20);
+                        entity.setFireTicks(random.nextInt(2, 8) * 20);
                     }
                 }
 
                 if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.HOLLOWSET) && source.getSource() instanceof LivingEntity livingEntity) {
-                    System.out.println("Se cargó la condición correctamente");
                     player.heal(Math.min((float) (amount * 0.15), livingEntity.getHealth()));
                 }
 
                 if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.DRAGONSET)) {
-                    Objects.requireNonNull(source.getSource()).damage(source.getSource().getDamageSources().generic(), (float) (amount * 1.15));
+                    entity.damage(Objects.requireNonNull(source.getSource()).getDamageSources().generic(), (float) (amount * 1.15));
                     return false;
                 }
 
                 if (source.isOf(DamageTypes.ARROW) && KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.WITHERSET)) {
                     Random random = new Random();
-                    if (source.getSource() != null && random.nextFloat() < 0.3 && source.getSource() instanceof LivingEntity livingEntity)
-                        livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.WITHER, 100, 0, false, false, false));
+                    if (random.nextFloat() < 0.3)
+                        entity.addStatusEffect(new StatusEffectInstance(StatusEffects.WITHER, 100, 0, false, false, false));
                 }
             }
 

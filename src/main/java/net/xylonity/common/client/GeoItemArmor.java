@@ -7,7 +7,7 @@ import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.xylonity.common.item.KQArmorItem;
-import net.xylonity.common.material.KQArmorMaterials;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.animatable.client.GeoRenderProvider;
@@ -16,7 +16,6 @@ import software.bernie.geckolib.animatable.instance.SingletonAnimatableInstanceC
 import software.bernie.geckolib.animation.*;
 
 import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 public class GeoItemArmor extends KQArmorItem implements GeoItem {
 
@@ -36,7 +35,7 @@ public class GeoItemArmor extends KQArmorItem implements GeoItem {
             private GeoItemArmorRenderer renderer;
 
             @Override
-            public @Nullable <T extends LivingEntity> BipedEntityModel<?> getGeoArmorRenderer(@Nullable T livingEntity, ItemStack itemStack, @Nullable EquipmentSlot equipmentSlot, @Nullable BipedEntityModel<T> original) {
+            public <T extends LivingEntity> @NotNull BipedEntityModel<?> getGeoArmorRenderer(@Nullable T livingEntity, ItemStack itemStack, @Nullable EquipmentSlot equipmentSlot, @Nullable BipedEntityModel<T> original) {
                 if(this.renderer == null)
                     this.renderer = new GeoItemArmorRenderer(path, helmet);
 

@@ -69,7 +69,9 @@ public class KnightQuestCommonConfigs {
         BUILDER.comment("");
         INVULNERABILITY_RADIUS_GHOSTY = BUILDER.defineInRange("Ghosty invulnerability radius", 7.0, 0.0, 25.0);
 
-        BUILDER.push("Armor Passives");
+        BUILDER.comment("");
+        BUILDER.comment("Armor Passives");
+        BUILDER.comment("");
 
         ENABLE_DEEPSLATESET = BUILDER.comment("Enable Deepslate Set Passive").define("enableDeepslateSet", true);
         ENABLE_EVOKERSET = BUILDER.comment("Enable Evoker Set Passive").define("enableEvokerSet", true);
@@ -109,8 +111,6 @@ public class KnightQuestCommonConfigs {
         ENABLE_ZOMBIESET = BUILDER.comment("Enable Zombie Set Passive").define("enableZombieSet", true);
         ENABLE_SILVERFISHSET = BUILDER.comment("Enable Silverfish Set Passive").define("enableSilverfishSet", true);
         ENABLE_SKELETONSET = BUILDER.comment("Enable Skeleton Set Passive").define("enableSkeletonSet", true);
-
-        BUILDER.pop();
 
         BUILDER.pop();
         SPEC = BUILDER.build();

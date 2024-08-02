@@ -65,6 +65,7 @@ public class KnightQuestItems {
 
     public static final RegistryObject<Item> GREAT_ESSENCE = registerItem("great_essence");
     public static final RegistryObject<Item> SMALL_ESSENCE = registerItem("small_essence");
+    public static final RegistryObject<Item> RADIANT_ESSENCE = registerItem("radiant_essence");
     public static final RegistryObject<Item> EMPTY_GOBLET = registerItem("empty_goblet");
     public static final RegistryObject<Item> FILLED_GOBLET = registerItem("filled_goblet");
     public static final RegistryObject<Item> RATMAN_EYE = registerItem("ratman_eye");

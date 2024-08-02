@@ -250,10 +250,9 @@ public class NethermanEntity extends Monster implements GeoEntity {
         Entity target = this.getTarget();
         RandomSource random = this.getRandom();
 
-        for (int attempt = 0; attempt < 50; attempt++) {
+        for (int attempt = 0; attempt < 50 && target != null; attempt++) {
             double angle = random.nextDouble() * 2 * Math.PI;
             double distance = 5 + random.nextDouble() * 15;
-            assert target != null;
             double x = target.getX() + Math.cos(angle) * distance;
             double z = target.getZ() + Math.sin(angle) * distance;
             double y = target.getY() + (random.nextDouble() - 0.5) * 2;
@@ -295,7 +294,8 @@ public class NethermanEntity extends Monster implements GeoEntity {
         if (getInvulnerability()
                 || ((pSource.is(DamageTypes.ON_FIRE) || pSource.is(DamageTypes.IN_FIRE) || pSource.is(DamageTypes.LAVA)) && this.getPhase() == 1)
                     || (pSource.is(DamageTypes.LIGHTNING_BOLT) && this.getPhase() == 3)
-                        || ((pSource.is(DamageTypes.EXPLOSION) || pSource.is(DamageTypes.PLAYER_EXPLOSION))))
+                        || ((pSource.is(DamageTypes.EXPLOSION) || pSource.is(DamageTypes.PLAYER_EXPLOSION)))
+                            || (tickCount < 40))
             return false;
         else {
 
@@ -595,7 +595,7 @@ public class NethermanEntity extends Monster implements GeoEntity {
         private final NethermanEntity entity;
 
         protected NethermanBossMusic(NethermanEntity entity) {
-            super(KnightQuestSounds.NETHERMAN_BOSS_MUSIC.get(), SoundSource.MUSIC, SoundInstance.createUnseededRandom());
+            super(KnightQuestSounds.NETHERMAN_BOSS_MUSIC.get(), SoundSource.AMBIENT, SoundInstance.createUnseededRandom());
             this.entity = entity;
             this.x = entity.getX();
             this.y = entity.getY();

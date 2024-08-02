@@ -11,7 +11,6 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -22,26 +21,25 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.xylonity.knightquest.common.block.tracker.ChaliceBlockTracker;
 import net.xylonity.knightquest.common.entity.boss.NethermanEntity;
-import net.xylonity.knightquest.common.entity.entities.GhastlingEntity;
 import net.xylonity.knightquest.registry.KnightQuestBlocks;
 import net.xylonity.knightquest.registry.KnightQuestEntities;
 import net.xylonity.knightquest.registry.KnightQuestItems;
 import net.xylonity.knightquest.registry.KnightQuestParticles;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.stream.Stream;
 
 public class ChaliceBlock extends Block {
     public static final IntegerProperty fill = IntegerProperty.create("level", 1, 9);
-    private int tickCount = 0;
 
     private static final VoxelShape SHAPE_N = Stream.of(
         Block.box(0, 7, 0, 2, 16, 16),
@@ -161,18 +159,14 @@ public class ChaliceBlock extends Block {
 
         if (block.equals(KnightQuestBlocks.GREAT_CHALICE.get()) && item.equals(KnightQuestItems.RADIANT_ESSENCE.get()) && pState.getValue(fill).equals(5)) {
             if (!pLevel.isClientSide()) {
-                //pLevel.playSound(null, pPos, SoundEvents.BREWING_STAND_BREW, SoundSource.BLOCKS, 1f, 1f);
-//
-                //if (pPlayer.getItemInHand(pHand).getCount() > 1) {
-                //    int stackCount = stack.getCount();
-                //    stack.setCount(--stackCount);
-                //} else {
-                //    pPlayer.setItemInHand(pHand, new ItemStack(ItemStack.EMPTY.getItem()));
-                //}
-//
-                //Entity entity = new ItemEntity(pLevel, pPos.getX() + 0.5, pPos.getY() + 1d, pPos.getZ() + 0.5, KnightQuestItems.FILLED_GOBLET.get().getDefaultInstance());
+                if (pPlayer.getItemInHand(pHand).getCount() > 1) {
+                    int stackCount = stack.getCount();
+                    stack.setCount(--stackCount);
+                } else {
+                    pPlayer.setItemInHand(pHand, new ItemStack(ItemStack.EMPTY.getItem()));
+                }
+
                 pLevel.setBlock(pPos, pState.cycle(fill), 3);
-                //pLevel.addFreshEntity(entity);
             }
         }
 
@@ -210,52 +204,58 @@ public class ChaliceBlock extends Block {
 
     @Override
     public void tick(@NotNull BlockState pState, @NotNull ServerLevel pLevel, @NotNull BlockPos pPos, @NotNull RandomSource pRandom) {
+        int tickCount = ChaliceBlockTracker.getTickCount(pPos);
 
-        if ((Arrays.asList(6, 7, 8, 9).contains(pState.getValue(fill)))) {
+        if (Arrays.asList(6, 7, 8, 9).contains(pState.getValue(fill))) {
 
             if (tickCount == 0) {
                 pLevel.playSound(null, pPos, SoundEvents.EVOKER_PREPARE_SUMMON, SoundSource.BLOCKS, 1f, 1f);
             }
 
-            if (tickCount % 10 == 0) {
-                if (pState.getValue(fill) != 9 && tickCount < 60) {
-                    pLevel.setBlock(pPos, pState.cycle(fill), 3);
-                    pLevel.playSound(null, pPos, SoundEvents.BREWING_STAND_BREW, SoundSource.BLOCKS, 1f, 1f);
-                }
+            if (tickCount % 10 == 0 && pState.getValue(fill) != 9 && tickCount < 60) {
+                pLevel.setBlock(pPos, pState.cycle(fill), 3);
+                pLevel.playSound(null, pPos, SoundEvents.BREWING_STAND_BREW, SoundSource.BLOCKS, 1f, 1f);
             }
 
             if (tickCount == 60) {
                 pLevel.setBlock(pPos, pState.cycle(fill), 3);
 
                 LightningBolt lightningBolt = EntityType.LIGHTNING_BOLT.create(pLevel);
-                assert lightningBolt != null;
-                lightningBolt.moveTo(pPos.getX(), pPos.getY(), pPos.getZ());
-                pLevel.addFreshEntity(lightningBolt);
+                if (lightningBolt != null) {
+                    lightningBolt.moveTo(pPos.getX() + 0.5, pPos.getY(), pPos.getZ() + 0.5);
+                    pLevel.addFreshEntity(lightningBolt);
+                }
 
                 NethermanEntity entity = KnightQuestEntities.NETHERMAN.get().create(pLevel);
                 if (entity != null) {
-                    entity.moveTo(pPos.getX(), pPos.getY() + 2, pPos.getZ());
+                    entity.moveTo(pPos.getX() + 0.5F, pPos.getY() + 1, pPos.getZ() + 0.5F);
                     pLevel.addFreshEntity(entity);
                 }
 
+                ChaliceBlockTracker.resetTickCount(pPos);
+            } else {
+                ChaliceBlockTracker.incrementTickCount(pPos);
             }
 
-            tickCount++;
-        } else {
-            tickCount = 0;
+            scheduleTick(pLevel, pPos);
         }
-
-        scheduleTick(pLevel, pPos);
     }
 
     @Override
     public void onPlace(BlockState pState, Level pLevel, BlockPos pPos, BlockState pOldState, boolean pMovedByPiston) {
-        scheduleTick(pLevel, pPos);
+        if (!pLevel.isClientSide) {
+            ChaliceBlockTracker.addChalice(pPos, this);
+            scheduleTick(pLevel, pPos);
+        }
     }
 
     @Override
-    public void setPlacedBy(Level pLevel, BlockPos pPos, BlockState pState, @Nullable LivingEntity pPlacer, ItemStack pStack) {
-        scheduleTick(pLevel, pPos);
+    public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pMovedByPiston) {
+        if (!pLevel.isClientSide) {
+            ChaliceBlockTracker.removeChalice(pPos);
+        }
+
+        super.onRemove(pState, pLevel, pPos, pNewState, pMovedByPiston);
     }
 
     private void scheduleTick(Level pLevel, BlockPos pPos) {

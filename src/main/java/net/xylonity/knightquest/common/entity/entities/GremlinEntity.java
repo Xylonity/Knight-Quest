@@ -8,6 +8,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -91,6 +92,17 @@ public class GremlinEntity extends Monster implements GeoEntity {
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
         controllerRegistrar.add(new AnimationController<>(this, "controller", 0, this::predicate));
         controllerRegistrar.add(new AnimationController<>(this, "attackcontroller", 0, this::attackPredicate));
+        controllerRegistrar.add(new AnimationController<>(this, "deadcontroller", 0, this::deadPredicate));
+    }
+
+    private PlayState deadPredicate(AnimationState<?> event) {
+
+        if (this.isDeadOrDying()) {
+            event.getController().setAnimation(RawAnimation.begin().then("death", Animation.LoopType.PLAY_ONCE));
+        }
+
+        return PlayState.CONTINUE;
+
     }
 
     private PlayState attackPredicate(AnimationState<?> event) {
@@ -110,10 +122,6 @@ public class GremlinEntity extends Monster implements GeoEntity {
             event.getController().setAnimation(RawAnimation.begin().then("walk", Animation.LoopType.LOOP));
         } else {
             event.getController().setAnimation(RawAnimation.begin().then("idle", Animation.LoopType.LOOP));
-        }
-
-        if (this.isDeadOrDying()) {
-            event.getController().setAnimation(RawAnimation.begin().then("death", Animation.LoopType.LOOP));
         }
 
         return PlayState.CONTINUE;

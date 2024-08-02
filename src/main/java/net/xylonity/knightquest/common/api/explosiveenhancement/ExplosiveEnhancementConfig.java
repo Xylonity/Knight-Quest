@@ -7,30 +7,30 @@ public class ExplosiveEnhancementConfig {
     public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
     public static final ForgeConfigSpec SPEC;
 
-    public static final ForgeConfigSpec.BooleanValue showBlastWave ;// ;// = true
-    public static final ForgeConfigSpec.BooleanValue showFireball ;// ;// = true
-    public static final ForgeConfigSpec.BooleanValue showMushroomCloud ;// ;// = true
-    public static final ForgeConfigSpec.BooleanValue showSparks ;// ;// = true
-    public static final ForgeConfigSpec.DoubleValue sparkSize ;// = 5.3F;
-    public static final ForgeConfigSpec.DoubleValue sparkOpacity ;// = 0.70F;
-    public static final ForgeConfigSpec.BooleanValue showDefaultExplosion ;// = false;
-    public static final ForgeConfigSpec.BooleanValue underwaterExplosions ;// ;// = true
-    public static final ForgeConfigSpec.BooleanValue showShockwave ;// ;// = true
-    public static final ForgeConfigSpec.BooleanValue showUnderwaterBlastWave ;// ;// = true
-    public static final ForgeConfigSpec.IntValue bubbleAmount ;// = 50;
-    public static final ForgeConfigSpec.BooleanValue showUnderwaterSparks ;// = false;
-    public static final ForgeConfigSpec.DoubleValue underwaterSparkSize ;// = 4.0F;
-    public static final ForgeConfigSpec.DoubleValue underwaterSparkOpacity ;// = 0.30F;
-    public static final ForgeConfigSpec.BooleanValue showDefaultExplosionUnderwater ;// = false;
-    public static final ForgeConfigSpec.BooleanValue dynamicSize ;// ;// = true
-    public static final ForgeConfigSpec.BooleanValue dynamicUnderwater ;// ;// = true
-    public static final ForgeConfigSpec.BooleanValue attemptBetterSmallExplosions ;// ;// = true
-    public static final ForgeConfigSpec.DoubleValue smallExplosionYOffset ;// = -0.5;
-    public static final ForgeConfigSpec.BooleanValue modEnabled ;// ;// = true
-    public static final ForgeConfigSpec.BooleanValue emissiveExplosion ;// ;// = true
-    public static final ForgeConfigSpec.BooleanValue emissiveWaterExplosion ;// ;// = true
-    public static final ForgeConfigSpec.BooleanValue alwaysShow ;// = false;
-    public static final ForgeConfigSpec.BooleanValue debugLogs ;// = false;
+    public static final ForgeConfigSpec.BooleanValue showBlastWave;
+    public static final ForgeConfigSpec.BooleanValue showFireball;
+    public static final ForgeConfigSpec.BooleanValue showMushroomCloud;
+    public static final ForgeConfigSpec.BooleanValue showSparks;
+    public static final ForgeConfigSpec.DoubleValue sparkSize;
+    public static final ForgeConfigSpec.DoubleValue sparkOpacity;
+    public static final ForgeConfigSpec.BooleanValue showDefaultExplosion;
+    public static final ForgeConfigSpec.BooleanValue underwaterExplosions;
+    public static final ForgeConfigSpec.BooleanValue showShockwave;
+    public static final ForgeConfigSpec.BooleanValue showUnderwaterBlastWave;
+    public static final ForgeConfigSpec.IntValue bubbleAmount;
+    public static final ForgeConfigSpec.BooleanValue showUnderwaterSparks;
+    public static final ForgeConfigSpec.DoubleValue underwaterSparkSize;
+    public static final ForgeConfigSpec.DoubleValue underwaterSparkOpacity;
+    public static final ForgeConfigSpec.BooleanValue showDefaultExplosionUnderwater;
+    public static final ForgeConfigSpec.BooleanValue dynamicSize;
+    public static final ForgeConfigSpec.BooleanValue dynamicUnderwater;
+    public static final ForgeConfigSpec.BooleanValue attemptBetterSmallExplosions;
+    public static final ForgeConfigSpec.DoubleValue smallExplosionYOffset;
+    public static final ForgeConfigSpec.BooleanValue modEnabled;
+    public static final ForgeConfigSpec.BooleanValue emissiveExplosion;
+    public static final ForgeConfigSpec.BooleanValue emissiveWaterExplosion;
+    public static final ForgeConfigSpec.BooleanValue alwaysShow;
+    public static final ForgeConfigSpec.BooleanValue debugLogs;
 
     static {
         BUILDER.push("Config file for Explosive Enhancement");

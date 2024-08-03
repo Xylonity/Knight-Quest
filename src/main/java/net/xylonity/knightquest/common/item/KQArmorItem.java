@@ -48,7 +48,7 @@ public class KQArmorItem extends ArmorItem {
     private static final MobEffectInstance SHIELD_ARMOR = new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, -1, 0, false, false, true);
     private static final MobEffectInstance BAT_ARMOR = new MobEffectInstance(MobEffects.NIGHT_VISION, -1, 0, false, false, true);
     private static final MobEffectInstance PATH_ARMOR = new MobEffectInstance(MobEffects.INVISIBILITY, -1, 1, false, true, true);
-    private static final MobEffectInstance BOW_ARMOR = new MobEffectInstance(MobEffects.MOVEMENT_SPEED, -1, 0, false, false, true);
+    private static final MobEffectInstance BOW_ARMOR = new MobEffectInstance(MobEffects.MOVEMENT_SPEED, -1, 1, false, false, true);
     private static final MobEffectInstance HORN_ARMOR = new MobEffectInstance(MobEffects.DAMAGE_BOOST, 400, 1, false, false, true);
     private static final MobEffectInstance SEA_ARMOR = new MobEffectInstance(MobEffects.DOLPHINS_GRACE, -1, 0, false, false, true);
     private static final MobEffectInstance PIRATE_ARMOR = new MobEffectInstance(MobEffects.LUCK, -1, 0, false, false, true);
@@ -301,8 +301,8 @@ public class KQArmorItem extends ArmorItem {
                 if (KQConfigValues.EVOKERSET)
                     if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.EVOKERSET)) {
                         Random random = new Random();
-                        if (event.getSource().getEntity() != null && event.getSource().getEntity() instanceof LivingEntity entity && random.nextFloat() < 0.25)
-                            entity.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 160, 0, false, false, true));
+                        if (event.getSource().getEntity() != null && event.getSource().getEntity() instanceof LivingEntity entity && random.nextFloat() < 0.35)
+                            entity.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 120, 0, false, false, true));
                     }
 
                 if (KQConfigValues.SQUIRESET)
@@ -331,7 +331,7 @@ public class KQArmorItem extends ArmorItem {
 
                 if (KQConfigValues.SHINOBI)
                     if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.SHINOBI) && event.getSource().getEntity() != null) {
-                        player.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, 160, 1, false, false, true));
+                        player.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, 120, 1, false, false, true));
                     }
 
                 if (KQConfigValues.BAMBOOSET)
@@ -475,7 +475,7 @@ public class KQArmorItem extends ArmorItem {
 
                 if (KQConfigValues.WITCH)
                     if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.WITCH)) {
-                        player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 80, 1, false, true, true));
+                        player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 80, 0, false, true, true));
                     }
             }
         }

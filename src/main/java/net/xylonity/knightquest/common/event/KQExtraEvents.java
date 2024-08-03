@@ -11,19 +11,15 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.xylonity.knightquest.KnightQuest;
-import net.xylonity.knightquest.common.block.ChaliceBlock;
 import net.xylonity.knightquest.common.item.KQArmorItem;
-import net.xylonity.knightquest.registry.KnightQuestBlocks;
 import net.xylonity.knightquest.registry.KnightQuestEntities;
 import net.xylonity.knightquest.common.entity.entities.SamhainEntity;
 
-import java.util.Arrays;
 import java.util.Map;
 
 /**
@@ -55,7 +51,7 @@ public class KQExtraEvents {
     }
 
     /**
-     * Inherits enchantment effects of netherite armor items to KQArmorItem instances after a craft is done
+     * Inherits enchantment effects of netherite and diamond armor items to KQArmorItem instances after a craft is done.
      */
 
     @SubscribeEvent
@@ -66,7 +62,7 @@ public class KQExtraEvents {
         if (craftedItem.getItem() instanceof KQArmorItem) {
             for (int i = 0; i < craftMatrix.getContainerSize(); i++) {
                 ItemStack stackInSlot = craftMatrix.getItem(i);
-                if (isNetheriteArmor(stackInSlot) && stackInSlot.isEnchanted()) {
+                if ((isNetheriteArmor(stackInSlot) || isDiamondArmor(stackInSlot)) && stackInSlot.isEnchanted()) {
                     Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(stackInSlot);
 
                     EnchantmentHelper.setEnchantments(enchantments, craftedItem);
@@ -83,6 +79,13 @@ public class KQExtraEvents {
                 stack.getItem() == Items.NETHERITE_CHESTPLATE ||
                 stack.getItem() == Items.NETHERITE_LEGGINGS ||
                 stack.getItem() == Items.NETHERITE_BOOTS;
+    }
+
+    private static boolean isDiamondArmor(ItemStack stack) {
+        return stack.getItem() == Items.DIAMOND_HELMET ||
+                stack.getItem() == Items.DIAMOND_CHESTPLATE ||
+                stack.getItem() == Items.DIAMOND_LEGGINGS ||
+                stack.getItem() == Items.DIAMOND_BOOTS;
     }
 
 }

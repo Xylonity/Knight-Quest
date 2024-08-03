@@ -3,11 +3,11 @@
   "category": "misc",
   "ingredients": [
     {
-      "item": "minecraft:heart_of_the_sea"
+      "item": "minecraft:nether_star"
     }
   ],
   "result": {
-    "item": "knightquest:small_essence",
-    "count": 2
+    "item": "knightquest:great_essence",
+    "count": 4
   }
 }

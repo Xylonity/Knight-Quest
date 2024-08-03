@@ -24,7 +24,9 @@ public class KQGlobalLootModifiersProvider extends GlobalLootModifierProvider {
         String[] vanilla = {
                 "creeper", "spider", "skeleton", "zombie", "cave_spider",
                 "blaze", "enderman", "ghast", "magma_cube", "phantom",
-                "slime", "stray", "vex", "drowned", "blaze"
+                "slime", "stray", "vex", "drowned", "witch", "husk",
+                "zombie_villager", "wither_skeleton", "pillager",
+                "vindicator", "evoker", "hoglin", "piglin"
         };
 
         String[] knightquest = {

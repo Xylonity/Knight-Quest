@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "misc",
+    "pattern": [
+        "## ",
+        "## ",
+        "   "
+    ],
+    "key": {
+        "#": {
+            "item": "knightquest:small_essence"
+        }
+    },
+    "result": {
+        "id": "knightquest:great_essence"
+    }
+}

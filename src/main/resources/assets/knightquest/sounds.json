@@ -3,7 +3,8 @@
     "sounds": [
       {
         "name": "netherman_boss_music",
-        "stream": true
+        "pitch": 1.0,
+        "volume": 1.0
       }
     ]
   }

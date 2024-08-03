@@ -1,0 +1,24 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "misc",
+    "key": {
+        "I": {
+            "item": "knightquest:filled_goblet"
+        },
+        "S": {
+            "item": "minecraft:netherite_sword"
+        },
+        "X": {
+            "item": "minecraft:map"
+        }
+    },
+    "pattern": [
+        "X",
+        "I",
+        "S"
+    ],
+    "result": {
+        "id": "knightquest:khopesh_claymore"
+    },
+    "show_notification": true
+}

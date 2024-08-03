@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": {
+      "item": "minecraft:iron_sword"
+    },
+    "S": {
+      "item": "minecraft:feather"
+    },
+    "X": {
+      "item": "minecraft:charcoal"
+    }
+  },
+  "pattern": [
+    "XXX",
+    " I ",
+    " S "
+  ],
+  "result": {
+    "item": "knightquest:steel_sword"
+  },
+  "show_notification": true
+}

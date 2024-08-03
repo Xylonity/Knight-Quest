@@ -12,12 +12,8 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.xylonity.knightquest.registry.KnightQuestBlocks;
-import net.xylonity.knightquest.registry.KnightQuestCreativeModeTabs;
-import net.xylonity.knightquest.registry.KnightQuestItems;
-import net.xylonity.knightquest.registry.KnightQuestEntities;
+import net.xylonity.knightquest.registry.*;
 import net.xylonity.knightquest.common.entity.client.*;
-import net.xylonity.knightquest.registry.KnightQuestParticles;
 import net.xylonity.knightquest.config.KnightQuestCommonConfigs;
 import net.xylonity.knightquest.datagen.KQLootModifiers;
 import org.slf4j.Logger;
@@ -38,8 +34,8 @@ public class KnightQuest
         KnightQuestEntities.ENTITY.register(modEventBus);
         KQLootModifiers.LOOT_MODIFIER_SERIALIZERS.register(modEventBus);
         KnightQuestParticles.PARTICLES.register(modEventBus);
+        KnightQuestSounds.SOUNDS.register(modEventBus);
 
-        // ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, KnightQuestClientConfigs.SPEC, "knightquest-client.toml");
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, KnightQuestCommonConfigs.SPEC, "knightquest.toml");
 
         MinecraftForge.EVENT_BUS.register(this);
@@ -48,23 +44,4 @@ public class KnightQuest
 
     @SubscribeEvent public void onServerStarting(ServerStartingEvent event) {  }
 
-    @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-    public static class ClientModEvents
-    {
-        @SubscribeEvent
-        public static void onClientSetup(FMLClientSetupEvent event)
-        {
-            EntityRenderers.register(KnightQuestEntities.GREMLIN.get(), GremlinRenderer::new);
-            EntityRenderers.register(KnightQuestEntities.ELDBOMB.get(), EldBombRenderer::new);
-            EntityRenderers.register(KnightQuestEntities.ELDKINGHT.get(), EldKnightRenderer::new);
-            EntityRenderers.register(KnightQuestEntities.SWAMPMAN.get(), SwampmanRenderer::new);
-            EntityRenderers.register(KnightQuestEntities.RATMAN.get(), RatmanRenderer::new);
-            EntityRenderers.register(KnightQuestEntities.SAMHAIN.get(), SamhainRenderer::new);
-            EntityRenderers.register(KnightQuestEntities.LIZZY.get(), LizzyRenderer::new);
-            EntityRenderers.register(KnightQuestEntities.BADPATCH.get(), BadPatchRenderer::new);
-            EntityRenderers.register(KnightQuestEntities.SHIELD.get(), ShieldRenderer::new);
-            EntityRenderers.register(KnightQuestEntities.MOMMA_LIZZY.get(), MommaLizzyRenderer::new);
-            EntityRenderers.register(KnightQuestEntities.GHOSTY.get(), GhostyRenderer::new);
-        }
-    }
 }

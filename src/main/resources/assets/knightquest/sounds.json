@@ -1,0 +1,10 @@
+{
+  "netherman_boss_music": {
+    "sounds": [
+      {
+        "name": "netherman_boss_music",
+        "stream": true
+      }
+    ]
+  }
+}

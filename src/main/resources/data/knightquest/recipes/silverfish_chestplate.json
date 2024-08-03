@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:beacon"
+    },
+    {
+      "item": "minecraft:stone"
+    },
+    {
+      "item": "minecraft:chiseled_deepslate"
+    },
+    {
+      "item": "knightquest:filled_goblet"
+    },
+    {
+      "item": "minecraft:netherite_chestplate"
+    }
+  ],
+  "result": {
+    "item": "knightquest:silverfish_chestplate"
+  }
+}

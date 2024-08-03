@@ -24,17 +24,17 @@ public class KnightQuestBlocks {
     public static final DeferredRegister<Block> BLOCKS =
             DeferredRegister.create(ForgeRegistries.BLOCKS, KnightQuest.MOD_ID);
 
-    private static <T extends Block> void registerBlockItem(RegistryObject<T> block) {
-        KnightQuestItems.ITEMS.register("great_chalice", () -> new BlockItem(block.get(), new Item.Properties()));
+    private static <X extends Block> RegistryObject<Item> registerBlockItem(String name, RegistryObject<X> block) {
+        return KnightQuestItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
     }
 
-    private static <T extends Block> RegistryObject<T> registerBlock(Supplier<T> block) {
-        RegistryObject<T> toReturn = BLOCKS.register("great_chalice", block);
-        registerBlockItem(toReturn);
+    private static <X extends Block> RegistryObject<X> registerBlock(String name, Supplier<X> block) {
+        RegistryObject<X> toReturn = BLOCKS.register(name, block);
+        registerBlockItem(name, toReturn);
         return toReturn;
     }
 
-    public static final RegistryObject<Block> GREAT_CHALICE = registerBlock(
+    public static final RegistryObject<Block> GREAT_CHALICE = registerBlock("great_chalice",
             () -> new ChaliceBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_ORANGE).requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.COPPER).lightLevel(state -> state.getValue(ChaliceBlock.fill).equals(5) ? 5 : 0))
             {
                 @Override

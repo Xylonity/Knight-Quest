@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:feather"
+    },
+    {
+      "item": "minecraft:iron_block"
+    },
+    {
+      "item": "minecraft:black_dye"
+    },
+    {
+      "item": "knightquest:filled_goblet"
+    },
+    {
+      "item": "minecraft:diamond_chestplate"
+    }
+  ],
+  "result": {
+    "item": "knightquest:silver_chestplate"
+  }
+}

@@ -1,6 +1,9 @@
 package net.xylonity.knightquest.registry;
 
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.*;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.registries.DeferredRegister;
@@ -22,6 +25,7 @@ public class KnightQuestItems {
 
     public static final RegistryObject<Item> GREAT_ESSENCE = ITEMS.register("great_essence", () -> new KQItem(new Item.Properties(), "great_essence"));
     public static final RegistryObject<Item> SMALL_ESSENCE = ITEMS.register("small_essence", () -> new KQItem(new Item.Properties(), "small_essence"));
+    public static final RegistryObject<Item> RADIANT_ESSENCE = ITEMS.register("radiant_essence", () -> new KQItem(new Item.Properties(), "radiant_essence"));
     public static final RegistryObject<Item> EMPTY_GOBLET = ITEMS.register("empty_goblet", () -> new KQItem(new Item.Properties(), "empty_goblet"));
     public static final RegistryObject<Item> FILLED_GOBLET = ITEMS.register("filled_goblet", () -> new KQItem(new Item.Properties(), "filled_goblet"));
     public static final RegistryObject<Item> RATMAN_EYE = ITEMS.register("ratman_eye", () -> new KQItem(new Item.Properties(), "ratman_eye"));
@@ -515,5 +519,4 @@ public class KnightQuestItems {
                     super.appendHoverText(pStack, pContext, pTooltipComponents, pTooltipFlag);
                 }
             });
-    
 }

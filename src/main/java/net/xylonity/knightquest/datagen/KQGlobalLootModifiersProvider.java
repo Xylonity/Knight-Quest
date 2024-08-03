@@ -22,30 +22,32 @@ public class KQGlobalLootModifiersProvider extends GlobalLootModifierProvider {
      * Declaration of certain mobs that will drop the small_essence item
      */
 
-    private static final ResourceLocation[] MOB_IDS = {
-            ResourceLocation.fromNamespaceAndPath("minecraft", "entities/creeper"),
-            ResourceLocation.fromNamespaceAndPath("minecraft", "entities/spider"),
-            ResourceLocation.fromNamespaceAndPath("minecraft", "entities/skeleton"),
-            ResourceLocation.fromNamespaceAndPath("minecraft", "entities/zombie"),
-            ResourceLocation.fromNamespaceAndPath("minecraft", "entities/cave_spider"),
-            ResourceLocation.fromNamespaceAndPath("minecraft", "entities/blaze"),
-            ResourceLocation.fromNamespaceAndPath("minecraft", "entities/enderman"),
-            ResourceLocation.fromNamespaceAndPath("minecraft", "entities/ghast"),
-            ResourceLocation.fromNamespaceAndPath("minecraft", "entities/magma_cube"),
-            ResourceLocation.fromNamespaceAndPath("minecraft", "entities/phantom"),
-            ResourceLocation.fromNamespaceAndPath("minecraft", "entities/slime"),
-            ResourceLocation.fromNamespaceAndPath("minecraft", "entities/stray"),
-            ResourceLocation.fromNamespaceAndPath("minecraft", "entities/vex"),
-            ResourceLocation.fromNamespaceAndPath("minecraft", "entities/drowned"),
-            ResourceLocation.fromNamespaceAndPath("knightquest", "entities/gremlin"),
-            ResourceLocation.fromNamespaceAndPath("knightquest", "entities/eldknight"),
-            ResourceLocation.fromNamespaceAndPath("knightquest", "entities/samhain"),
-            ResourceLocation.fromNamespaceAndPath("knightquest", "entities/ratman"),
-            ResourceLocation.fromNamespaceAndPath("knightquest", "entities/swampman"),
-            ResourceLocation.fromNamespaceAndPath("knightquest", "entities/eldbomb"),
-            ResourceLocation.fromNamespaceAndPath("knightquest", "entities/lizzy"),
-            ResourceLocation.fromNamespaceAndPath("knightquest", "entities/bad_patch")
-    };
+    private static final ResourceLocation[] MOB_IDS;
+
+    static {
+        String[] vanilla = {
+                "creeper", "spider", "skeleton", "zombie", "cave_spider",
+                "blaze", "enderman", "ghast", "magma_cube", "phantom",
+                "slime", "stray", "vex", "drowned", "witch", "husk",
+                "zombie_villager", "wither_skeleton", "pillager",
+                "vindicator", "evoker", "hoglin", "piglin"
+        };
+
+        String[] knightquest = {
+                "gremlin", "eldknight", "samhain", "ratman", "swampman",
+                "eldbomb", "lizzy", "bad_patch"
+        };
+
+        MOB_IDS = new ResourceLocation[vanilla.length + knightquest.length];
+
+        for (int i = 0; i < vanilla.length; i++) {
+            MOB_IDS[i] = ResourceLocation.fromNamespaceAndPath("minecraft", "entities/" + vanilla[i]);
+        }
+
+        for (int i = 0; i < knightquest.length; i++) {
+            MOB_IDS[vanilla.length + i] = ResourceLocation.fromNamespaceAndPath("knightquest", "entities/" + knightquest[i]);
+        }
+    }
 
     private static final ResourceLocation RATMAN_ID = ResourceLocation.fromNamespaceAndPath("knightquest", "entities/ratman");
     private static final ResourceLocation LIZZY_ID = ResourceLocation.fromNamespaceAndPath("knightquest", "entities/lizzy");

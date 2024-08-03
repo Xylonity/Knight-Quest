@@ -54,6 +54,7 @@ public class KnightQuestCreativeModeTabs {
                                 output.accept(KnightQuestItems.GHOSTY_EGG.get());
                                 output.accept(KnightQuestItems.GHASTLING_EGG.get());
                                 output.accept(KnightQuestItems.MOMMA_LIZZY_EGG.get());
+                                output.accept(KnightQuestItems.NETHERMAN_EGG.get());
 
                                 output.accept(KnightQuestItems.SQUIRE_HELMET.get());
                                 output.accept(KnightQuestItems.SQUIRE_CHESTPLATE.get());

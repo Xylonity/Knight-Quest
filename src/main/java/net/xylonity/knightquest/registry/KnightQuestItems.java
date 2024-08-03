@@ -414,7 +414,7 @@ public class KnightQuestItems {
             () -> new GeoItemArmor(KQArmorMaterials.SQUIRESET, ArmorItem.Type.HELMET,new Item.Properties()
                     , "textures/armor/squire_helmet.png", "geo/squire_helmet.geo.json") {
                 @Override
-                public void appendHoverText(ItemStack pStack, TooltipContext pContext, List<Component> pTooltipComponents, TooltipFlag pTooltipFlag) {
+                public void appendHoverText(@NotNull ItemStack pStack, @NotNull TooltipContext pContext, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pTooltipFlag) {
                     pTooltipComponents.add(Component.translatable("tooltip.item.knightquest.squire_helmet"));
                     super.appendHoverText(pStack, pContext, pTooltipComponents, pTooltipFlag);
                 }
@@ -511,6 +511,8 @@ public class KnightQuestItems {
             () -> new ForgeSpawnEggItem(KnightQuestEntities.GHOSTY, 0x2cb87e, 0xfbe105, new Item.Properties()));
     public static final RegistryObject<Item> MOMMA_LIZZY_EGG = ITEMS.register("momma_lizzy_spawn_egg",
             () -> new ForgeSpawnEggItem(KnightQuestEntities.MOMMA_LIZZY, 0x0babf2, 0x9f5b14, new Item.Properties()));
+    public static final RegistryObject<Item> NETHERMAN_EGG = ITEMS.register("netherman_spawn_egg",
+            () -> new ForgeSpawnEggItem(KnightQuestEntities.NETHERMAN, 0xebedec, 0xc3c3c3, new Item.Properties()));
     public static final RegistryObject<Item> GHASTLING_EGG = ITEMS.register("ghastling_spawn_egg",
             () -> new ForgeSpawnEggItem(KnightQuestEntities.SHIELD, 0x930c13, 0xfb9600, new Item.Properties()){
                 @Override

@@ -510,7 +510,7 @@ public class NethermanEntity extends Monster implements GeoEntity {
 
     private PlayState predicate(AnimationState<?> event) {
 
-        if (getIsAttacking()) {
+        if (getIsAttacking() && (getHealth() > getMaxHealth() * 0.70 || (getHealth() < getMaxHealth() * 0.60 && getHealth() > getMaxHealth() * 0.45) || getHealth() < getMaxHealth() * 0.30)) {
             event.getController().setAnimation(RawAnimation.begin().then("teleport_charge", Animation.LoopType.PLAY_ONCE));
         }
         else if (event.isMoving()) {
@@ -537,7 +537,7 @@ public class NethermanEntity extends Monster implements GeoEntity {
                 default -> "specialAttack";
             };
 
-            if (attackPattern.equals("specialAttack") && getPhase() != 3 && (getHealth() > getMaxHealth() * 0.70 || getHealth() < getMaxHealth() * 0.60)) {
+            if (attackPattern.equals("specialAttack") && getPhase() != 3 && (getHealth() > getMaxHealth() * 0.70 || (getHealth() < getMaxHealth() * 0.60 && getHealth() > getMaxHealth() * 0.4))) {
                 specialAttack = true;
                 event.getController().setAnimation(RawAnimation.begin().then("attack_teleport1", Animation.LoopType.PLAY_ONCE).then("attack_teleport2", Animation.LoopType.PLAY_ONCE));
             } else

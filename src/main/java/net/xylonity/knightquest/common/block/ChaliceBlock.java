@@ -151,7 +151,7 @@ public class ChaliceBlock extends Block {
                 }
 
                 Entity entity = new ItemEntity(pLevel, pPos.getX() + 0.5, pPos.getY() + 1d, pPos.getZ() + 0.5, KnightQuestItems.FILLED_GOBLET.get().getDefaultInstance());
-                pLevel.setBlock(pPos, pState.cycle(fill), 3);
+                pLevel.setBlock(pPos, pState.setValue(fill, 1), 3);
                 pLevel.addFreshEntity(entity);
             }
         }

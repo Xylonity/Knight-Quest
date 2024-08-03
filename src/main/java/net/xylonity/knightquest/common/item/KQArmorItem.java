@@ -301,7 +301,7 @@ public class KQArmorItem extends ArmorItem {
                 if (KQConfigValues.EVOKERSET)
                     if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.EVOKERSET)) {
                         Random random = new Random();
-                        if (event.getSource().getEntity() != null && event.getSource().getEntity() instanceof LivingEntity entity && random.nextFloat() < 0.35)
+                        if (event.getSource().getEntity() != null && event.getSource().getEntity() instanceof LivingEntity entity && random.nextFloat() < 0.25)
                             entity.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 120, 0, false, false, true));
                     }
 

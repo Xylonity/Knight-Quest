@@ -1,36 +1,73 @@
 package net.xylonity.common.entity.boss;
 
-import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.projectile.Projectile;
-import net.minecraft.world.entity.projectile.ProjectileUtil;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.HitResult;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.*;
+import net.minecraft.entity.attribute.DefaultAttributeContainer;
+import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.boss.BossBar;
+import net.minecraft.entity.boss.ServerBossBar;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.damage.DamageTypes;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.ProjectileEntity;
+import net.minecraft.entity.projectile.ProjectileUtil;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtDouble;
+import net.minecraft.nbt.NbtList;
+import net.minecraft.network.listener.ClientPlayPacketListener;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
+import net.minecraft.particle.ParticleEffect;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.network.EntityTrackerEntry;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Text;
+import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.RaycastContext;
+import net.minecraft.world.World;
+import net.xylonity.common.api.explosiveenhancement.ExplosiveConfig;
+import net.xylonity.common.api.util.ParticleGenerator;
+import net.xylonity.common.api.util.TeleportValidator;
+import net.xylonity.common.entity.boss.ai.*;
+import net.xylonity.registry.KnightQuestParticles;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import software.bernie.geckolib.animatable.GeoEntity;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animation.*;
+import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class AbstractNethermanProjectile extends Projectile {
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+
+public class AbstractNethermanProjectile extends ProjectileEntity {
     public double xPower;
     public double yPower;
     public double zPower;
+    private double accelerationPower;
 
-    protected AbstractNethermanProjectile(EntityType<? extends AbstractNethermanProjectile> pEntityType, Level pLevel) {
+    protected AbstractNethermanProjectile(EntityType<? extends AbstractNethermanProjectile> pEntityType, World pLevel) {
         super(pEntityType, pLevel);
     }
 
-    public AbstractNethermanProjectile(EntityType<? extends AbstractNethermanProjectile> pEntityType, double pX, double pY, double pZ, double pOffsetX, double pOffsetY, double pOffsetZ, Level pLevel) {
+    public AbstractNethermanProjectile(EntityType<? extends AbstractNethermanProjectile> pEntityType, double pX, double pY, double pZ, double pOffsetX, double pOffsetY, double pOffsetZ, World pLevel) {
         this(pEntityType, pLevel);
-        this.moveTo(pX, pY, pZ, this.getYRot(), this.getXRot());
-        this.reapplyPosition();
+        this.refreshPositionAndAngles(pX, pY, pZ, this.getYaw(), this.getPitch());
+        this.refreshPosition();
         double d0 = Math.sqrt(pOffsetX * pOffsetX + pOffsetY * pOffsetY + pOffsetZ * pOffsetZ);
         if (d0 != 0.0D) {
             this.xPower = pOffsetX / d0 * 0.1D;
@@ -40,22 +77,31 @@ public class AbstractNethermanProjectile extends Projectile {
 
     }
 
-    public AbstractNethermanProjectile(EntityType<? extends AbstractNethermanProjectile> pEntityType, LivingEntity pShooter, double pOffsetX, double pOffsetY, double pOffsetZ, Level pLevel) {
+    public AbstractNethermanProjectile(EntityType<? extends AbstractNethermanProjectile> pEntityType, LivingEntity pShooter, double pOffsetX, double pOffsetY, double pOffsetZ, World pLevel) {
         this(pEntityType, pShooter.getX(), pShooter.getY(), pShooter.getZ(), pOffsetX, pOffsetY, pOffsetZ, pLevel);
         this.setOwner(pShooter);
-        this.setRot(pShooter.getYRot(), pShooter.getXRot());
+        this.setRotation(pShooter.getYaw(), pShooter.getPitch());
     }
-
-    protected void defineSynchedData() {  }
 
     /**
      * Checks if the entity is in range to render.
      */
 
-    public boolean shouldRenderAtSqrDistance(double distance) {
-        double size = this.getBoundingBox().getSize() * 4.0D;
-        size = Double.isNaN(size) ? 4.0D : size * 64.0D;
-        return distance < size * size;
+    public boolean shouldRender(double distance) {
+        double d = this.getBoundingBox().getAverageSideLength() * 4.0;
+        if (Double.isNaN(d)) {
+            d = 4.0;
+        }
+
+        d *= 64.0;
+        return distance < d * d;
+    }
+
+    @Override
+    protected void initDataTracker(DataTracker.Builder builder) { ;; }
+
+    protected RaycastContext.ShapeType getRaycastShapeType() {
+        return RaycastContext.ShapeType.COLLIDER;
     }
 
     /**
@@ -64,73 +110,85 @@ public class AbstractNethermanProjectile extends Projectile {
 
     public void tick() {
         Entity entity = this.getOwner();
-        if (this.level().isClientSide || (entity == null || !entity.isRemoved()) && this.level().hasChunkAt(this.blockPosition())) {
+        if (!this.getWorld().isClient && (entity != null && entity.isRemoved() || !this.getWorld().isChunkLoaded(this.getBlockPos()))) {
+            this.discard();
+        } else {
             super.tick();
-
-            HitResult hitresult = ProjectileUtil.getHitResultOnMoveVector(this, this::canHitEntity);
-            if (hitresult.getType() != HitResult.Type.MISS && !net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, hitresult)) {
-                this.onHit(hitresult);
+            HitResult hitResult = ProjectileUtil.getCollision(this, this::canHit, this.getRaycastShapeType());
+            if (hitResult.getType() != HitResult.Type.MISS) {
+                this.hitOrDeflect(hitResult);
             }
 
-            this.checkInsideBlocks();
-            Vec3 vec3 = this.getDeltaMovement();
-            double d0 = this.getX() + vec3.x;
-            double d1 = this.getY() + vec3.y;
-            double d2 = this.getZ() + vec3.z;
-            ProjectileUtil.rotateTowardsMovement(this, 0.2F);
-            float f = this.getInertia();
-            if (this.isInWater()) {
+            this.checkBlockCollision();
+            Vec3d vec3d = this.getVelocity();
+            double d = this.getX() + vec3d.x;
+            double e = this.getY() + vec3d.y;
+            double f = this.getZ() + vec3d.z;
+            ProjectileUtil.setRotationFromVelocity(this, 0.2F);
+            float h;
+            if (this.isTouchingWater()) {
                 for(int i = 0; i < 4; ++i) {
-                    this.level().addParticle(ParticleTypes.BUBBLE, d0 - vec3.x * 0.25D, d1 - vec3.y * 0.25D, d2 - vec3.z * 0.25D, vec3.x, vec3.y, vec3.z);
+                    float g = 0.25F;
+                    this.getWorld().addParticle(ParticleTypes.BUBBLE, d - vec3d.x * 0.25, e - vec3d.y * 0.25, f - vec3d.z * 0.25, vec3d.x, vec3d.y, vec3d.z);
                 }
 
-                f = 0.8F;
+                h = this.getDragInWater();
+            } else {
+                h = this.getDrag();
             }
 
-            this.setDeltaMovement(vec3.add(this.xPower, this.yPower, this.zPower).scale(f));
-            this.level().addParticle(this.getTrailParticle(), d0, d1 + 0.5D, d2, 0.0D, 0.0D, 0.0D);
-            this.setPos(d0, d1, d2);
-        } else {
-            this.discard();
+            this.setVelocity(vec3d.add(vec3d.normalize().multiply(this.accelerationPower)).multiply((double)h));
+            ParticleEffect particleEffect = this.getParticleType();
+            if (particleEffect != null) {
+                this.getWorld().addParticle(particleEffect, d, e + 0.5, f, 0.0, 0.0, 0.0);
+            }
+
+            this.setPosition(d, e, f);
         }
     }
 
-    protected boolean canHitEntity(@NotNull Entity entity) {
-        return super.canHitEntity(entity) && !entity.noPhysics;
+    protected float getDragInWater() {
+        return 0.8F;
     }
 
-    protected ParticleOptions getTrailParticle() {
-        return ParticleTypes.SMOKE;
-    }
-
-    /**
-     * Return the motion factor for this projectile. The factor is multiplied by the original motion.
-     */
-
-    protected float getInertia() {
+    protected float getDrag() {
         return 0.95F;
     }
 
-    public void addAdditionalSaveData(@NotNull CompoundTag pCompound) {
-        super.addAdditionalSaveData(pCompound);
-        pCompound.put("power", this.newDoubleList(this.xPower, this.yPower, this.zPower));
+    protected boolean canHit(Entity entity) {
+        return super.canHit(entity) && !entity.noClip;
+    }
+
+    @Nullable
+    protected ParticleEffect getParticleType() {
+        return ParticleTypes.SMOKE;
+    }
+
+    @Override
+    protected void writeCustomDataToNbt(NbtCompound nbt) {
+        super.writeCustomDataToNbt(nbt);
+        NbtList powerList = new NbtList();
+        powerList.add(NbtDouble.of(this.xPower));
+        powerList.add(NbtDouble.of(this.yPower));
+        powerList.add(NbtDouble.of(this.zPower));
+        nbt.put("power", powerList);
     }
 
     /**
      * (abstract) Protected helper method to read subclass entity data from NBT.
      */
 
-    public void readAdditionalSaveData(@NotNull CompoundTag pCompound) {
-        super.readAdditionalSaveData(pCompound);
-        if (pCompound.contains("power", 9)) {
-            ListTag listtag = pCompound.getList("power", 6);
-            if (listtag.size() == 3) {
-                this.xPower = listtag.getDouble(0);
-                this.yPower = listtag.getDouble(1);
-                this.zPower = listtag.getDouble(2);
+    @Override
+    protected void readCustomDataFromNbt(NbtCompound nbt) {
+        super.readCustomDataFromNbt(nbt);
+        if (nbt.contains("power", 9)) {
+            NbtList powerList = nbt.getList("power", 6);
+            if (powerList.size() == 3) {
+                this.xPower = powerList.getDouble(0);
+                this.yPower = powerList.getDouble(1);
+                this.zPower = powerList.getDouble(2);
             }
         }
-
     }
 
     /**
@@ -149,16 +207,16 @@ public class AbstractNethermanProjectile extends Projectile {
      * Called when the entity is attacked.
      */
 
-    public boolean hurt(@NotNull DamageSource pSource, float pAmount) {
-        if (this.isInvulnerableTo(pSource)) {
+    @Override
+    public boolean damage(DamageSource source, float amount) {
+        if (this.isInvulnerableTo(source)) {
             return false;
         } else {
-            this.markHurt();
-            Entity entity = pSource.getEntity();
+            Entity entity = source.getSource();
             if (entity != null) {
-                if (!this.level().isClientSide) {
-                    Vec3 vec3 = entity.getLookAngle();
-                    this.setDeltaMovement(vec3);
+                if (!this.getWorld().isClient) {
+                    Vec3d vec3 = entity.getRotationVector();
+                    this.setVelocity(vec3);
                     this.xPower = vec3.x * 0.1D;
                     this.yPower = vec3.y * 0.1D;
                     this.zPower = vec3.z * 0.1D;
@@ -172,27 +230,22 @@ public class AbstractNethermanProjectile extends Projectile {
         }
     }
 
-    public float getLightLevelDependentMagicValue() {
+    public float getBrightnessAtEyes() {
         return 1.0F;
     }
 
-    public @NotNull Packet<ClientGamePacketListener> getAddEntityPacket() {
+    @Override
+    public Packet<ClientPlayPacketListener> createSpawnPacket(EntityTrackerEntry entityTrackerEntry) {
         Entity entity = this.getOwner();
         int i = entity == null ? 0 : entity.getId();
-        return new ClientboundAddEntityPacket(this.getId(), this.getUUID(), this.getX(), this.getY(), this.getZ(), this.getXRot(), this.getYRot(), this.getType(), i, new Vec3(this.xPower, this.yPower, this.zPower), 0.0D);
+        Vec3d vec3d = entityTrackerEntry.getPos();
+        return new EntitySpawnS2CPacket(this.getId(), this.getUuid(), vec3d.getX(), vec3d.getY(), vec3d.getZ(), entityTrackerEntry.getPitch(), entityTrackerEntry.getYaw(), this.getType(), i, entityTrackerEntry.getVelocity(), 0.0);
     }
 
-    public void recreateFromPacket(@NotNull ClientboundAddEntityPacket pPacket) {
-        super.recreateFromPacket(pPacket);
-        double d0 = pPacket.getXa();
-        double d1 = pPacket.getYa();
-        double d2 = pPacket.getZa();
-        double d3 = Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
-        if (d3 != 0.0D) {
-            this.xPower = d0 / d3 * 0.1D;
-            this.yPower = d1 / d3 * 0.1D;
-            this.zPower = d2 / d3 * 0.1D;
-        }
-
+    @Override
+    public void onSpawnPacket(EntitySpawnS2CPacket packet) {
+        super.onSpawnPacket(packet);
+        Vec3d vec3d = new Vec3d(packet.getVelocityX(), packet.getVelocityY(), packet.getVelocityZ());
+        this.setVelocity(vec3d);
     }
 }

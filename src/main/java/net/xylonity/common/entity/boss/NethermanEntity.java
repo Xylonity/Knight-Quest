@@ -5,6 +5,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ExperienceOrbEntity;
 import net.minecraft.entity.LightningEntity;
+import net.minecraft.entity.ai.goal.ActiveTargetGoal;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.boss.BossBar;
@@ -79,8 +82,8 @@ public class NethermanEntity extends HostileEntity implements GeoEntity {
 
     @Override
     protected void initGoals() {
-        this.goalSelector.add(0, new FloatGoal(this));
-        this.goalSelector.add(1, new NethermanAttackGoal(this, 0.5f, true));
+        this.goalSelector.add(0, new SwimGoal(this));
+        this.goalSelector.add(1, new MeleeAttackGoal(this, 0.5f, true));
 
         // Phase 1
         this.goalSelector.add(2, new NethermanLavaTeleportGoal(this));
@@ -92,7 +95,7 @@ public class NethermanEntity extends HostileEntity implements GeoEntity {
         // Phase 3
         this.goalSelector.add(2, new MagicProjectileAttackGoal(this));
 
-        this.targetSelector.add(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
+        this.targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
     }
 
     /**

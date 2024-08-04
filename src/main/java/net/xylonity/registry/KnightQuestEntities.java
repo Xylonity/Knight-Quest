@@ -8,6 +8,9 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.xylonity.KnightQuest;
+import net.xylonity.common.entity.boss.NethermanCloneEntity;
+import net.xylonity.common.entity.boss.NethermanEntity;
+import net.xylonity.common.entity.boss.NethermanTeleportChargeEntity;
 import net.xylonity.common.entity.entities.*;
 
 public class KnightQuestEntities {
@@ -22,6 +25,9 @@ public class KnightQuestEntities {
     public static final EntityType<BadPatchEntity> BADPATCH;
     public static final EntityType<GhostyEntity> GHOSTY;
     public static final EntityType<ShieldEntity> SHIELD;
+    public static final EntityType<NethermanEntity> NETHERMAN;
+    public static final EntityType<NethermanTeleportChargeEntity> NETHERMAN_TELEPORT_CHARGE;
+    public static final EntityType<NethermanCloneEntity> NETHERMAN_CLONE;
 
     public static void registerModEntities() {
         KnightQuest.LOGGER.info("Registering entities for " + KnightQuest.MOD_ID);
@@ -38,6 +44,9 @@ public class KnightQuestEntities {
         BADPATCH = Registry.register(Registries.ENTITY_TYPE, Identifier.of(KnightQuest.MOD_ID, "bad_patch"), FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, BadPatchEntity::new).dimensions(EntityDimensions.fixed(1f, 1f)).build());
         GHOSTY = Registry.register(Registries.ENTITY_TYPE, Identifier.of(KnightQuest.MOD_ID, "ghosty"), FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, GhostyEntity::new).dimensions(EntityDimensions.fixed(1f, 1f)).build());
         SHIELD = Registry.register(Registries.ENTITY_TYPE, Identifier.of(KnightQuest.MOD_ID, "ghastling"), FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, ShieldEntity::new).dimensions(EntityDimensions.fixed(1f, 1f)).build());
+        NETHERMAN = Registry.register(Registries.ENTITY_TYPE, Identifier.of(KnightQuest.MOD_ID, "netherman"), FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, NethermanEntity::new).dimensions(EntityDimensions.fixed(1f, 1f)).build());
+        NETHERMAN_CLONE = Registry.register(Registries.ENTITY_TYPE, Identifier.of(KnightQuest.MOD_ID, "netherman_clone"), FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, NethermanCloneEntity::new).dimensions(EntityDimensions.fixed(1f, 1f)).build());
+        NETHERMAN_TELEPORT_CHARGE = Registry.register(Registries.ENTITY_TYPE, Identifier.of(KnightQuest.MOD_ID, "netherman_teleport_charge"), FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, NethermanTeleportChargeEntity::new).dimensions(EntityDimensions.fixed(1f, 1f)).build());
     }
 
 }

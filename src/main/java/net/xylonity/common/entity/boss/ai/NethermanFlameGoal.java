@@ -1,16 +1,16 @@
 package net.xylonity.common.entity.boss.ai;
 
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec3;
-import net.xylonity.knightquest.common.entity.boss.NethermanEntity;
+import net.fabricmc.loader.impl.lib.sat4j.core.Vec;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
+import net.xylonity.common.entity.boss.NethermanEntity;
+import net.xylonity.common.entity.boss.NethermanTeleportChargeEntity;
 
 public class NethermanFlameGoal extends Goal {
     private final NethermanEntity netherman;
@@ -25,7 +25,7 @@ public class NethermanFlameGoal extends Goal {
      * method as well.
      */
 
-    public boolean canUse() {
+    public boolean canStart() {
         return this.netherman.getTarget() != null;
     }
 
@@ -57,8 +57,8 @@ public class NethermanFlameGoal extends Goal {
     public void tick() {
         LivingEntity livingentity = this.netherman.getTarget();
         if (livingentity != null && this.netherman.getPhase() == 1 && this.netherman.getHealth() >= this.netherman.getMaxHealth() * 0.75) {
-            if (livingentity.distanceToSqr(this.netherman) < 4096.0D && this.netherman.hasLineOfSight(livingentity)) {
-                Level level = this.netherman.level();
+            if (livingentity.distanceTo(this.netherman) < 4096.0D && this.netherman.canSee(livingentity)) {
+                World level = this.netherman.getWorld();
 
                 if (this.chargeTime > 0) {
                     --this.chargeTime;
@@ -70,72 +70,72 @@ public class NethermanFlameGoal extends Goal {
                 }
 
                 if (this.chargeTime == 20 && !this.netherman.isSilent()) {
-                    level.playSound(null, this.netherman.getOnPos(), SoundEvents.FIREWORK_ROCKET_TWINKLE, SoundSource.BLOCKS, 1f, 1f);
+                    level.playSound(null, this.netherman.getBlockPos(), SoundEvents.ENTITY_FIREWORK_ROCKET_TWINKLE, SoundCategory.BLOCKS, 1f, 1f);
                 }
 
                 if (this.chargeTime == 10) {
-                    Vec3 look = this.netherman.getLookAngle();
+                    Vec3d look = this.netherman.getRotationVector();
                     double offsetX = look.x * 0.5;
                     double offsetY = look.y * 0.5;
                     double offsetZ = look.z * 0.5;
 
-                    for (Player player : this.netherman.level().players()) {
-                        if (player instanceof ServerPlayer serverPlayer) {
+                    for (PlayerEntity player : this.netherman.getWorld().getPlayers()) {
+                        if (player instanceof ServerPlayerEntity serverPlayer) {
                             for (int u = 0; u < 20; ++u) {
                                 double speed = 0.1 + this.netherman.getRandom().nextDouble() * 0.2;
                                 double x = this.netherman.getX() + offsetX + (this.netherman.getRandom().nextDouble() - 0.5) * 0.2;
-                                double y = this.netherman.getY() + this.netherman.getEyeHeight() + offsetY + (this.netherman.getRandom().nextDouble() - 0.5) * 0.2;
+                                double y = this.netherman.getY() + this.netherman.getEyeY() + offsetY + (this.netherman.getRandom().nextDouble() - 0.5) * 0.2;
                                 double z = this.netherman.getZ() + offsetZ + (this.netherman.getRandom().nextDouble() - 0.5) * 0.2;
                                 double vx = look.x * speed;
                                 double vy = look.y * speed;
                                 double vz = look.z * speed;
 
-                                serverPlayer.connection.send(new ClientboundLevelParticlesPacket(
-                                        ParticleTypes.FLAME,
-                                        true,
-                                        x, y, z,
-                                        (float) vx, (float) vy, (float) vz,
-                                        0.2f,
-                                        2
-                                ));
+                                //serverPlayer.connection.send(new ClientboundLevelParticlesPacket(
+                                //        ParticleTypes.FLAME,
+                                //        true,
+                                //        x, y, z,
+                                //        (float) vx, (float) vy, (float) vz,
+                                //        0.2f,
+                                //        2
+                                //));
                             }
                         }
                     }
 
                     if (!this.netherman.isSilent()) {
-                        level.playSound(null, this.netherman.getOnPos(), SoundEvents.FIRECHARGE_USE, SoundSource.BLOCKS, 1f, 1f);
+                        level.playSound(null, this.netherman.getBlockPos(), SoundEvents.ITEM_FIRECHARGE_USE, SoundCategory.BLOCKS, 1f, 1f);
                     }
 
                 }
 
                 if (chargeTime == 5) {
 
-                    for (Player player : this.netherman.level().players()) {
-                        if (player instanceof ServerPlayer serverPlayer) {
+                    for (PlayerEntity player : this.netherman.getWorld().getPlayers()) {
+                        if (player instanceof ServerPlayerEntity serverPlayer) {
                             for (int u = 0; u < 20; ++u) {
                                 double speed = 0.1 + this.netherman.getRandom().nextDouble() * 0.2;
                                 double x = this.netherman.getTarget().getX() + (this.netherman.getTarget().getRandom().nextDouble() - 0.5) * 0.2;
-                                double y = this.netherman.getTarget().getY() + this.netherman.getTarget().getEyeHeight() + (this.netherman.getRandom().nextDouble() - 0.5) * 0.2;
+                                double y = this.netherman.getTarget().getY() + this.netherman.getTarget().getEyeY() + (this.netherman.getRandom().nextDouble() - 0.5) * 0.2;
                                 double z = this.netherman.getTarget().getZ() + (this.netherman.getTarget().getRandom().nextDouble() - 0.5) * 0.2;
 
-                                Vec3 look = this.netherman.getTarget().getLookAngle();
+                                Vec3d look = this.netherman.getTarget().getRotationVector();
                                 double vx = look.x * speed;
                                 double vy = look.y * speed;
                                 double vz = look.z * speed;
 
-                                serverPlayer.connection.send(new ClientboundLevelParticlesPacket(
-                                        ParticleTypes.FLAME,
-                                        true,
-                                        x, y, z,
-                                        (float) vx, (float) vy, (float) vz,
-                                        0.2f,
-                                        2
-                                ));
+                                //serverPlayer.connection.send(new ClientboundLevelParticlesPacket(
+                                //        ParticleTypes.FLAME,
+                                //        true,
+                                //        x, y, z,
+                                //        (float) vx, (float) vy, (float) vz,
+                                //        0.2f,
+                                //        2
+                                //));
                             }
                         }
                     }
 
-                    this.netherman.getTarget().setRemainingFireTicks(this.netherman.getTarget().getRandom().nextInt(3, 7) * 20);
+                    this.netherman.getTarget().setFireTicks(this.netherman.getTarget().getRandom().nextBetween(3, 7) * 20);
                     this.netherman.setNoMovement(false);
                 }
 

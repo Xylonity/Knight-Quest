@@ -12,12 +12,43 @@ public class KnightQuestParticles {
     public static final SimpleParticleType CHALICE_PARTICLE = FabricParticleTypes.simple();
     public static final SimpleParticleType GHOSTY_PARTICLE = FabricParticleTypes.simple();
     public static final SimpleParticleType GREMLIN_PARTICLE = FabricParticleTypes.simple();
+    public static final SimpleParticleType SNOWFLAKE_PARTICLE = FabricParticleTypes.simple();
+
+    public static final SimpleParticleType BLASTWAVE = FabricParticleTypes.simple();
+    public static final SimpleParticleType BLUEBLASTWAVE = FabricParticleTypes.simple();
+    public static final SimpleParticleType REDBLASTWAVE = FabricParticleTypes.simple();
+    public static final SimpleParticleType FIREBALL = FabricParticleTypes.simple();
+    public static final SimpleParticleType BLUEFIREBALL = FabricParticleTypes.simple();
+    public static final SimpleParticleType REDFIREBALL = FabricParticleTypes.simple();
+    public static final SimpleParticleType BLANK_FIREBALL = FabricParticleTypes.simple();
+    public static final SimpleParticleType SMOKE = FabricParticleTypes.simple();
+    public static final SimpleParticleType SPARKS = FabricParticleTypes.simple();
+    public static final SimpleParticleType BUBBLE = FabricParticleTypes.simple();
+    public static final SimpleParticleType SHOCKWAVE = FabricParticleTypes.simple();
+    public static final SimpleParticleType BLANK_SHOCKWAVE = FabricParticleTypes.simple();
+    public static final SimpleParticleType UNDERWATERBLASTWAVE = FabricParticleTypes.simple();
+    public static final SimpleParticleType UNDERWATERSPARKS = FabricParticleTypes.simple();
 
     public static void register() {
         Registry.register(Registries.PARTICLE_TYPE, Identifier.of(KnightQuest.MOD_ID, "starset"), STARSET_PARTICLE);
         Registry.register(Registries.PARTICLE_TYPE, Identifier.of(KnightQuest.MOD_ID, "chalice_particle"), CHALICE_PARTICLE);
         Registry.register(Registries.PARTICLE_TYPE, Identifier.of(KnightQuest.MOD_ID, "ghosty"), GHOSTY_PARTICLE);
         Registry.register(Registries.PARTICLE_TYPE, Identifier.of(KnightQuest.MOD_ID, "gremlin"), GREMLIN_PARTICLE);
+        Registry.register(Registries.PARTICLE_TYPE, Identifier.of(KnightQuest.MOD_ID, "snowflake_particle"), SNOWFLAKE_PARTICLE);
 
+        Registry.register(Registries.PARTICLE_TYPE, Identifier.of(KnightQuest.MOD_ID, "blastwave"), BLASTWAVE);
+        Registry.register(Registries.PARTICLE_TYPE, Identifier.of(KnightQuest.MOD_ID, "redblastwave"), REDBLASTWAVE);
+        Registry.register(Registries.PARTICLE_TYPE, Identifier.of(KnightQuest.MOD_ID, "blueblastwave"), BLUEBLASTWAVE);
+        Registry.register(Registries.PARTICLE_TYPE, Identifier.of(KnightQuest.MOD_ID, "fireball"), FIREBALL);
+        Registry.register(Registries.PARTICLE_TYPE, Identifier.of(KnightQuest.MOD_ID, "bluefireball"), BLUEFIREBALL);
+        Registry.register(Registries.PARTICLE_TYPE, Identifier.of(KnightQuest.MOD_ID, "redfireball"), REDFIREBALL);
+        Registry.register(Registries.PARTICLE_TYPE, Identifier.of(KnightQuest.MOD_ID, "blank_fireball"), BLANK_FIREBALL);
+        Registry.register(Registries.PARTICLE_TYPE, Identifier.of(KnightQuest.MOD_ID, "smoke"), SMOKE);
+        Registry.register(Registries.PARTICLE_TYPE, Identifier.of(KnightQuest.MOD_ID, "bubble"), BUBBLE);
+        Registry.register(Registries.PARTICLE_TYPE, Identifier.of(KnightQuest.MOD_ID, "shockwave"), SHOCKWAVE);
+        Registry.register(Registries.PARTICLE_TYPE, Identifier.of(KnightQuest.MOD_ID, "blank_shockwave"), BLANK_SHOCKWAVE);
+        Registry.register(Registries.PARTICLE_TYPE, Identifier.of(KnightQuest.MOD_ID, "underwaterblastwave"), UNDERWATERBLASTWAVE);
+        Registry.register(Registries.PARTICLE_TYPE, Identifier.of(KnightQuest.MOD_ID, "sparks"), SPARKS);
+        Registry.register(Registries.PARTICLE_TYPE, Identifier.of(KnightQuest.MOD_ID, "underwatersparks"), UNDERWATERSPARKS);
     }
 }

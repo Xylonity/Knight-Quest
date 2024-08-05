@@ -1,44 +1,42 @@
 package net.xylonity.common.particle.explosiveenhancement;
 
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.Camera;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.Particle;
-import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.util.Mth;
-import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.xylonity.knightquest.common.api.explosiveenhancement.ExplosiveValues;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.particle.*;
+import net.minecraft.client.render.Camera;
+import net.minecraft.client.render.VertexConsumer;
+import net.minecraft.client.world.ClientWorld;
+import net.minecraft.particle.SimpleParticleType;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
+import net.xylonity.common.particle.GhostyParticle;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
-
-public class BlastWaveParticle extends TextureSheetParticle {
-
-    private final SpriteSet sprites;
+public class BlastWaveParticle extends SpriteBillboardParticle {
+    private final SpriteProvider sprites;
     private static final Quaternionf QUATERNION = new Quaternionf(0F, -0.7F, 0.7F, 0F);
 
-    public BlastWaveParticle(ClientLevel world, double x, double y, double z, SpriteSet sprites,double velX, double velY, double velZ) {
+    public BlastWaveParticle(ClientWorld world, double x, double y, double z, double velX, double velY, double velZ, SpriteProvider sprites) {
         super(world, x, y + 0.5, z, 0.0, 0.0, 0.0);
-        this.quadSize = (float) velX;
-        this.setParticleSpeed(0D, 0D, 0D);
-        this.lifetime = (int) (15 + (Math.floor(velX / 5)));
+        this.scale = (float) velX;
+        this.setVelocity(0D, 0D, 0D);
+        this.maxAge = (int) (15 + (Math.floor(velX / 5)));
         this.sprites = sprites;
-        this.setSpriteFromAge(sprites);
+        this.setSpriteForAge(sprites);
     }
 
     @Override
-    public void render(VertexConsumer buffer, Camera camera, float ticks) {
-        Vec3 vec3 = camera.getPosition();
-        float x = (float) (Mth.lerp(ticks, this.xo, this.x) - vec3.x());
-        float y = (float) (Mth.lerp(ticks, this.yo, this.y) - vec3.y());
-        float z = (float) (Mth.lerp(ticks, this.zo, this.z) - vec3.z());
+    public void buildGeometry(VertexConsumer buffer, Camera camera, float ticks) {
+        Vec3d vec3 = camera.getPos();
+        float x = (float) (MathHelper.lerp(ticks, this.prevPosX, this.x) - vec3.getX());
+        float y = (float) (MathHelper.lerp(ticks, this.prevPosY, this.y) - vec3.getY());
+        float z = (float) (MathHelper.lerp(ticks, this.prevPosZ, this.z) - vec3.getZ());
 
         Vector3f[] vector3fs = new Vector3f[]{new Vector3f(-1.0F, -1.0F, 0.0F), new Vector3f(-1.0F, 1.0F, 0.0F), new Vector3f(1.0F, 1.0F, 0.0F), new Vector3f(1.0F, -1.0F, 0.0F)};
         Vector3f[] vector3fsBottom = new Vector3f[]{new Vector3f(-1.0F, -1.0F, 0.0F), new Vector3f(1.0F, -1.0F, 0.0F), new Vector3f(1.0F, -1.0F, 0.0F), new Vector3f(-1.0F, -1.0F, 0.0F)};
 
-        float f4 = this.getQuadSize(ticks);
+        float f4 = this.getSize(ticks);
 
         for (int i = 0; i < 4; ++i) {
             Vector3f vector3f = vector3fs[i];
@@ -52,54 +50,44 @@ public class BlastWaveParticle extends TextureSheetParticle {
             vector3fBottom.add(x, y - 0.1F, z);
         }
 
-        float f7 = this.getU0();
-        float f8 = this.getU1();
-        float f5 = this.getV0();
-        float f6 = this.getV1();
-        int light = this.getLightColor(ticks);
+        float f7 = this.getMinU();
+        float f8 = this.getMaxU();
+        float f5 = this.getMinV();
+        float f6 = this.getMaxV();
+        int light = this.getBrightness(ticks);
 
         // Render the top faces
-        buffer.vertex(vector3fs[0].x(), vector3fs[0].y(), vector3fs[0].z()).uv(f8, f6).color(this.rCol, this.gCol, this.bCol, this.alpha).uv2(light);
-        buffer.vertex(vector3fs[1].x(), vector3fs[1].y(), vector3fs[1].z()).uv(f8, f5).color(this.rCol, this.gCol, this.bCol, this.alpha).uv2(light);
-        buffer.vertex(vector3fs[2].x(), vector3fs[2].y(), vector3fs[2].z()).uv(f7, f5).color(this.rCol, this.gCol, this.bCol, this.alpha).uv2(light);
-        buffer.vertex(vector3fs[3].x(), vector3fs[3].y(), vector3fs[3].z()).uv(f7, f6).color(this.rCol, this.gCol, this.bCol, this.alpha).uv2(light);
+        buffer.vertex(vector3fs[0].x(), vector3fs[0].y(), vector3fs[0].z()).texture(f8, f6).color(this.red, this.green, this.blue, this.alpha).light(light);
+        buffer.vertex(vector3fs[1].x(), vector3fs[1].y(), vector3fs[1].z()).texture(f8, f5).color(this.red, this.green, this.blue, this.alpha).light(light);
+        buffer.vertex(vector3fs[2].x(), vector3fs[2].y(), vector3fs[2].z()).texture(f7, f5).color(this.red, this.green, this.blue, this.alpha).light(light);
+        buffer.vertex(vector3fs[3].x(), vector3fs[3].y(), vector3fs[3].z()).texture(f7, f6).color(this.red, this.green, this.blue, this.alpha).light(light);
 
         // Render the underside faces
-        buffer.vertex(vector3fs[3].x(), vector3fs[3].y(), vector3fs[3].z()).uv(f7, f6).color(this.rCol, this.gCol, this.bCol, this.alpha).uv2(light);
-        buffer.vertex(vector3fs[2].x(), vector3fs[2].y(), vector3fs[2].z()).uv(f7, f5).color(this.rCol, this.gCol, this.bCol, this.alpha).uv2(light);
-        buffer.vertex(vector3fs[1].x(), vector3fs[1].y(), vector3fs[1].z()).uv(f8, f5).color(this.rCol, this.gCol, this.bCol, this.alpha).uv2(light);
-        buffer.vertex(vector3fs[0].x(), vector3fs[0].y(), vector3fs[0].z()).uv(f8, f6).color(this.rCol, this.gCol, this.bCol, this.alpha).uv2(light);
+        buffer.vertex(vector3fs[3].x(), vector3fs[3].y(), vector3fs[3].z()).texture(f7, f6).color(this.red, this.green, this.blue, this.alpha).light(light);
+        buffer.vertex(vector3fs[2].x(), vector3fs[2].y(), vector3fs[2].z()).texture(f7, f5).color(this.red, this.green, this.blue, this.alpha).light(light);
+        buffer.vertex(vector3fs[1].x(), vector3fs[1].y(), vector3fs[1].z()).texture(f8, f5).color(this.red, this.green, this.blue, this.alpha).light(light);
+        buffer.vertex(vector3fs[0].x(), vector3fs[0].y(), vector3fs[0].z()).texture(f8, f6).color(this.red, this.green, this.blue, this.alpha).light(light);
     }
 
     @Override
-    protected int getLightColor(float pPartialTick) {
-        return ExplosiveValues.emissiveExplosion ? 15728880 : super.getLightColor(pPartialTick);
+    public ParticleTextureSheet getType() {
+        return ParticleTextureSheet.PARTICLE_SHEET_TRANSLUCENT;
+    }
+
+    @Override
+    protected int getBrightness(float tint) {
+        return super.getBrightness(tint);
     }
 
     @Override
     public void tick() {
         super.tick();
-        this.setSpriteFromAge(this.sprites);
+        this.setSpriteForAge(this.sprites);
     }
 
-    @Override
-    public ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    public static class Provider implements ParticleProvider<SimpleParticleType> {
-        private final SpriteSet sprites;
-
-        public Provider(SpriteSet spriteSet) {
-            this.sprites = spriteSet;
-        }
-
-        public Particle createParticle(SimpleParticleType particleType, ClientLevel level,
-                                       double x, double y, double z,
-                                       double dx, double dy, double dz) {
-            return new BlastWaveParticle(level, x, y, z, this.sprites, dx, dy, dz);
+    public record Factory(SpriteProvider sprites) implements ParticleFactory<SimpleParticleType> {
+        public Particle createParticle(SimpleParticleType type, ClientWorld world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            return new BlastWaveParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, sprites);
         }
     }
-
 }

@@ -1,91 +1,86 @@
 package net.xylonity.common.particle.explosiveenhancement;
 
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.Particle;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.FluidTags;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.particle.*;
+import net.minecraft.client.world.ClientWorld;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.particle.SimpleParticleType;
+import net.minecraft.registry.tag.FluidTags;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.math.BlockPos;
 
-public class BubbleParticle extends TextureSheetParticle {
-
-    private final SpriteSet sprites;
+public class BubbleParticle extends SpriteBillboardParticle {
+    private final SpriteProvider spriteProvider;
     int startingAirTick = 0;
-    int extraTimeBeforePopping = this.random.nextIntBetweenInclusive(1, 10);
+    int extraTimeBeforePopping = this.random.nextBetween(1, 10);
     boolean startAirTick = true;
-
-    BubbleParticle(ClientLevel clientWorld, double x, double y, double z, SpriteSet spriteProvider, double velX, double velY, double velZ) {
+    BubbleParticle(ClientWorld clientWorld, double x, double y, double z, double velX, double velY, double velZ, SpriteProvider spriteProvider) {
         super(clientWorld, x, y, z);
-        this.sprites = spriteProvider;
-        this.setSize(0.02F, 0.02F);
-        this.quadSize *= this.random.nextFloat() * 1.5F + 0.2F;
-        double theta = this.random.nextDouble() * 2 * Math.PI;
-        double phi = this.random.nextDouble() * Math.PI;
-        this.xd = Math.sin(phi) * Math.cos(theta) * (this.random.nextDouble() * 0.5 + 0.5);
-        this.yd = Math.abs(this.random.nextDouble() * 0.5 + 0.5);
-        this.zd = Math.sin(phi) * Math.sin(theta) * (this.random.nextDouble() * 0.5 + 0.5);
-        this.lifetime = 120 + this.random.nextIntBetweenInclusive(0, 40);
-        this.setSpriteFromAge(spriteProvider);
-        this.age = this.lifetime;
+        this.spriteProvider = spriteProvider;
+        this.setBoundingBoxSpacing(0.02F, 0.02F);
+        this.scale *= this.random.nextFloat() * 1.5F + 0.2F;
+        this.velocityX = velX / this.random.nextBetween(1, 5);
+        this.velocityY = velY / this.random.nextBetween((int) 1.4, (int) 4.5);
+        this.velocityZ = velZ /  this.random.nextBetween(1, 5);
+        this.maxAge = 120 + this.random.nextBetween(0, 40);
+        this.setSpriteForAge(spriteProvider);
+        this.age = this.maxAge;
     }
 
     public void tick() {
-        this.xo = this.x;
-        this.yo = this.y;
-        this.zo = this.z;
-        if (this.lifetime-- <= 0) {
-            this.remove();
-            this.level.addParticle(ParticleTypes.BUBBLE_POP, this.x, this.y, this.z, this.xd, this.yd, this.zd);
+        this.prevPosX = this.x;
+        this.prevPosY = this.y;
+        this.prevPosZ = this.z;
+        if (this.maxAge-- <= 0) {
+            this.markDead();
+            this.world.addParticle(ParticleTypes.BUBBLE_POP, this.x, this.y, this.z, this.velocityX, this.velocityY, this.velocityZ);
         } else {
-            this.yd += 0.002;
-            this.move(this.xd, this.yd, this.zd);
-            this.yd *= 0.8200000238418579;
-            if(this.lifetime >= this.age * 0.97) {
-                this.xd *= 0.8300000238418579;
-                this.zd *= 0.8300000238418579;
+            this.velocityY += 0.002;
+            this.move(this.velocityX, this.velocityY, this.velocityZ);
+            this.velocityY *= 0.8200000238418579;
+            if(this.maxAge >= this.age * 0.97) {
+                this.velocityX *= 0.8300000238418579;
+                this.velocityZ *= 0.8300000238418579;
             } else {
-                this.xd *= 0.6200000238418579;
-                this.zd *= 0.6200000238418579;
+                this.velocityX *= 0.6200000238418579;
+                this.velocityZ *= 0.6200000238418579;
             }
-            if (!this.level.getFluidState(new BlockPos((int) this.x, (int) this.y, (int) this.z)).is(FluidTags.WATER)) {
-                this.yd -= 0.002;
+            if (!this.world.getFluidState(new BlockPos((int) this.x, (int) this.y, (int) this.z)).isIn(FluidTags.WATER)) {
+                this.velocityY -= 0.002;
                 if(startAirTick) {
-                    startingAirTick = this.lifetime;
-                    this.yd = 0;
+                    startingAirTick = this.maxAge;
+                    this.velocityY = 0;
                     startAirTick = false;
                 }
                 if(!startAirTick) {
-                    if(this.lifetime == startingAirTick - extraTimeBeforePopping) {
-                        this.remove();
-                        this.level.addParticle(ParticleTypes.BUBBLE_POP, this.x, this.y, this.z, this.xd, this.yd, this.zd);
-                        this.level.playSound(null, this.x, this.y, this.z, SoundEvents.BUBBLE_COLUMN_BUBBLE_POP, SoundSource.AMBIENT, 0.5f, 1f);
+                    if(this.maxAge == startingAirTick - extraTimeBeforePopping) {
+                        this.markDead();
+                        this.world.addParticle(ParticleTypes.BUBBLE_POP, this.x, this.y, this.z, this.velocityX, this.velocityY, this.velocityZ);
+                        this.world.playSound(this.x, this.y, this.z, SoundEvents.BLOCK_BUBBLE_COLUMN_BUBBLE_POP, SoundCategory.AMBIENT, 0.5f, 1f, false);
                     }
                 }
             }
         }
     }
 
-    @Override
-    public ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_OPAQUE;
+    public ParticleTextureSheet getType() {
+        return ParticleTextureSheet.PARTICLE_SHEET_OPAQUE;
     }
 
-    @OnlyIn(Dist.CLIENT)
-    public static class Provider implements ParticleProvider<SimpleParticleType> {
-        private final SpriteSet sprites;
+    @Environment(EnvType.CLIENT)
+    public static class Factory implements ParticleFactory<SimpleParticleType> {
+        private final SpriteProvider spriteProvider;
 
-        public Provider(SpriteSet spriteSet) {
-            this.sprites = spriteSet;
+        public Factory(SpriteProvider spriteProvider) {
+            this.spriteProvider = spriteProvider;
         }
 
-        public Particle createParticle(SimpleParticleType particleType, ClientLevel level,
-                                       double x, double y, double z,
-                                       double dx, double dy, double dz) {
-            return new BubbleParticle(level, x, y, z, this.sprites, dx, dy, dz);
+        public Particle createParticle(SimpleParticleType defaultParticleType, ClientWorld clientWorld, double d, double e, double f, double g, double h, double i) {
+            BubbleParticle bubbleParticle = new BubbleParticle(clientWorld, d, e, f, g, h, i, spriteProvider);
+            bubbleParticle.setSprite(this.spriteProvider);
+            return bubbleParticle;
         }
     }
 }

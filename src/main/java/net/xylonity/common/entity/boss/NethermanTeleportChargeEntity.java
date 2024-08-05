@@ -54,7 +54,7 @@ public class NethermanTeleportChargeEntity extends AbstractNethermanProjectile i
     private int ticksUntilDiscard = 0;
     private float rotationAngle = 0.0F;
 
-    public NethermanTeleportChargeEntity(EntityType<NethermanTeleportChargeEntity> entityEntityType, World world) {
+    public NethermanTeleportChargeEntity(EntityType<? extends AbstractNethermanProjectile> entityEntityType, World world) {
         super(entityEntityType, world);
         this.setNoGravity(true);
     }

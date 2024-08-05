@@ -1,13 +1,13 @@
 package net.xylonity.common.block;
 
 import net.minecraft.block.*;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
@@ -22,7 +22,10 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.xylonity.common.block.tracker.ChaliceBlockTracker;
+import net.xylonity.common.entity.boss.NethermanEntity;
 import net.xylonity.registry.KnightQuestBlocks;
+import net.xylonity.registry.KnightQuestEntities;
 import net.xylonity.registry.KnightQuestItems;
 import net.xylonity.registry.KnightQuestParticles;
 import org.jetbrains.annotations.Nullable;
@@ -153,6 +156,19 @@ public class ChaliceBlock extends Block {
             }
         }
 
+        if (block.equals(KnightQuestBlocks.GREAT_CHALICE) && item.equals(KnightQuestItems.RADIANT_ESSENCE) && state.get(fill).equals(5)) {
+            if (!world.isClient()) {
+                if (player.getStackInHand(hand).getCount() > 1) {
+                    int stackCount = stack.getCount();
+                    stack.setCount(--stackCount);
+                } else {
+                    player.setStackInHand(hand, new ItemStack(ItemStack.EMPTY.getItem()));
+                }
+
+                world.setBlockState(pos, state.cycle(fill), 3);
+            }
+        }
+
         return super.onUseWithItem(stack, state, world, pos, player, hand, hit);
     }
 
@@ -184,6 +200,68 @@ public class ChaliceBlock extends Block {
         }
 
         super.randomDisplayTick(state, world, pos, random);
+    }
+
+    @Override
+    protected void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+        int tickCount = ChaliceBlockTracker.getTickCount(pos);
+
+        if (Arrays.asList(6, 7, 8, 9).contains(state.get(fill))) {
+
+            if (tickCount == 0) {
+                world.playSound(null, pos, SoundEvents.ENTITY_EVOKER_PREPARE_SUMMON, SoundCategory.BLOCKS, 1f, 1f);
+            }
+
+            if (tickCount % 10 == 0 && state.get(fill) != 9 && tickCount < 60) {
+                world.setBlockState(pos, state.cycle(fill), 3);
+                world.playSound(null, pos, SoundEvents.BLOCK_BREWING_STAND_BREW, SoundCategory.BLOCKS, 1f, 1f);
+            }
+
+            if (tickCount == 60) {
+                world.setBlockState(pos, state.cycle(fill), 3);
+
+                LightningEntity lightningBolt = EntityType.LIGHTNING_BOLT.create(world);
+                if (lightningBolt != null) {
+                    lightningBolt.setPos(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
+                    world.spawnEntity(lightningBolt);
+                }
+
+                NethermanEntity entity = KnightQuestEntities.NETHERMAN.create(world);
+                if (entity != null) {
+                    entity.setPos(pos.getX() + 0.5F, pos.getY() + 1, pos.getZ() + 0.5F);
+                    world.spawnEntity(entity);
+                }
+
+                ChaliceBlockTracker.resetTickCount(pos);
+            } else {
+                ChaliceBlockTracker.incrementTickCount(pos);
+            }
+
+            scheduleTick(world, pos);
+        }
+    }
+
+    @Override
+    protected void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+        if (!world.isClient) {
+            ChaliceBlockTracker.removeChalice(pos);
+        }
+
+        super.onStateReplaced(state, world, pos, newState, moved);
+    }
+
+    @Override
+    protected void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {
+        if (!world.isClient) {
+            ChaliceBlockTracker.addChalice(pos, this);
+            scheduleTick(world, pos);
+        }
+    }
+
+    private void scheduleTick(World pLevel, BlockPos pPos) {
+        if (pLevel instanceof ServerWorld serverLevel) {
+            serverLevel.scheduleBlockTick(pPos, this, 1);
+        }
     }
 
 }

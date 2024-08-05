@@ -138,7 +138,7 @@ public class NethermanEntity extends HostileEntity implements GeoEntity {
         }
 
         if (age == 1) {
-            ExplosiveConfig.spawnParticles(getWorld(), getX(), getY() + 0.5, getZ(), 4, false, false, 0);
+            //ExplosiveConfig.spawnParticles(getWorld(), getX(), getY() + 0.5, getZ(), 4, false, false, 0);
             getWorld().playSound(null, getBlockPos(), SoundEvents.ENTITY_DRAGON_FIREBALL_EXPLODE, SoundCategory.BLOCKS, 1f, 1f);
         }
 
@@ -150,8 +150,8 @@ public class NethermanEntity extends HostileEntity implements GeoEntity {
                 hasChangedPhase = !hasChangedPhase;
             }
 
-            if (tickCounterFirstPhaseSwitch == 0)
-                ExplosiveConfig.spawnParticles(getWorld(), getX(), getY(), getZ(), 3, false, false, 1);
+            //if (tickCounterFirstPhaseSwitch == 0)
+                //ExplosiveConfig.spawnParticles(getWorld(), getX(), getY(), getZ(), 3, false, false, 1);
 
             if (tickCounterFirstPhaseSwitch < 195) {
                 winterStormAttack();
@@ -159,7 +159,7 @@ public class NethermanEntity extends HostileEntity implements GeoEntity {
                 setNoMovement(false);
 
                 getWorld().playSound(null, getBlockPos(), SoundEvents.ENTITY_DRAGON_FIREBALL_EXPLODE, SoundCategory.BLOCKS, 1f, 1f);
-                ExplosiveConfig.spawnParticles(getWorld(), getX(), getY(), getZ(), 4, false, false, 1);
+                //ExplosiveConfig.spawnParticles(getWorld(), getX(), getY(), getZ(), 4, false, false, 1);
 
                 setPhase(2);
             }
@@ -185,7 +185,7 @@ public class NethermanEntity extends HostileEntity implements GeoEntity {
         }
 
         if (tickCounterSecondPhaseSwitch == 85) {
-            ExplosiveConfig.spawnParticles(getWorld(), getX(), getY() + 3.5, getZ(), 4, false, false, 2);
+            //ExplosiveConfig.spawnParticles(getWorld(), getX(), getY() + 3.5, getZ(), 4, false, false, 2);
 
             setPhase(3);
 
@@ -378,7 +378,7 @@ public class NethermanEntity extends HostileEntity implements GeoEntity {
             double particleX = this.getX();
             double particleY = this.getY() + 2.2;
             double particleZ = this.getZ();
-            this.getWorld().addParticle(KnightQuestParticles.SNOWFLAKE_PARTICLE.get(), particleX, particleY, particleZ, velocityX, velocityY, velocityZ);
+            this.getWorld().addParticle(KnightQuestParticles.SNOWFLAKE_PARTICLE, particleX, particleY, particleZ, velocityX, velocityY, velocityZ);
         }
 
         if (age % 4 == 0)

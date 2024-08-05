@@ -1,47 +1,31 @@
 package net.xylonity.common.particle.explosiveenhancement;
 
-import net.minecraft.client.multiplayer.ClientLevel;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.client.particle.ParticleRenderType;
-import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.client.renderer.LevelRenderer;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.xylonity.knightquest.common.api.explosiveenhancement.ExplosiveValues;
+import net.minecraft.client.particle.ParticleFactory;
+import net.minecraft.client.particle.SpriteProvider;
+import net.minecraft.client.render.WorldRenderer;
+import net.minecraft.client.world.ClientWorld;
+import net.minecraft.particle.SimpleParticleType;
+import net.minecraft.util.math.BlockPos;
+import net.xylonity.common.api.explosiveenhancement.ExplosiveValues;
 
-public class UnderwaterBlastwaveParticle extends BlastWaveParticle {
-
-    UnderwaterBlastwaveParticle(ClientLevel world, double x, double y, double z, SpriteSet sprites, double velX, double velY, double velZ) {
-        super(world, x, y, z, sprites, velX, velY, velZ);
+public class UnderwaterBlastWaveParticle extends BlastWaveParticle{
+    UnderwaterBlastWaveParticle(ClientWorld world, double x, double y, double z, double velX, double velY, double velZ, SpriteProvider sprites) {
+        super(world, x, y, z, velX, velY, velZ, sprites);
     }
 
     @Override
-    public ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
+    protected int getBrightness(float tint) {
+        BlockPos blockPos = BlockPos.ofFloored(this.x, this.y, this.z);
+        return ExplosiveValues.emissiveWaterExplosion ? 15728880 : this.world.isChunkLoaded(blockPos) ? WorldRenderer.getLightmapCoordinates(this.world, blockPos) : 0;
     }
 
-    @Override
-    protected int getLightColor(float pPartialTick) {
-        BlockPos blockPos = new BlockPos((int) this.x, (int) this.y, (int) this.z);
-        return ExplosiveValues.emissiveWaterExplosion ? 15728880 : this.level.hasChunk(blockPos.getX(), blockPos.getZ()) ? LevelRenderer.getLightColor(this.level, blockPos) : 0;
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    public static class Provider implements ParticleProvider<SimpleParticleType> {
-        private final SpriteSet sprites;
-
-        public Provider(SpriteSet spriteSet) {
-            this.sprites = spriteSet;
-        }
-
-        public Particle createParticle(SimpleParticleType particleType, ClientLevel level,
-                                       double x, double y, double z,
-                                       double dx, double dy, double dz) {
-            return new UnderwaterBlastwaveParticle(level, x, y, z, this.sprites, dx, dy, dz);
+    @Environment(EnvType.CLIENT)
+    public record Factory(SpriteProvider sprites) implements ParticleFactory<SimpleParticleType> {
+        public Particle createParticle(SimpleParticleType type, ClientWorld world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            return new UnderwaterBlastWaveParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, sprites);
         }
     }
-
 }

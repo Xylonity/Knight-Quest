@@ -1,41 +1,34 @@
 package net.xylonity.common.particle.explosiveenhancement.blue;
 
-import net.minecraft.client.multiplayer.ClientLevel;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.particle.Particle;
-import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.xylonity.knightquest.common.particle.explosiveenhancement.FireballParticle;
+import net.minecraft.client.particle.ParticleFactory;
+import net.minecraft.client.particle.SpriteProvider;
+import net.minecraft.client.world.ClientWorld;
+import net.minecraft.particle.SimpleParticleType;
+import net.xylonity.common.particle.explosiveenhancement.FireballParticle;
+import net.xylonity.common.particle.explosiveenhancement.red.RedFireballParticle;
 
 public class BlueFireballParticle extends FireballParticle {
 
     boolean important;
 
-    BlueFireballParticle(ClientLevel world, double x, double y, double z, SpriteSet spriteProvider, double velX, double velY, double velZ) {
-        super(world, x, y, z, spriteProvider, velX, velY, velZ);
-        this.lifetime = (int) (9 + Math.floor(velX / 5));
-        this.quadSize = (float) velX;
-        important = velY == 1;
-        this.setParticleSpeed(0D, 0D, 0D);
-        this.setSpriteFromAge(spriteProvider);
+    BlueFireballParticle(ClientWorld world, double x, double y, double z, double velX, double velY, double velZ, SpriteProvider spriteProvider) {
+        super(world, x, y, z, velX, velY, velZ, spriteProvider);
+        setColor(65, 63, 200);
     }
 
-    @Override
-    public ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
-    }
-    @OnlyIn(Dist.CLIENT)
-    public static class Provider implements ParticleProvider<SimpleParticleType> {
-        private final SpriteSet sprites;
+    @Environment(EnvType.CLIENT)
+    public static class Factory implements ParticleFactory<SimpleParticleType> {
+        private final SpriteProvider spriteProvider;
 
-        public Provider(SpriteSet spriteSet) {
-            this.sprites = spriteSet;
+        public Factory(SpriteProvider spriteProvider) {
+            this.spriteProvider = spriteProvider;
         }
 
-        public Particle createParticle(SimpleParticleType particleType, ClientLevel level,
-                                       double x, double y, double z,
-                                       double dx, double dy, double dz) {
-            return new BlueFireballParticle(level, x, y, z, this.sprites, dx, dy, dz);
+        public Particle createParticle(SimpleParticleType defaultParticleType, ClientWorld clientWorld, double d, double e, double f, double g, double h, double i) {
+            return new BlueFireballParticle(clientWorld, d, e, f, g, h, i, this.spriteProvider);
         }
     }
 

@@ -19,6 +19,7 @@ import net.xylonity.common.entity.entities.SamhainEntity;
  */
 
 public class KQExtraEvents implements UseBlockCallback {
+
     @Override
     public ActionResult interact(PlayerEntity player, World world, Hand hand, BlockHitResult hitResult) {
 

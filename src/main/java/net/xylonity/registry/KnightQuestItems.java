@@ -36,6 +36,7 @@ public class KnightQuestItems {
 
     public static final Item GREAT_ESSENCE = registerItem("great_essence", new KQItem(new Item.Settings(), "great_essence"));
     public static final Item SMALL_ESSENCE = registerItem("small_essence", new KQItem(new Item.Settings(), "small_essence"));
+    public static final Item RADIANT_ESSENCE = registerItem("radiant_essence", new KQItem(new Item.Settings(), "radiant_essence"));
     public static final Item EMPTY_GOBLET = registerItem("empty_goblet", new KQItem(new Item.Settings(), "empty_goblet"));
     public static final Item FILLED_GOBLET = registerItem("filled_goblet", new KQItem(new Item.Settings(), "filled_goblet"));
     public static final Item RATMAN_EYE = registerItem("ratman_eye", new KQItem(new Item.Settings(), "ratman_eye"));

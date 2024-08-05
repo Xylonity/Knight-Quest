@@ -1,37 +1,33 @@
 package net.xylonity.common.particle.explosiveenhancement.red;
 
-import net.minecraft.client.multiplayer.ClientLevel;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.xylonity.knightquest.common.particle.explosiveenhancement.BlastWaveParticle;
+import net.minecraft.client.particle.ParticleFactory;
+import net.minecraft.client.particle.SpriteProvider;
+import net.minecraft.client.world.ClientWorld;
+import net.minecraft.particle.SimpleParticleType;
+import net.xylonity.common.particle.explosiveenhancement.BlastWaveParticle;
 
 public class RedBlastWaveParticle extends BlastWaveParticle {
+    private final SpriteProvider sprites;
 
-    RedBlastWaveParticle(ClientLevel world, double x, double y, double z, SpriteSet sprites, double velX, double velY, double velZ) {
-        super(world, x, y + 0.5, z, sprites, velX, 0.0, 0);
-        this.quadSize = (float) velX;
-        this.setParticleSpeed(0D, 0D, 0D);
-        this.lifetime = (int) (15 + (Math.floor(velX / 5)));
-        this.setSpriteFromAge(sprites);
+    public RedBlastWaveParticle(ClientWorld world, double x, double y, double z, double velX, double velY, double velZ, SpriteProvider sprites) {
+        super(world, x, y + 0.5, z, velX, 0.0, 0, sprites);
+        this.sprites = sprites;
+        this.setSpriteForAge(sprites);
         setColor(65, 63, 200);
     }
 
-    @OnlyIn(Dist.CLIENT)
-    public static class Provider implements ParticleProvider<SimpleParticleType> {
-        private final SpriteSet sprites;
+    @Override
+    public void tick() {
+        super.tick();
+        this.setSpriteForAge(this.sprites);
+    }
 
-        public Provider(SpriteSet spriteSet) {
-            this.sprites = spriteSet;
-        }
-
-        public Particle createParticle(SimpleParticleType particleType, ClientLevel level,
-                                       double x, double y, double z,
-                                       double dx, double dy, double dz) {
-            return new RedBlastWaveParticle(level, x, y, z, this.sprites, dx, dy, dz);
+    public record Factory(SpriteProvider sprites) implements ParticleFactory<SimpleParticleType> {
+        public Particle createParticle(SimpleParticleType type, ClientWorld world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            return new RedBlastWaveParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, sprites);
         }
     }
 

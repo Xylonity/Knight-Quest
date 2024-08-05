@@ -1,51 +1,52 @@
 package net.xylonity.common.particle;
 
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.Particle;
-import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.particle.*;
+import net.minecraft.client.world.ClientWorld;
+import net.minecraft.particle.SimpleParticleType;
 
-public class SnowflakeParticle extends TextureSheetParticle {
-    private final SpriteSet sprites;
+@Environment(EnvType.CLIENT)
+public class SnowflakeParticle extends SpriteBillboardParticle {
+    private final SpriteProvider spriteProvider;
 
-    protected SnowflakeParticle(ClientLevel pLevel, double pX, double pY, double pZ, double pXSpeed, double pYSpeed, double pZSpeed, SpriteSet pSprites) {
-        super(pLevel, pX, pY, pZ);
-        this.gravity = 0.1F;
-        this.friction = 1.0F;
-        this.sprites = pSprites;
-        this.xd = pXSpeed + (Math.random() * 2.0D - 1.0D) * (double)0.05F;
-        this.yd = pYSpeed + (Math.random() * 2.0D - 1.0D) * (double)0.05F;
-        this.zd = pZSpeed + (Math.random() * 2.0D - 1.0D) * (double)0.05F;
-        this.quadSize = 0.25F * (this.random.nextFloat() * this.random.nextFloat() * 1.0F + 1.0F);
-        this.lifetime = (int)(16.0D / ((double)this.random.nextFloat() * 0.8D + 0.2D)) + 2;
-        this.setSpriteFromAge(pSprites);
+    protected SnowflakeParticle(ClientWorld world, double x, double y, double z, double velocityX, double velocityY, double velocityZ, SpriteProvider spriteProvider) {
+        super(world, x, y, z);
+        this.gravityStrength = 0.1F;
+        this.velocityMultiplier = 1.0F;
+        this.spriteProvider = spriteProvider;
+        this.velocityX = velocityX + (Math.random() * 2.0 - 1.0) * 0.05000000074505806;
+        this.velocityY = velocityY + (Math.random() * 2.0 - 1.0) * 0.05000000074505806;
+        this.velocityZ = velocityZ + (Math.random() * 2.0 - 1.0) * 0.05000000074505806;
+        this.scale = 0.1F * (this.random.nextFloat() * this.random.nextFloat() * 1.0F + 1.0F);
+        this.maxAge = (int) (16.0 / ((double) this.random.nextFloat() * 0.8 + 0.2)) + 2;
+        this.setSpriteForAge(spriteProvider);
     }
 
-    public ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_OPAQUE;
+    public ParticleTextureSheet getType() {
+        return ParticleTextureSheet.PARTICLE_SHEET_OPAQUE;
     }
 
     public void tick() {
         super.tick();
-        this.setSpriteFromAge(this.sprites);
-        this.xd *= 0.95F;
-        this.yd *= 0.9F;
-        this.zd *= 0.95F;
+        this.setSpriteForAge(this.spriteProvider);
+        this.velocityX *= 0.949999988079071;
+        this.velocityY *= 0.8999999761581421;
+        this.velocityZ *= 0.949999988079071;
     }
 
-    @OnlyIn(Dist.CLIENT)
-    public static class Provider implements ParticleProvider<SimpleParticleType> {
-        private final SpriteSet sprites;
+    @Environment(EnvType.CLIENT)
+    public static class Factory implements ParticleFactory<SimpleParticleType> {
+        private final SpriteProvider spriteProvider;
 
-        public Provider(SpriteSet pSprites) {
-            this.sprites = pSprites;
+        public Factory(SpriteProvider spriteProvider) {
+            this.spriteProvider = spriteProvider;
         }
 
-        public Particle createParticle(SimpleParticleType pType, ClientLevel pLevel, double pX, double pY, double pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
-            SnowflakeParticle snowflakeparticle = new SnowflakeParticle(pLevel, pX, pY, pZ, pXSpeed, pYSpeed, pZSpeed, this.sprites);
-            snowflakeparticle.setColor(0.923F, 0.964F, 0.999F);
-            return snowflakeparticle;
+        public Particle createParticle(SimpleParticleType simpleParticleType, ClientWorld clientWorld, double d, double e, double f, double g, double h, double i) {
+            SnowflakeParticle snowflakeParticle = new SnowflakeParticle(clientWorld, d, e, f, g, h, i, this.spriteProvider);
+            snowflakeParticle.setColor(0.923F, 0.964F, 0.999F);
+            return snowflakeParticle;
         }
     }
 }

@@ -18,6 +18,7 @@ public class KnightQuestCreativeModeTabs {
 
                         entries.add(KnightQuestItems.SMALL_ESSENCE);
                         entries.add(KnightQuestItems.GREAT_ESSENCE);
+                        entries.add(KnightQuestItems.RADIANT_ESSENCE);
                         entries.add(KnightQuestItems.EMPTY_GOBLET);
                         entries.add(KnightQuestItems.FILLED_GOBLET);
 

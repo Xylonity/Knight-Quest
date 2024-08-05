@@ -7,6 +7,8 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
+import net.xylonity.common.entity.boss.NethermanCloneEntity;
+import net.xylonity.common.entity.boss.NethermanEntity;
 import net.xylonity.common.item.KQArmorItem;
 import net.xylonity.datagen.KQEntitySpawn;
 import net.xylonity.registry.KnightQuestBlocks;
@@ -43,6 +45,8 @@ public class KnightQuest implements ModInitializer {
 		FabricDefaultAttributeRegistry.register(KnightQuestEntities.BADPATCH, BadPatchEntity.setAttributes());
 		FabricDefaultAttributeRegistry.register(KnightQuestEntities.GHOSTY, GhostyEntity.setAttributes());
 		FabricDefaultAttributeRegistry.register(KnightQuestEntities.SHIELD, ShieldEntity.setAttributes());
+		FabricDefaultAttributeRegistry.register(KnightQuestEntities.NETHERMAN, NethermanEntity.setAttributes());
+		FabricDefaultAttributeRegistry.register(KnightQuestEntities.NETHERMAN_CLONE, NethermanCloneEntity.setAttributes());
 
 		KnightQuestEntities.registerModEntities();
 		KQLootTableModifiers.modifyLootTables();

@@ -60,11 +60,11 @@ public class AbstractNethermanProjectile extends ProjectileEntity {
     public double zPower;
     private double accelerationPower;
 
-    protected AbstractNethermanProjectile(EntityType<? extends AbstractNethermanProjectile> pEntityType, World pLevel) {
+    protected AbstractNethermanProjectile(EntityType<? extends ProjectileEntity> pEntityType, World pLevel) {
         super(pEntityType, pLevel);
     }
 
-    public AbstractNethermanProjectile(EntityType<? extends AbstractNethermanProjectile> pEntityType, double pX, double pY, double pZ, double pOffsetX, double pOffsetY, double pOffsetZ, World pLevel) {
+    public AbstractNethermanProjectile(EntityType<? extends ProjectileEntity> pEntityType, double pX, double pY, double pZ, double pOffsetX, double pOffsetY, double pOffsetZ, World pLevel) {
         this(pEntityType, pLevel);
         this.refreshPositionAndAngles(pX, pY, pZ, this.getYaw(), this.getPitch());
         this.refreshPosition();
@@ -77,7 +77,7 @@ public class AbstractNethermanProjectile extends ProjectileEntity {
 
     }
 
-    public AbstractNethermanProjectile(EntityType<? extends AbstractNethermanProjectile> pEntityType, LivingEntity pShooter, double pOffsetX, double pOffsetY, double pOffsetZ, World pLevel) {
+    public AbstractNethermanProjectile(EntityType<? extends ProjectileEntity> pEntityType, LivingEntity pShooter, double pOffsetX, double pOffsetY, double pOffsetZ, World pLevel) {
         this(pEntityType, pShooter.getX(), pShooter.getY(), pShooter.getZ(), pOffsetX, pOffsetY, pOffsetZ, pLevel);
         this.setOwner(pShooter);
         this.setRotation(pShooter.getYaw(), pShooter.getPitch());

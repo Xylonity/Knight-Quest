@@ -1,7 +1,6 @@
 package net.xylonity.registry;
 
-import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
-import net.minecraft.entity.EntityDimensions;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.registry.Registries;
@@ -26,27 +25,31 @@ public class KnightQuestEntities {
     public static final EntityType<GhostyEntity> GHOSTY;
     public static final EntityType<ShieldEntity> SHIELD;
     public static final EntityType<NethermanEntity> NETHERMAN;
-    public static final EntityType<NethermanTeleportChargeEntity> NETHERMAN_TELEPORT_CHARGE;
     public static final EntityType<NethermanCloneEntity> NETHERMAN_CLONE;
+    public static final EntityType<NethermanTeleportChargeEntity> NETHERMAN_TELEPORT_CHARGE;
 
     public static void registerModEntities() {
         KnightQuest.LOGGER.info("Registering entities for " + KnightQuest.MOD_ID);
     }
 
     static {
-        GREMLIN = Registry.register(Registries.ENTITY_TYPE, Identifier.of(KnightQuest.MOD_ID, "gremlin"), FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, GremlinEntity::new).dimensions(EntityDimensions.fixed(1f, 1f)).build());
-        ELDBOMB = Registry.register(Registries.ENTITY_TYPE, Identifier.of(KnightQuest.MOD_ID, "eldbomb"), FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, EldBombEntity::new).dimensions(EntityDimensions.fixed(1f, 1f)).build());
-        SAMHAIN = Registry.register(Registries.ENTITY_TYPE, Identifier.of(KnightQuest.MOD_ID, "samhain"), FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, SamhainEntity::new).dimensions(EntityDimensions.fixed(1f, 1f)).build());
-        RATMAN = Registry.register(Registries.ENTITY_TYPE, Identifier.of(KnightQuest.MOD_ID, "ratman"), FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, RatmanEntity::new).dimensions(EntityDimensions.fixed(1.2f, 1.2f)).build());
-        SWAMPMAN = Registry.register(Registries.ENTITY_TYPE, Identifier.of(KnightQuest.MOD_ID, "swampman"), FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, SwampmanEntity::new).dimensions(EntityDimensions.fixed(1f, 2f)).build());
-        ELDKNIGHT = Registry.register(Registries.ENTITY_TYPE, Identifier.of(KnightQuest.MOD_ID, "eldknight"), FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, EldKnightEntity::new).dimensions(EntityDimensions.fixed(1f, 2f)).build());
-        LIZZY = Registry.register(Registries.ENTITY_TYPE, Identifier.of(KnightQuest.MOD_ID, "lizzy"), FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, LizzyEntity::new).dimensions(EntityDimensions.fixed(1f, 0.3f)).build());
-        BADPATCH = Registry.register(Registries.ENTITY_TYPE, Identifier.of(KnightQuest.MOD_ID, "bad_patch"), FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, BadPatchEntity::new).dimensions(EntityDimensions.fixed(1f, 1f)).build());
-        GHOSTY = Registry.register(Registries.ENTITY_TYPE, Identifier.of(KnightQuest.MOD_ID, "ghosty"), FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, GhostyEntity::new).dimensions(EntityDimensions.fixed(1f, 1f)).build());
-        SHIELD = Registry.register(Registries.ENTITY_TYPE, Identifier.of(KnightQuest.MOD_ID, "ghastling"), FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, ShieldEntity::new).dimensions(EntityDimensions.fixed(1f, 1f)).build());
-        NETHERMAN = Registry.register(Registries.ENTITY_TYPE, Identifier.of(KnightQuest.MOD_ID, "netherman"), FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, NethermanEntity::new).dimensions(EntityDimensions.fixed(1f, 1f)).build());
-        NETHERMAN_CLONE = Registry.register(Registries.ENTITY_TYPE, Identifier.of(KnightQuest.MOD_ID, "netherman_clone"), FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, NethermanCloneEntity::new).dimensions(EntityDimensions.fixed(1f, 1f)).build());
-        NETHERMAN_TELEPORT_CHARGE = Registry.register(Registries.ENTITY_TYPE, Identifier.of(KnightQuest.MOD_ID, "netherman_teleport_charge"), FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, NethermanTeleportChargeEntity::new).dimensions(EntityDimensions.fixed(1f, 1f)).build());
+        GREMLIN = register("gremlin", GremlinEntity::new, SpawnGroup.MONSTER , 1f, 1f);
+        ELDBOMB = register("eldbomb", EldBombEntity::new, SpawnGroup.MONSTER , 1f, 1f);
+        ELDKNIGHT = register("eldknight", EldKnightEntity::new, SpawnGroup.MONSTER , 1f, 2.6f);
+        SAMHAIN = register("samhain", SamhainEntity::new, SpawnGroup.MONSTER , 1f, 1.5f);
+        SWAMPMAN = register("swampman", SwampmanEntity::new, SpawnGroup.MONSTER , 1f, 2f);
+        RATMAN = register("ratman", RatmanEntity::new, SpawnGroup.MONSTER , 1f, 1f);
+        LIZZY = register("lizzy", LizzyEntity::new, SpawnGroup.AMBIENT , 1f, 0.3f);
+        BADPATCH = register("bad_patch", BadPatchEntity::new, SpawnGroup.MONSTER , 1f, 1f);
+        SHIELD = register("ghastling", ShieldEntity::new, SpawnGroup.MONSTER , 0.65f, 0.65f);
+        GHOSTY = register("ghosty", GhostyEntity::new, SpawnGroup.MONSTER, 1f, 1f);
+        NETHERMAN = register("netherman", NethermanEntity::new, SpawnGroup.MONSTER, 0.8f, 2.8f);
+        NETHERMAN_CLONE = register("netherman_clone", NethermanCloneEntity::new, SpawnGroup.MONSTER, 0.8f, 2.8f);
+        NETHERMAN_TELEPORT_CHARGE = register("netherman_teleport_charge", NethermanTeleportChargeEntity::new, SpawnGroup.MONSTER, 0.5f, 0.5f);
+    }
+
+    private static <X extends Entity> EntityType<X> register(String name, EntityType.EntityFactory<X> entity,SpawnGroup spawnGroup , float width, float height) {
+        return Registry.register(Registries.ENTITY_TYPE, Identifier.of(KnightQuest.MOD_ID, name), EntityType.Builder.create(entity, spawnGroup).dimensions(width, height).build(name));
     }
 
 }

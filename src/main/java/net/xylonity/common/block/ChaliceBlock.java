@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class ChaliceBlock extends Block {
-    public static final IntProperty fill = IntProperty.of("level", 1, 5);
+    public static final IntProperty fill = IntProperty.of("level", 1, 9);
 
     private static final VoxelShape SHAPE_N = Stream.of(
         Block.createCuboidShape(0, 7, 0, 2, 16, 16),
@@ -151,7 +151,7 @@ public class ChaliceBlock extends Block {
                 }
 
                 Entity entity = new ItemEntity(world, pos.getX() + 0.5, pos.getY() + 1d, pos.getZ() + 0.5, KnightQuestItems.FILLED_GOBLET.getDefaultStack());
-                world.setBlockState(pos, state.cycle(fill));
+                world.setBlockState(pos, state.with(fill, 1));
                 world.spawnEntity(entity);
             }
         }

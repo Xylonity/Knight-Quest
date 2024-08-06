@@ -11,11 +11,7 @@ import net.xylonity.common.entity.boss.NethermanCloneEntity;
 import net.xylonity.common.entity.boss.NethermanEntity;
 import net.xylonity.common.item.KQArmorItem;
 import net.xylonity.datagen.KQEntitySpawn;
-import net.xylonity.registry.KnightQuestBlocks;
-import net.xylonity.registry.KnightQuestCreativeModeTabs;
-import net.xylonity.registry.KnightQuestItems;
-import net.xylonity.registry.KnightQuestParticles;
-import net.xylonity.registry.KnightQuestEntities;
+import net.xylonity.registry.*;
 import net.xylonity.common.entity.entities.*;
 import net.xylonity.common.event.KQExtraEvents;
 import net.xylonity.datagen.KQLootTableModifiers;
@@ -35,6 +31,8 @@ public class KnightQuest implements ModInitializer {
 		KnightQuestCreativeModeTabs.register();
 
 		KnightQuestParticles.register();
+		KnightQuestSounds.registerSounds();
+
 		FabricDefaultAttributeRegistry.register(KnightQuestEntities.GREMLIN, GremlinEntity.setAttributes());
 		FabricDefaultAttributeRegistry.register(KnightQuestEntities.ELDBOMB, EldBombEntity.setAttributes());
 		FabricDefaultAttributeRegistry.register(KnightQuestEntities.SAMHAIN, SamhainEntity.setAttributes());

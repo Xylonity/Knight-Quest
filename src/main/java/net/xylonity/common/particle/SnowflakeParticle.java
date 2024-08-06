@@ -6,7 +6,6 @@ import net.minecraft.client.particle.*;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particle.SimpleParticleType;
 
-@Environment(EnvType.CLIENT)
 public class SnowflakeParticle extends SpriteBillboardParticle {
     private final SpriteProvider spriteProvider;
 

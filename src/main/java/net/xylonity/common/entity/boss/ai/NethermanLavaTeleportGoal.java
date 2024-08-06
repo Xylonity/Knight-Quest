@@ -6,6 +6,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.network.packet.s2c.play.ParticleS2CPacket;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -13,9 +15,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.world.World;
 import net.xylonity.common.entity.boss.NethermanEntity;
-import net.xylonity.common.entity.boss.NethermanTeleportChargeEntity;
 
 public class NethermanLavaTeleportGoal extends Goal {
     private final NethermanEntity netherman;
@@ -30,7 +30,7 @@ public class NethermanLavaTeleportGoal extends Goal {
      * method as well.
      */
     public boolean canStart() {
-        return this.netherman.getTarget() != null;
+        return true;
     }
 
     /**
@@ -48,7 +48,8 @@ public class NethermanLavaTeleportGoal extends Goal {
         this.chargeTime = 0;
     }
 
-    public boolean requiresUpdateEveryTick() {
+    @Override
+    public boolean shouldRunEveryTick() {
         return true;
     }
 
@@ -106,14 +107,15 @@ public class NethermanLavaTeleportGoal extends Goal {
                             double vy = look.y * speed;
                             double vz = look.z * speed;
 
-                            //serverPlayer.connection.send(new ClientboundLevelParticlesPacket(
-                            //        ParticleTypes.FLAME,
-                            //        true,
-                            //        ux, uy, uz,
-                            //        (float) vx, (float) vy, (float) vz,
-                            //        0.3f,
-                            //        4
-                            //));
+                            ParticleS2CPacket particlePacket = new ParticleS2CPacket(
+                                    ParticleTypes.FLAME,
+                                    true,
+                                    ux, uy, uz,
+                                    (float) vx, (float) vy, (float) vz,
+                                    0.3f,
+                                    4
+                            );
+                            serverPlayer.networkHandler.sendPacket(particlePacket);
                         }
                     }
                 }

@@ -28,6 +28,11 @@ public class NethermanRenderer extends GeoEntityRenderer<NethermanEntity> {
     }
 
     @Override
+    protected float getDeathMaxRotation(NethermanEntity animatable) {
+        return 0;
+    }
+
+    @Override
     public void render(NethermanEntity entity, float entityYaw, float partialTick, MatrixStack poseStack,
                        VertexConsumerProvider bufferSource, int packedLight) {
         if (entity.isBaby()) {

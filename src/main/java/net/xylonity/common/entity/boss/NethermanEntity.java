@@ -1,6 +1,10 @@
 package net.xylonity.common.entity.boss;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.sound.AbstractSoundInstance;
+import net.minecraft.client.sound.SoundInstance;
+import net.minecraft.client.sound.TickableSoundInstance;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ExperienceOrbEntity;
@@ -19,6 +23,8 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
+import net.minecraft.network.packet.s2c.play.ParticleS2CPacket;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -36,6 +42,7 @@ import net.xylonity.common.api.util.ParticleGenerator;
 import net.xylonity.common.api.util.TeleportValidator;
 import net.xylonity.common.entity.boss.ai.*;
 import net.xylonity.registry.KnightQuestParticles;
+import net.xylonity.registry.KnightQuestSounds;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
@@ -83,17 +90,17 @@ public class NethermanEntity extends HostileEntity implements GeoEntity {
     @Override
     protected void initGoals() {
         this.goalSelector.add(0, new SwimGoal(this));
-        this.goalSelector.add(1, new MeleeAttackGoal(this, 0.5f, true));
+        this.goalSelector.add(2, new MeleeAttackGoal(this, 0.5f, true));
 
         // Phase 1
-        this.goalSelector.add(2, new NethermanLavaTeleportGoal(this));
+        this.goalSelector.add(1, new NethermanLavaTeleportGoal(this));
         this.goalSelector.add(3, new NethermanFlameGoal(this));
 
         // Phase 2
-        this.goalSelector.add(2, new SpawnNethermanClonesGoal(this));
+        this.goalSelector.add(4, new SpawnNethermanClonesGoal(this));
 
         // Phase 3
-        this.goalSelector.add(2, new MagicProjectileAttackGoal(this));
+        this.goalSelector.add(5, new MagicProjectileAttackGoal(this));
 
         this.targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
     }
@@ -138,7 +145,7 @@ public class NethermanEntity extends HostileEntity implements GeoEntity {
         }
 
         if (age == 1) {
-            //ExplosiveConfig.spawnParticles(getWorld(), getX(), getY() + 0.5, getZ(), 4, false, false, 0);
+            ExplosiveConfig.spawnParticles(getWorld(), getX(), getY() + 0.5, getZ(), 4, false, false, 0);
             getWorld().playSound(null, getBlockPos(), SoundEvents.ENTITY_DRAGON_FIREBALL_EXPLODE, SoundCategory.BLOCKS, 1f, 1f);
         }
 
@@ -150,8 +157,8 @@ public class NethermanEntity extends HostileEntity implements GeoEntity {
                 hasChangedPhase = !hasChangedPhase;
             }
 
-            //if (tickCounterFirstPhaseSwitch == 0)
-                //ExplosiveConfig.spawnParticles(getWorld(), getX(), getY(), getZ(), 3, false, false, 1);
+            if (tickCounterFirstPhaseSwitch == 0)
+                ExplosiveConfig.spawnParticles(getWorld(), getX(), getY(), getZ(), 3, false, false, 1);
 
             if (tickCounterFirstPhaseSwitch < 195) {
                 winterStormAttack();
@@ -159,7 +166,7 @@ public class NethermanEntity extends HostileEntity implements GeoEntity {
                 setNoMovement(false);
 
                 getWorld().playSound(null, getBlockPos(), SoundEvents.ENTITY_DRAGON_FIREBALL_EXPLODE, SoundCategory.BLOCKS, 1f, 1f);
-                //ExplosiveConfig.spawnParticles(getWorld(), getX(), getY(), getZ(), 4, false, false, 1);
+                ExplosiveConfig.spawnParticles(getWorld(), getX(), getY(), getZ(), 4, false, false, 1);
 
                 setPhase(2);
             }
@@ -185,7 +192,7 @@ public class NethermanEntity extends HostileEntity implements GeoEntity {
         }
 
         if (tickCounterSecondPhaseSwitch == 85) {
-            //ExplosiveConfig.spawnParticles(getWorld(), getX(), getY() + 3.5, getZ(), 4, false, false, 2);
+            ExplosiveConfig.spawnParticles(getWorld(), getX(), getY() + 3.5, getZ(), 4, false, false, 2);
 
             setPhase(3);
 
@@ -257,20 +264,19 @@ public class NethermanEntity extends HostileEntity implements GeoEntity {
             if (TeleportValidator.isValidTeleportPosition(this, targetPos)) {
                 for (PlayerEntity player : this.getWorld().getPlayers()) {
                     if (player instanceof ServerPlayerEntity serverPlayer) {
-                        //for (int u = 0; u < 20; ++u) {
-                        //    serverPlayer.connection.send(new ClientboundLevelParticlesPacket(
-                        //            ParticleTypes.PORTAL,
-                        //            true,
-                        //            this.getRandomX(0.5D),
-                        //            this.getRandomY() - 0.25D,
-                        //            this.getRandomZ(0.5D),
-                        //            (float) ((this.random.nextDouble() - 0.5D) * 2.0D),
-                        //            (float) -this.random.nextDouble(),
-                        //            0.2f,
-                        //            0.0f,
-                        //            1
-                        //    ));
-                        //}
+                        ParticleS2CPacket particlePacket = new ParticleS2CPacket(
+                                ParticleTypes.PORTAL,
+                                true, // longDistance
+                                this.getParticleX(0.5D),
+                                this.getRandomBodyY() - 0.25D,
+                                this.getParticleZ(0.5D),
+                                (float) ((this.random.nextDouble() - 0.5D) * 2.0D),
+                                (float) -this.random.nextDouble(),
+                                (float) ((this.random.nextDouble() - 0.5D) * 2.0D),
+                                0.2f,
+                                1
+                        );
+                        serverPlayer.networkHandler.sendPacket(particlePacket);
                     }
                 }
 
@@ -550,6 +556,10 @@ public class NethermanEntity extends HostileEntity implements GeoEntity {
     @Override
     public void onStartedTrackingBy(ServerPlayerEntity player) {
         super.onStartedTrackingBy(player);
+        if (!this.getWorld().isClient) {
+            sendSpawnDataToPlayers();
+        }
+
         this.bossInfo.addPlayer(player);
     }
 
@@ -559,49 +569,52 @@ public class NethermanEntity extends HostileEntity implements GeoEntity {
         this.bossInfo.removePlayer(player);
     }
 
-    //@Override
-    //public void onAddedToWorld() {
-    //    super.onAddedToWorld();
-    //    if (!this.getWorld().isClientSide) {
-    //        sendSpawnDataToPlayers();
-    //    }
-    //}
+    private void sendSpawnDataToPlayers() {
+        ServerWorld serverWorld = (ServerWorld) this.getWorld();
+        for (ServerPlayerEntity player : serverWorld.getPlayers()) {
+            if (player.distanceTo(this) <= 100 && player instanceof ServerPlayerEntity) {
+                playBossMusic();
+            }
+        }
+    }
 
-    //private void sendSpawnDataToPlayers() {
-    //    for (PlayerEntity player : this.getWorld().getPlayers()) {
-    //        if (player.distanceTo(this) <= 100 && player instanceof ServerPlayerEntity serverPlayer) {
-    //            serverPlayer.connection.send(new ClientboundAddEntityPacket(this));
-    //            playBossMusic();
-    //        }
-    //    }
-    //}
+    private void playBossMusic() {
+        NethermanBossMusic.play(this);
+    }
 
-    //private void playBossMusic() {
-    //    NethermanBossMusic.play(this);
-    //}
+    private static class NethermanBossMusic extends AbstractSoundInstance implements TickableSoundInstance {
+        private final NethermanEntity entity;
+        private boolean stopped;
 
-    //private static class NethermanBossMusic extends TickableSoundInstance {
-    //    private final NethermanEntity entity;
+        protected NethermanBossMusic(NethermanEntity entity) {
+            super(KnightQuestSounds.NETHERMAN_BOSS_MUSIC, SoundCategory.AMBIENT, SoundInstance.createRandom());
+            this.entity = entity;
+            this.x = entity.getX();
+            this.y = entity.getY();
+            this.z = entity.getZ();
+            this.repeat = true;
+        }
 
-    //    protected NethermanBossMusic(NethermanEntity entity) {
-    //        super(KnightQuestSounds.NETHERMAN_BOSS_MUSIC.get(), SoundSource.AMBIENT, SoundInstance.createUnseededRandom());
-    //        this.entity = entity;
-    //        this.x = entity.getX();
-    //        this.y = entity.getY();
-    //        this.z = entity.getZ();
-    //        this.looping = true;
-    //    }
+        public static void play(NethermanEntity entity) {
+            MinecraftClient.getInstance().getSoundManager().play(new NethermanBossMusic(entity));
+        }
 
-    //    public static void play(NethermanEntity entity) {
-    //        Minecraft.getInstance().getSoundManager().play(new NethermanBossMusic(entity));
-    //    }
+        private void stop() {
+            this.stopped = true;
+            this.repeat = false;
+        }
 
-    //    @Override
-    //    public void tick() {
-    //        if (!entity.isAlive()) {
-    //            stop();
-    //        }
-    //    }
-    //}
+        @Override
+        public boolean isDone() {
+            return stopped;
+        }
+
+        @Override
+        public void tick() {
+            if (!entity.isAlive()) {
+                stop();
+            }
+        }
+    }
 
 }

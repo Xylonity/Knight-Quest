@@ -4,6 +4,8 @@ import net.fabricmc.loader.impl.lib.sat4j.core.Vec;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.network.packet.s2c.play.ParticleS2CPacket;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -90,14 +92,15 @@ public class NethermanFlameGoal extends Goal {
                                 double vy = look.y * speed;
                                 double vz = look.z * speed;
 
-                                //serverPlayer.connection.send(new ClientboundLevelParticlesPacket(
-                                //        ParticleTypes.FLAME,
-                                //        true,
-                                //        x, y, z,
-                                //        (float) vx, (float) vy, (float) vz,
-                                //        0.2f,
-                                //        2
-                                //));
+                                ParticleS2CPacket particlePacket = new ParticleS2CPacket(
+                                        ParticleTypes.FLAME,
+                                        true,
+                                        x, y, z,
+                                        (float) vx, (float) vy, (float) vz,
+                                        0.2f,
+                                        2
+                                );
+                                serverPlayer.networkHandler.sendPacket(particlePacket);
                             }
                         }
                     }
@@ -123,14 +126,15 @@ public class NethermanFlameGoal extends Goal {
                                 double vy = look.y * speed;
                                 double vz = look.z * speed;
 
-                                //serverPlayer.connection.send(new ClientboundLevelParticlesPacket(
-                                //        ParticleTypes.FLAME,
-                                //        true,
-                                //        x, y, z,
-                                //        (float) vx, (float) vy, (float) vz,
-                                //        0.2f,
-                                //        2
-                                //));
+                                ParticleS2CPacket particlePacket = new ParticleS2CPacket(
+                                        ParticleTypes.FLAME,
+                                        true,
+                                        x, y, z,
+                                        (float) vx, (float) vy, (float) vz,
+                                        0.2f,
+                                        2
+                                );
+                                serverPlayer.networkHandler.sendPacket(particlePacket);
                             }
                         }
                     }

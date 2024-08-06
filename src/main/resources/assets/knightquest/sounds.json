@@ -1,11 +1,8 @@
 {
   "netherman_boss_music": {
+    "subtitles": "sounds.knightquest.netherman_boss_music",
     "sounds": [
-      {
-        "name": "netherman_boss_music",
-        "pitch": 1.0,
-        "volume": 1.0
-      }
+      "knightquest:netherman_boss_music"
     ]
   }
 }

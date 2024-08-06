@@ -26,6 +26,7 @@ public class KnightQuestCreativeModeTabs {
                                 output.accept(KnightQuestItems.SMALL_ESSENCE.get());
                                 output.accept(KnightQuestItems.GREAT_ESSENCE.get());
                                 output.accept(KnightQuestItems.RADIANT_ESSENCE.get());
+                                output.accept(KnightQuestItems.RADIANT_ESSENCE.get());
                                 output.accept(KnightQuestItems.EMPTY_GOBLET.get());
                                 output.accept(KnightQuestItems.FILLED_GOBLET.get());
                                 output.accept(KnightQuestItems.RATMAN_EYE.get());

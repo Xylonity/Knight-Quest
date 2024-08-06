@@ -1,8 +1,10 @@
 package net.xylonity.knightquest.common.entity.boss;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.sounds.AbstractSoundInstance;
 import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
 import net.minecraft.client.resources.sounds.SoundInstance;
+import net.minecraft.client.resources.sounds.TickableSoundInstance;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -38,6 +40,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.xylonity.knightquest.common.api.explosiveenhancement.ExplosiveConfig;
 import net.xylonity.knightquest.common.api.util.ParticleGenerator;
 import net.xylonity.knightquest.common.api.util.TeleportValidator;
@@ -558,7 +562,7 @@ public class NethermanEntity extends Monster implements GeoEntity {
     @Override
     public void setCustomName(@Nullable Component pName) {
         super.setCustomName(pName);
-        this.bossInfo.setName(this.getDisplayName());
+        this.bossInfo.setName(Objects.requireNonNull(this.getDisplayName()));
     }
 
     public void startSeenByPlayer(@NotNull ServerPlayer pPlayer) {
@@ -569,59 +573,6 @@ public class NethermanEntity extends Monster implements GeoEntity {
     public void stopSeenByPlayer(@NotNull ServerPlayer pPlayer) {
         super.stopSeenByPlayer(pPlayer);
         this.bossInfo.removePlayer(pPlayer);
-    }
-
-    @Override
-    public void onAddedToWorld() {
-        super.onAddedToWorld();
-        if (!this.level().isClientSide) {
-            sendSpawnDataToPlayers();
-        }
-    }
-
-    private void sendSpawnDataToPlayers() {
-        for (Player player : this.level().players()) {
-            if (player.distanceTo(this) <= 100 && player instanceof ServerPlayer serverPlayer && level() instanceof ServerLevel serverLevel) {
-                serverPlayer.connection.send(new ClientboundAddEntityPacket(this, new ServerEntity(serverLevel, this, 1, true, packet -> {
-                    serverLevel.players().forEach(pPlayer -> {
-                        if (pPlayer.distanceToSqr(this) < 100) {
-                            pPlayer.connection.send(packet);
-                        }
-                    });
-                })));
-            }
-
-            playBossMusic();
-        }
-    }
-
-    private void playBossMusic() {
-        NethermanBossMusic.play(this);
-    }
-
-    private static class NethermanBossMusic extends AbstractTickableSoundInstance {
-        private final NethermanEntity entity;
-
-        protected NethermanBossMusic(NethermanEntity entity) {
-            super(KnightQuestSounds.NETHERMAN_BOSS_MUSIC.get(), SoundSource.AMBIENT, SoundInstance.createUnseededRandom());
-            this.entity = entity;
-            this.x = entity.getX();
-            this.y = entity.getY();
-            this.z = entity.getZ();
-            this.looping = true;
-            this.volume = 1f;
-        }
-
-        public static void play(NethermanEntity entity) {
-            Minecraft.getInstance().getSoundManager().play(new NethermanBossMusic(entity));
-        }
-
-        @Override
-        public void tick() {
-            if (!entity.isAlive()) {
-                stop();
-            }
-        }
     }
 
 }

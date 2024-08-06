@@ -570,49 +570,4 @@ public class NethermanEntity extends Monster implements GeoEntity {
         this.bossInfo.removePlayer(pPlayer);
     }
 
-    @Override
-    public void onAddedToWorld() {
-        super.onAddedToWorld();
-        if (!this.level().isClientSide) {
-            sendSpawnDataToPlayers();
-        }
-    }
-
-    private void sendSpawnDataToPlayers() {
-        for (Player player : this.level().players()) {
-            if (player.distanceTo(this) <= 100 && player instanceof ServerPlayer serverPlayer) {
-                serverPlayer.connection.send(new ClientboundAddEntityPacket(this));
-                playBossMusic();
-            }
-        }
-    }
-
-    private void playBossMusic() {
-        NethermanBossMusic.play(this);
-    }
-
-    private static class NethermanBossMusic extends AbstractTickableSoundInstance {
-        private final NethermanEntity entity;
-
-        protected NethermanBossMusic(NethermanEntity entity) {
-            super(KnightQuestSounds.NETHERMAN_BOSS_MUSIC.get(), SoundSource.AMBIENT, SoundInstance.createUnseededRandom());
-            this.entity = entity;
-            this.x = entity.getX();
-            this.y = entity.getY();
-            this.z = entity.getZ();
-            this.looping = true;
-        }
-
-        public static void play(NethermanEntity entity) {
-            Minecraft.getInstance().getSoundManager().play(new NethermanBossMusic(entity));
-        }
-
-        @Override
-        public void tick() {
-            if (!entity.isAlive()) {
-                stop();
-            }
-        }
-    }
-
 }

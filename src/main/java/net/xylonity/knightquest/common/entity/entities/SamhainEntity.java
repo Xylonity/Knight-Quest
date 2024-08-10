@@ -23,8 +23,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.xylonity.knightquest.registry.KnightQuestItems;
 import org.jetbrains.annotations.NotNull;
@@ -179,7 +177,7 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
+    public void readAdditionalSaveData(@NotNull CompoundTag tag) {
         super.readAdditionalSaveData(tag);
 
         if (this.getOwnerUUID() != null) {
@@ -188,11 +186,13 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
 
         setSitting(tag.getBoolean("isSitting"));
 
-        this.entityData.set(ARMOR_SLOT, ItemStack.of(tag.getCompound("ArmorItem")));
+        if (tag.contains("ArmorItem")) {
+            this.entityData.set(ARMOR_SLOT, ItemStack.of(tag.getCompound("ArmorItem")));
+        }
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
+    public void addAdditionalSaveData(@NotNull CompoundTag tag) {
         super.addAdditionalSaveData(tag);
 
         if (tag.hasUUID("ownerUUID")) {
@@ -201,9 +201,12 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
 
         tag.putBoolean("isSitting", this.isSitting());
 
-        CompoundTag armorTag = new CompoundTag();
-        this.getArmor().save(armorTag);
-        tag.put("ArmorItem", armorTag);
+        ItemStack armorStack = this.getArmor();
+        if (!armorStack.isEmpty()) {
+            CompoundTag armorTag = new CompoundTag();
+            armorStack.save(armorTag);
+            tag.put("ArmorItem", armorTag);
+        }
     }
 
     @Override
@@ -238,12 +241,12 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
             this.entityData.set(ARMOR_SLOT, ItemStack.EMPTY);
         }
 
-        this.getAttribute(Attributes.ARMOR).setBaseValue(0.0);
+        Objects.requireNonNull(this.getAttribute(Attributes.ARMOR)).setBaseValue(0.0);
         this.entityData.set(ARMOR_SLOT, ItemStack.EMPTY);
     }
 
     @Override
-    protected void dropCustomDeathLoot(DamageSource pSource, int pLooting, boolean pRecentlyHit) {
+    protected void dropCustomDeathLoot(@NotNull DamageSource pSource, int pLooting, boolean pRecentlyHit) {
         super.dropCustomDeathLoot(pSource, pLooting, pRecentlyHit);
         ItemStack armorStack = this.entityData.get(ARMOR_SLOT);
         if (!armorStack.isEmpty()) {
@@ -260,7 +263,7 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
         return this.entityData.get(SITTING);
     }
 
-    public boolean canBeLeashed(Player player) {
+    public boolean canBeLeashed(@NotNull Player player) {
         return false;
     }
 
@@ -268,24 +271,24 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
     public void setTame(boolean tamed) {
         super.setTame(tamed);
         if (tamed) {
-            getAttribute(Attributes.MAX_HEALTH).setBaseValue(35.0D);
-            getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(4D);
-            getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.5f);
+            Objects.requireNonNull(getAttribute(Attributes.MAX_HEALTH)).setBaseValue(35.0D);
+            Objects.requireNonNull(getAttribute(Attributes.ATTACK_DAMAGE)).setBaseValue(4D);
+            Objects.requireNonNull(getAttribute(Attributes.MOVEMENT_SPEED)).setBaseValue(0.5f);
         } else {
-            getAttribute(Attributes.MAX_HEALTH).setBaseValue(30.0D);
-            getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(4D);
-            getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.5f);
+            Objects.requireNonNull(getAttribute(Attributes.MAX_HEALTH)).setBaseValue(30.0D);
+            Objects.requireNonNull(getAttribute(Attributes.ATTACK_DAMAGE)).setBaseValue(4D);
+            Objects.requireNonNull(getAttribute(Attributes.MOVEMENT_SPEED)).setBaseValue(0.5f);
         }
     }
 
     @Nullable
     @Override
-    public AgeableMob getBreedOffspring(ServerLevel serverLevel, AgeableMob ageableMob) {
+    public AgeableMob getBreedOffspring(@NotNull ServerLevel serverLevel, @NotNull AgeableMob ageableMob) {
         return null;
     }
 
     @Override
-    protected SoundEvent getSwimSound() {
+    protected @NotNull SoundEvent getSwimSound() {
         return SoundEvents.AXOLOTL_SWIM;
     }
 
@@ -295,16 +298,16 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
     }
 
     @Override
-    protected SoundEvent getHurtSound(DamageSource pDamageSource) {
+    protected SoundEvent getHurtSound(@NotNull DamageSource pDamageSource) {
         return SoundEvents.ALLAY_HURT;
     }
 
     @Override
-    protected void playStepSound(BlockPos pPos, BlockState pState) {
+    protected void playStepSound(@NotNull BlockPos pPos, @NotNull BlockState pState) {
         this.playSound(SoundEvents.WOLF_STEP, 0.15F, 1.0F);
     }
 
-    public class MoveToPumpkinGoal extends Goal {
+    public static class MoveToPumpkinGoal extends Goal {
 
         private final SamhainEntity entity;
         private final double speed;

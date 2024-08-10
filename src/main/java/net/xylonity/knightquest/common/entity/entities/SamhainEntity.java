@@ -54,10 +54,10 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
 
     public static AttributeSupplier setAttributes() {
         return TamableAnimal.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 12.0D)
+                .add(Attributes.MAX_HEALTH, 30.0D)
                 .add(Attributes.ATTACK_DAMAGE, 0.5f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
-                .add(Attributes.MOVEMENT_SPEED, 0.6f).build();
+                .add(Attributes.MOVEMENT_SPEED, 0.5f).build();
     }
 
     @Override
@@ -181,14 +181,26 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
+
+        if (this.getOwnerUUID() != null) {
+            tag.putUUID("ownerUUID", this.getOwnerUUID());
+        }
+
         setSitting(tag.getBoolean("isSitting"));
+
         this.entityData.set(ARMOR_SLOT, ItemStack.of(tag.getCompound("ArmorItem")));
     }
 
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
+
+        if (tag.hasUUID("ownerUUID")) {
+            this.setOwnerUUID(tag.getUUID("ownerUUID"));
+        }
+
         tag.putBoolean("isSitting", this.isSitting());
+
         CompoundTag armorTag = new CompoundTag();
         this.getArmor().save(armorTag);
         tag.put("ArmorItem", armorTag);
@@ -256,7 +268,7 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
     public void setTame(boolean tamed) {
         super.setTame(tamed);
         if (tamed) {
-            getAttribute(Attributes.MAX_HEALTH).setBaseValue(25.0D);
+            getAttribute(Attributes.MAX_HEALTH).setBaseValue(35.0D);
             getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(4D);
             getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.5f);
         } else {

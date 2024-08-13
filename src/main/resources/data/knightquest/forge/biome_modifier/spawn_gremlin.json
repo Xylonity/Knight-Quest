@@ -1,0 +1,14 @@
+{
+  "type": "forge:add_spawns",
+  "biomes": [
+    "minecraft:soul_sand_valley",
+    "minecraft:nether_wastes",
+    "minecraft:crimson_forest"
+  ],
+  "spawners": {
+    "type": "knightquest:gremlin",
+    "weight": 25,
+    "minCount": 1,
+    "maxCount": 1
+  }
+}

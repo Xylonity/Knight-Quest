@@ -8,7 +8,7 @@ import net.minecraft.world.item.ItemStack;
 
 public class KQFullSetChecker {
 
-    protected static boolean hasFullSuitOfArmorOn(Player player, Holder<ArmorMaterial> material) {
+    protected static boolean hasFullSetOn(Player player, Holder<ArmorMaterial> material) {
 
         for (ItemStack armorStack : player.getInventory().armor) {
             if(!(armorStack.getItem() instanceof ArmorItem)) {

@@ -28,7 +28,7 @@ public class KQEventRegisters {
         event.put(KnightQuestEntities.MOMMA_LIZZY.value(), MommaLizzyEntity.setAttributes().build());
         event.put(KnightQuestEntities.RATMAN.value(), RatmanEntity.setAttributes().build());
         event.put(KnightQuestEntities.SAMHAIN.value(), SamhainEntity.setAttributes().build());
-        event.put(KnightQuestEntities.SHIELD.value(), ShieldEntity.setAttributes().build());
+        event.put(KnightQuestEntities.SHIELD.value(), GhastlingEntity.setAttributes().build());
         event.put(KnightQuestEntities.SWAMPMAN.value(), SwampmanEntity.setAttributes().build());
     }
 

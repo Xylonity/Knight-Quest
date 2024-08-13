@@ -412,7 +412,7 @@ public class KnightQuestItems {
             () -> new GeoItemArmor(KQArmorMaterials.SQUIRESET, ArmorItem.Type.HELMET,new Item.Properties()
                     , "textures/armor/squire_helmet.png", "geo/squire_helmet.geo.json") {
                 @Override
-                public void appendHoverText(ItemStack pStack, TooltipContext pContext, List<Component> pTooltipComponents, TooltipFlag pTooltipFlag) {
+                public void appendHoverText(@NotNull ItemStack pStack, @NotNull TooltipContext pContext, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pTooltipFlag) {
                     pTooltipComponents.add(Component.translatable("tooltip.item.knightquest.squire_helmet"));
                     super.appendHoverText(pStack, pContext, pTooltipComponents, pTooltipFlag);
                 }

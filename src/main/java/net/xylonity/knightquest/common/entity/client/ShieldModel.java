@@ -3,32 +3,32 @@ package net.xylonity.knightquest.common.entity.client;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.xylonity.knightquest.KnightQuest;
-import net.xylonity.knightquest.common.entity.custom.ShieldEntity;
+import net.xylonity.knightquest.common.entity.custom.GhastlingEntity;
 import software.bernie.geckolib.animation.AnimationState;
 import software.bernie.geckolib.cache.object.GeoBone;
 import software.bernie.geckolib.constant.DataTickets;
 import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.model.data.EntityModelData;
 
-public class ShieldModel extends GeoModel<ShieldEntity> {
+public class ShieldModel extends GeoModel<GhastlingEntity> {
 
     @Override
-    public ResourceLocation getModelResource(ShieldEntity animatable) {
+    public ResourceLocation getModelResource(GhastlingEntity animatable) {
         return ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "geo/shield.geo.json");
     }
 
     @Override
-    public ResourceLocation getTextureResource(ShieldEntity animatable) {
+    public ResourceLocation getTextureResource(GhastlingEntity animatable) {
         return ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "textures/entity/shield.png");
     }
 
     @Override
-    public ResourceLocation getAnimationResource(ShieldEntity animatable) {
+    public ResourceLocation getAnimationResource(GhastlingEntity animatable) {
         return ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "animations/helmet.animation.json");
     }
 
     @Override
-    public void setCustomAnimations(ShieldEntity animatable, long instanceId, AnimationState<ShieldEntity> animationState) {
+    public void setCustomAnimations(GhastlingEntity animatable, long instanceId, AnimationState<GhastlingEntity> animationState) {
         GeoBone head = getAnimationProcessor().getBone("head");
 
         if (head != null) {

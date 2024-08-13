@@ -32,7 +32,7 @@ public class KnightQuest
         KnightQuestItems.ITEMS.register(modEventBus);
         KnightQuestCreativeModeTabs.CREATIVE_MODE_TABS.register(modEventBus);
         KnightQuestBlocks.BLOCKS.register(modEventBus);
-        KnightQuestEntities.ENTITIES.register(modEventBus);
+        KnightQuestEntities.ENTITY.register(modEventBus);
         KQLootModifiers.LOOT_MODIFIER_SERIALIZERS.register(modEventBus);
         KnightQuestParticles.PARTICLES.register(modEventBus);
 

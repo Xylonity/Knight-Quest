@@ -1,19 +1,19 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "category": "misc",
-  "key": {
-    "#": {
-      "item": "minecraft:copper_ingot"
-    }
-  },
-  "pattern": [
-    "# #",
-    "# #",
-    "###"
-  ],
-  "result": {
-    "id": "knightquest:great_chalice",
-    "count": 1
-  },
-  "show_notification": true
+    "type": "minecraft:crafting_shaped",
+    "category": "misc",
+    "key": {
+        "#": {
+            "item": "minecraft:copper_ingot"
+        }
+    },
+    "pattern": [
+        "# #",
+        "# #",
+        "###"
+    ],
+    "result": {
+        "count": 1,
+        "id": "knightquest:great_chalice"
+    },
+    "show_notification": true
 }

@@ -1,10 +1,6 @@
 package net.xylonity.common.entity.boss;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.sound.AbstractSoundInstance;
-import net.minecraft.client.sound.SoundInstance;
-import net.minecraft.client.sound.TickableSoundInstance;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ExperienceOrbEntity;
@@ -23,7 +19,6 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.network.packet.s2c.play.ParticleS2CPacket;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -42,7 +37,6 @@ import net.xylonity.common.api.util.ParticleGenerator;
 import net.xylonity.common.api.util.TeleportValidator;
 import net.xylonity.common.entity.boss.ai.*;
 import net.xylonity.registry.KnightQuestParticles;
-import net.xylonity.registry.KnightQuestSounds;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
@@ -557,10 +551,6 @@ public class NethermanEntity extends HostileEntity implements GeoEntity {
     @Override
     public void onStartedTrackingBy(ServerPlayerEntity player) {
         super.onStartedTrackingBy(player);
-        if (!this.getWorld().isClient) {
-            sendSpawnDataToPlayers();
-        }
-
         this.bossInfo.addPlayer(player);
     }
 
@@ -568,54 +558,6 @@ public class NethermanEntity extends HostileEntity implements GeoEntity {
     public void onStoppedTrackingBy(ServerPlayerEntity player) {
         super.onStoppedTrackingBy(player);
         this.bossInfo.removePlayer(player);
-    }
-
-    private void sendSpawnDataToPlayers() {
-        ServerWorld serverWorld = (ServerWorld) this.getWorld();
-        for (ServerPlayerEntity player : serverWorld.getPlayers()) {
-            if (player.distanceTo(this) <= 100 && player instanceof ServerPlayerEntity) {
-                playBossMusic();
-            }
-        }
-    }
-
-    private void playBossMusic() {
-        NethermanBossMusic.play(this);
-    }
-
-    private static class NethermanBossMusic extends AbstractSoundInstance implements TickableSoundInstance {
-        private final NethermanEntity entity;
-        private boolean stopped;
-
-        protected NethermanBossMusic(NethermanEntity entity) {
-            super(KnightQuestSounds.NETHERMAN_BOSS_MUSIC, SoundCategory.AMBIENT, SoundInstance.createRandom());
-            this.entity = entity;
-            this.x = entity.getX();
-            this.y = entity.getY();
-            this.z = entity.getZ();
-            this.repeat = true;
-        }
-
-        public static void play(NethermanEntity entity) {
-            MinecraftClient.getInstance().getSoundManager().play(new NethermanBossMusic(entity));
-        }
-
-        private void stop() {
-            this.stopped = true;
-            this.repeat = false;
-        }
-
-        @Override
-        public boolean isDone() {
-            return stopped;
-        }
-
-        @Override
-        public void tick() {
-            if (!entity.isAlive()) {
-                stop();
-            }
-        }
     }
 
 }

@@ -12,6 +12,8 @@ import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 import net.xylonity.knightquest.KnightQuest;
+import net.xylonity.knightquest.common.entity.boss.NethermanCloneEntity;
+import net.xylonity.knightquest.common.entity.boss.NethermanEntity;
 import net.xylonity.knightquest.datagen.KQGlobalLootModifiersProvider;
 import net.xylonity.knightquest.registry.KnightQuestEntities;
 import net.xylonity.knightquest.common.entity.custom.*;
@@ -30,6 +32,8 @@ public class KQEventRegisters {
         event.put(KnightQuestEntities.SAMHAIN.value(), SamhainEntity.setAttributes().build());
         event.put(KnightQuestEntities.SHIELD.value(), GhastlingEntity.setAttributes().build());
         event.put(KnightQuestEntities.SWAMPMAN.value(), SwampmanEntity.setAttributes().build());
+        event.put(KnightQuestEntities.NETHERMAN.value(), NethermanEntity.setAttributes());
+        event.put(KnightQuestEntities.NETHERMAN_CLONE.value(), NethermanCloneEntity.setAttributes());
     }
 
     @SubscribeEvent

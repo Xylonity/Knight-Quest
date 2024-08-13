@@ -1,0 +1,11 @@
+{
+  "type": "knightquest:add_item",
+  "chance": 1.0,
+  "conditions": [
+    {
+      "condition": "neoforge:loot_table_id",
+      "loot_table_id": "minecraft:entities/hoglin"
+    }
+  ],
+  "item": "knightquest:small_essence"
+}

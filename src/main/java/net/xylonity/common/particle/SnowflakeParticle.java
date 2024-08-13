@@ -17,7 +17,7 @@ public class SnowflakeParticle extends SpriteBillboardParticle {
         this.velocityX = velocityX + (Math.random() * 2.0 - 1.0) * 0.05000000074505806;
         this.velocityY = velocityY + (Math.random() * 2.0 - 1.0) * 0.05000000074505806;
         this.velocityZ = velocityZ + (Math.random() * 2.0 - 1.0) * 0.05000000074505806;
-        this.scale = 0.1F * (this.random.nextFloat() * this.random.nextFloat() * 1.0F + 1.0F);
+        this.scale = 0.25F * (this.random.nextFloat() * this.random.nextFloat() * 1.0F + 1.0F);
         this.maxAge = (int) (16.0 / ((double) this.random.nextFloat() * 0.8 + 0.2)) + 2;
         this.setSpriteForAge(spriteProvider);
     }

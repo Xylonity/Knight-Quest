@@ -81,31 +81,33 @@ public class SpawnNethermanClonesGoal extends Goal {
                         Vec3d spawnPos = position.add(xOffset, 0, zOffset);
 
                         NethermanCloneEntity nethermanClone = KnightQuestEntities.NETHERMAN_CLONE.create(this.netherman.getWorld());
-                        assert nethermanClone != null;
-                        nethermanClone.teleport(spawnPos.x, position.y, spawnPos.z, true);
 
-                        this.netherman.getWorld().spawnEntity(nethermanClone);
+                        if (nethermanClone != null) {
+                            nethermanClone.refreshPositionAfterTeleport(spawnPos.x, position.y, spawnPos.z);
 
-                        for (PlayerEntity player : this.netherman.getWorld().getPlayers()) {
-                            if (player instanceof ServerPlayerEntity serverPlayer) {
+                            this.netherman.getWorld().spawnEntity(nethermanClone);
 
-                                double ux = nethermanClone.getParticleX(0.5D);
-                                double uy = nethermanClone.getRandomBodyY() - 0.25D;
-                                double uz = nethermanClone.getParticleZ(0.5D);
+                            for (PlayerEntity player : this.netherman.getWorld().getPlayers()) {
+                                if (player instanceof ServerPlayerEntity serverPlayer) {
 
-                                float vx = (float) ((nethermanClone.getRandom().nextDouble() - 0.5D) * 2.0D);
-                                float vy = (float) -nethermanClone.getRandom().nextDouble();
-                                float vz = 0.2f;
+                                    double ux = nethermanClone.getParticleX(0.5D);
+                                    double uy = nethermanClone.getRandomBodyY() - 0.25D;
+                                    double uz = nethermanClone.getParticleZ(0.5D);
 
-                                for(int u = 0; u < 20; ++u) {
-                                    serverPlayer.networkHandler.sendPacket(new ParticleS2CPacket(
-                                            ParticleTypes.SOUL_FIRE_FLAME,
-                                            true,
-                                            ux, uy, uz,
-                                            vx, vy, vz,
-                                            0.0f,
-                                            2
-                                    ));
+                                    float vx = (float) ((nethermanClone.getRandom().nextDouble() - 0.5D) * 2.0D);
+                                    float vy = (float) -nethermanClone.getRandom().nextDouble();
+                                    float vz = 0.2f;
+
+                                    for (int u = 0; u < 20; ++u) {
+                                        serverPlayer.networkHandler.sendPacket(new ParticleS2CPacket(
+                                                ParticleTypes.SOUL_FIRE_FLAME,
+                                                true,
+                                                ux, uy, uz,
+                                                vx, vy, vz,
+                                                0.0f,
+                                                2
+                                        ));
+                                    }
                                 }
                             }
                         }

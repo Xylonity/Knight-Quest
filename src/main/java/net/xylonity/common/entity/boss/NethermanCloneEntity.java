@@ -35,7 +35,7 @@ public class NethermanCloneEntity extends HostileEntity implements GeoEntity {
                 .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 8.0f)
                 .add(EntityAttributes.GENERIC_ATTACK_SPEED, 1.0f)
                 .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.80f)
-                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 35.0)
+                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 150.0)
                 .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 5.0);
     }
 

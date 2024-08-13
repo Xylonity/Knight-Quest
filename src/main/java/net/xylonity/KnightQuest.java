@@ -9,6 +9,7 @@ import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.xylonity.common.entity.boss.NethermanCloneEntity;
 import net.xylonity.common.entity.boss.NethermanEntity;
+import net.xylonity.common.entity.boss.NethermanTeleportChargeEntity;
 import net.xylonity.common.item.KQArmorItem;
 import net.xylonity.datagen.KQEntitySpawn;
 import net.xylonity.registry.*;

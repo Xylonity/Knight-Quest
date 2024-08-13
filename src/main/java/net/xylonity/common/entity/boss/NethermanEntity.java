@@ -100,7 +100,8 @@ public class NethermanEntity extends HostileEntity implements GeoEntity {
         this.goalSelector.add(4, new SpawnNethermanClonesGoal(this));
 
         // Phase 3
-        this.goalSelector.add(5, new MagicProjectileAttackGoal(this));
+        // TODO: For some reason the projectile doesn't react to anything, marked for a potential fix someday
+        //this.goalSelector.add(5, new MagicProjectileAttackGoal(this));
 
         this.targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
     }

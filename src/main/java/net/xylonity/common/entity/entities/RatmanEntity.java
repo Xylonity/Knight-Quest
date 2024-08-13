@@ -36,7 +36,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 import java.util.Random;
 
 public class RatmanEntity extends SkeletonEntity implements GeoEntity {
-    private AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     World serverWorld;
     private boolean summoned = false;
     private int counter = 0;
@@ -164,7 +164,7 @@ public class RatmanEntity extends SkeletonEntity implements GeoEntity {
         this.goalSelector.add(3, new EscapeSunlightGoal(this, 0.6D));
         this.goalSelector.add(4, new SwimGoal(this));
 
-        this.targetSelector.add(1, new RevengeGoal(this, new Class[0]));
+        this.targetSelector.add(1, new RevengeGoal(this));
         this.targetSelector.add(2, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
         this.targetSelector.add(3, new ActiveTargetGoal<>(this, IronGolemEntity.class, true));
         this.targetSelector.add(3, new ActiveTargetGoal<>(this, TurtleEntity.class, 10, true, false, TurtleEntity.BABY_TURTLE_ON_LAND_FILTER));
@@ -172,11 +172,11 @@ public class RatmanEntity extends SkeletonEntity implements GeoEntity {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-        controllerRegistrar.add(new AnimationController(this, "controller", 0, this::predicate));
-        controllerRegistrar.add(new AnimationController(this, "attackcontroller", 0, this::attackPredicate));
+        controllerRegistrar.add(new AnimationController<>(this, "controller", 0, this::predicate));
+        controllerRegistrar.add(new AnimationController<>(this, "attackcontroller", 0, this::attackPredicate));
     }
 
-    private PlayState attackPredicate(AnimationState event) {
+    private PlayState attackPredicate(AnimationState<?> event) {
 
         if (isUsingItem()) {
             event.getController().forceAnimationReset();

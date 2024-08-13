@@ -75,7 +75,7 @@ public class NethermanFlameGoal extends Goal {
                     level.playSound(null, this.netherman.getBlockPos(), SoundEvents.ENTITY_FIREWORK_ROCKET_TWINKLE, SoundCategory.BLOCKS, 1f, 1f);
                 }
 
-                if (this.chargeTime == 10) {
+                if (this.chargeTime == 14) {
                     Vec3d look = this.netherman.getRotationVector();
                     double offsetX = look.x * 0.5;
                     double offsetY = look.y * 0.5;
@@ -86,7 +86,7 @@ public class NethermanFlameGoal extends Goal {
                             for (int u = 0; u < 20; ++u) {
                                 double speed = 0.1 + this.netherman.getRandom().nextDouble() * 0.2;
                                 double x = this.netherman.getX() + offsetX + (this.netherman.getRandom().nextDouble() - 0.5) * 0.2;
-                                double y = this.netherman.getY() + this.netherman.getEyeY() + offsetY + (this.netherman.getRandom().nextDouble() - 0.5) * 0.2;
+                                double y = this.netherman.getY() + this.netherman.getStandingEyeHeight() + offsetY + (this.netherman.getRandom().nextDouble() - 0.5) * 0.2;
                                 double z = this.netherman.getZ() + offsetZ + (this.netherman.getRandom().nextDouble() - 0.5) * 0.2;
                                 double vx = look.x * speed;
                                 double vy = look.y * speed;
@@ -118,7 +118,7 @@ public class NethermanFlameGoal extends Goal {
                             for (int u = 0; u < 20; ++u) {
                                 double speed = 0.1 + this.netherman.getRandom().nextDouble() * 0.2;
                                 double x = this.netherman.getTarget().getX() + (this.netherman.getTarget().getRandom().nextDouble() - 0.5) * 0.2;
-                                double y = this.netherman.getTarget().getY() + this.netherman.getTarget().getEyeY() + (this.netherman.getRandom().nextDouble() - 0.5) * 0.2;
+                                double y = this.netherman.getTarget().getY() + this.netherman.getTarget().getStandingEyeHeight() + (this.netherman.getRandom().nextDouble() - 0.5) * 0.2;
                                 double z = this.netherman.getTarget().getZ() + (this.netherman.getTarget().getRandom().nextDouble() - 0.5) * 0.2;
 
                                 Vec3d look = this.netherman.getTarget().getRotationVector();

@@ -98,7 +98,7 @@ public class NethermanLavaTeleportGoal extends Goal {
                         for (int u = 0; u < 20; ++u) {
                             double speed = 0.1 + this.netherman.getRandom().nextDouble() * 0.2;
                             double ux = this.netherman.getX() + (this.netherman.getRandom().nextDouble() - 0.5) * 0.2;
-                            double uy = this.netherman.getY() + this.netherman.getEyeY() + (this.netherman.getRandom().nextDouble() - 0.5) * 0.2;
+                            double uy = this.netherman.getY() + this.netherman.getStandingEyeHeight() + (this.netherman.getRandom().nextDouble() - 0.5) * 0.2;
                             double uz = this.netherman.getZ() + (this.netherman.getRandom().nextDouble() - 0.5) * 0.2;
 
                             Vec3d look = this.netherman.getRotationVector();
@@ -107,21 +107,20 @@ public class NethermanLavaTeleportGoal extends Goal {
                             double vy = look.y * speed;
                             double vz = look.z * speed;
 
-                            ParticleS2CPacket particlePacket = new ParticleS2CPacket(
+                            serverPlayer.networkHandler.sendPacket(new ParticleS2CPacket(
                                     ParticleTypes.FLAME,
                                     true,
                                     ux, uy, uz,
                                     (float) vx, (float) vy, (float) vz,
                                     0.3f,
                                     4
-                            );
-                            serverPlayer.networkHandler.sendPacket(particlePacket);
+                            ));
                         }
                     }
                 }
 
                 this.netherman.getWorld().playSound(null, this.netherman.getBlockPos(), SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.BLOCKS, 1f, 1f);
-                this.netherman.teleport(x, y, z, true);
+                this.netherman.requestTeleport(x, y, z);
                 return;
             } else if (bestPos == null || isBetterPosition(targetPos, bestPos)) {
                 bestPos = targetPos;

@@ -35,11 +35,8 @@ public class NethermanRenderer extends GeoEntityRenderer<NethermanEntity> {
     @Override
     public void render(NethermanEntity entity, float entityYaw, float partialTick, MatrixStack poseStack,
                        VertexConsumerProvider bufferSource, int packedLight) {
-        if (entity.isBaby()) {
-            poseStack.scale(0.4f, 0.4f, 0.4f);
-        } else {
-            poseStack.scale(1f, 1f, 1f);
-        }
+
+        poseStack.scale(1.2f, 1.2f, 1.2f);
 
         super.render(entity, entityYaw, partialTick, poseStack, bufferSource, packedLight);
     }

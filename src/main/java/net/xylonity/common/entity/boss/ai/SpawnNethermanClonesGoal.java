@@ -2,14 +2,15 @@ package net.xylonity.common.entity.boss.ai;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.network.packet.s2c.play.ParticleS2CPacket;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
 import net.xylonity.common.entity.boss.NethermanCloneEntity;
 import net.xylonity.common.entity.boss.NethermanEntity;
-import net.xylonity.common.entity.boss.NethermanTeleportChargeEntity;
 import net.xylonity.registry.KnightQuestEntities;
 
 public class SpawnNethermanClonesGoal extends Goal {
@@ -46,7 +47,8 @@ public class SpawnNethermanClonesGoal extends Goal {
         this.chargeTime = 0;
     }
 
-    public boolean requiresUpdateEveryTick() {
+    @Override
+    public boolean shouldRunEveryTick() {
         return true;
     }
 
@@ -84,24 +86,29 @@ public class SpawnNethermanClonesGoal extends Goal {
 
                         this.netherman.getWorld().spawnEntity(nethermanClone);
 
-                        //for (Player player : this.netherman.level().players()) {
-                        //    if (player instanceof ServerPlayer serverPlayer) {
-                        //        for(int u = 0; u < 20; ++u) {
-                        //            serverPlayer.connection.send(new ClientboundLevelParticlesPacket(
-                        //                    ParticleTypes.SOUL_FIRE_FLAME,
-                        //                    true,
-                        //                    nethermanClone.getRandomX(0.5D),
-                        //                    nethermanClone.getRandomY() - 0.25D,
-                        //                    nethermanClone.getRandomZ(0.5D),
-                        //                    (float) ((nethermanClone.getRandom().nextDouble() - 0.5D) * 2.0D),
-                        //                    (float) -nethermanClone.getRandom().nextDouble(),
-                        //                    0.2f,
-                        //                    0.0f,
-                        //                    2
-                        //            ));
-                        //        }
-                        //    }
-                        //}
+                        for (PlayerEntity player : this.netherman.getWorld().getPlayers()) {
+                            if (player instanceof ServerPlayerEntity serverPlayer) {
+
+                                double ux = nethermanClone.getParticleX(0.5D);
+                                double uy = nethermanClone.getRandomBodyY() - 0.25D;
+                                double uz = nethermanClone.getParticleZ(0.5D);
+
+                                float vx = (float) ((nethermanClone.getRandom().nextDouble() - 0.5D) * 2.0D);
+                                float vy = (float) -nethermanClone.getRandom().nextDouble();
+                                float vz = 0.2f;
+
+                                for(int u = 0; u < 20; ++u) {
+                                    serverPlayer.networkHandler.sendPacket(new ParticleS2CPacket(
+                                            ParticleTypes.SOUL_FIRE_FLAME,
+                                            true,
+                                            ux, uy, uz,
+                                            vx, vy, vz,
+                                            0.0f,
+                                            2
+                                    ));
+                                }
+                            }
+                        }
 
                         this.netherman.getWorld().playSound(null, nethermanClone.getBlockPos(), SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.BLOCKS, 1f, 1f);
                     }

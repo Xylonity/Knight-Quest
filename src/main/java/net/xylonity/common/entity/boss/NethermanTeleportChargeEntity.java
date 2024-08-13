@@ -14,7 +14,12 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.listener.ClientPlayPacketListener;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.network.EntityTrackerEntry;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
@@ -23,6 +28,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
+import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
@@ -69,15 +75,17 @@ public class NethermanTeleportChargeEntity extends AbstractNethermanProjectile i
     }
 
     @Override
-    protected void onEntityHit(EntityHitResult entityHitResult) {
-        super.onEntityHit(entityHitResult);
+    protected void onCollision(HitResult hitResult) {
+        super.onCollision(hitResult);
 
-        Entity hitEntity = entityHitResult.getEntity();
+        if (hitResult instanceof EntityHitResult entityHitResult && age < 10) {
+            Entity hitEntity = entityHitResult.getEntity();
 
-        if (hitEntity instanceof NethermanEntity) return;
+            if (hitEntity instanceof NethermanEntity) return;
+        }
 
         if (!getWorld().isClient && !hasCollided) {
-            getWorld().playSound(null, getBlockPos(), SoundEvents.ENTITY_DRAGON_FIREBALL_EXPLODE, SoundCategory.BLOCKS, 1f, 1f);
+            getWorld().playSound(null, getSteppingPos(), SoundEvents.ENTITY_DRAGON_FIREBALL_EXPLODE, SoundCategory.BLOCKS, 1f, 1f);
             hasCollided = true;
         }
 
@@ -88,37 +96,21 @@ public class NethermanTeleportChargeEntity extends AbstractNethermanProjectile i
         this.explode();
     }
 
-    @Override
-    protected void onBlockHit(BlockHitResult blockHitResult) {
-        super.onBlockHit(blockHitResult);
-
-        if (!getWorld().isClient && !hasCollided) {
-            getWorld().playSound(null, getBlockPos(), SoundEvents.ENTITY_DRAGON_FIREBALL_EXPLODE, SoundCategory.BLOCKS, 1f, 1f);
-            hasCollided = true;
-        }
-
-        if (getWorld().isClient && !hasCollided) {
-            this.createCustomExplosionParticles();
-        }
-
-        this.explode();
+    public void writeCustomDataToNbt(@NotNull NbtCompound pCompound) {
+        super.writeCustomDataToNbt(pCompound);
+        pCompound.putByte("ExplosionPower", (byte)this.explosionPower);
     }
 
-    //public void addAdditionalSaveData(@NotNull CompoundTag pCompound) {
-    //    super.addAdditionalSaveData(pCompound);
-    //    pCompound.putByte("ExplosionPower", (byte)this.explosionPower);
-    //}
+    /**
+     * (abstract) Protected helper method to read subclass entity data from NBT.
+     */
 
-    ///**
-    // * (abstract) Protected helper method to read subclass entity data from NBT.
-    // */
-
-    //public void readAdditionalSaveData(@NotNull CompoundTag pCompound) {
-    //    super.readAdditionalSaveData(pCompound);
-    //    if (pCompound.contains("ExplosionPower", 99)) {
-    //        this.explosionPower = pCompound.getByte("ExplosionPower");
-    //    }
-    //}
+    public void readCustomDataFromNbt(@NotNull NbtCompound pCompound) {
+        super.readCustomDataFromNbt(pCompound);
+        if (pCompound.contains("ExplosionPower", 99)) {
+            this.explosionPower = pCompound.getByte("ExplosionPower");
+        }
+    }
 
     private void explode() {
         if (!this.getWorld().isClient) {
@@ -128,7 +120,7 @@ public class NethermanTeleportChargeEntity extends AbstractNethermanProjectile i
             this.getWorld().getEntitiesByClass(PlayerEntity.class, this.getBoundingBox().expand(4.0), k -> true).forEach(player -> {
                 double randomX = this.getX() + (this.random.nextDouble() - 0.5) * 10;
                 double randomZ = this.getZ() + (this.random.nextDouble() - 0.5) * 10;
-                player.teleport(randomX, player.getY() + new Random().nextInt(15, 25), randomZ, false);
+                player.requestTeleport(randomX, player.getY() + new Random().nextInt(15, 25), randomZ);
             });
 
             ticksUntilDiscard = 2;

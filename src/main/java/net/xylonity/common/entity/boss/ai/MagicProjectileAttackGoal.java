@@ -43,9 +43,8 @@ public class MagicProjectileAttackGoal extends Goal {
         this.chargeTime = 0;
     }
 
-    public boolean requiresUpdateEveryTick() {
-        return true;
-    }
+    //@Override public boolean shouldRunEveryTick() { return true; }
+    public boolean shouldRunEveryTick() { return true; }
 
     /**
      * Keep ticking a continuous task that has already been started

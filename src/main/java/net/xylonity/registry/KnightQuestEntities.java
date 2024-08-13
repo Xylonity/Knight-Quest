@@ -48,7 +48,7 @@ public class KnightQuestEntities {
         NETHERMAN_TELEPORT_CHARGE = register("netherman_teleport_charge", NethermanTeleportChargeEntity::new, SpawnGroup.MONSTER, 0.5f, 0.5f);
     }
 
-    private static <X extends Entity> EntityType<X> register(String name, EntityType.EntityFactory<X> entity,SpawnGroup spawnGroup , float width, float height) {
+    private static <X extends Entity> EntityType<X> register(String name, EntityType.EntityFactory<X> entity,SpawnGroup spawnGroup, float width, float height) {
         return Registry.register(Registries.ENTITY_TYPE, Identifier.of(KnightQuest.MOD_ID, name), EntityType.Builder.create(entity, spawnGroup).dimensions(width, height).build(name));
     }
 

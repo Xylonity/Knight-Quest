@@ -25,7 +25,7 @@ public class NethermanTeleportChargeRenderer extends GeoEntityRenderer<Netherman
     public void render(NethermanTeleportChargeEntity entity, float entityYaw, float partialTick, MatrixStack poseStack,
                        VertexConsumerProvider bufferSource, int packedLight) {
 
-        poseStack.scale(1f, 1f, 1f);
+        poseStack.scale(0.85f, 0.85f, 0.85f);
 
         super.render(entity, entityYaw, partialTick, poseStack, bufferSource, packedLight);
     }

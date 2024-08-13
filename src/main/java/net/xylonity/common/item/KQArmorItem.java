@@ -78,19 +78,19 @@ public class KQArmorItem extends ArmorItem {
 
     private static final StatusEffectInstance SHIELD_ARMOR = new StatusEffectInstance(StatusEffects.RESISTANCE, -1, 0, false, false, true);
     private static final StatusEffectInstance BAT_ARMOR = new StatusEffectInstance(StatusEffects.NIGHT_VISION, -1, 0, false, false, true);
-    private static final StatusEffectInstance PATH_ARMOR = new StatusEffectInstance(StatusEffects.INVISIBILITY, -1, 2, false, true, true);
-    private static final StatusEffectInstance BOW_ARMOR = new StatusEffectInstance(StatusEffects.SPEED, -1, 0, false, false, true);
-    private static final StatusEffectInstance HORN_ARMOR = new StatusEffectInstance(StatusEffects.STRENGTH, 400, 0, false, false, true);
+    private static final StatusEffectInstance PATH_ARMOR = new StatusEffectInstance(StatusEffects.INVISIBILITY, -1, 1, false, true, true);
+    private static final StatusEffectInstance BOW_ARMOR = new StatusEffectInstance(StatusEffects.SPEED, -1, 1, false, false, true);
+    private static final StatusEffectInstance HORN_ARMOR = new StatusEffectInstance(StatusEffects.STRENGTH, 400, 1, false, false, true);
     private static final StatusEffectInstance SEA_ARMOR = new StatusEffectInstance(StatusEffects.DOLPHINS_GRACE, -1, 0, false, false, true);
     private static final StatusEffectInstance PIRATE_ARMOR = new StatusEffectInstance(StatusEffects.LUCK, -1, 0, false, false, true);
     private static final StatusEffectInstance SPIDER_ARMOR = new StatusEffectInstance(StatusEffects.JUMP_BOOST, -1, 1, false, false, false);
-    private static final StatusEffectInstance PHATOM_ARMOR = new StatusEffectInstance(StatusEffects.SPEED, -1, 0, false, false, true);
-    private static final StatusEffectInstance NETHER_ARMOR = new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, -1, 0, false, false, true);
-    private static final StatusEffectInstance HUSK_ARMOR = new StatusEffectInstance(StatusEffects.RESISTANCE, -1, 1, false, false, true);
-    private static final StatusEffectInstance BAMBOO_BLUE = new StatusEffectInstance(StatusEffects.SPEED, -1, 0, false, false, true);
-    private static final StatusEffectInstance SILVERFISH_ARMOR = new StatusEffectInstance(StatusEffects.HASTE, -1, 0, false, false, true);
-    private static final StatusEffectInstance SKULK_ARMOR = new StatusEffectInstance(StatusEffects.RESISTANCE, -1, 1, false, false, true);
-    private static final StatusEffectInstance STRAWHAT_ARMOR = new StatusEffectInstance(StatusEffects.WATER_BREATHING, -1, 0, false, false, true);
+    private static final StatusEffectInstance PHANTOM_ARMOR =  new StatusEffectInstance(StatusEffects.SPEED, -1, 0, false, false, true);
+    private static final StatusEffectInstance NETHER_ARMOR =  new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, -1, 0, false, false, true);
+    private static final StatusEffectInstance HUSK_ARMOR =  new StatusEffectInstance(StatusEffects.RESISTANCE, -1, 1, false, false, true);
+    private static final StatusEffectInstance BAMBOO_BLUE =  new StatusEffectInstance(StatusEffects.SPEED, -1, 1, false, false, true);
+    private static final StatusEffectInstance SILVERFISH_ARMOR =  new StatusEffectInstance(StatusEffects.HASTE, -1, 0, false, false, true);
+    private static final StatusEffectInstance SKULK_ARMOR =  new StatusEffectInstance(StatusEffects.RESISTANCE, -1, 1, false, false, true);
+    private static final StatusEffectInstance STRAWHAT_ARMOR =  new StatusEffectInstance(StatusEffects.WATER_BREATHING, -1, 0, false, false, true);
 
     @Override
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
@@ -148,7 +148,7 @@ public class KQArmorItem extends ArmorItem {
 
             if (hasFullSetOn(player, KQArmorMaterials.PHANTOMSET) && world.isNight()) {
                 if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new HashMap<>()).getOrDefault(KQArmorMaterials.PHANTOMSET, false))) {
-                    player.addStatusEffect(PHATOM_ARMOR);
+                    player.addStatusEffect(PHANTOM_ARMOR);
                     effectAppliedByArmorMap.get(playerUUID).put(KQArmorMaterials.PHANTOMSET, true);
                 }
             } else {
@@ -284,14 +284,14 @@ public class KQArmorItem extends ArmorItem {
             if (entity instanceof PlayerEntity player) {
 
                 if (source.isOf(DamageTypes.FALL) && KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.DEEPSLATESET)) {
-                    player.damage(player.getDamageSources().generic(), amount * 0.25F);
+                    player.damage(player.getDamageSources().generic(), amount * 0.20F);
                     return false;
                 }
 
                 if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.EVOKERSET)) {
                     Random random = new Random();
-                    if (source.getSource() != null && source.getSource() instanceof LivingEntity && random.nextFloat() < 0.15)
-                        entity.addStatusEffect(new StatusEffectInstance(StatusEffects.DARKNESS, 160, 0, false, false, true));
+                    if (source.getSource() != null && source.getSource() instanceof LivingEntity && random.nextFloat() < 0.25)
+                        entity.addStatusEffect(new StatusEffectInstance(StatusEffects.DARKNESS, 120, 0, false, false, true));
                 }
 
                 if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.SQUIRESET)) {
@@ -300,8 +300,8 @@ public class KQArmorItem extends ArmorItem {
 
                 if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.BLAZESET)) {
                     Random random = new Random();
-                    if (source.getSource() != null && random.nextFloat() < 0.3)
-                        source.getSource().setFireTicks(random.nextInt(1, 5) * 20);
+                    if (source.getSource() != null && random.nextFloat() < 0.4)
+                        source.getSource().setFireTicks(random.nextInt(2, 8) * 20);
                 }
 
                 if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.DRAGONSET))
@@ -315,7 +315,7 @@ public class KQArmorItem extends ArmorItem {
                     }
 
                 if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.SHINOBI) && source.getSource() != null) {
-                    player.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, 160, 0, false, false, true));
+                    player.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, 120, 1, false, false, true));
                 }
 
                 if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.BAMBOOSET) && source.isOf(DamageTypes.FALL)) {
@@ -355,7 +355,7 @@ public class KQArmorItem extends ArmorItem {
 
                     Random random = new Random();
                     if (random.nextFloat() < 0.3) {
-                        int radius = 5;
+                        int radius = 10;
                         BlockPos playerPos = player.getBlockPos();
                         List<BlockPos> validPositions = new ArrayList<>();
 
@@ -390,13 +390,13 @@ public class KQArmorItem extends ArmorItem {
 
                 if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.FORZESET)) {
                     Random random = new Random();
-                    if (source.getSource() != null && random.nextFloat() < 0.15)
+                    if (source.getSource() != null && random.nextFloat() < 0.3)
                         source.getSource().damage(source.getSource().getDamageSources().generic(), amount * 0.5F);
                 }
 
                 if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.CREEPERSET)) {
                     if (source.getSource() != null && (source.isOf(DamageTypes.EXPLOSION) || source.isOf(DamageTypes.PLAYER_EXPLOSION))) {
-                        player.damage(player.getDamageSources().generic(), amount * 0.2F);
+                        player.damage(player.getDamageSources().generic(), amount * 0.1F);
                     }
                 }
 
@@ -413,13 +413,13 @@ public class KQArmorItem extends ArmorItem {
 
                 if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.SILVERSET) && player.getWorld().isNight()) {
                     Random random = new Random();
-                    if (random.nextFloat() < 0.20) {
+                    if (random.nextFloat() < 0.30) {
                         entity.setFireTicks(random.nextInt(2, 8) * 20);
                     }
                 }
 
                 if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.HOLLOWSET) && source.getSource() instanceof LivingEntity livingEntity) {
-                    player.heal(Math.min((float) (amount * 0.15), livingEntity.getHealth()));
+                    player.heal(Math.min((float) (amount * 0.25), livingEntity.getHealth()));
                 }
 
                 if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.DRAGONSET)) {
@@ -430,7 +430,7 @@ public class KQArmorItem extends ArmorItem {
                 if (source.isOf(DamageTypes.ARROW) && KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.WITHERSET)) {
                     Random random = new Random();
                     if (random.nextFloat() < 0.3)
-                        entity.addStatusEffect(new StatusEffectInstance(StatusEffects.WITHER, 100, 0, false, false, false));
+                        entity.addStatusEffect(new StatusEffectInstance(StatusEffects.WITHER, 120, 0, false, false, false));
                 }
             }
 
@@ -463,7 +463,7 @@ public class KQArmorItem extends ArmorItem {
                 }
 
                 if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.WITCH)) {
-                    player.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 80, 1, false, true, true));
+                    player.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 80, 0, false, true, true));
                 }
             }
         }
@@ -544,7 +544,7 @@ public class KQArmorItem extends ArmorItem {
 
                 if (hasFullSetOn(player, KQArmorMaterials.BAMBOOSET_BLUE) && (player.getWorld().getBiome(player.getBlockPos()).matchesKey(BiomeKeys.JUNGLE)
                         || player.getWorld().getBiome(player.getBlockPos()).matchesKey(BiomeKeys.BAMBOO_JUNGLE)
-                        || player.getWorld().getBiome(player.getBlockPos()).matchesKey(BiomeKeys.SPARSE_JUNGLE))) {
+                            || player.getWorld().getBiome(player.getBlockPos()).matchesKey(BiomeKeys.SPARSE_JUNGLE))) {
                     if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(player.getUuid(), k -> new HashMap<>()).getOrDefault(KQArmorMaterials.BAMBOOSET_BLUE, false))) {
                         player.addStatusEffect(BAMBOO_BLUE);
                         effectAppliedByArmorMap.get(player.getUuid()).put(KQArmorMaterials.BAMBOOSET_BLUE, true);
@@ -567,17 +567,21 @@ public class KQArmorItem extends ArmorItem {
                 if (!player.getWorld().isClient()) {
 
                     if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.ZOMBIESET) && player.getWorld().isNight()) {
-                        if (player.age % 200 == 0) {
+                        if (player.age % 120 == 0) {
                             player.heal(1.0F);
                         }
                     }
 
                     if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.APPLE_SET)) {
-                        if (player.age % 600 == 0) {
+                        if (player.age % 400 == 0) {
                             player.heal(1.0F);
                         }
                     }
 
+                }
+
+                if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.POLAR)) {
+                    player.setFrozenTicks(0);
                 }
 
                 if (hasFullSetOn(player, KQArmorMaterials.SILVERFISHSET) && player.getY() < 50) {

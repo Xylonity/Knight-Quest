@@ -13,29 +13,36 @@ import net.xylonity.registry.KnightQuestItems;
 
 public class KQLootTableModifiers {
 
-    private static final Identifier[] MOB_IDS = {
-            Identifier.of("minecraft", "entities/creeper"),
-            Identifier.of("minecraft", "entities/skeleton"),
-            Identifier.of("minecraft", "entities/zombie"),
-            Identifier.of("minecraft", "entities/cave_spider"),
-            Identifier.of("minecraft", "entities/blaze"),
-            Identifier.of("minecraft", "entities/enderman"),
-            Identifier.of("minecraft", "entities/ghast"),
-            Identifier.of("minecraft", "entities/magma_cube"),
-            Identifier.of("minecraft", "entities/phantom"),
-            Identifier.of("minecraft", "entities/slime"),
-            Identifier.of("minecraft", "entities/stray"),
-            Identifier.of("minecraft", "entities/vex"),
-            Identifier.of("minecraft", "entities/drowned"),
-            Identifier.of("knightquest", "entities/gremlin"),
-            Identifier.of("knightquest", "entities/eldknight"),
-            Identifier.of("knightquest", "entities/samhain"),
-            Identifier.of("knightquest", "entities/ratman"),
-            Identifier.of("knightquest", "entities/swampman"),
-            Identifier.of("knightquest", "entities/eldbomb"),
-            Identifier.of("knightquest", "entities/lizzy"),
-            Identifier.of("knightquest", "entities/bad_patch")
-    };
+    /**
+     * Declaration of certain mobs that will drop the small_essence item
+     */
+
+    private static final Identifier[] MOB_IDS;
+
+    static {
+        String[] vanilla = {
+                "creeper", "spider", "skeleton", "zombie", "cave_spider",
+                "blaze", "enderman", "ghast", "magma_cube", "phantom",
+                "slime", "stray", "vex", "drowned", "witch", "husk",
+                "zombie_villager", "wither_skeleton", "pillager",
+                "vindicator", "evoker", "hoglin", "piglin"
+        };
+
+        String[] knightquest = {
+                "gremlin", "eldknight", "samhain", "ratman", "swampman",
+                "eldbomb", "lizzy", "bad_patch"
+        };
+
+        MOB_IDS = new Identifier[vanilla.length + knightquest.length];
+
+        for (int i = 0; i < vanilla.length; i++) {
+            MOB_IDS[i] = Identifier.of("minecraft", "entities/" + vanilla[i]);
+        }
+
+        for (int i = 0; i < knightquest.length; i++) {
+            MOB_IDS[vanilla.length + i] = Identifier.of("knightquest", "entities/" + knightquest[i]);
+        }
+    }
 
     private static final Identifier RATMAN_ID = Identifier.of("knightquest", "entities/ratman");
     private static final Identifier LIZZY_ID = Identifier.of("knightquest", "entities/lizzy");

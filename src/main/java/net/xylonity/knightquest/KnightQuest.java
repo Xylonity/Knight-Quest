@@ -47,23 +47,4 @@ public class KnightQuest
 
     @SubscribeEvent public void onServerStarting(ServerStartingEvent event) { ;; }
 
-    @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-    public static class ClientModEvents
-    {
-        @SubscribeEvent
-        public static void onClientSetup(FMLClientSetupEvent event)
-        {
-            EntityRenderers.register(KnightQuestEntities.GREMLIN.get(), GremlinRenderer::new);
-            EntityRenderers.register(KnightQuestEntities.ELDBOMB.get(), EldBombRenderer::new);
-            EntityRenderers.register(KnightQuestEntities.ELDKINGHT.get(), EldKnightRenderer::new);
-            EntityRenderers.register(KnightQuestEntities.SWAMPMAN.get(), SwampmanRenderer::new);
-            EntityRenderers.register(KnightQuestEntities.RATMAN.get(), RatmanRenderer::new);
-            EntityRenderers.register(KnightQuestEntities.SAMHAIN.get(), SamhainRenderer::new);
-            EntityRenderers.register(KnightQuestEntities.LIZZY.get(), LizzyRenderer::new);
-            EntityRenderers.register(KnightQuestEntities.BADPATCH.get(), BadPatchRenderer::new);
-            EntityRenderers.register(KnightQuestEntities.SHIELD.get(), ShieldRenderer::new);
-            EntityRenderers.register(KnightQuestEntities.MOMMA_LIZZY.get(), MommaLizzyRenderer::new);
-            EntityRenderers.register(KnightQuestEntities.GHOSTY.get(), GhostyRenderer::new);
-        }
-    }
 }

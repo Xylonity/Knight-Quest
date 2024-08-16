@@ -1,5 +1,5 @@
 {
-  "itemGroup.knightquest": "Knight Quest",
+  "itemgroup.knightquest": "Knight Quest",
 
   "item.knightquest.great_essence": "Gran esencia",
   "item.knightquest.small_essence": "Pequeña esencia",
@@ -218,8 +218,8 @@
   "tooltip.item.knightquest.horn_helmet.bonus": "§7§o-Concede fuerza al ser golpeado por un monstruo",
   "tooltip.item.knightquest.shield_helmet.bonus": "§7§o-Concede resistencia",
   "tooltip.item.knightquest.sea_helmet.bonus": "§7§o-Concede gracia de delfín al estar sumergido",
-  "tooltip.item.knightquest.deepslate_helmet.bonus": "§7§o-Reduce el 75% del daño áspero por caída",
-  "tooltip.item.knightquest.blaze_helmet.bonus": "§7§o-30% de probabilidad de quemar al oponente al golpear",
+  "tooltip.item.knightquest.deepslate_helmet.bonus": "§7§o-Reduce el 80% del daño áspero por caída",
+  "tooltip.item.knightquest.blaze_helmet.bonus": "§7§o-40% de probabilidad de quemar al oponente al golpear",
   "tooltip.item.knightquest.tengu_helmet.bonus": "§7§o-Puede saltar doblemente en el aire",
   "tooltip.item.knightquest.pirate_helmet.bonus": "§7§o-Concede suerte",
   "tooltip.item.knightquest.appleset_helmet.bonus": "§7§o-Comer manzanas concede saturación",
@@ -230,7 +230,7 @@
   "tooltip.item.knightquest.spider_helmet.bonus": "§7§o-Concede impulso de salto al agacharse",
   "tooltip.item.knightquest.phantom_helmet.bonus": "§7§o-Concede velocidad por la noche",
   "tooltip.item.knightquest.wither_helmet.bonus": "§7§o-30% de probabilidad de aplicar wither al usar flechas",
-  "tooltip.item.knightquest.enderman_helmet.bonus": "§7§o-30% de probabilidad de teletransportarse al ser golpeado",
+  "tooltip.item.knightquest.enderman_helmet.bonus": "§7§o-40% de probabilidad de teletransportarse al ser golpeado",
   "tooltip.item.knightquest.shinobi_helmet.bonus": "§7§o-Se vuelve invisible al ser golpeado",
   "tooltip.item.knightquest.bamboo_helmet.bonus": "§7§o-Aleja a los monstruos al caer al suelo",
   "tooltip.item.knightquest.nether_helmet.bonus": "§7§o-Concede resistencia al fuego",
@@ -238,13 +238,13 @@
   "tooltip.item.knightquest.conquistador_helmet.bonus": "§7§o-Concede aumento de daño al matar a un monstruo",
   "tooltip.item.knightquest.veteran_helmet.bonus": "§7§o-Concede aumento de daño y resistencia por debajo del 50% de HP",
   "tooltip.item.knightquest.warlord_helmet.bonus": "§7§o-Concede resistencia a jugadores cercanos",
-  "tooltip.item.knightquest.forze_helmet.bonus": "§7§o-15% de probabilidad de reflejar ataques entrantes",
-  "tooltip.item.knightquest.creeper_helmet.bonus": "§7§o-Reduce el 80% del daño áspero por explosión",
+  "tooltip.item.knightquest.forze_helmet.bonus": "§7§o-30% de probabilidad de reflejar ataques entrantes",
+  "tooltip.item.knightquest.creeper_helmet.bonus": "§7§o-Reduce el 90% del daño por explosión",
   "tooltip.item.knightquest.polar_helmet.bonus": "§7§o-Concede protección contra el congelamiento",
   "tooltip.item.knightquest.bamboo_blue_helmet.bonus": "§7§o-Concede velocidad en biomas de jungla y bambú",
-  "tooltip.item.knightquest.silver_helmet.bonus": "§7§o-20% de probabilidad de quemar oponentes por la noche",
-  "tooltip.item.knightquest.evoker_helmet.bonus": "§7§o-15% de probabilidad de aplicar oscuridad al ser golpeado",
-  "tooltip.item.knightquest.zombie_helmet.bonus": "§7§o-Cura 1 HP cada 10 segundos por la noche",
+  "tooltip.item.knightquest.silver_helmet.bonus": "§7§o-30% de probabilidad de quemar oponentes por la noche",
+  "tooltip.item.knightquest.evoker_helmet.bonus": "§7§o-25% de probabilidad de aplicar oscuridad al ser golpeado",
+  "tooltip.item.knightquest.zombie_helmet.bonus": "§7§o-Cura 1 HP cada 6 segundos por la noche",
   "tooltip.item.knightquest.silverfish_helmet.bonus": "§7§o-Concede prisa por debajo del nivel Y 50",
   "tooltip.item.knightquest.witch_helmet.bonus": "§7§o-Concede regeneración al matar a un monstruo",
   "tooltip.item.knightquest.skulk_helmet.bonus": "§7§o-Concede resistencia por debajo del nivel de luz 4",
@@ -263,5 +263,10 @@
   "entity.knightquest.ghosty": "Fantasmín",
   "entity.knightquest.momma_lizzy": "Mamá Lizzy",
   "tooltip.item.knightquest.ghastling_spawn_egg": "§8§oSolo se puede invocar si hay un gremlin en segunda fase cerca.",
-  "tooltip.item.knightquest.squire_helmet": "§8§oPor alguna razón al Samhain le encanta este casco..."
+  "tooltip.item.knightquest.squire_helmet": "§8§oPor alguna razón al Samhain le encanta este casco...",
+
+  "item.knightquest.radiant_essence": "Esencia radiante",
+  "tooltip.item.knightquest.radiant_essence": "§8§oOfrécela a un Gran Cáliz lleno para invocar al jefe ancestral.",
+  "entity.knightquest.netherman": "Netherman, el Arquitecto del Caos",
+  "item.knightquest.netherman_spawn_egg": "Huevo de invocación de Netherman"
 }

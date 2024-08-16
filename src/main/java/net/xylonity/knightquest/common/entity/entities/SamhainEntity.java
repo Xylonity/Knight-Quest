@@ -15,15 +15,16 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.event.ForgeEventFactory;
+import net.xylonity.knightquest.common.entity.entities.ai.MoveToPumpkinGoal;
 import net.xylonity.knightquest.registry.KnightQuestItems;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -38,16 +39,12 @@ import java.util.*;
 
 public class SamhainEntity extends TamableAnimal implements GeoEntity {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
-    private UUID ownerUUID;
-    private static final EntityDataAccessor<Boolean> SITTING =
-            SynchedEntityData.defineId(SamhainEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<ItemStack> ARMOR_SLOT = SynchedEntityData.defineId(SamhainEntity.class, EntityDataSerializers.ITEM_STACK);
+    private static final EntityDataAccessor<Boolean> SITTING = SynchedEntityData.defineId(SamhainEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> SIT_VARIATION = SynchedEntityData.defineId(SamhainEntity.class, EntityDataSerializers.INT);
-    private Level serverWorld;
 
     public SamhainEntity(EntityType<? extends TamableAnimal> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
-        this.serverWorld = pLevel;
+        this.setCanPickUpLoot(true);
     }
 
     @Override
@@ -115,9 +112,12 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
     @Override
     public @NotNull InteractionResult mobInteract(Player player, @NotNull InteractionHand hand) {
         ItemStack itemstack = player.getItemInHand(hand);
+        Item itemForTaming = KnightQuestItems.GREAT_ESSENCE.get();
         Item item = itemstack.getItem();
 
-        Item itemForTaming = KnightQuestItems.GREAT_ESSENCE.get();
+        /*
+         * Consumes a single Great Essence item and tames the Samhain.
+         */
 
         if (item == itemForTaming && !isTame()) {
             if (this.level().isClientSide) {
@@ -143,6 +143,10 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
             }
         }
 
+        /*
+         * Handles the actions when the Samhain is tamed.
+         */
+
         if (isTame() && !this.level().isClientSide && hand == InteractionHand.MAIN_HAND) {
             if ((itemstack.getItem().equals(KnightQuestItems.GREAT_ESSENCE.get()) || itemstack.getItem().equals(KnightQuestItems.SMALL_ESSENCE.get()))
                     && this.getHealth() < this.getMaxHealth()) {
@@ -157,13 +161,8 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
                     itemstack.shrink(1);
                 }
 
-            } else if (item instanceof ArmorItem armorItem) {
-                EquipmentSlot slot = armorItem.getEquipmentSlot();
-                this.setItemSlot(slot, itemstack);
-                return InteractionResult.SUCCESS;
-            } else if (itemstack.isEmpty() && hasArmor() && player.isShiftKeyDown()) {
+            } else if (itemstack.isEmpty() && player.isShiftKeyDown()) {
                 removeArmor(player);
-                return InteractionResult.SUCCESS;
             } else {
                 setSitting(!isSitting());
                 setSitVariation(getRandom().nextInt(0, 3));
@@ -179,8 +178,25 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
         return super.mobInteract(player, hand);
     }
 
-    public boolean hasArmor() {
-        return !this.entityData.get(ARMOR_SLOT).isEmpty();
+    @Override
+    protected void pickUpItem(ItemEntity itemEntity) {
+        ItemStack itemStack = itemEntity.getItem();
+        Item item = itemStack.getItem();
+
+        if (item instanceof ArmorItem armorItem && isTame()) {
+            EquipmentSlot slot = armorItem.getEquipmentSlot();
+            ItemStack currentArmor = this.getItemBySlot(slot);
+
+            if (currentArmor.isEmpty()) {
+                this.setItemSlot(slot, itemStack.split(1));
+
+                if (itemStack.isEmpty()) {
+                    itemEntity.discard();
+                }
+            }
+        } else {
+            super.pickUpItem(itemEntity);
+        }
     }
 
     @Override
@@ -232,7 +248,6 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(SITTING, false);
-        this.entityData.define(ARMOR_SLOT, ItemStack.EMPTY);
         this.entityData.define(SIT_VARIATION, 0);
     }
 
@@ -244,40 +259,21 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
         return this.entityData.get(SIT_VARIATION);
     }
 
-    public void equipArmor(ItemStack itemStack) {
-        if (itemStack.getItem() instanceof ArmorItem armorItem) {
-            float armorValue = armorItem.getDefense();
-            Objects.requireNonNull(this.getAttribute(Attributes.ARMOR)).setBaseValue(armorValue);
-            this.entityData.set(ARMOR_SLOT, itemStack.copy());
-            itemStack.shrink(1);
-        }
-    }
-
-    public ItemStack getArmor() {
-        return this.entityData.get(ARMOR_SLOT);
-    }
-
     public void removeArmor(Player pPlayer) {
-        ItemStack armorStack = this.entityData.get(ARMOR_SLOT);
+        for (EquipmentSlot slot : EquipmentSlot.values()) {
+            if (slot.getType() == EquipmentSlot.Type.ARMOR) {
+                ItemStack armorStack = this.getItemBySlot(slot);
 
-        if (!armorStack.isEmpty()) {
-            if (!pPlayer.getInventory().add(armorStack)) {
-                this.spawnAtLocation(armorStack);
+                if (!armorStack.isEmpty()) {
+                    boolean addedToInventory = pPlayer.getInventory().add(armorStack);
+
+                    if (!addedToInventory) {
+                        this.spawnAtLocation(armorStack);
+                    }
+
+                    this.setItemSlot(slot, ItemStack.EMPTY);
+                }
             }
-
-            this.entityData.set(ARMOR_SLOT, ItemStack.EMPTY);
-        }
-
-        Objects.requireNonNull(this.getAttribute(Attributes.ARMOR)).setBaseValue(0.0);
-        this.entityData.set(ARMOR_SLOT, ItemStack.EMPTY);
-    }
-
-    @Override
-    protected void dropCustomDeathLoot(@NotNull DamageSource pSource, int pLooting, boolean pRecentlyHit) {
-        super.dropCustomDeathLoot(pSource, pLooting, pRecentlyHit);
-        ItemStack armorStack = this.entityData.get(ARMOR_SLOT);
-        if (!armorStack.isEmpty()) {
-            this.spawnAtLocation(armorStack);
         }
     }
 
@@ -332,88 +328,6 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
     @Override
     protected void playStepSound(@NotNull BlockPos pPos, @NotNull BlockState pState) {
         this.playSound(SoundEvents.WOLF_STEP, 0.15F, 1.0F);
-    }
-
-    public static class MoveToPumpkinGoal extends Goal {
-
-        private final SamhainEntity entity;
-        private final double speed;
-        private BlockPos targetPumpkinPos;
-        private final int searchRadius = 10;
-        private final double circleRadius = 3.0;
-        private double angle = 0;
-        private final double angleIncrement = Math.PI / 8;
-        private final Random random = new Random();
-        private int ticksCircling = 0;
-        private final int maxTicksCircling = 80;
-
-        public MoveToPumpkinGoal(SamhainEntity entity, double speed) {
-            this.entity = entity;
-            this.speed = speed;
-            this.setFlags(EnumSet.of(Goal.Flag.MOVE));
-        }
-
-        @Override
-        public boolean canUse() {
-            BlockPos entityPos = entity.blockPosition();
-            Level level = entity.level();
-
-            targetPumpkinPos = findNearestPumpkin(level, entityPos, searchRadius);
-            return targetPumpkinPos != null;
-        }
-
-        @Override
-        public boolean canContinueToUse() {
-            return targetPumpkinPos != null && entity.level().getBlockState(targetPumpkinPos).is(Blocks.PUMPKIN);
-        }
-
-        @Override
-        public void start() {
-            if (targetPumpkinPos != null) {
-                moveToNextPosition();
-                ticksCircling = 0;
-            }
-        }
-
-        @Override
-        public void stop() {
-            targetPumpkinPos = null;
-        }
-
-        @Override
-        public void tick() {
-            if (targetPumpkinPos != null) {
-                if (ticksCircling < maxTicksCircling) {
-                    if (entity.getNavigation().isDone()) {
-                        angle += angleIncrement;
-                        moveToNextPosition();
-                    }
-                    ticksCircling++;
-                    if (random.nextInt(20) == 0) {
-                        entity.getJumpControl().jump();
-                    }
-                } else {
-                    entity.getNavigation().moveTo(targetPumpkinPos.getX() + 0.5, targetPumpkinPos.getY(), targetPumpkinPos.getZ() + 0.5, speed);
-                }
-            }
-        }
-
-        private void moveToNextPosition() {
-            double xOffset = targetPumpkinPos.getX() + circleRadius * Math.cos(angle);
-            double zOffset = targetPumpkinPos.getZ() + circleRadius * Math.sin(angle);
-            entity.getLookControl().setLookAt(targetPumpkinPos.getX(), targetPumpkinPos.getY(), targetPumpkinPos.getZ());
-            entity.getNavigation().moveTo(xOffset, targetPumpkinPos.getY(), zOffset, speed);
-        }
-
-        private BlockPos findNearestPumpkin(Level level, BlockPos entityPos, int radius) {
-            for (BlockPos pos : BlockPos.betweenClosed(entityPos.offset(-radius, -2, -radius), entityPos.offset(radius, 2, radius))) {
-                if (level.getBlockState(pos).is(Blocks.PUMPKIN)) {
-                    return pos;
-                }
-            }
-            return null;
-        }
-
     }
 
 }

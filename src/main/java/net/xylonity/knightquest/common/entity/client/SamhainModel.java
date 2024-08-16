@@ -14,17 +14,11 @@ public class SamhainModel extends GeoModel<SamhainEntity> {
 
     @Override
     public ResourceLocation getModelResource(SamhainEntity animatable) {
-        if (animatable.hasArmor()) {
-            return new ResourceLocation(KnightQuest.MOD_ID, "geo/samhain_squire.geo.json");
-        }
         return new ResourceLocation(KnightQuest.MOD_ID, "geo/samhain.geo.json");
     }
 
     @Override
     public ResourceLocation getTextureResource(SamhainEntity animatable) {
-        if (animatable.hasArmor()) {
-            return new ResourceLocation(KnightQuest.MOD_ID, "textures/entity/samhain_squire.png");
-        }
         return new ResourceLocation(KnightQuest.MOD_ID, "textures/entity/samhain.png");
     }
 
@@ -35,7 +29,7 @@ public class SamhainModel extends GeoModel<SamhainEntity> {
 
     @Override
     public void setCustomAnimations(SamhainEntity animatable, long instanceId, AnimationState<SamhainEntity> animationState) {
-        CoreGeoBone head = getAnimationProcessor().getBone("Head");
+        CoreGeoBone head = getAnimationProcessor().getBone("bipedHead");
 
         if (head != null) {
             EntityModelData entityData = animationState.getData(DataTickets.ENTITY_MODEL_DATA);

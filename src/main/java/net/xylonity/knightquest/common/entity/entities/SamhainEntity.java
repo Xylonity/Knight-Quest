@@ -28,7 +28,6 @@ import net.xylonity.knightquest.registry.KnightQuestItems;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.*;
 import software.bernie.geckolib.core.animation.AnimationState;
@@ -38,11 +37,12 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 import java.util.*;
 
 public class SamhainEntity extends TamableAnimal implements GeoEntity {
-    private AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private UUID ownerUUID;
     private static final EntityDataAccessor<Boolean> SITTING =
             SynchedEntityData.defineId(SamhainEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<ItemStack> ARMOR_SLOT = SynchedEntityData.defineId(SamhainEntity.class, EntityDataSerializers.ITEM_STACK);
+    private static final EntityDataAccessor<Integer> SIT_VARIATION = SynchedEntityData.defineId(SamhainEntity.class, EntityDataSerializers.INT);
     private Level serverWorld;
 
     public SamhainEntity(EntityType<? extends TamableAnimal> pEntityType, Level pLevel) {
@@ -95,16 +95,13 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
     }
 
     private PlayState predicate(AnimationState<?> event) {
-
-        if (event.isMoving()) {
+        if (this.isSitting()) {
+            String sitVariation = getSitVariation() == 0 ? "sit" : getSitVariation() == 1 ? "sit3" : "sit2";
+            event.getController().setAnimation(RawAnimation.begin().then(sitVariation, Animation.LoopType.LOOP));
+        } else if (event.isMoving()) {
             event.getController().setAnimation(RawAnimation.begin().then("walk", Animation.LoopType.LOOP));
         } else {
             event.getController().setAnimation(RawAnimation.begin().then("idle", Animation.LoopType.LOOP));
-        }
-
-        if (this.isSitting()) {
-            String sitVariation = getRandom().nextInt(0, 1) == 0 ? "sit" : "sit2";
-            event.getController().setAnimation(RawAnimation.begin().then(sitVariation, Animation.LoopType.LOOP));
         }
 
         return PlayState.CONTINUE;
@@ -140,6 +137,8 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
                     }
                 }
 
+                setSitVariation(getRandom().nextInt(0, 3));
+
                 return InteractionResult.SUCCESS;
             }
         }
@@ -167,7 +166,9 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
                 return InteractionResult.SUCCESS;
             } else {
                 setSitting(!isSitting());
+                setSitVariation(getRandom().nextInt(0, 3));
             }
+            
             return InteractionResult.SUCCESS;
         }
 
@@ -232,6 +233,15 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
         super.defineSynchedData();
         this.entityData.define(SITTING, false);
         this.entityData.define(ARMOR_SLOT, ItemStack.EMPTY);
+        this.entityData.define(SIT_VARIATION, 0);
+    }
+
+    private void setSitVariation(int sitVariation) {
+        this.entityData.set(SIT_VARIATION, sitVariation);
+    }
+
+    private int getSitVariation() {
+        return this.entityData.get(SIT_VARIATION);
     }
 
     public void equipArmor(ItemStack itemStack) {

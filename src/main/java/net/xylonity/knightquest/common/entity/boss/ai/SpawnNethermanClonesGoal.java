@@ -53,7 +53,7 @@ public class SpawnNethermanClonesGoal extends Goal {
 
     public void tick() {
         LivingEntity livingentity = this.netherman.getTarget();
-        if (livingentity != null && this.netherman.getPhase() == 2) {
+        if (livingentity != null && this.netherman.getPhase() == 2 && this.netherman.getHealth() > this.netherman.getMaxHealth() * 0.40f) {
 
             if (livingentity.distanceToSqr(this.netherman) < 4096.0D && this.netherman.hasLineOfSight(livingentity)) {
 

@@ -480,39 +480,39 @@ public class NethermanEntity extends Monster implements IAnimatable {
         }
 
         return PlayState.CONTINUE;
+
     }
 
     private PlayState rotationPredicate(AnimationEvent<?> event) {
-
         if (this.getHealth() < this.getMaxHealth() * 0.66F && !hasChangedPhase) {
-            event.getController().markNeedsReload();
-            event.getController().setAnimation((new AnimationBuilder()).addAnimation("rotation", ILoopType.EDefaultLoopTypes.PLAY_ONCE));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("rotation", ILoopType.EDefaultLoopTypes.PLAY_ONCE));
         }
-
         return PlayState.CONTINUE;
     }
 
     private PlayState secondPhasePredicate(AnimationEvent<?> event) {
-
         if (this.getHealth() < this.getMaxHealth() * 0.33F && !hasChangedSecondPhase) {
-            event.getController().setAnimation((new AnimationBuilder()).addAnimation("phase_switch", ILoopType.EDefaultLoopTypes.PLAY_ONCE));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("phase_switch", ILoopType.EDefaultLoopTypes.PLAY_ONCE));
         }
-
         return PlayState.CONTINUE;
     }
 
+
     private PlayState predicate(AnimationEvent<?> event) {
 
-        if (getIsAttacking() && (getHealth() > getMaxHealth() * 0.70 || (getHealth() < getMaxHealth() * 0.60 && getHealth() > getMaxHealth() * 0.45) || getHealth() < getMaxHealth() * 0.30)) {
+        if (this.isDeadOrDying())
+            return PlayState.STOP;
+
+        else if (getIsAttacking() && (getHealth() > getMaxHealth() * 0.70 || (getHealth() < getMaxHealth() * 0.60 && getHealth() > getMaxHealth() * 0.45) || getHealth() < getMaxHealth() * 0.30)) {
             event.getController().setAnimation((new AnimationBuilder()).addAnimation("teleport_charge", ILoopType.EDefaultLoopTypes.PLAY_ONCE));
-        }
-        else if (event.isMoving()) {
+        } else if (event.isMoving()) {
             event.getController().setAnimation((new AnimationBuilder()).addAnimation("walk", ILoopType.EDefaultLoopTypes.LOOP));
         } else {
             event.getController().setAnimation((new AnimationBuilder()).addAnimation("idle", ILoopType.EDefaultLoopTypes.LOOP));
         }
 
         return PlayState.CONTINUE;
+
     }
 
     private PlayState attackPredicate(AnimationEvent<?> event) {

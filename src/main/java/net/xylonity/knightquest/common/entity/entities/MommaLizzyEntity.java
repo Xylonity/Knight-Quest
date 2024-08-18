@@ -17,15 +17,19 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.core.animatable.GeoAnimatable;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.*;
-import software.bernie.geckolib.core.object.PlayState;
-import software.bernie.geckolib.util.GeckoLibUtil;
+import software.bernie.geckolib3.core.AnimationState;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.builder.ILoopType;
+import software.bernie.geckolib3.core.controller.AnimationController;
+import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib3.util.GeckoLibUtil;
 
-public class MommaLizzyEntity extends Animal implements GeoEntity {
-    private AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+public class MommaLizzyEntity extends Animal implements IAnimatable {
+    private final AnimationFactory factory = GeckoLibUtil.createFactory(this);
     private boolean condicion = false;
     private int a  = 1;
 
@@ -53,36 +57,33 @@ public class MommaLizzyEntity extends Animal implements GeoEntity {
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-        controllerRegistrar.add(new AnimationController<>(this, "controller", 0, this::predicate));
+    public void registerControllers(AnimationData animationData) {
+        animationData.addAnimationController(new AnimationController<>(this, "controller", 0, this::predicate));
     }
 
    private boolean isPlayerNearby() {
-       return this.level().getEntitiesOfClass(Player.class, this.getBoundingBox().inflate(2.0D)).stream()
+       return this.getLevel().getEntitiesOfClass(Player.class, this.getBoundingBox().inflate(2.0D)).stream()
                .anyMatch(player -> !player.isShiftKeyDown() && player.distanceToSqr(this) <= 4.0D);
    }
 
-    @Override
-    public void tick() {
-        super.tick();
+    private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
 
-    }
-
-    private <T extends GeoAnimatable> PlayState predicate(AnimationState<T> event) {
-        if (this.isSwimming()) {
-            event.getController().setAnimation(RawAnimation.begin().then("swim", Animation.LoopType.LOOP));
-        } else if (event.isMoving()) {
-            event.getController().setAnimation(RawAnimation.begin().then("walk", Animation.LoopType.LOOP));
+        if (event.isMoving()) {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("walk", ILoopType.EDefaultLoopTypes.LOOP));
         } else {
-            event.getController().setAnimation(RawAnimation.begin().then("idle", Animation.LoopType.LOOP));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", ILoopType.EDefaultLoopTypes.LOOP));
+        }
+
+        if (this.dead) {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("death", ILoopType.EDefaultLoopTypes.LOOP));
         }
 
         return PlayState.CONTINUE;
     }
 
     @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return cache;
+    public AnimationFactory getFactory() {
+        return this.factory;
     }
 
     @Override

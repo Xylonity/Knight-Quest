@@ -6,10 +6,10 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.xylonity.knightquest.KnightQuest;
 import net.xylonity.knightquest.common.entity.boss.NethermanTeleportChargeEntity;
-import net.xylonity.knightquest.common.entity.entities.BadPatchEntity;
-import software.bernie.geckolib.renderer.GeoEntityRenderer;
+import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
+import software.bernie.geckolib3.renderers.geo.GeoProjectilesRenderer;
 
-public class NethermanTeleportChargeRenderer extends GeoEntityRenderer<NethermanTeleportChargeEntity> {
+public class NethermanTeleportChargeRenderer extends GeoProjectilesRenderer<NethermanTeleportChargeEntity> {
 
     public NethermanTeleportChargeRenderer(EntityRendererProvider.Context renderManager) {
         super(renderManager, new NethermanTeleportChargeEntityModel());

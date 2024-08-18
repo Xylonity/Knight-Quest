@@ -6,9 +6,9 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.entity.ai.goal.Goal;
 import net.xylonity.knightquest.common.entity.boss.NethermanCloneEntity;
 import net.xylonity.knightquest.common.entity.boss.NethermanEntity;
 import net.xylonity.knightquest.registry.KnightQuestEntities;
@@ -53,7 +53,7 @@ public class SpawnNethermanClonesGoal extends Goal {
 
     public void tick() {
         LivingEntity livingentity = this.netherman.getTarget();
-        if (livingentity != null && this.netherman.getPhase() == 2) {
+        if (livingentity != null && this.netherman.getPhase() == 2 && this.netherman.getHealth() > this.netherman.getMaxHealth() * 0.40f) {
 
             if (livingentity.distanceToSqr(this.netherman) < 4096.0D && this.netherman.hasLineOfSight(livingentity)) {
 
@@ -69,7 +69,7 @@ public class SpawnNethermanClonesGoal extends Goal {
                 if (this.chargeTime == 10) {
                     Vec3 position = this.netherman.position();
 
-                    this.netherman.level().playSound(null, this.netherman.blockPosition(), SoundEvents.EVOKER_PREPARE_SUMMON, SoundSource.BLOCKS, 1f, 1f);
+                    this.netherman.level.playSound(null, this.netherman.blockPosition(), SoundEvents.EVOKER_PREPARE_SUMMON, SoundSource.BLOCKS, 1f, 1f);
 
                     for (int i = 0; i < 4; i++) {
                         double angle = this.netherman.getRandom().nextDouble() * 2 * Math.PI;
@@ -79,13 +79,13 @@ public class SpawnNethermanClonesGoal extends Goal {
                         double zOffset = Math.sin(angle) * distance;
                         Vec3 spawnPos = position.add(xOffset, 0, zOffset);
 
-                        NethermanCloneEntity nethermanClone = KnightQuestEntities.NETHERMAN_CLONE.get().create(this.netherman.level());
+                        NethermanCloneEntity nethermanClone = KnightQuestEntities.NETHERMAN_CLONE.get().create(this.netherman.level);
                         assert nethermanClone != null;
                         nethermanClone.moveTo(spawnPos.x, position.y, spawnPos.z);
 
-                        this.netherman.level().addFreshEntity(nethermanClone);
+                        this.netherman.level.addFreshEntity(nethermanClone);
 
-                        for (Player player : this.netherman.level().players()) {
+                        for (Player player : this.netherman.level.players()) {
                             if (player instanceof ServerPlayer serverPlayer) {
                                 for(int u = 0; u < 20; ++u) {
                                     serverPlayer.connection.send(new ClientboundLevelParticlesPacket(
@@ -104,7 +104,7 @@ public class SpawnNethermanClonesGoal extends Goal {
                             }
                         }
 
-                        this.netherman.level().playSound(null, nethermanClone.blockPosition(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.BLOCKS, 1f, 1f);
+                        this.netherman.level.playSound(null, nethermanClone.blockPosition(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.BLOCKS, 1f, 1f);
                     }
 
                 }

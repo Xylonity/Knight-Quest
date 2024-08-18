@@ -24,27 +24,4 @@ public class KQFullSetChecker {
                 leggings.getMaterial() == material && boots.getMaterial() == material;
     }
 
-    protected static boolean hasFullSetOn(Player player, KQArmorMaterials material) {
-        ItemStack boots = player.getInventory().getArmor(0);
-        ItemStack leggings = player.getInventory().getArmor(1);
-        ItemStack chestplate = player.getInventory().getArmor(2);
-        ItemStack helmet = player.getInventory().getArmor(3);
-
-        if (helmet.isEmpty() || chestplate.isEmpty() || leggings.isEmpty() || boots.isEmpty()) {
-            return false;
-        }
-
-        if (!(helmet.getItem() instanceof ArmorItem helmetArmor) ||
-                !(chestplate.getItem() instanceof ArmorItem chestplateArmor) ||
-                !(leggings.getItem() instanceof ArmorItem leggingsArmor) ||
-                !(boots.getItem() instanceof ArmorItem bootsArmor)) {
-            return false;
-        }
-
-        return helmetArmor.getMaterial() == material &&
-                chestplateArmor.getMaterial() == material &&
-                leggingsArmor.getMaterial() == material &&
-                bootsArmor.getMaterial() == material;
-    }
-
 }

@@ -1,14 +1,15 @@
 package net.xylonity.knightquest.common.api.util;
 
 import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
+
+import java.util.Random;
 
 public class ParticleGenerator {
 
     public static void specialAttackParticles(Entity entity, int particleCount, double particleSpeed, double maxRadius, double ySpeed, ParticleOptions particleType) {
 
-        RandomSource random = entity.level().getRandom();
+        Random random = entity.level.getRandom();
 
         for (int i = 0; i < particleCount; i++) {
             if (random.nextInt(2) == 0) {
@@ -33,7 +34,7 @@ public class ParticleGenerator {
                 double particleY = entity.getY() + 0.2 + heightVariation;
                 double particleZ = entity.getZ() + offsetZ;
 
-                entity.level().addParticle(particleType, particleX, particleY, particleZ, velocityX, ySpeed, velocityZ);
+                entity.level.addParticle(particleType, particleX, particleY, particleZ, velocityX, ySpeed, velocityZ);
             }
         }
     }

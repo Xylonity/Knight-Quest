@@ -8,12 +8,14 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.xylonity.knightquest.KnightQuest;
-import net.xylonity.knightquest.common.entity.boss.*;
+import net.xylonity.knightquest.common.entity.boss.NethermanCloneEntity;
+import net.xylonity.knightquest.common.entity.boss.NethermanEntity;
+import net.xylonity.knightquest.common.entity.boss.NethermanTeleportChargeEntity;
 import net.xylonity.knightquest.common.entity.entities.*;
 
 public class KnightQuestEntities {
 
-    public static final DeferredRegister<EntityType<?>> ENTITY = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, KnightQuest.MOD_ID);
+    public static final DeferredRegister<EntityType<?>> ENTITY = DeferredRegister.create(ForgeRegistries.ENTITIES, KnightQuest.MOD_ID);
 
     public static final RegistryObject<EntityType<GremlinEntity>> GREMLIN;
     public static final RegistryObject<EntityType<EldBombEntity>> ELDBOMB;

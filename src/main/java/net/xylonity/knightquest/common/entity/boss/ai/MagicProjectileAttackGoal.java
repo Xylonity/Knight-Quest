@@ -55,7 +55,7 @@ public class MagicProjectileAttackGoal extends Goal {
         LivingEntity livingentity = this.netherman.getTarget();
         if (livingentity != null && this.netherman.getPhase() == 3) {
             if (livingentity.distanceToSqr(this.netherman) < 4096.0D && this.netherman.hasLineOfSight(livingentity)) {
-                Level level = this.netherman.level();
+                Level level = this.netherman.level;
 
                 if (this.chargeTime > 0) {
                     --this.chargeTime;

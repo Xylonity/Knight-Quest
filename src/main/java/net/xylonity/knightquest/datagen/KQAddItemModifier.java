@@ -1,61 +1,59 @@
 package net.xylonity.knightquest.datagen;
 
-import com.google.common.base.Suppliers;
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import com.google.gson.JsonObject;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
-import net.minecraftforge.common.loot.IGlobalLootModifier;
+import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.common.loot.LootModifier;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.xylonity.knightquest.registry.KnightQuestItems;
 import net.xylonity.knightquest.config.values.KQConfigValues;
-import org.jetbrains.annotations.NotNull;
+import net.xylonity.knightquest.registry.KnightQuestItems;
 
-import java.util.function.Supplier;
+import java.util.List;
+import java.util.Objects;
 
 public class KQAddItemModifier extends LootModifier {
-    public static final Supplier<Codec<KQAddItemModifier>> CODEC = Suppliers.memoize(() ->
-            RecordCodecBuilder.create(inst -> codecStart(inst).and(ForgeRegistries.ITEMS.getCodec()
-                            .fieldOf("item").forGetter(m -> m.item))
-                    .and(Codec.FLOAT.fieldOf("chance").forGetter(m -> m.chance))
-                    .apply(inst, KQAddItemModifier::new)));
+    private final Item addition;
 
-    private final Item item;
-    private final float chance;
-
-    public KQAddItemModifier(LootItemCondition[] conditionsIn, Item item, float chance) {
+    protected KQAddItemModifier(LootItemCondition[] conditionsIn, Item addition) {
         super(conditionsIn);
-        this.item = item;
-        this.chance = chance;
+        this.addition = addition;
     }
 
     @Override
-    protected @NotNull ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
+    protected List<ItemStack> doApply(List<ItemStack> list, LootContext lootContext) {
 
-        for(LootItemCondition condition : this.conditions) {
-            if(!condition.test(context)) {
-                return generatedLoot;
-            }
+        if (addition == KnightQuestItems.SMALL_ESSENCE.get() && lootContext.getRandom().nextFloat() <= KQConfigValues.DROP_CHANCE_SMALL_ESSENCE)
+            list.add(new ItemStack(this.addition));
+
+        if (addition == KnightQuestItems.RATMAN_EYE.get() && lootContext.getRandom().nextFloat() <= KQConfigValues.DROP_CHANCE_RATMAN_EYE)
+            list.add(new ItemStack(this.addition));
+
+        if (addition == KnightQuestItems.LIZZY_SCALE.get() && lootContext.getRandom().nextFloat() <= KQConfigValues.DROP_CHANCE_LIZZY_SCALE)
+            list.add(new ItemStack(this.addition));
+
+        return list;
+    }
+
+    public static class Serializer extends GlobalLootModifierSerializer<KQAddItemModifier> {
+
+        @Override
+        public KQAddItemModifier read(ResourceLocation name, JsonObject object, LootItemCondition[] conditionsIn) {
+            Item addition = ForgeRegistries.ITEMS.getValue(new ResourceLocation(GsonHelper.getAsString(object, "addition")));
+
+            return new KQAddItemModifier(conditionsIn, addition);
         }
 
-        if (item == KnightQuestItems.SMALL_ESSENCE.get() && context.getRandom().nextFloat() <= KQConfigValues.DROP_CHANCE_SMALL_ESSENCE)
-            generatedLoot.add(new ItemStack(this.item));
-
-        if (item == KnightQuestItems.RATMAN_EYE.get() && context.getRandom().nextFloat() <= KQConfigValues.DROP_CHANCE_RATMAN_EYE)
-            generatedLoot.add(new ItemStack(this.item));
-
-        if (item == KnightQuestItems.LIZZY_SCALE.get() && context.getRandom().nextFloat() <= KQConfigValues.DROP_CHANCE_LIZZY_SCALE)
-            generatedLoot.add(new ItemStack(this.item));
-
-        return generatedLoot;
+        @Override
+        public JsonObject write(KQAddItemModifier instance) {
+            JsonObject json = makeConditions(instance.conditions);
+            json.addProperty("addition", Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(instance.addition)).toString());
+            return json;
+        }
     }
 
-    @Override
-    public Codec<? extends IGlobalLootModifier> codec() {
-        return CODEC.get();
-    }
 }

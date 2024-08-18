@@ -9,7 +9,8 @@ import net.xylonity.knightquest.KnightQuest;
 
 public class KnightQuestParticles {
 
-    public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, KnightQuest.MOD_ID);
+    public static final DeferredRegister<ParticleType<?>> PARTICLES =
+            DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, KnightQuest.MOD_ID);
 
     public static final RegistryObject<SimpleParticleType> STARSET_PARTICLE = register("starset");
     public static final RegistryObject<SimpleParticleType> GREMLIN_PARTICLE = register("gremlin");

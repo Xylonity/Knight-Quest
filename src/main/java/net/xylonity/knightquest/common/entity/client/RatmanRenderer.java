@@ -6,15 +6,12 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.xylonity.knightquest.KnightQuest;
 import net.xylonity.knightquest.common.entity.entities.RatmanEntity;
-import software.bernie.geckolib.renderer.GeoEntityRenderer;
-import software.bernie.geckolib.renderer.layer.AutoGlowingGeoLayer;
+import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 
 public class RatmanRenderer extends GeoEntityRenderer<RatmanEntity> {
 
     public RatmanRenderer(EntityRendererProvider.Context renderManager) {
         super(renderManager, new RatmanModel());
-
-        this.addRenderLayer(new AutoGlowingGeoLayer<>(this));
     }
 
     @Override

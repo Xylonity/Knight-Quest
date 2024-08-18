@@ -5,7 +5,6 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -28,13 +27,11 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.xylonity.knightquest.common.block.tracker.ChaliceBlockTracker;
 import net.xylonity.knightquest.common.entity.boss.NethermanEntity;
-import net.xylonity.knightquest.registry.KnightQuestBlocks;
-import net.xylonity.knightquest.registry.KnightQuestEntities;
-import net.xylonity.knightquest.registry.KnightQuestItems;
-import net.xylonity.knightquest.registry.KnightQuestParticles;
+import net.xylonity.knightquest.registry.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
+import java.util.Random;
 import java.util.stream.Stream;
 
 public class ChaliceBlock extends Block {
@@ -177,7 +174,8 @@ public class ChaliceBlock extends Block {
      */
 
     @Override
-    public void animateTick(BlockState pState, @NotNull Level pLevel, @NotNull BlockPos pPos, @NotNull RandomSource pRandom) {
+    public void animateTick(BlockState pState, Level pLevel, BlockPos pPos, Random pRandom) {
+
         if (pState.getValue(fill).equals(5)) {
 
             if (pLevel.isClientSide()) {
@@ -202,7 +200,7 @@ public class ChaliceBlock extends Block {
     }
 
     @Override
-    public void tick(@NotNull BlockState pState, @NotNull ServerLevel pLevel, @NotNull BlockPos pPos, @NotNull RandomSource pRandom) {
+    public void tick(BlockState pState, ServerLevel pLevel, BlockPos pPos, Random pRandom) {
         int tickCount = ChaliceBlockTracker.getTickCount(pPos);
 
         if (Arrays.asList(6, 7, 8, 9).contains(pState.getValue(fill))) {
@@ -241,7 +239,7 @@ public class ChaliceBlock extends Block {
     }
 
     @Override
-    public void onPlace(BlockState pState, Level pLevel, BlockPos pPos, BlockState pOldState, boolean pMovedByPiston) {
+    public void onPlace(@NotNull BlockState pState, Level pLevel, @NotNull BlockPos pPos, @NotNull BlockState pOldState, boolean pMovedByPiston) {
         if (!pLevel.isClientSide) {
             ChaliceBlockTracker.addChalice(pPos, this);
             scheduleTick(pLevel, pPos);
@@ -249,7 +247,7 @@ public class ChaliceBlock extends Block {
     }
 
     @Override
-    public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pMovedByPiston) {
+    public void onRemove(@NotNull BlockState pState, Level pLevel, @NotNull BlockPos pPos, @NotNull BlockState pNewState, boolean pMovedByPiston) {
         if (!pLevel.isClientSide) {
             ChaliceBlockTracker.removeChalice(pPos);
         }

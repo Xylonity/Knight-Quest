@@ -21,20 +21,22 @@ import net.minecraft.world.phys.Vec3;
 import net.xylonity.knightquest.registry.KnightQuestParticles;
 import net.xylonity.knightquest.config.values.KQConfigValues;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.core.animatable.GeoAnimatable;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.AnimatableManager;
-import software.bernie.geckolib.core.animation.AnimationController;
-import software.bernie.geckolib.core.animation.AnimationState;
-import software.bernie.geckolib.core.object.PlayState;
-import software.bernie.geckolib.util.GeckoLibUtil;
+import software.bernie.geckolib3.core.AnimationState;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.builder.ILoopType;
+import software.bernie.geckolib3.core.controller.AnimationController;
+import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib3.util.GeckoLibUtil;
 
 import java.util.List;
 import java.util.Objects;
 
-public class GhostyEntity extends Monster implements GeoEntity {
-    private AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+public class GhostyEntity extends Monster implements IAnimatable {
+    private final AnimationFactory factory = GeckoLibUtil.createFactory(this);
     private final Level serverWorld;
     private static final double ANGULAR_SPEED = 0.1;
     private double angle;
@@ -56,13 +58,11 @@ public class GhostyEntity extends Monster implements GeoEntity {
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-        controllerRegistrar.add(new AnimationController(this, "controller", 0, this::predicate));
+    public void registerControllers(AnimationData animationData) {
+        animationData.addAnimationController(new AnimationController<>(this, "controller", 0, this::predicate));
     }
 
-    private <T extends GeoAnimatable> PlayState predicate(AnimationState<T> event) {
-        return PlayState.CONTINUE;
-    }
+    private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) { return PlayState.CONTINUE; }
 
     @Override
     public boolean hurt(DamageSource pSource, float pAmount) {
@@ -94,7 +94,7 @@ public class GhostyEntity extends Monster implements GeoEntity {
             List<Player> nearbyMonsters = serverWorld.getEntitiesOfClass(Player.class, this.getBoundingBox().inflate(1));
             for (Player player : nearbyMonsters) {
                 if (!player.isCreative()) {
-                    player.hurt(damageSources().generic(), 1);
+                    player.hurt(DamageSource.GENERIC, 1);
                     Vec3 direction = player.position().subtract(this.position()).normalize().scale(0.1);
                     player.push(direction.x, direction.y + 0.5, direction.z);
                 }
@@ -184,10 +184,9 @@ public class GhostyEntity extends Monster implements GeoEntity {
     @Override public boolean isInWall() {return false;}
     @Override protected void spawnSprintParticle() {}
     @Override protected void spawnSoulSpeedParticle() {}
-    @Override public AnimatableInstanceCache getAnimatableInstanceCache() {return cache;}
+    @Override public AnimationFactory getFactory() {return this.factory;}
     @Override protected SoundEvent getSwimSound() {return null;}
     @Override protected SoundEvent getDeathSound() {return null;}
-    @Override public void playSound(SoundEvent pSound) {}
     @Override public void playSound(SoundEvent pSound, float pVolume, float pPitch) {}
     @Nullable @Override protected SoundEvent getAmbientSound() {return null;}
     @Override protected void playHurtSound(DamageSource pSource) {}

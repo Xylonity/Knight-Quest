@@ -58,7 +58,7 @@ public class NethermanFlameGoal extends Goal {
         LivingEntity livingentity = this.netherman.getTarget();
         if (livingentity != null && this.netherman.getPhase() == 1 && this.netherman.getHealth() >= this.netherman.getMaxHealth() * 0.75) {
             if (livingentity.distanceToSqr(this.netherman) < 4096.0D && this.netherman.hasLineOfSight(livingentity)) {
-                Level level = this.netherman.level();
+                Level level = this.netherman.level;
 
                 if (this.chargeTime > 0) {
                     --this.chargeTime;
@@ -79,7 +79,7 @@ public class NethermanFlameGoal extends Goal {
                     double offsetY = look.y * 0.5;
                     double offsetZ = look.z * 0.5;
 
-                    for (Player player : this.netherman.level().players()) {
+                    for (Player player : this.netherman.level.players()) {
                         if (player instanceof ServerPlayer serverPlayer) {
                             for (int u = 0; u < 20; ++u) {
                                 double speed = 0.1 + this.netherman.getRandom().nextDouble() * 0.2;
@@ -110,7 +110,7 @@ public class NethermanFlameGoal extends Goal {
 
                 if (chargeTime == 5) {
 
-                    for (Player player : this.netherman.level().players()) {
+                    for (Player player : this.netherman.level.players()) {
                         if (player instanceof ServerPlayer serverPlayer) {
                             for (int u = 0; u < 20; ++u) {
                                 double speed = 0.1 + this.netherman.getRandom().nextDouble() * 0.2;

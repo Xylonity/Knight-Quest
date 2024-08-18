@@ -6,11 +6,9 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.xylonity.knightquest.KnightQuest;
 import net.xylonity.knightquest.common.entity.entities.GhastlingEntity;
-import software.bernie.geckolib.renderer.GeoEntityRenderer;
+import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 
 public class ShieldRenderer extends GeoEntityRenderer<GhastlingEntity> {
-
-    boolean sPhase = false;
 
     public ShieldRenderer(EntityRendererProvider.Context renderManager) {
         super(renderManager, new ShieldModel());

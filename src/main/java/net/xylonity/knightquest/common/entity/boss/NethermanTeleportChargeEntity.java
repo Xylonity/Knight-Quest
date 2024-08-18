@@ -5,8 +5,12 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -14,17 +18,20 @@ import net.minecraftforge.network.NetworkHooks;
 import net.xylonity.knightquest.common.api.explosiveenhancement.ExplosiveConfig;
 import net.xylonity.knightquest.registry.KnightQuestEntities;
 import org.jetbrains.annotations.NotNull;
-import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.*;
-import software.bernie.geckolib.core.animation.AnimationState;
-import software.bernie.geckolib.core.object.PlayState;
-import software.bernie.geckolib.util.GeckoLibUtil;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.builder.ILoopType;
+import software.bernie.geckolib3.core.controller.AnimationController;
+import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib3.util.GeckoLibUtil;
 
 import java.util.Random;
 
-public class NethermanTeleportChargeEntity extends AbstractNethermanProjectile implements GeoEntity {
-    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+public class NethermanTeleportChargeEntity extends AbstractNethermanProjectile implements IAnimatable {
+    private final AnimationFactory factory = GeckoLibUtil.createFactory(this);
     private int explosionPower = 1;
     private boolean hasCollided = false;
     private int ticksUntilDiscard = 0;
@@ -54,12 +61,12 @@ public class NethermanTeleportChargeEntity extends AbstractNethermanProjectile i
            if (hitEntity instanceof NethermanEntity) return;
        }
 
-       if (!level().isClientSide && !hasCollided) {
-           level().playSound(null, getOnPos(), SoundEvents.DRAGON_FIREBALL_EXPLODE, SoundSource.BLOCKS, 1f, 1f);
+       if (!level.isClientSide && !hasCollided) {
+           level.playSound(null, getOnPos(), SoundEvents.DRAGON_FIREBALL_EXPLODE, SoundSource.BLOCKS, 1f, 1f);
            hasCollided = true;
        }
 
-       if (level().isClientSide && !hasCollided) {
+       if (level.isClientSide && !hasCollided) {
            this.createCustomExplosionParticles();
        }
 
@@ -83,11 +90,11 @@ public class NethermanTeleportChargeEntity extends AbstractNethermanProjectile i
     }
 
     private void explode() {
-        if (!this.level().isClientSide) {
+        if (!this.level.isClientSide) {
 
-            this.level().explode(this, damageSources().generic(), null, this.getX(), this.getY(), this.getZ(), 2F, false, Level.ExplosionInteraction.NONE, false);
+            this.level.explode(this, DamageSource.GENERIC, null, this.getX(), this.getY(), this.getZ(), 2F, false, Explosion.BlockInteraction.NONE);
 
-            this.level().getEntitiesOfClass(Player.class, this.getBoundingBox().inflate(4.0)).forEach(player -> {
+            this.level.getEntitiesOfClass(Player.class, this.getBoundingBox().inflate(4.0)).forEach(player -> {
                 double randomX = this.getX() + (this.random.nextDouble() - 0.5) * 10;
                 double randomZ = this.getZ() + (this.random.nextDouble() - 0.5) * 10;
                 player.teleportTo(randomX, player.getY() + new Random().nextInt(15, 25), randomZ);
@@ -98,7 +105,7 @@ public class NethermanTeleportChargeEntity extends AbstractNethermanProjectile i
     }
 
     private void createCustomExplosionParticles() {
-        ExplosiveConfig.spawnParticles(level(), getX(), getY(), getZ(), 3, false, false, 2);
+        ExplosiveConfig.spawnParticles(level, getX(), getY(), getZ(), 3, false, false, 2);
         hasCollided = !hasCollided;
     }
 
@@ -122,24 +129,24 @@ public class NethermanTeleportChargeEntity extends AbstractNethermanProjectile i
 
     @Override
     public @NotNull Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
+        return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "controller", 0, this::predicate));
+    public void registerControllers(AnimationData animationData) {
+        animationData.addAnimationController(new AnimationController<>(this, "controller", 0, this::predicate));
     }
 
-    private PlayState predicate(AnimationState<?> event) {
+    private PlayState predicate(AnimationEvent<?> event) {
 
-        event.getController().setAnimation(RawAnimation.begin().then("default", Animation.LoopType.LOOP));
+        event.getController().setAnimation((new AnimationBuilder()).addAnimation("default", ILoopType.EDefaultLoopTypes.LOOP));
 
         return PlayState.CONTINUE;
     }
 
     @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return cache;
+    public AnimationFactory getFactory() {
+        return this.factory;
     }
 
 }

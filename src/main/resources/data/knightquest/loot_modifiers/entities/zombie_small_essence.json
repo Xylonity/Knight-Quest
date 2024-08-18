@@ -1,0 +1,10 @@
+{
+  "conditions": [
+    {
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "minecraft:entities/zombie"
+    }
+  ],
+  "addition": "knightquest:small_essence",
+  "type": "knightquest:zombie_small_essence"
+}

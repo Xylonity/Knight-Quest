@@ -13,6 +13,6 @@ public class KnightQuestSounds {
     public static final RegistryObject<SoundEvent> NETHERMAN_BOSS_MUSIC = register("netherman_boss_music");
 
     private static RegistryObject<SoundEvent> register(String name) {
-        return SOUNDS.register(name, () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(KnightQuest.MOD_ID, name)));
+        return SOUNDS.register(name, () -> new SoundEvent(new ResourceLocation(KnightQuest.MOD_ID, name)));
     }
 }

@@ -1,0 +1,11 @@
+{
+  "type": "knightquest:slime_small_essence",
+  "chance": 0.5,
+  "conditions": [
+    {
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "minecraft:entities/slime"
+    }
+  ],
+  "addition": "knightquest:small_essence"
+}

@@ -1,29 +1,24 @@
 package net.xylonity.knightquest.common.client;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ArmorItem;
 import net.xylonity.knightquest.KnightQuest;
-import software.bernie.geckolib.model.GeoModel;
+import software.bernie.geckolib3.model.AnimatedGeoModel;
 
-public class GeoItemArmorModel extends GeoModel<GeoItemArmor> {
+public class GeoItemArmorModel extends AnimatedGeoModel<GeoItemArmor> {
 
-    private final String resourceKey;
-
-    public GeoItemArmorModel(String resourceKey) {
-        this.resourceKey = resourceKey;
+    @Override
+    public ResourceLocation getModelLocation(GeoItemArmor geoItemArmor) {
+        return new ResourceLocation(KnightQuest.MOD_ID, geoItemArmor.getModelResource());
     }
 
     @Override
-    public ResourceLocation getModelResource(GeoItemArmor animatable) {
-        return new ResourceLocation(KnightQuest.MOD_ID, "geo/" + resourceKey + ".geo.json");
+    public ResourceLocation getTextureLocation(GeoItemArmor geoItemArmor) {
+        return new ResourceLocation(KnightQuest.MOD_ID, geoItemArmor.getTextureResource());
     }
 
     @Override
-    public ResourceLocation getTextureResource(GeoItemArmor animatable) {
-        return new ResourceLocation(KnightQuest.MOD_ID, "textures/armor/" + resourceKey + ".png");
-    }
-
-    @Override
-    public ResourceLocation getAnimationResource(GeoItemArmor animatable) {
+    public ResourceLocation getAnimationFileLocation(GeoItemArmor geoItemArmor) {
         return new ResourceLocation(KnightQuest.MOD_ID, "animations/helmet.animation.json");
     }
 

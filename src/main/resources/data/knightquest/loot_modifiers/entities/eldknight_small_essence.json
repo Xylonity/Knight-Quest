@@ -1,0 +1,11 @@
+{
+  "type": "knightquest:eldknight_small_essence",
+  "chance": 0.5,
+  "conditions": [
+    {
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "knightquest:entities/eldknight"
+    }
+  ],
+  "addition": "knightquest:small_essence"
+}

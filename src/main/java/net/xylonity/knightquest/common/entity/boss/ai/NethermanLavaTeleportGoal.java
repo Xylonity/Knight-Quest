@@ -6,7 +6,6 @@ import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -16,6 +15,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.xylonity.knightquest.common.entity.boss.NethermanEntity;
+
+import java.util.Random;
 
 public class NethermanLavaTeleportGoal extends Goal {
     private final NethermanEntity netherman;
@@ -53,18 +54,18 @@ public class NethermanLavaTeleportGoal extends Goal {
     }
 
     private boolean isValidTeleportPosition(BlockPos pos) {
-        if (this.netherman.level().getBlockState(pos).getBlock() != Blocks.AIR) {
+        if (this.netherman.level.getBlockState(pos).getBlock() != Blocks.AIR) {
             return false;
         }
 
         BlockPos blockBelow = pos.below();
-        BlockState stateBelow = this.netherman.level().getBlockState(blockBelow);
+        BlockState stateBelow = this.netherman.level.getBlockState(blockBelow);
         if (stateBelow.getBlock() == Blocks.AIR || stateBelow.getBlock() == Blocks.LAVA || stateBelow.getBlock() == Blocks.WATER) {
             return false;
         }
 
         AABB boundingBox = new AABB(pos.getX() - 0.5, pos.getY(), pos.getZ() - 0.5, pos.getX() + 0.5, pos.getY() + this.netherman.getBbHeight(), pos.getZ() + 0.5);
-        return this.netherman.level().noCollision(this.netherman, boundingBox);
+        return this.netherman.level.noCollision(this.netherman, boundingBox);
     }
 
     private boolean isBetterPosition(BlockPos pos, BlockPos bestPos) {
@@ -76,7 +77,7 @@ public class NethermanLavaTeleportGoal extends Goal {
     private void teleportAroundTarget() {
         BlockPos bestPos = null;
         Entity target = this.netherman.getTarget();
-        RandomSource random = this.netherman.getRandom();
+        Random random = this.netherman.getRandom();
 
         for (int attempt = 0; attempt < 50; attempt++) {
             double angle = random.nextDouble() * 2 * Math.PI;
@@ -90,9 +91,9 @@ public class NethermanLavaTeleportGoal extends Goal {
             if (isValidTeleportPosition(targetPos)) {
                 BlockPos blockBelow = targetPos.below();
                 this.netherman.saveBlockState(blockBelow);
-                this.netherman.level().setBlock(blockBelow, Blocks.LAVA.defaultBlockState(), 3);
+                this.netherman.level.setBlock(blockBelow, Blocks.LAVA.defaultBlockState(), 3);
 
-                for (Player player : this.netherman.level().players()) {
+                for (Player player : this.netherman.level.players()) {
                     if (player instanceof ServerPlayer serverPlayer) {
                         for (int u = 0; u < 20; ++u) {
                             double speed = 0.1 + this.netherman.getRandom().nextDouble() * 0.2;
@@ -118,7 +119,7 @@ public class NethermanLavaTeleportGoal extends Goal {
                     }
                 }
 
-                this.netherman.level().playSound(null, this.netherman.blockPosition(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.BLOCKS, 1f, 1f);
+                this.netherman.level.playSound(null, this.netherman.blockPosition(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.BLOCKS, 1f, 1f);
                 this.netherman.teleportTo(x, y, z);
                 return;
             } else if (bestPos == null || isBetterPosition(targetPos, bestPos)) {

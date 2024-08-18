@@ -15,7 +15,7 @@ public class BubbleParticle extends TextureSheetParticle {
 
     private final SpriteSet sprites;
     int startingAirTick = 0;
-    int extraTimeBeforePopping = this.random.nextIntBetweenInclusive(1, 10);
+    int extraTimeBeforePopping = this.random.nextInt(1, 10);
     boolean startAirTick = true;
 
     BubbleParticle(ClientLevel clientWorld, double x, double y, double z, SpriteSet spriteProvider, double velX, double velY, double velZ) {
@@ -28,7 +28,7 @@ public class BubbleParticle extends TextureSheetParticle {
         this.xd = Math.sin(phi) * Math.cos(theta) * (this.random.nextDouble() * 0.5 + 0.5);
         this.yd = Math.abs(this.random.nextDouble() * 0.5 + 0.5);
         this.zd = Math.sin(phi) * Math.sin(theta) * (this.random.nextDouble() * 0.5 + 0.5);
-        this.lifetime = 120 + this.random.nextIntBetweenInclusive(0, 40);
+        this.lifetime = 120 + this.random.nextInt(0, 40);
         this.setSpriteFromAge(spriteProvider);
         this.age = this.lifetime;
     }

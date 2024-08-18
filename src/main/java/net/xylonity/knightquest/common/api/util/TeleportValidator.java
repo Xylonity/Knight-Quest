@@ -12,7 +12,7 @@ public class TeleportValidator {
 
     public static boolean isValidTeleportPosition(Entity entity, BlockPos pos) {
 
-        Level level = entity.level();
+        Level level = entity.level;
 
         if (level.getBlockState(pos).getBlock() != Blocks.AIR) {
             return false;

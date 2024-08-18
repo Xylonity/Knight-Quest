@@ -1,0 +1,11 @@
+{
+  "type": "knightquest:enderman_small_essence",
+  "chance": 0.5,
+  "conditions": [
+    {
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "minecraft:entities/enderman"
+    }
+  ],
+  "addition": "knightquest:small_essence"
+}

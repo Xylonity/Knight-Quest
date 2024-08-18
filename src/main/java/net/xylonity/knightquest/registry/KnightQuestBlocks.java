@@ -2,6 +2,7 @@ package net.xylonity.knightquest.registry;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -42,7 +43,7 @@ public class KnightQuestBlocks {
             {
                 @Override
                 public void appendHoverText(@NotNull ItemStack pStack, @Nullable BlockGetter pLevel, @NotNull List<Component> pTooltip, @NotNull TooltipFlag pFlag) {
-                    pTooltip.add(new TextComponent("tooltip.item.knightquest.great_chalice"));
+                    pTooltip.add(new TranslatableComponent("tooltip.item.knightquest.great_chalice"));
                     super.appendHoverText(pStack, pLevel, pTooltip, pFlag);
                 }
             });

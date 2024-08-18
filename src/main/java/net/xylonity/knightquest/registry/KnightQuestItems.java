@@ -2,6 +2,7 @@ package net.xylonity.knightquest.registry;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
@@ -39,7 +40,7 @@ public class KnightQuestItems {
             {
                 @Override
                 public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-                    pTooltipComponents.add(new TextComponent("tooltip.item.knightquest.paladin_sword"));
+                    pTooltipComponents.add(new TranslatableComponent("tooltip.item.knightquest.paladin_sword"));
                     super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
                 }
             });
@@ -512,7 +513,7 @@ public class KnightQuestItems {
             () -> new ForgeSpawnEggItem(KnightQuestEntities.SHIELD, 0x930c13, 0xfb9600, new Item.Properties().tab(KnightQuest.CREATIVE_MODE_TAB)){
                 @Override
                 public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-                    pTooltipComponents.add(new TextComponent("tooltip.item.knightquest.ghastling_spawn_egg"));
+                    pTooltipComponents.add(new TranslatableComponent("tooltip.item.knightquest.ghastling_spawn_egg"));
                     super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
                 }
             });

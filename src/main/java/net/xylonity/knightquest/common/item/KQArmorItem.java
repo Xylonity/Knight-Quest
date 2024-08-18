@@ -5,6 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -56,11 +57,11 @@ public class KQArmorItem extends ArmorItem {
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
        if (!Objects.equals(bonusTooltip, "chainmail") && !Objects.equals(bonusTooltip, "tengu")) {
-           pTooltipComponents.add(new TextComponent("tooltip.item.knightquest.full_set_bonus"));
-           pTooltipComponents.add(new TextComponent("tooltip.item.knightquest." + bonusTooltip + "_helmet.bonus"));
+           pTooltipComponents.add(new TranslatableComponent("tooltip.item.knightquest.full_set_bonus"));
+           pTooltipComponents.add(new TranslatableComponent("tooltip.item.knightquest." + bonusTooltip + "_helmet.bonus"));
        } else if (Objects.equals(bonusTooltip, "tengu")) {
-           pTooltipComponents.add(new TextComponent("tooltip.item.knightquest.full_helmet_bonus"));
-           pTooltipComponents.add(new TextComponent("tooltip.item.knightquest." + bonusTooltip + "_helmet.bonus"));
+           pTooltipComponents.add(new TranslatableComponent("tooltip.item.knightquest.full_helmet_bonus"));
+           pTooltipComponents.add(new TranslatableComponent("tooltip.item.knightquest." + bonusTooltip + "_helmet.bonus"));
        }
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }

@@ -2,6 +2,7 @@ package net.xylonity.knightquest.common.client;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -50,11 +51,11 @@ public class GeoItemArmor extends GeoArmorItem implements IAnimatable {
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         if (!Objects.equals(bonusTooltip, "chainmail") && !Objects.equals(bonusTooltip, "tengu")) {
-            pTooltipComponents.add(new TextComponent("tooltip.item.knightquest.full_set_bonus"));
-            pTooltipComponents.add(new TextComponent("tooltip.item.knightquest." + bonusTooltip + "_helmet.bonus"));
+            pTooltipComponents.add(new TranslatableComponent("tooltip.item.knightquest.full_set_bonus"));
+            pTooltipComponents.add(new TranslatableComponent("tooltip.item.knightquest." + bonusTooltip + "_helmet.bonus"));
         } else if (Objects.equals(bonusTooltip, "tengu")) {
-            pTooltipComponents.add(new TextComponent("tooltip.item.knightquest.full_helmet_bonus"));
-            pTooltipComponents.add(new TextComponent("tooltip.item.knightquest." + bonusTooltip + "_helmet.bonus"));
+            pTooltipComponents.add(new TranslatableComponent("tooltip.item.knightquest.full_helmet_bonus"));
+            pTooltipComponents.add(new TranslatableComponent("tooltip.item.knightquest." + bonusTooltip + "_helmet.bonus"));
         }
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }

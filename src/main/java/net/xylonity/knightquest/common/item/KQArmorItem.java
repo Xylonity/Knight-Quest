@@ -42,39 +42,11 @@ import java.util.*;
 
 public class KQArmorItem extends ArmorItem {
 
-    /**
-     * Declaration of static effects for certain armors.
-     */
-
-    private static final MobEffectInstance SHIELD_ARMOR = new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, -1, 0, false, false, true);
-    private static final MobEffectInstance BAT_ARMOR = new MobEffectInstance(MobEffects.NIGHT_VISION, -1, 0, false, false, true);
-    private static final MobEffectInstance PATH_ARMOR = new MobEffectInstance(MobEffects.INVISIBILITY, -1, 1, false, true, true);
-    private static final MobEffectInstance BOW_ARMOR = new MobEffectInstance(MobEffects.MOVEMENT_SPEED, -1, 1, false, false, true);
-    private static final MobEffectInstance HORN_ARMOR = new MobEffectInstance(MobEffects.DAMAGE_BOOST, 400, 1, false, false, true);
-    private static final MobEffectInstance SEA_ARMOR = new MobEffectInstance(MobEffects.DOLPHINS_GRACE, -1, 0, false, false, true);
-    private static final MobEffectInstance PIRATE_ARMOR = new MobEffectInstance(MobEffects.LUCK, -1, 0, false, false, true);
-    private static final MobEffectInstance SPIDER_ARMOR = new MobEffectInstance(MobEffects.JUMP, -1, 1, false, false, false);
-    private static final MobEffectInstance PHATOM_ARMOR =  new MobEffectInstance(MobEffects.MOVEMENT_SPEED, -1, 0, false, false, true);
-    private static final MobEffectInstance NETHER_ARMOR =  new MobEffectInstance(MobEffects.FIRE_RESISTANCE, -1, 0, false, false, true);
-    private static final MobEffectInstance HUSK_ARMOR =  new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, -1, 1, false, false, true);
-    private static final MobEffectInstance BAMBOO_BLUE =  new MobEffectInstance(MobEffects.MOVEMENT_SPEED, -1, 1, false, false, true);
-    private static final MobEffectInstance SILVERFISH_ARMOR =  new MobEffectInstance(MobEffects.DIG_SPEED, -1, 0, false, false, true);
-    private static final MobEffectInstance SKULK_ARMOR =  new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, -1, 1, false, false, true);
-    private static final MobEffectInstance STRAWHAT_ARMOR =  new MobEffectInstance(MobEffects.WATER_BREATHING, -1, 0, false, false, true);
     private final String bonusTooltip;
-    private final boolean hasTooltip;
 
-    /**
-     * Dual Hashmap that inherits old declared effects when a new set is equipped, preventing
-     * incompatibility when either post-indirect or pre-direct status effects are applied.
-     */
-
-    private static final Map<UUID, Map<KQArmorMaterials, Boolean>> effectAppliedByArmorMap = new HashMap<>();
-
-    public KQArmorItem(KQArmorMaterials material, EquipmentSlot type, Properties settings, boolean hasTooltip) {
-        super(material, type, settings);
-        this.bonusTooltip = material.getKeyName();
-        this.hasTooltip = hasTooltip;
+    public KQArmorItem(KQArmorMaterials pMaterial, EquipmentSlot pSlot, Properties pProperties) {
+        super(pMaterial, pSlot, pProperties.tab(KnightQuest.CREATIVE_MODE_TAB));
+        this.bonusTooltip = pMaterial.getKeyName();
     }
 
     /**
@@ -84,17 +56,43 @@ public class KQArmorItem extends ArmorItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        if (hasTooltip)
-            if (!Objects.equals(bonusTooltip, "chainmail") && !Objects.equals(bonusTooltip, "tengu")) {
-                pTooltipComponents.add(new TranslatableComponent("tooltip.item.knightquest.full_set_bonus"));
-                pTooltipComponents.add(new TranslatableComponent("tooltip.item.knightquest." + bonusTooltip + "_helmet.bonus"));
-            } else if (Objects.equals(bonusTooltip, "tengu")) {
-                pTooltipComponents.add(new TranslatableComponent("tooltip.item.knightquest.full_helmet_bonus"));
-                pTooltipComponents.add(new TranslatableComponent("tooltip.item.knightquest." + bonusTooltip + "_helmet.bonus"));
-            }
-
+        if (!Objects.equals(bonusTooltip, "chainmail") && !Objects.equals(bonusTooltip, "tengu")) {
+            pTooltipComponents.add(new TranslatableComponent("tooltip.item.knightquest.full_set_bonus"));
+            pTooltipComponents.add(new TranslatableComponent("tooltip.item.knightquest." + bonusTooltip + "_helmet.bonus"));
+        } else if (Objects.equals(bonusTooltip, "tengu")) {
+            pTooltipComponents.add(new TranslatableComponent("tooltip.item.knightquest.full_helmet_bonus"));
+            pTooltipComponents.add(new TranslatableComponent("tooltip.item.knightquest." + bonusTooltip + "_helmet.bonus"));
+        }
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
+
+    /**
+     * Declaration of static effects for certain armors.
+     */
+
+    private static final MobEffectInstance SHIELD_ARMOR = new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 0, false, false, true);
+    private static final MobEffectInstance BAT_ARMOR = new MobEffectInstance(MobEffects.NIGHT_VISION, Integer.MAX_VALUE, 0, false, false, true);
+    private static final MobEffectInstance PATH_ARMOR = new MobEffectInstance(MobEffects.INVISIBILITY, Integer.MAX_VALUE, 2, false, true, true);
+    private static final MobEffectInstance BOW_ARMOR = new MobEffectInstance(MobEffects.MOVEMENT_SPEED, Integer.MAX_VALUE, 0, false, false, true);
+    private static final MobEffectInstance HORN_ARMOR = new MobEffectInstance(MobEffects.DAMAGE_BOOST, 400, 0, false, false, true);
+    private static final MobEffectInstance SEA_ARMOR = new MobEffectInstance(MobEffects.DOLPHINS_GRACE, Integer.MAX_VALUE, 0, false, false, true);
+    private static final MobEffectInstance PIRATE_ARMOR = new MobEffectInstance(MobEffects.LUCK, Integer.MAX_VALUE, 0, false, false, true);
+    private static final MobEffectInstance SPIDER_ARMOR = new MobEffectInstance(MobEffects.JUMP, Integer.MAX_VALUE, 1, false, false, false);
+    private static final MobEffectInstance PHATOM_ARMOR =  new MobEffectInstance(MobEffects.MOVEMENT_SPEED, Integer.MAX_VALUE, 0, false, false, true);
+    private static final MobEffectInstance NETHER_ARMOR =  new MobEffectInstance(MobEffects.FIRE_RESISTANCE, Integer.MAX_VALUE, 0, false, false, true);
+    private static final MobEffectInstance HUSK_ARMOR =  new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 1, false, false, true);
+    private static final MobEffectInstance BAMBOO_BLUE =  new MobEffectInstance(MobEffects.MOVEMENT_SPEED, Integer.MAX_VALUE, 0, false, false, true);
+    private static final MobEffectInstance SILVERFISH_ARMOR =  new MobEffectInstance(MobEffects.DIG_SPEED, Integer.MAX_VALUE, 0, false, false, true);
+    private static final MobEffectInstance SKULK_ARMOR =  new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 1, false, false, true);
+    private static final MobEffectInstance STRAWHAT_ARMOR =  new MobEffectInstance(MobEffects.WATER_BREATHING, Integer.MAX_VALUE, 0, false, false, true);
+
+    /**
+     * Dual Hashmap that inherits old declared effects when a new set is equipped, preventing
+     * incompatibility when either post-indirect or pre-direct status effects are applied.
+     */
+
+    private static final Map<UUID, Map<KQArmorMaterials, Boolean>> effectAppliedByArmorMap = new HashMap<>();
+
 
     /**
      * Ticks the inventory of each player.

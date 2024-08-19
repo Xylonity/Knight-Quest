@@ -313,6 +313,16 @@
 					"rotation": {
 						"vector": [-59.40129, -10.80355, -6.32526]
 					}
+				},
+				"bipedHandRight": {
+					"rotation": {
+						"vector": [42.5, 0, 0]
+					}
+				},
+				"bipedHandLeft": {
+					"rotation": {
+						"vector": [40, 0, 0]
+					}
 				}
 			}
 		},

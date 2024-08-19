@@ -147,7 +147,7 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
          * Handles the actions when the Samhain is tamed.
          */
 
-        if (isTame() && !this.level().isClientSide && hand == InteractionHand.MAIN_HAND) {
+        if (isTame() && !this.level().isClientSide && hand == InteractionHand.MAIN_HAND && getOwner() == player) {
             if ((itemstack.getItem().equals(KnightQuestItems.GREAT_ESSENCE.get()) || itemstack.getItem().equals(KnightQuestItems.SMALL_ESSENCE.get()))
                     && this.getHealth() < this.getMaxHealth()) {
 
@@ -161,8 +161,9 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
                     itemstack.shrink(1);
                 }
 
-            } else if (itemstack.isEmpty() && player.isShiftKeyDown()) {
+            } else if (player.isShiftKeyDown()) {
                 removeArmor(player);
+                removeItem(player);
             } else {
                 setSitting(!isSitting());
                 setSitVariation(getRandom().nextInt(0, 3));
@@ -183,7 +184,14 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
         ItemStack itemStack = itemEntity.getItem();
         Item item = itemStack.getItem();
 
-        if (item instanceof ArmorItem armorItem && isTame()) {
+        if (item instanceof Item && isTame()) {
+            EquipmentSlot slot = LivingEntity.getEquipmentSlotForItem(itemStack);
+            this.setItemSlot(slot, itemStack.split(1));
+
+            if (itemStack.isEmpty()) {
+                itemEntity.discard();
+            }
+        } else if (item instanceof ArmorItem armorItem && isTame()) {
             EquipmentSlot slot = armorItem.getEquipmentSlot();
             ItemStack currentArmor = this.getItemBySlot(slot);
 
@@ -194,9 +202,8 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
                     itemEntity.discard();
                 }
             }
-        } else {
-            super.pickUpItem(itemEntity);
         }
+
     }
 
     @Override
@@ -259,7 +266,7 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
         return this.entityData.get(SIT_VARIATION);
     }
 
-    public void removeArmor(Player pPlayer) {
+    private void removeArmor(Player pPlayer) {
         for (EquipmentSlot slot : EquipmentSlot.values()) {
             if (slot.getType() == EquipmentSlot.Type.ARMOR) {
                 ItemStack armorStack = this.getItemBySlot(slot);
@@ -268,12 +275,26 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
                     boolean addedToInventory = pPlayer.getInventory().add(armorStack);
 
                     if (!addedToInventory) {
-                        this.spawnAtLocation(armorStack);
+                        pPlayer.spawnAtLocation(armorStack);
                     }
 
                     this.setItemSlot(slot, ItemStack.EMPTY);
                 }
             }
+        }
+    }
+
+    private void removeItem(Player pPlayer) {
+        ItemStack itemStack = this.getItemInHand(InteractionHand.MAIN_HAND);
+
+        if (!itemStack.isEmpty()) {
+            boolean addedToInventory = pPlayer.getInventory().add(itemStack);
+
+            if (!addedToInventory) {
+                pPlayer.spawnAtLocation(itemStack);
+            }
+
+            this.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
         }
     }
 

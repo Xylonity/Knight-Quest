@@ -13,6 +13,7 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
@@ -21,7 +22,7 @@ import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class SwampmanEntity  extends Monster implements GeoEntity {
-    private AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
     public SwampmanEntity(EntityType<? extends Monster> entityType, Level world) {
         super(entityType, world);
@@ -50,7 +51,7 @@ public class SwampmanEntity  extends Monster implements GeoEntity {
         this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
 
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Villager.class, true));
-        this.targetSelector.addGoal(2, (new HurtByTargetGoal(this)).setAlertOthers());
+        this.targetSelector.addGoal(2, new HurtByTargetGoal(this));
     }
 
     @Override
@@ -60,11 +61,11 @@ public class SwampmanEntity  extends Monster implements GeoEntity {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-        controllerRegistrar.add(new AnimationController(this, "controller", 0, this::predicate));
-        controllerRegistrar.add(new AnimationController(this, "attackcontroller", 0, this::attackPredicate));
+        controllerRegistrar.add(new AnimationController<>(this, "controller", 0, this::predicate));
+        controllerRegistrar.add(new AnimationController<>(this, "attackcontroller", 0, this::attackPredicate));
     }
 
-    private PlayState attackPredicate(AnimationState event) {
+    private PlayState attackPredicate(AnimationState<?> event) {
 
         if (this.swinging && event.getController().getAnimationState().equals(AnimationController.State.STOPPED)) {
             event.getController().forceAnimationReset();
@@ -96,7 +97,7 @@ public class SwampmanEntity  extends Monster implements GeoEntity {
     }
 
     @Override
-    protected SoundEvent getSwimSound() {
+    protected @NotNull SoundEvent getSwimSound() {
         return SoundEvents.AXOLOTL_SWIM;
     }
 
@@ -106,7 +107,7 @@ public class SwampmanEntity  extends Monster implements GeoEntity {
     }
 
     @Override
-    protected SoundEvent getHurtSound(DamageSource pDamageSource) {
+    protected SoundEvent getHurtSound(@NotNull DamageSource pDamageSource) {
         return SoundEvents.CAMEL_HURT;
     }
 

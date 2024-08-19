@@ -50,8 +50,9 @@ public class EldBombEntity extends Creeper implements GeoEntity {
         this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 0.5, false));
         this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 0.5));
         this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
+
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
-        this.targetSelector.addGoal(2, new HurtByTargetGoal(this, new Class[0]));
+        this.targetSelector.addGoal(2, new HurtByTargetGoal(this));
     }
 
     private <T extends GeoAnimatable> PlayState predicate(AnimationState<T> event) {

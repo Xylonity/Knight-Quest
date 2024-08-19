@@ -1,6 +1,5 @@
 package net.xylonity.knightquest.common.entity.entities;
 
-import net.minecraft.client.particle.CampfireSmokeParticle;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -30,7 +29,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.*;
 import software.bernie.geckolib.core.object.PlayState;
@@ -39,7 +37,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 import java.util.Random;
 
 public class RatmanEntity extends Skeleton implements GeoEntity {
-    private AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private final Level serverWorld;
     private boolean summoned = false;
     private int counter = 0;
@@ -62,13 +60,13 @@ public class RatmanEntity extends Skeleton implements GeoEntity {
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag pCompound) {
+    public void addAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.addAdditionalSaveData(pCompound);
         pCompound.putBoolean("attack1", this.getAttack1());
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag compound) {
+    public void readAdditionalSaveData(@NotNull CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         this.setAttack1(compound.getBoolean("attack1"));
     }
@@ -102,8 +100,8 @@ public class RatmanEntity extends Skeleton implements GeoEntity {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-        controllerRegistrar.add(new AnimationController(this, "controller", 0, this::predicate));
-        controllerRegistrar.add(new AnimationController(this, "attackcontroller", 0, this::attackPredicate));
+        controllerRegistrar.add(new AnimationController<>(this, "controller", 0, this::predicate));
+        controllerRegistrar.add(new AnimationController<>(this, "attackcontroller", 0, this::attackPredicate));
     }
 
     @Override
@@ -111,7 +109,7 @@ public class RatmanEntity extends Skeleton implements GeoEntity {
         return pProjectileWeapon == Items.CROSSBOW;
     }
 
-    private PlayState attackPredicate(AnimationState event) {
+    private PlayState attackPredicate(AnimationState<?> event) {
 
         if (isUsingItem()) {
             event.getController().forceAnimationReset();
@@ -121,7 +119,7 @@ public class RatmanEntity extends Skeleton implements GeoEntity {
         return PlayState.CONTINUE;
     }
 
-    private <T extends GeoAnimatable> PlayState predicate(AnimationState<T> event) {
+    private PlayState predicate(AnimationState<?> event) {
 
         if (event.isMoving()) {
             event.getController().setAnimation(RawAnimation.begin().then("walk", Animation.LoopType.LOOP));
@@ -138,7 +136,7 @@ public class RatmanEntity extends Skeleton implements GeoEntity {
     }
 
     @Override
-    protected SoundEvent getSwimSound() {
+    protected @NotNull SoundEvent getSwimSound() {
         return SoundEvents.AXOLOTL_SWIM;
     }
 
@@ -148,7 +146,7 @@ public class RatmanEntity extends Skeleton implements GeoEntity {
     }
 
     @Override
-    protected SoundEvent getHurtSound(DamageSource pDamageSource) {
+    protected SoundEvent getHurtSound(@NotNull DamageSource pDamageSource) {
         return SoundEvents.FOX_HURT;
     }
 
@@ -158,7 +156,7 @@ public class RatmanEntity extends Skeleton implements GeoEntity {
     }
 
     @Override
-    protected void playStepSound(BlockPos pPos, BlockState pState) {
+    protected void playStepSound(@NotNull BlockPos pPos, @NotNull BlockState pState) {
         this.playSound(SoundEvents.WOLF_STEP, 0.15F, 1.0F);
     }
 

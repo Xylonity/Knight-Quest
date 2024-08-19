@@ -15,16 +15,19 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.goal.target.OwnerHurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.OwnerHurtTargetGoal;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.ProjectileUtil;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.xylonity.knightquest.common.entity.entities.ai.MoveToPumpkinGoal;
+import net.xylonity.knightquest.common.entity.entities.ai.RangedAttackGoal;
 import net.xylonity.knightquest.registry.KnightQuestItems;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -37,7 +40,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.*;
 
-public class SamhainEntity extends TamableAnimal implements GeoEntity {
+public class SamhainEntity extends TamableAnimal implements GeoEntity, RangedAttackMob {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private static final EntityDataAccessor<Boolean> SITTING = SynchedEntityData.defineId(SamhainEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> SIT_VARIATION = SynchedEntityData.defineId(SamhainEntity.class, EntityDataSerializers.INT);
@@ -57,9 +60,9 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
 
     public static AttributeSupplier setAttributes() {
         return TamableAnimal.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 30.0D)
+                .add(Attributes.MAX_HEALTH, 8.0D)
                 .add(Attributes.ATTACK_DAMAGE, 0.5f)
-                .add(Attributes.ATTACK_SPEED, 1.0f)
+                .add(Attributes.ATTACK_SPEED, 2.0f)
                 .add(Attributes.MOVEMENT_SPEED, 0.5f).build();
     }
 
@@ -67,11 +70,15 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new SitWhenOrderedToGoal(this));
-        this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, Monster.class, 6.0F, 0.65D, 0.65D));
-        this.goalSelector.addGoal(3, new FollowOwnerGoal(this, 0.6D, 6.0F, 2.0F, false));
-        this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(2, new RangedAttackGoal<>(this, 0.7D, 10, 15.0f));
+        this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 0.6D, true));
+        this.goalSelector.addGoal(4, new FollowOwnerGoal(this, 0.6D, 6.0F, 2.0F, false));
         this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
-        this.goalSelector.addGoal(6, new MoveToPumpkinGoal(this, 0.68F));
+        this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(7, new MoveToPumpkinGoal(this, 0.68F));
+
+        this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this));
+        this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
     }
 
     @Override
@@ -82,9 +89,12 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
 
     private PlayState attackPredicate(AnimationState<?> event) {
 
-        if (this.swinging && event.getController().getAnimationState().equals(AnimationController.State.STOPPED)) {
+        if (this.isUsingItem() && this.getMainHandItem().getItem() instanceof ProjectileWeaponItem) {
             event.getController().forceAnimationReset();
-            event.getController().setAnimation(RawAnimation.begin().then("walk", Animation.LoopType.PLAY_ONCE));
+            event.getController().setAnimation(RawAnimation.begin().then("bow_attack", Animation.LoopType.PLAY_ONCE));
+        } else if (this.swinging && event.getController().getAnimationState().equals(AnimationController.State.STOPPED)) {
+            event.getController().forceAnimationReset();
+            event.getController().setAnimation(RawAnimation.begin().then("attack", Animation.LoopType.PLAY_ONCE));
             this.swinging = false;
         }
 
@@ -184,12 +194,16 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
         ItemStack itemStack = itemEntity.getItem();
         Item item = itemStack.getItem();
 
-        if (item instanceof Item && isTame()) {
+        if ((item instanceof SwordItem || item instanceof AxeItem) && isTame()) {
             EquipmentSlot slot = LivingEntity.getEquipmentSlotForItem(itemStack);
-            this.setItemSlot(slot, itemStack.split(1));
+            ItemStack currentItem = this.getItemInHand(InteractionHand.MAIN_HAND);
 
-            if (itemStack.isEmpty()) {
-                itemEntity.discard();
+            if (currentItem.isEmpty()) {
+                this.setItemSlot(slot, itemStack.split(1));
+
+                if (itemStack.isEmpty()) {
+                    itemEntity.discard();
+                }
             }
         } else if (item instanceof ArmorItem armorItem && isTame()) {
             EquipmentSlot slot = armorItem.getEquipmentSlot();
@@ -315,12 +329,13 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
     public void setTame(boolean tamed) {
         super.setTame(tamed);
         if (tamed) {
-            Objects.requireNonNull(getAttribute(Attributes.MAX_HEALTH)).setBaseValue(35.0D);
-            Objects.requireNonNull(getAttribute(Attributes.ATTACK_DAMAGE)).setBaseValue(4D);
+            Objects.requireNonNull(getAttribute(Attributes.MAX_HEALTH)).setBaseValue(20.0D);
+            Objects.requireNonNull(getAttribute(Attributes.ATTACK_DAMAGE)).setBaseValue(0.5D);
             Objects.requireNonNull(getAttribute(Attributes.MOVEMENT_SPEED)).setBaseValue(0.5f);
+            this.setHealth(20.0F);
         } else {
-            Objects.requireNonNull(getAttribute(Attributes.MAX_HEALTH)).setBaseValue(30.0D);
-            Objects.requireNonNull(getAttribute(Attributes.ATTACK_DAMAGE)).setBaseValue(4D);
+            Objects.requireNonNull(getAttribute(Attributes.MAX_HEALTH)).setBaseValue(8.0D);
+            Objects.requireNonNull(getAttribute(Attributes.ATTACK_DAMAGE)).setBaseValue(0.5D);
             Objects.requireNonNull(getAttribute(Attributes.MOVEMENT_SPEED)).setBaseValue(0.5f);
         }
     }
@@ -351,5 +366,22 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity {
         this.playSound(SoundEvents.WOLF_STEP, 0.15F, 1.0F);
     }
 
-}
+    @Override
+    public void performRangedAttack(@NotNull LivingEntity pTarget, float pVelocity) {
+        ItemStack itemstack = this.getProjectile(this.getItemInHand(ProjectileUtil.getWeaponHoldingHand(this, item -> item instanceof net.minecraft.world.item.BowItem)));
+        AbstractArrow abstractarrow = this.getArrow(itemstack, pVelocity);
+        if (this.getMainHandItem().getItem() instanceof net.minecraft.world.item.BowItem)
+            abstractarrow = ((net.minecraft.world.item.BowItem)this.getMainHandItem().getItem()).customArrow(abstractarrow);
+        double d0 = pTarget.getX() - this.getX();
+        double d1 = pTarget.getY(0.34D) - abstractarrow.getY();
+        double d2 = pTarget.getZ() - this.getZ();
+        double d3 = Math.sqrt(d0 * d0 + d2 * d2);
+        abstractarrow.shoot(d0, d1 + d3 * (double)0.2F, d2, 1.6F, (float)(14 - this.level().getDifficulty().getId() * 4));
+        this.playSound(SoundEvents.SKELETON_SHOOT, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
+        this.level().addFreshEntity(abstractarrow);
+    }
 
+    protected AbstractArrow getArrow(ItemStack pArrowStack, float pVelocity) {
+        return ProjectileUtil.getMobArrow(this, pArrowStack, pVelocity);
+    }
+}

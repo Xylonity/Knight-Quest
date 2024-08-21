@@ -334,9 +334,9 @@ public class KQArmorItem extends ArmorItem {
 
                 if (KQConfigValues.BAMBOOSET_GREEN)
                     if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.BAMBOOSET_GREEN))
-                        if (player.hasEffect(MobEffects.POISON) && (event.getSource().is(DamageTypes.MAGIC) || event.getSource().is(DamageTypes.INDIRECT_MAGIC))) {
-                            event.setAmount(0);
+                        if (player.hasEffect(MobEffects.POISON)) {
                             player.removeEffect(MobEffects.POISON);
+                            event.setCanceled(true);
                         }
 
                 if (KQConfigValues.SHINOBI)
@@ -521,6 +521,12 @@ public class KQArmorItem extends ArmorItem {
                             effectAppliedByArmorMap.get(player.getUUID()).put(KQArmorMaterials.HUSKSET, false);
                         }
                     }
+
+                if (KQConfigValues.BAMBOOSET_GREEN)
+                    if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.BAMBOOSET_GREEN))
+                        if (player.hasEffect(MobEffects.POISON)) {
+                            player.removeEffect(MobEffects.POISON);
+                        }
 
                 if (KQConfigValues.BAMBOOSET_BLUE)
                     if (hasFullSetOn(player, KQArmorMaterials.BAMBOOSET_BLUE) && (player.level().getBiome(new BlockPos((int) player.getX(), (int) player.getY(), (int) player.getZ())).is(Biomes.JUNGLE)

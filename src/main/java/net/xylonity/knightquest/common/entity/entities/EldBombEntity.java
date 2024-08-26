@@ -1,8 +1,13 @@
 package net.xylonity.knightquest.common.entity.entities;
 
+import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.AreaEffectCloud;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -14,6 +19,7 @@ import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.xylonity.knightquest.registry.KnightQuestParticles;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
@@ -21,10 +27,8 @@ import software.bernie.geckolib.core.animation.*;
 import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-import java.util.Collection;
-
 public class EldBombEntity extends Creeper implements GeoEntity {
-    private AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private int oldSwell;
     private int swell;
     private int maxSwell = 30;
@@ -89,6 +93,9 @@ public class EldBombEntity extends Creeper implements GeoEntity {
 
             if (this.swell >= this.maxSwell) {
                 this.swell = this.maxSwell;
+
+                this.poisonNearbyPlayers();
+
                 this.explode();
             }
         }
@@ -96,34 +103,58 @@ public class EldBombEntity extends Creeper implements GeoEntity {
         super.tick();
     }
 
-    private void spawnLingeringCloud() {
-        Collection<MobEffectInstance> collection = this.getActiveEffects();
-        if (!collection.isEmpty()) {
-            AreaEffectCloud areaeffectcloud = new AreaEffectCloud(this.level(), this.getX(), this.getY(), this.getZ());
-            areaeffectcloud.setRadius(1.5F);
-            areaeffectcloud.setRadiusOnUse(-0.5F);
-            areaeffectcloud.setWaitTime(10);
-            areaeffectcloud.setDuration(areaeffectcloud.getDuration() / 2);
-            areaeffectcloud.setRadiusPerTick(-areaeffectcloud.getRadius() / (float)areaeffectcloud.getDuration());
+    private void explode() {
+        if (!this.level().isClientSide) {
+            float power = this.isPowered() ? 2.5F : 1.0F;
+            this.dead = true;
+            this.level().explode(this, this.getX(), this.getY(), this.getZ(), (float)this.explosionRadius * power, Level.ExplosionInteraction.MOB);
 
-            for(MobEffectInstance mobeffectinstance : collection) {
-                areaeffectcloud.addEffect(new MobEffectInstance(mobeffectinstance));
+            if (this.level() instanceof ServerLevel serverLevel) {
+                for (int i = 0; i < 6; i++) {
+                    double particleX = this.getX();
+                    double particleY = this.getY() + 1;
+                    double particleZ = this.getZ();
+
+                    ClientboundLevelParticlesPacket packet = new ClientboundLevelParticlesPacket(
+                            KnightQuestParticles.POISON_PARTICLE.get(),
+                            true,
+                            particleX, particleY, particleZ,
+                            1.2F, 1.2F, 1.2F,
+                            0.05F, 1
+                    );
+
+                    serverLevel.getServer().getPlayerList().broadcast(null, this.getX(), this.getY(), this.getZ(), 50, serverLevel.dimension(), packet);
+                }
+
+                float[] arrayX = {0.5F, -1, 1};
+                float[] arrayZ = {1, 0, -0.5F};
+
+                for (int i = 0; i < 3; i++) {
+                    double particleX = this.getX() + arrayX[i];
+                    double particleY = this.getY() - 0.2;
+                    double particleZ = this.getZ() + arrayZ[i];
+
+                    ClientboundLevelParticlesPacket packet = new ClientboundLevelParticlesPacket(
+                            KnightQuestParticles.POISON_CLOUD_PARTICLE.get(),
+                            true,
+                            particleX, particleY, particleZ,
+                            0, 0.1F, 0,
+                            1F, 1
+                    );
+
+                    serverLevel.getServer().getPlayerList().broadcast(null, this.getX(), this.getY(), this.getZ(), 50, serverLevel.dimension(), packet);
+                }
             }
 
-            this.level().addFreshEntity(areaeffectcloud);
+            this.discard();
         }
 
     }
 
-    private void explode() {
-        if (!this.level().isClientSide) {
-            float $$0 = this.isPowered() ? 2.5F : 1.0F;
-            this.dead = true;
-            this.level().explode(this, this.getX(), this.getY(), this.getZ(), (float)this.explosionRadius * $$0, Level.ExplosionInteraction.MOB);
-            this.spawnLingeringCloud();
-            this.discard();
-        }
-
+    private void poisonNearbyPlayers() {
+        this.level().getEntitiesOfClass(Player.class, this.getBoundingBox().inflate(3.5)).forEach(player -> {
+            player.addEffect(new MobEffectInstance(MobEffects.POISON, 200, 1));
+        });
     }
 
     @Override

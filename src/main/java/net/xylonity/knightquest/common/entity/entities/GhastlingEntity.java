@@ -89,7 +89,7 @@ public class GhastlingEntity extends Monster implements GeoEntity {
 
         GremlinEntity owner = findClosestGremlin();
 
-        if (owner == null || owner.isDeadOrDying() || owner.getPhase() == 1) {
+        if (owner == null || owner.isDeadOrDying()) {
             this.remove(RemovalReason.KILLED);
             return;
         }

@@ -7,10 +7,10 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
@@ -18,11 +18,12 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.xylonity.knightquest.registry.KnightQuestEntities;
 import net.xylonity.knightquest.registry.KnightQuestParticles;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -32,39 +33,39 @@ import software.bernie.geckolib.core.animation.*;
 import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
+import java.util.Objects;
+
 public class GremlinEntity extends Monster implements GeoEntity {
-    private AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
-    private static final EntityDataAccessor<Boolean> INVULNERABLE = SynchedEntityData.defineId(GremlinEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Integer> PHASE = SynchedEntityData.defineId(GremlinEntity.class, EntityDataSerializers.INT);
-    private final Level serverWorld;
+    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+    private static final EntityDataAccessor<Boolean> IS_PASSIVE = SynchedEntityData.defineId(GremlinEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> SHOULD_TAKE_COIN = SynchedEntityData.defineId(GremlinEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> GOLD_VARIATION = SynchedEntityData.defineId(GremlinEntity.class, EntityDataSerializers.INT);
     private boolean isHalfHealth;
     private int tickCounter = 0;
 
     public GremlinEntity(EntityType<? extends Monster> entityType, Level world) {
         super(entityType, world);
-        this.serverWorld = world;
     }
 
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
-        this.entityData.define(INVULNERABLE, false);
-        this.entityData.define(PHASE, 1);
+        this.entityData.define(IS_PASSIVE, false);
+        this.entityData.define(SHOULD_TAKE_COIN, false);
+        this.entityData.define(GOLD_VARIATION, 0);
     }
 
-    public boolean getInvulnerability() {
-        return this.entityData.get(INVULNERABLE);
+    public boolean getIsPassive() {
+        return this.entityData.get(IS_PASSIVE);
     }
-    public int getPhase() {
-        return this.entityData.get(PHASE);
-    }
+    public boolean getShouldTakeCoin() { return this.entityData.get(SHOULD_TAKE_COIN); }
+    public int getGoldVariation() { return this.entityData.get(GOLD_VARIATION); }
 
-    public void setInvulnerability(boolean invulnerability) {
-        this.entityData.set(INVULNERABLE, invulnerability);
+    public void setIsPassive(boolean isPassive) {
+        this.entityData.set(IS_PASSIVE, isPassive);
     }
-    public void setPhase(int phase) {
-        this.entityData.set(PHASE, phase);
-    }
+    public void setShouldTakeCoin(boolean shouldTakeCoin) { this.entityData.set(SHOULD_TAKE_COIN, shouldTakeCoin);}
+    public void setGoldVariation(int goldVariation) { this.entityData.set(GOLD_VARIATION, goldVariation);}
 
     public static AttributeSupplier setAttributes() {
         return Monster.createMobAttributes()
@@ -73,6 +74,12 @@ public class GremlinEntity extends Monster implements GeoEntity {
                 .add(Attributes.ATTACK_SPEED, 1.0f)
                 .add(Attributes.MOVEMENT_SPEED, 0.63f)
                 .add(Attributes.FOLLOW_RANGE, 35.0).build();
+    }
+
+    private void updateAttributes() {
+        Objects.requireNonNull(getAttribute(Attributes.ATTACK_DAMAGE)).setBaseValue(7f);
+        Objects.requireNonNull(getAttribute(Attributes.MOVEMENT_SPEED)).setBaseValue(0.75f);
+        Objects.requireNonNull(getAttribute(Attributes.ATTACK_SPEED)).setBaseValue(1.2f);
     }
 
     @Override
@@ -95,6 +102,19 @@ public class GremlinEntity extends Monster implements GeoEntity {
         controllerRegistrar.add(new AnimationController<>(this, "controller", 0, this::predicate));
         controllerRegistrar.add(new AnimationController<>(this, "attackcontroller", 0, this::attackPredicate));
         controllerRegistrar.add(new AnimationController<>(this, "deadcontroller", 0, this::deadPredicate));
+        controllerRegistrar.add(new AnimationController<>(this, "coincontroller", 0, this::coinPredicate));
+    }
+
+    private PlayState coinPredicate(AnimationState<?> event) {
+
+        if (getIsPassive() && getShouldTakeCoin()) {
+            event.getController().forceAnimationReset();
+            String goldVariation = getGoldVariation() == 0 ? "gold" : "gold2";
+            event.getController().setAnimation(RawAnimation.begin().then(goldVariation, Animation.LoopType.PLAY_ONCE));
+        }
+
+        return PlayState.CONTINUE;
+
     }
 
     private PlayState deadPredicate(AnimationState<?> event) {
@@ -138,51 +158,42 @@ public class GremlinEntity extends Monster implements GeoEntity {
                 this.level().addParticle(KnightQuestParticles.GREMLIN_PARTICLE.get(), this.getX(), getY() - 0.48, getZ(), 2d, 0d, 0d);
                 this.level().playSound(null, this.blockPosition(), SoundEvents.EVOKER_PREPARE_SUMMON, SoundSource.HOSTILE, 1.0F, 1.0F);
                 this.isHalfHealth = true;
-                spawnShield();
-                setPhase(2);
+                this.updateAttributes();
             }
+        }
 
-            //setInvulnerability(hasShields());
-
+        if (getIsPassive()) {
             tickCounter++;
-            if (tickCounter % 22 == 0 && tickCounter / 25 <= 1) {
-                spawnShield();
-            }
-        }
-    }
 
-    private boolean hasShields() {
-        double closestDistance = Double.MAX_VALUE;
-        LivingEntity closestShield = null;
-
-        for (LivingEntity entity : level().getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(5))) {
-            if (entity instanceof GhastlingEntity) {
-                double distance = distanceToSqr(entity);
-                if (distance < closestDistance) {
-                    closestDistance = distance;
-                    closestShield = entity;
-                }
+            if (tickCounter == 1) {
+                setShouldTakeCoin(true);
+                this.goalSelector.getRunningGoals().forEach(WrappedGoal::stop);
+            } else if (tickCounter == 3) {
+                setShouldTakeCoin(false);
+            } else if (tickCounter == 80) {
+                setIsPassive(false);
+                setShouldTakeCoin(false);
+                tickCounter = 0;
+                this.goalSelector.getRunningGoals().forEach(WrappedGoal::start);
             }
         }
 
-        return closestShield != null;
     }
 
     @Override
-    public boolean hurt(@NotNull DamageSource pSource, float pAmount) {
-        if (getInvulnerability())
-            return false;
-        else
-            return super.hurt(pSource, pAmount);
+    protected @NotNull InteractionResult mobInteract(Player pPlayer, @NotNull InteractionHand pHand) {
 
-    }
+        ItemStack itemstack = pPlayer.getItemInHand(pHand);
+        Item desiredItem = Items.GOLD_INGOT;
+        Item item = itemstack.getItem();
 
-    private void spawnShield() {
-        GhastlingEntity entity = KnightQuestEntities.SHIELD.get().create(serverWorld);
-        if (entity != null) {
-            entity.moveTo(this.getOnPos(), 1.0F, 0.0F);
-            serverWorld.addFreshEntity(entity);
+        if (item.equals(desiredItem)) {
+            this.setTarget(null);
+            setGoldVariation(getRandom().nextInt(0, 2));
+            this.setIsPassive(true);
         }
+
+        return super.mobInteract(pPlayer, pHand);
     }
 
     @Override

@@ -72,6 +72,10 @@ public class EldBombEntity extends Creeper implements GeoEntity {
         return PlayState.CONTINUE;
     }
 
+    public int getSwell() {
+        return this.swell;
+    }
+
     @Override
     public void tick() {
         if (this.isAlive()) {
@@ -138,7 +142,7 @@ public class EldBombEntity extends Creeper implements GeoEntity {
                             KnightQuestParticles.POISON_CLOUD_PARTICLE.get(),
                             true,
                             particleX, particleY, particleZ,
-                            0, 0.1F, 0,
+                            0, 0.15F, 0,
                             1F, 1
                     );
 

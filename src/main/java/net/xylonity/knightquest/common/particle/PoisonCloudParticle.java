@@ -15,7 +15,7 @@ import org.joml.Vector3f;
 
 public class PoisonCloudParticle extends TextureSheetParticle {
     private final SpriteSet spritesset;
-    private static Quaternionf QUATERNION = new Quaternionf(0F, -0.7F, 0.7F, 0F);
+    private static Quaternionf QUATERNION = new Quaternionf(0F, +0.7F, -0.7F, 0F);
 
     protected PoisonCloudParticle(ClientLevel world, double x, double y, double z, SpriteSet sprites, double velX, double velY, double velZ) {
         super(world, x, y + 0.5, z, 0.0, 0.0, 0.0);
@@ -24,7 +24,7 @@ public class PoisonCloudParticle extends TextureSheetParticle {
         this.rCol = 1F;
         this.gCol = 1F;
         this.bCol = 1F;
-        this.lifetime = (int)((2.0 + this.random.nextDouble() * 2.0) * 20);
+        this.lifetime = (int)((1.5 + this.random.nextDouble() * 2.0) * 20);
         this.setSpriteFromAge(sprites);
         this.spritesset = sprites;
         this.setParticleSpeed(0, 0, 0);

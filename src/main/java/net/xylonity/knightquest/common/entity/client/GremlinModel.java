@@ -31,15 +31,4 @@ public class GremlinModel extends GeoModel<GremlinEntity> {
         return new ResourceLocation(KnightQuest.MOD_ID, "animations/gremlin.animation.json");
     }
 
-    @Override
-    public void setCustomAnimations(GremlinEntity animatable, long instanceId, AnimationState<GremlinEntity> animationState) {
-        CoreGeoBone head = getAnimationProcessor().getBone("head");
-
-        if (head != null) {
-            EntityModelData entityData = animationState.getData(DataTickets.ENTITY_MODEL_DATA);
-            head.setRotX(entityData.headPitch() * Mth.DEG_TO_RAD);
-            head.setRotY(entityData.netHeadYaw() * Mth.DEG_TO_RAD);
-        }
-    }
-
 }

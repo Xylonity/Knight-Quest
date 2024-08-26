@@ -15,7 +15,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -24,6 +24,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.xylonity.knightquest.common.entity.entities.ai.NearestAttackableTargetGoal;
 import net.xylonity.knightquest.registry.KnightQuestParticles;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -167,14 +168,12 @@ public class GremlinEntity extends Monster implements GeoEntity {
 
             if (tickCounter == 1) {
                 setShouldTakeCoin(true);
-                this.goalSelector.getRunningGoals().forEach(WrappedGoal::stop);
             } else if (tickCounter == 3) {
                 setShouldTakeCoin(false);
             } else if (tickCounter == 80) {
                 setIsPassive(false);
                 setShouldTakeCoin(false);
                 tickCounter = 0;
-                this.goalSelector.getRunningGoals().forEach(WrappedGoal::start);
             }
         }
 
@@ -189,11 +188,23 @@ public class GremlinEntity extends Monster implements GeoEntity {
 
         if (item.equals(desiredItem)) {
             this.setTarget(null);
+            this.getBrain().eraseMemory(MemoryModuleType.ATTACK_TARGET);
+            this.getBrain().eraseMemory(MemoryModuleType.NEAREST_VISIBLE_PLAYER);
+            this.setLastHurtByMob(null);
+            this.setLastHurtByPlayer(null);
             setGoldVariation(getRandom().nextInt(0, 2));
             this.setIsPassive(true);
         }
 
         return super.mobInteract(pPlayer, pHand);
+    }
+
+    @Override
+    public boolean hurt(@NotNull DamageSource pSource, float pAmount) {
+        if (tickCounter != 0)
+            return false;
+        else
+            return super.hurt(pSource, pAmount);
     }
 
     @Override

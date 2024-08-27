@@ -4,11 +4,14 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.xylonity.knightquest.common.block.ChaliceBlock;
+import net.xylonity.knightquest.registry.KnightQuestBlocks;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
@@ -19,7 +22,23 @@ public class StarsetParticle extends TextureSheetParticle {
     StarsetParticle(ClientLevel world, double x, double y, double z, SpriteSet sprites, double velX, double velY, double velZ) {
         super(world, x, y + 0.5, z, 0.0, 0.0, 0.0);
 
-        this.quadSize = (float) velX;
+        BlockPos blockPos = new BlockPos((int) x, (int) (y + 1), (int) z);
+
+        if (world.getBlockState(blockPos).getBlock() == KnightQuestBlocks.GREAT_CHALICE.get()) {
+            int fillValue = world.getBlockState(blockPos).getValue(ChaliceBlock.fill);
+
+            this.quadSize = switch (fillValue) {
+                case 1 -> 1f;
+                case 2 -> 1.2f;
+                case 3 -> 1.4f;
+                case 4 -> 1.8f;
+                default -> 0f;
+            };
+
+        } else {
+            this.quadSize = (float) velX;
+        }
+
         this.rCol = 1F;
         this.gCol = 1F;
         this.bCol = 1F;

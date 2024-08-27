@@ -13,6 +13,9 @@ public class KnightQuestCommonConfigs {
     public static final ForgeConfigSpec.DoubleValue DROP_CHANCE_RATMAN_EYE;
     public static final ForgeConfigSpec.DoubleValue DROP_CHANCE_LIZZY_SCALE;
     public static final ForgeConfigSpec.DoubleValue INVULNERABILITY_RADIUS_GHOSTY;
+    public static final ForgeConfigSpec.DoubleValue MULTIPLIER_GREMLIN_MOVEMENT_SPEED;
+    public static final ForgeConfigSpec.DoubleValue MULTIPLIER_GREMLIN_ATTACK_SPEED;
+    public static final ForgeConfigSpec.DoubleValue MULTIPLIER_GREMLIN_ATTACK_DAMAGE;
 
     public static final ForgeConfigSpec.BooleanValue ENABLE_DEEPSLATESET;
     public static final ForgeConfigSpec.BooleanValue ENABLE_EVOKERSET;
@@ -68,6 +71,12 @@ public class KnightQuestCommonConfigs {
 
         BUILDER.comment("");
         INVULNERABILITY_RADIUS_GHOSTY = BUILDER.defineInRange("Ghosty invulnerability radius", 7.0, 0.0, 25.0);
+
+        BUILDER.comment("");
+        MULTIPLIER_GREMLIN_MOVEMENT_SPEED = BUILDER
+                .comment("Gremlin entity configuration").defineInRange("Second phase movement speed multipler", 1.15, 1.0, 10.0);
+        MULTIPLIER_GREMLIN_ATTACK_DAMAGE = BUILDER.defineInRange("Second phase attack damage multipler", 1.15, 0.0, 10.0);
+        MULTIPLIER_GREMLIN_ATTACK_SPEED = BUILDER.defineInRange("Second phase attack speed multipler", 1.15, 0.0, 10.0);
 
         BUILDER.comment("");
         BUILDER.comment("Armor Passives");

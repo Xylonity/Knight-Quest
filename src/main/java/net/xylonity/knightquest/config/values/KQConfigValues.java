@@ -10,12 +10,24 @@ public class KQConfigValues {
 
     static Path CONFIG_PATH = FMLPaths.CONFIGDIR.get().resolve("knightquest.toml");
     private static final boolean V = Files.exists(CONFIG_PATH);
+
+    /**
+     * Auxiliary configuration values in case the dedicated configuration file is not detected,
+     * allowing for hot-reloading (this is particularly useful in client-sided configurations).
+     */
+
     public static boolean POISON_ELDKNIGHT = V ? KnightQuestCommonConfigs.POISON_ELDKNIGHT.get() : true;
     public static int NUM_ELDBOMB_ELDKNIGHT = V ? KnightQuestCommonConfigs.NUM_ELDBOMB_ELDKNIGHT.get() : 3;
     public static float HEAL_ELDKNIGHT = (float) (V ? KnightQuestCommonConfigs.HEAL_ELDKNIGHT.get() : 3.0);
+
     public static float DROP_CHANCE_SMALL_ESSENCE  = (float) (V ? KnightQuestCommonConfigs.DROP_CHANCE_SMALL_ESSENCE.get() : 0.15);
     public static float DROP_CHANCE_RATMAN_EYE  = (float) (V ? KnightQuestCommonConfigs.DROP_CHANCE_RATMAN_EYE.get() : 0.4);
     public static float DROP_CHANCE_LIZZY_SCALE  = (float) (V ? KnightQuestCommonConfigs.DROP_CHANCE_LIZZY_SCALE.get() : 0.3);
+
+    public static float MULTIPLIER_GREMLIN_MOVEMENT_SPEED = (float) (V ? KnightQuestCommonConfigs.MULTIPLIER_GREMLIN_MOVEMENT_SPEED.get() : 1.15);
+    public static float MULTIPLIER_GREMLIN_ATTACK_SPEED = (float) (V ? KnightQuestCommonConfigs.MULTIPLIER_GREMLIN_ATTACK_SPEED.get() : 1.15);
+    public static float MULTIPLIER_GREMLIN_ATTACK_DAMAGE = (float) (V ? KnightQuestCommonConfigs.MULTIPLIER_GREMLIN_ATTACK_DAMAGE.get() : 1.15);
+
     public static float INVULNERABILITY_RADIUS_GHOSTY  = (float) (V ? KnightQuestCommonConfigs.INVULNERABILITY_RADIUS_GHOSTY.get() : 7.0);
 
     public static boolean DEEPSLATESET = V ? KnightQuestCommonConfigs.ENABLE_DEEPSLATESET.get() : true;

@@ -25,6 +25,8 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.xylonity.knightquest.common.entity.entities.ai.NearestAttackableTargetGoal;
+import net.xylonity.knightquest.config.values.KQConfigValues;
+import net.xylonity.knightquest.registry.KnightQuestEntities;
 import net.xylonity.knightquest.registry.KnightQuestParticles;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -35,17 +37,25 @@ import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.Objects;
+import java.util.Random;
 
 public class GremlinEntity extends Monster implements GeoEntity {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private static final EntityDataAccessor<Boolean> IS_PASSIVE = SynchedEntityData.defineId(GremlinEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> SHOULD_TAKE_COIN = SynchedEntityData.defineId(GremlinEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> GOLD_VARIATION = SynchedEntityData.defineId(GremlinEntity.class, EntityDataSerializers.INT);
-    private boolean isHalfHealth;
+    private static final EntityDataAccessor<Integer> PHASE = SynchedEntityData.defineId(GremlinEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Boolean> ATTACK = SynchedEntityData.defineId(GremlinEntity.class, EntityDataSerializers.BOOLEAN);
+    private int tickCounterShield = 0;
     private int tickCounter = 0;
+    private boolean isHalfHealth;
 
     public GremlinEntity(EntityType<? extends Monster> entityType, Level world) {
         super(entityType, world);
+        if (!level().isClientSide()) {
+            boolean attack1 = new Random().nextBoolean();
+            this.entityData.set(ATTACK, attack1);
+        }
     }
 
     @Override
@@ -54,19 +64,25 @@ public class GremlinEntity extends Monster implements GeoEntity {
         this.entityData.define(IS_PASSIVE, false);
         this.entityData.define(SHOULD_TAKE_COIN, false);
         this.entityData.define(GOLD_VARIATION, 0);
+        this.entityData.define(PHASE, 1);
+        this.entityData.define(ATTACK, false);
     }
 
-    public boolean getIsPassive() {
-        return this.entityData.get(IS_PASSIVE);
-    }
+    public boolean getIsPassive() { return this.entityData.get(IS_PASSIVE); }
     public boolean getShouldTakeCoin() { return this.entityData.get(SHOULD_TAKE_COIN); }
     public int getGoldVariation() { return this.entityData.get(GOLD_VARIATION); }
-
-    public void setIsPassive(boolean isPassive) {
-        this.entityData.set(IS_PASSIVE, isPassive);
+    public int getPhase() { return this.entityData.get(PHASE); }
+    public boolean getAttack() {
+        return this.entityData.get(ATTACK);
     }
-    public void setShouldTakeCoin(boolean shouldTakeCoin) { this.entityData.set(SHOULD_TAKE_COIN, shouldTakeCoin);}
-    public void setGoldVariation(int goldVariation) { this.entityData.set(GOLD_VARIATION, goldVariation);}
+
+    public void setIsPassive(boolean isPassive) { this.entityData.set(IS_PASSIVE, isPassive); }
+    public void setShouldTakeCoin(boolean shouldTakeCoin) { this.entityData.set(SHOULD_TAKE_COIN, shouldTakeCoin); }
+    public void setGoldVariation(int goldVariation) { this.entityData.set(GOLD_VARIATION, goldVariation); }
+    public void setPhase(int phase) { this.entityData.set(PHASE, phase); }
+    public void setAttack(boolean attack) {
+        this.entityData.set(ATTACK, attack);
+    }
 
     public static AttributeSupplier setAttributes() {
         return Monster.createMobAttributes()
@@ -78,9 +94,9 @@ public class GremlinEntity extends Monster implements GeoEntity {
     }
 
     private void updateAttributes() {
-        Objects.requireNonNull(getAttribute(Attributes.ATTACK_DAMAGE)).setBaseValue(7f);
-        Objects.requireNonNull(getAttribute(Attributes.MOVEMENT_SPEED)).setBaseValue(0.75f);
-        Objects.requireNonNull(getAttribute(Attributes.ATTACK_SPEED)).setBaseValue(1.2f);
+        Objects.requireNonNull(getAttribute(Attributes.ATTACK_DAMAGE)).setBaseValue(getAttributeValue(Attributes.ATTACK_DAMAGE) * KQConfigValues.MULTIPLIER_GREMLIN_ATTACK_DAMAGE);
+        Objects.requireNonNull(getAttribute(Attributes.MOVEMENT_SPEED)).setBaseValue(getAttributeValue(Attributes.MOVEMENT_SPEED) * KQConfigValues.MULTIPLIER_GREMLIN_MOVEMENT_SPEED);
+        Objects.requireNonNull(getAttribute(Attributes.ATTACK_SPEED)).setBaseValue(getAttributeValue(Attributes.ATTACK_SPEED) * KQConfigValues.MULTIPLIER_GREMLIN_ATTACK_SPEED);
     }
 
     @Override
@@ -159,8 +175,22 @@ public class GremlinEntity extends Monster implements GeoEntity {
                 this.level().addParticle(KnightQuestParticles.GREMLIN_PARTICLE.get(), this.getX(), getY() - 0.48, getZ(), 2d, 0d, 0d);
                 this.level().playSound(null, this.blockPosition(), SoundEvents.EVOKER_PREPARE_SUMMON, SoundSource.HOSTILE, 1.0F, 1.0F);
                 this.isHalfHealth = true;
-                this.updateAttributes();
+
+                if (getAttack())
+                    this.spawnShield();
+                else
+                    this.updateAttributes();
+
+                setPhase(2);
             }
+
+            if (getAttack()) {
+                tickCounterShield++;
+                if (tickCounterShield % 22 == 0 && tickCounterShield / 25 <= 1) {
+                    spawnShield();
+                }
+            }
+
         }
 
         if (getIsPassive()) {
@@ -177,6 +207,14 @@ public class GremlinEntity extends Monster implements GeoEntity {
             }
         }
 
+    }
+
+    private void spawnShield() {
+        GhastlingEntity entity = KnightQuestEntities.SHIELD.get().create(level());
+        if (entity != null) {
+            entity.moveTo(this.getOnPos(), 1.0F, 0.0F);
+            level().addFreshEntity(entity);
+        }
     }
 
     @Override

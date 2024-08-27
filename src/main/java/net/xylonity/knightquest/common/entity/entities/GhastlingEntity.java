@@ -33,11 +33,13 @@ public class GhastlingEntity extends Monster implements GeoEntity {
     private final Level serverWorld;
     private static final double RADIUS = 2.0;
     private static final double ANGULAR_SPEED = 0.1;
+    private int explodeTimer;
     private double angle;
 
     public GhastlingEntity(EntityType<? extends Monster> entityType, Level world) {
         super(entityType, world);
         this.serverWorld = world;
+        this.explodeTimer = 8 * 20 + random.nextInt(4 * 20);
     }
 
     public static AttributeSupplier setAttributes() {
@@ -58,16 +60,20 @@ public class GhastlingEntity extends Monster implements GeoEntity {
         return PlayState.CONTINUE;
     }
 
-    @Override
-    public boolean hurt(DamageSource pSource, float pAmount) {
-        serverWorld.addParticle(ParticleTypes.EXPLOSION, this.getX(), this.getY() + 0.5, this.getZ(), 1.2d, 0d, 0d);
+    private void triggerExplosionEffect() {
         level().playSound(null, this.blockPosition(), SoundEvents.VEX_HURT, SoundSource.HOSTILE, 1.0F, 1.0F);
+
+        serverWorld.addParticle(ParticleTypes.EXPLOSION, this.getX(), this.getY() + 0.5, this.getZ(), 1.2d, 0d, 0d);
 
         serverWorld.getEntitiesOfClass(Player.class, this.getBoundingBox().inflate(3)).forEach(player -> {
             Vec3 direction = player.position().subtract(this.position()).normalize().scale(0.4);
             player.push(direction.x, direction.y + 0.5, direction.z);
         });
+    }
 
+    @Override
+    public boolean hurt(DamageSource pSource, float pAmount) {
+        this.triggerExplosionEffect();
         this.remove(RemovalReason.KILLED);
         return false;
     }
@@ -82,16 +88,25 @@ public class GhastlingEntity extends Monster implements GeoEntity {
         return false;
     }
 
-
     @Override
     public void tick() {
         super.tick();
 
         GremlinEntity owner = findClosestGremlin();
 
-        if (owner == null || owner.isDeadOrDying()) {
+        if (owner == null || owner.isDeadOrDying() || owner.getPhase() == 1) {
+            triggerExplosionEffect();
             this.remove(RemovalReason.KILLED);
             return;
+        }
+
+        if (explodeTimer > 0) {
+            explodeTimer--;
+            if (explodeTimer == 0) {
+                triggerExplosionEffect();
+                this.remove(RemovalReason.KILLED);
+                return;
+            }
         }
 
         Vec3 ownerPos = owner.position();

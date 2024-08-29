@@ -24,7 +24,7 @@ public class PoisonCloudParticle extends TextureSheetParticle {
         this.rCol = 1F;
         this.gCol = 1F;
         this.bCol = 1F;
-        this.lifetime = (int)((1.5 + this.random.nextDouble() * 2.0) * 20);
+        this.lifetime = (int)((1.4 + this.random.nextDouble() * 2.0) * 20);
         this.setSpriteFromAge(sprites);
         this.spritesset = sprites;
         this.setParticleSpeed(0, 0, 0);

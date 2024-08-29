@@ -81,7 +81,6 @@ public class GhostyEntity extends Monster implements GeoEntity {
      * effectively rendering them invulnerable.
      */
 
-
     @Override
     public void tick() {
         super.tick();

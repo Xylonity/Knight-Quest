@@ -60,7 +60,6 @@ public class SamhainRenderer extends GeoEntityRenderer<SamhainEntity> {
                     default -> super.getEquipmentSlotForBone(bone, stack, animatable);
                 };
             }
-
             @NotNull
             @Override
             protected ModelPart getModelPartForBone(GeoBone bone, EquipmentSlot slot, ItemStack stack, SamhainEntity animatable, HumanoidModel<?> baseModel) {

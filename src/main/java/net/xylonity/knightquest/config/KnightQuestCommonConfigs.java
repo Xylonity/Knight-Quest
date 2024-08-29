@@ -6,17 +6,26 @@ public class KnightQuestCommonConfigs {
     public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
     public static final ForgeConfigSpec SPEC;
 
+    // Eld Knight Configurations
     public static final ForgeConfigSpec.BooleanValue POISON_ELDKNIGHT;
     public static final ForgeConfigSpec.IntValue NUM_ELDBOMB_ELDKNIGHT;
     public static final ForgeConfigSpec.DoubleValue HEAL_ELDKNIGHT;
+
+    // Drop Chance Configurations
     public static final ForgeConfigSpec.DoubleValue DROP_CHANCE_SMALL_ESSENCE;
     public static final ForgeConfigSpec.DoubleValue DROP_CHANCE_RATMAN_EYE;
     public static final ForgeConfigSpec.DoubleValue DROP_CHANCE_LIZZY_SCALE;
+
+    // Ghosty Configurations
     public static final ForgeConfigSpec.DoubleValue INVULNERABILITY_RADIUS_GHOSTY;
+
+    // Gremlin Configurations
+    public static final ForgeConfigSpec.BooleanValue CAN_TAKE_GOLD_GREMLIN;
     public static final ForgeConfigSpec.DoubleValue MULTIPLIER_GREMLIN_MOVEMENT_SPEED;
     public static final ForgeConfigSpec.DoubleValue MULTIPLIER_GREMLIN_ATTACK_SPEED;
     public static final ForgeConfigSpec.DoubleValue MULTIPLIER_GREMLIN_ATTACK_DAMAGE;
 
+    // Armor Set Configurations
     public static final ForgeConfigSpec.BooleanValue ENABLE_DEEPSLATESET;
     public static final ForgeConfigSpec.BooleanValue ENABLE_EVOKERSET;
     public static final ForgeConfigSpec.BooleanValue ENABLE_SQUIRESET;
@@ -57,69 +66,73 @@ public class KnightQuestCommonConfigs {
     public static final ForgeConfigSpec.BooleanValue ENABLE_SKELETONSET;
 
     static {
-        BUILDER.push("Config file for Knight Quest");
-        BUILDER.comment("");
-        POISON_ELDKNIGHT = BUILDER.comment("Eld Knight entity configuration")
-                .define("Poison passive attack", true);
-        NUM_ELDBOMB_ELDKNIGHT = BUILDER.defineInRange("Number of Eld Bombs generated", 3, 0, 6);
+        // Eld Knight Configuration Section
+        BUILDER.push("Eld Knight Configuration");
+        POISON_ELDKNIGHT = BUILDER.define("Should do the poison passive attack", true);
+        NUM_ELDBOMB_ELDKNIGHT = BUILDER.defineInRange("Number of Eld Bombs generated at half hp", 3, 0, 6);
         HEAL_ELDKNIGHT = BUILDER.defineInRange("Quantity of healing each 4 seconds", 3.0, 0.0, 20.0);
-        BUILDER.comment("");
-        DROP_CHANCE_SMALL_ESSENCE = BUILDER.comment("Drop chance configuration")
-                .defineInRange("Drop chance for small essence", 0.15, 0, 1);
+        BUILDER.pop();
+
+        // Ghosty Configuration Section
+        BUILDER.push("Ghosty Configuration");
+        INVULNERABILITY_RADIUS_GHOSTY = BUILDER.defineInRange("Ghosty invulnerability radius", 7.0, 0.0, 25.0);
+        BUILDER.pop();
+
+        // Gremlin Configuration Section
+        BUILDER.push("Gremlin Configuration");
+        CAN_TAKE_GOLD_GREMLIN = BUILDER.define("Can take gold from a player", true);
+        MULTIPLIER_GREMLIN_MOVEMENT_SPEED = BUILDER.defineInRange("Second phase movement speed multipler", 1.1, 1.0, 10.0);
+        MULTIPLIER_GREMLIN_ATTACK_SPEED = BUILDER.defineInRange("Second phase attack speed multipler", 1.15, 1.0, 10.0);
+        MULTIPLIER_GREMLIN_ATTACK_DAMAGE = BUILDER.defineInRange("Second phase attack damage multipler", 1.2, 1.0, 10.0);
+        BUILDER.pop();
+
+        // Drop Chance Configuration Section
+        BUILDER.push("Drop Chance Configuration");
+        DROP_CHANCE_SMALL_ESSENCE = BUILDER.comment("Drop chance for small essence").defineInRange("Drop chance for small essence", 0.15, 0, 1);
         DROP_CHANCE_RATMAN_EYE = BUILDER.defineInRange("Drop chance for ratman eye", 0.40, 0, 1);
         DROP_CHANCE_LIZZY_SCALE = BUILDER.defineInRange("Drop chance for lizzy scale", 0.30, 0, 1);
+        BUILDER.pop();
 
-        BUILDER.comment("");
-        INVULNERABILITY_RADIUS_GHOSTY = BUILDER.defineInRange("Ghosty invulnerability radius", 7.0, 0.0, 25.0);
-
-        BUILDER.comment("");
-        MULTIPLIER_GREMLIN_MOVEMENT_SPEED = BUILDER
-                .comment("Gremlin entity configuration").defineInRange("Second phase movement speed multipler", 1.15, 1.0, 10.0);
-        MULTIPLIER_GREMLIN_ATTACK_DAMAGE = BUILDER.defineInRange("Second phase attack damage multipler", 1.15, 0.0, 10.0);
-        MULTIPLIER_GREMLIN_ATTACK_SPEED = BUILDER.defineInRange("Second phase attack speed multipler", 1.15, 0.0, 10.0);
-
-        BUILDER.comment("");
-        BUILDER.comment("Armor Passives");
-        BUILDER.comment("");
-
-        ENABLE_DEEPSLATESET = BUILDER.comment("Enable Deepslate Set Passive").define("enableDeepslateSet", true);
-        ENABLE_EVOKERSET = BUILDER.comment("Enable Evoker Set Passive").define("enableEvokerSet", true);
-        ENABLE_SQUIRESET = BUILDER.comment("Enable Squire Set Passive").define("enableSquireSet", true);
-        ENABLE_BLAZESET = BUILDER.comment("Enable Blaze Set Passive").define("enableBlazeSet", true);
-        ENABLE_DRAGONSET = BUILDER.comment("Enable Dragon Set Passive").define("enableDragonSet", true);
-        ENABLE_BAMBOOSET_GREEN = BUILDER.comment("Enable Bamboo Set Green Passive").define("enableBambooSetGreen", true);
-        ENABLE_SHINOBI = BUILDER.comment("Enable Shinobi Set Passive").define("enableShinobi", true);
-        ENABLE_BAMBOOSET = BUILDER.comment("Enable Bamboo Set Passive").define("enableBambooSet", true);
-        ENABLE_PATHSET = BUILDER.comment("Enable Path Set Passive").define("enablePathSet", true);
-        ENABLE_BOWSET = BUILDER.comment("Enable Bow Set Passive").define("enableBowSet", true);
-        ENABLE_BATSET = BUILDER.comment("Enable Bat Set Passive").define("enableBatSet", true);
-        ENABLE_SHIELDSET = BUILDER.comment("Enable Shield Set Passive").define("enableShieldSet", true);
-        ENABLE_PHANTOMSET = BUILDER.comment("Enable Phantom Set Passive").define("enablePhantomSet", true);
-        ENABLE_HORNSET = BUILDER.comment("Enable Horn Set Passive").define("enableHornSet", true);
-        ENABLE_SEASET = BUILDER.comment("Enable Sea Set Passive").define("enableSeaSet", true);
-        ENABLE_PIRATESET = BUILDER.comment("Enable Pirate Set Passive").define("enablePirateSet", true);
-        ENABLE_SPIDERSET = BUILDER.comment("Enable Spider Set Passive").define("enableSpiderSet", true);
-        ENABLE_NETHERSET = BUILDER.comment("Enable Nether Set Passive").define("enableNetherSet", true);
-        ENABLE_SKULK = BUILDER.comment("Enable Skulk Passive").define("enableSkulk", true);
-        ENABLE_STRAWHATSET = BUILDER.comment("Enable Straw Hat Set Passive").define("enableStrawHatSet", true);
-        ENABLE_ENDERMANSET = BUILDER.comment("Enable Enderman Set Passive").define("enableEndermanSet", true);
-        ENABLE_VETERANSET = BUILDER.comment("Enable Veteran Set Passive").define("enableVeteranSet", true);
-        ENABLE_FORZESET = BUILDER.comment("Enable Forze Set Passive").define("enableForzeSet", true);
-        ENABLE_CREEPERSET = BUILDER.comment("Enable Creeper Set Passive").define("enableCreeperSet", true);
-        ENABLE_POLAR = BUILDER.comment("Enable Polar Passive").define("enablePolar", true);
-        ENABLE_SILVERSET = BUILDER.comment("Enable Silver Set Passive").define("enableSilverSet", true);
-        ENABLE_HOLLOWSET = BUILDER.comment("Enable Hollow Set Passive").define("enableHollowSet", true);
-        ENABLE_WITHERSET = BUILDER.comment("Enable Wither Set Passive").define("enableWitherSet", true);
-        ENABLE_APPLE_SET = BUILDER.comment("Enable Apple Set Passive").define("enableAppleSet", true);
-        ENABLE_CONQUISTADORSET = BUILDER.comment("Enable Conquistador Set Passive").define("enableConquistadorSet", true);
-        ENABLE_WITCH = BUILDER.comment("Enable Witch Passive").define("enableWitch", true);
-        ENABLE_TENGU_HELMET = BUILDER.comment("Enable Tengu Helmet Passive").define("enableTenguHelmet", true);
-        ENABLE_HUSKSET = BUILDER.comment("Enable Husk Set Passive").define("enableHuskSet", true);
-        ENABLE_BAMBOOSET_BLUE = BUILDER.comment("Enable Bamboo Set Blue Passive").define("enableBambooSetBlue", true);
-        ENABLE_WARLORDSET = BUILDER.comment("Enable Warlord Set Passive").define("enableWarlordSet", true);
-        ENABLE_ZOMBIESET = BUILDER.comment("Enable Zombie Set Passive").define("enableZombieSet", true);
-        ENABLE_SILVERFISHSET = BUILDER.comment("Enable Silverfish Set Passive").define("enableSilverfishSet", true);
-        ENABLE_SKELETONSET = BUILDER.comment("Enable Skeleton Set Passive").define("enableSkeletonSet", true);
+        // Armor Passives Configuration Section
+        BUILDER.push("Armor Passives Configuration");
+        ENABLE_DEEPSLATESET = BUILDER.define("Enable Deepslate Set Passive", true);
+        ENABLE_EVOKERSET = BUILDER.define("Enable Evoker Set Passive", true);
+        ENABLE_SQUIRESET = BUILDER.define("Enable Squire Set Passive", true);
+        ENABLE_BLAZESET = BUILDER.define("Enable Blaze Set Passive", true);
+        ENABLE_DRAGONSET = BUILDER.define("Enable Dragon Set Passive", true);
+        ENABLE_BAMBOOSET_GREEN = BUILDER.define("Enable Bamboo Set Green Passive", true);
+        ENABLE_SHINOBI = BUILDER.define("Enable Shinobi Set Passive", true);
+        ENABLE_BAMBOOSET = BUILDER.define("Enable Bamboo Set Passive", true);
+        ENABLE_PATHSET = BUILDER.define("Enable Path Set Passive", true);
+        ENABLE_BOWSET = BUILDER.define("Enable Bow Set Passive", true);
+        ENABLE_BATSET = BUILDER.define("Enable Bat Set Passive", true);
+        ENABLE_SHIELDSET = BUILDER.define("Enable Shield Set Passive", true);
+        ENABLE_PHANTOMSET = BUILDER.define("Enable Phantom Set Passive", true);
+        ENABLE_HORNSET = BUILDER.define("Enable Horn Set Passive", true);
+        ENABLE_SEASET = BUILDER.define("Enable Sea Set Passive", true);
+        ENABLE_PIRATESET = BUILDER.define("Enable Pirate Set Passive", true);
+        ENABLE_SPIDERSET = BUILDER.define("Enable Spider Set Passive", true);
+        ENABLE_NETHERSET = BUILDER.define("Enable Nether Set Passive", true);
+        ENABLE_SKULK = BUILDER.define("Enable Skulk Passive", true);
+        ENABLE_STRAWHATSET = BUILDER.define("Enable Straw Hat Set Passive", true);
+        ENABLE_ENDERMANSET = BUILDER.define("Enable Enderman Set Passive", true);
+        ENABLE_VETERANSET = BUILDER.define("Enable Veteran Set Passive", true);
+        ENABLE_FORZESET = BUILDER.define("Enable Forze Set Passive", true);
+        ENABLE_CREEPERSET = BUILDER.define("Enable Creeper Set Passive", true);
+        ENABLE_POLAR = BUILDER.define("Enable Polar Passive", true);
+        ENABLE_SILVERSET = BUILDER.define("Enable Silver Set Passive", true);
+        ENABLE_HOLLOWSET = BUILDER.define("Enable Hollow Set Passive", true);
+        ENABLE_WITHERSET = BUILDER.define("Enable Wither Set Passive", true);
+        ENABLE_APPLE_SET = BUILDER.define("Enable Apple Set Passive", true);
+        ENABLE_CONQUISTADORSET = BUILDER.define("Enable Conquistador Set Passive", true);
+        ENABLE_WITCH = BUILDER.define("Enable Witch Passive", true);
+        ENABLE_TENGU_HELMET = BUILDER.define("Enable Tengu Helmet Passive", true);
+        ENABLE_HUSKSET = BUILDER.define("Enable Husk Set Passive", true);
+        ENABLE_BAMBOOSET_BLUE = BUILDER.define("Enable Bamboo Set Blue Passive", true);
+        ENABLE_WARLORDSET = BUILDER.define("Enable Warlord Set Passive", true);
+        ENABLE_ZOMBIESET = BUILDER.define("Enable Zombie Set Passive", true);
+        ENABLE_SILVERFISHSET = BUILDER.define("Enable Silverfish Set Passive", true);
+        ENABLE_SKELETONSET = BUILDER.define("Enable Skeleton Set Passive", true);
 
         BUILDER.pop();
         SPEC = BUILDER.build();

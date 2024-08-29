@@ -220,18 +220,22 @@ public class GremlinEntity extends Monster implements GeoEntity {
     @Override
     protected @NotNull InteractionResult mobInteract(Player pPlayer, @NotNull InteractionHand pHand) {
 
-        ItemStack itemstack = pPlayer.getItemInHand(pHand);
-        Item desiredItem = Items.GOLD_INGOT;
-        Item item = itemstack.getItem();
+        if (KQConfigValues.CAN_TAKE_GOLD_GREMLIN) {
 
-        if (item.equals(desiredItem)) {
-            this.setTarget(null);
-            this.getBrain().eraseMemory(MemoryModuleType.ATTACK_TARGET);
-            this.getBrain().eraseMemory(MemoryModuleType.NEAREST_VISIBLE_PLAYER);
-            this.setLastHurtByMob(null);
-            this.setLastHurtByPlayer(null);
-            setGoldVariation(getRandom().nextInt(0, 2));
-            this.setIsPassive(true);
+            ItemStack itemstack = pPlayer.getItemInHand(pHand);
+            Item desiredItem = Items.GOLD_INGOT;
+            Item item = itemstack.getItem();
+
+            if (item.equals(desiredItem)) {
+                this.setTarget(null);
+                this.getBrain().eraseMemory(MemoryModuleType.ATTACK_TARGET);
+                this.getBrain().eraseMemory(MemoryModuleType.NEAREST_VISIBLE_PLAYER);
+                this.setLastHurtByMob(null);
+                this.setLastHurtByPlayer(null);
+                setGoldVariation(getRandom().nextInt(0, 2));
+                this.setIsPassive(true);
+            }
+
         }
 
         return super.mobInteract(pPlayer, pHand);

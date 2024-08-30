@@ -25,6 +25,20 @@ public class KnightQuestCommonConfigs {
     public static final ForgeConfigSpec.DoubleValue MULTIPLIER_GREMLIN_ATTACK_SPEED;
     public static final ForgeConfigSpec.DoubleValue MULTIPLIER_GREMLIN_ATTACK_DAMAGE;
 
+    // Netherman Configurations
+    public static final ForgeConfigSpec.BooleanValue CAN_SUMMON_NETHERMAN;
+    public static final ForgeConfigSpec.BooleanValue SPAWN_LIGHTNING_ON_SPAWN;
+    public static final ForgeConfigSpec.BooleanValue GENERATE_PARTICLES_ON_SUMMON;
+    public static final ForgeConfigSpec.DoubleValue TELEPORT_PROBABILITY;
+    public static final ForgeConfigSpec.BooleanValue RESTORE_BLOCKS_POST_DEATH;
+    public static final ForgeConfigSpec.IntValue EXPERIENCE_DROP_AMOUNT;
+    public static final ForgeConfigSpec.BooleanValue LIGHTNING_STRIKE_IN_PHASE_THREE;
+    public static final ForgeConfigSpec.IntValue LIGHTNING_TICK_INTERVAL;
+    public static final ForgeConfigSpec.DoubleValue SNOW_PARTICLE_SPEED;
+    public static final ForgeConfigSpec.IntValue SNOW_PARTICLE_COUNT;
+    public static final ForgeConfigSpec.DoubleValue WINTER_STORM_RADIUS;
+    public static final ForgeConfigSpec.IntValue FROZEN_TICKS;
+
     // Armor Set Configurations
     public static final ForgeConfigSpec.BooleanValue ENABLE_DEEPSLATESET;
     public static final ForgeConfigSpec.BooleanValue ENABLE_EVOKERSET;
@@ -84,6 +98,22 @@ public class KnightQuestCommonConfigs {
         MULTIPLIER_GREMLIN_MOVEMENT_SPEED = BUILDER.defineInRange("Second phase movement speed multipler", 1.1, 1.0, 10.0);
         MULTIPLIER_GREMLIN_ATTACK_SPEED = BUILDER.defineInRange("Second phase attack speed multipler", 1.15, 1.0, 10.0);
         MULTIPLIER_GREMLIN_ATTACK_DAMAGE = BUILDER.defineInRange("Second phase attack damage multipler", 1.2, 1.0, 10.0);
+        BUILDER.pop();
+
+        // Netherman Configuration Section
+        BUILDER.push("Netherman Configuration");
+        CAN_SUMMON_NETHERMAN = BUILDER.define("Can the Netherman be summoned?", true);
+        SPAWN_LIGHTNING_ON_SPAWN = BUILDER.define("Should spawn a lightning bolt when summoned?", true);
+        GENERATE_PARTICLES_ON_SUMMON = BUILDER.define("Should generate particles when spawning?", true);
+        TELEPORT_PROBABILITY = BUILDER.comment("Probability of teleporting when hit").defineInRange("Teleport Probability", 0.5, 0.0, 1.0);
+        RESTORE_BLOCKS_POST_DEATH = BUILDER.comment("Should it restore blocks converted to lava back to their original state after dying?").define("Restore Blocks Post Death", true);
+        EXPERIENCE_DROP_AMOUNT = BUILDER.comment("Amount of experience dropped upon death").defineInRange("Experience Drop Amount", 500, 0, 3000);
+        LIGHTNING_STRIKE_IN_PHASE_THREE = BUILDER.comment("Should lightning strike in its third phase?").define("Lightning Strike in Phase Three", true);
+        LIGHTNING_TICK_INTERVAL = BUILDER.comment("How often should a lightning bolt fall in the third phase (20 ticks = 1 second)?").defineInRange("Lightning Tick Interval", 40, 10, 200);
+        SNOW_PARTICLE_SPEED = BUILDER.defineInRange("Speed of the snow particles in the winter storm", 1.5, 1.0, 3.0);
+        SNOW_PARTICLE_COUNT = BUILDER.defineInRange("Number of particles generated in the winter storm", 60, 10, 200);
+        WINTER_STORM_RADIUS = BUILDER.comment("Defines the radius for Netherman's Winter Storm Attack").defineInRange("Winter Storm Attack Radius", 26.0, 1.0, 30.0);
+        FROZEN_TICKS = BUILDER.comment("Defines the speed at which players freeze during the Winter Attack").defineInRange("Frozen Ticks", 4, 0, 20);
         BUILDER.pop();
 
         // Drop Chance Configuration Section

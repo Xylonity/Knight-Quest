@@ -17,6 +17,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
@@ -26,7 +27,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class BadPatchEntity extends Monster implements GeoEntity {
 
-    private AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
     public BadPatchEntity(EntityType<? extends Monster> entityType, Level world) {
         super(entityType, world);
@@ -92,7 +93,7 @@ public class BadPatchEntity extends Monster implements GeoEntity {
     }
 
     @Override
-    protected SoundEvent getSwimSound() {
+    protected @NotNull SoundEvent getSwimSound() {
         return SoundEvents.AXOLOTL_SWIM;
     }
 
@@ -102,12 +103,12 @@ public class BadPatchEntity extends Monster implements GeoEntity {
     }
 
     @Override
-    protected SoundEvent getHurtSound(DamageSource pDamageSource) {
+    protected SoundEvent getHurtSound(@NotNull DamageSource pDamageSource) {
         return SoundEvents.WARDEN_HURT;
     }
 
     @Override
-    protected void playStepSound(BlockPos pPos, BlockState pState) {
+    protected void playStepSound(@NotNull BlockPos pPos, @NotNull BlockState pState) {
         this.playSound(SoundEvents.WOLF_STEP, 0.15F, 1.0F);
     }
 

@@ -2,7 +2,10 @@ package net.xylonity.knightquest.common.entity.entities;
 
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -12,6 +15,7 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -74,6 +78,38 @@ public class SwampmanEntity  extends Monster implements GeoEntity {
         }
 
         return PlayState.CONTINUE;
+    }
+
+    private int arrowRotation = 50;
+
+    @Override
+    public void tick() {
+        super.tick();
+
+        if (tickCount % 5 == 0) {
+            shootArrow(arrowRotation += (int) (360f / 10));
+        }
+    }
+
+    private void shootArrow(int angle) {
+
+        double arrowX = Math.cos(Math.toRadians(angle));
+        double arrowY = getEyeY();
+        double arrowZ = Math.sin(Math.toRadians(angle));
+
+        SwampmanAxeEntity arrow = new SwampmanAxeEntity(level(), this);
+        arrow.setPos(getX() + arrowX, arrowY + 1, getZ() + arrowZ);
+        arrow.setShotFromCrossbow(false);
+
+        double velX = Math.cos(Math.toRadians(angle));
+        double velZ = Math.sin(Math.toRadians(angle));
+        arrow.setDeltaMovement(velX, 0.3, velZ);
+
+        //arrow.addEffect(new MobEffectInstance(MobEffects.POISON, 100, 1));
+        level().playSound(null, this.blockPosition(), SoundEvents.DISPENSER_LAUNCH, SoundSource.HOSTILE, 0.75F, 1.0F);
+
+        level().addFreshEntity(arrow);
+
     }
 
     private <T extends GeoAnimatable> PlayState predicate(AnimationState<T> event) {

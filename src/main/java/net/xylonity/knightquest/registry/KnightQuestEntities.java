@@ -29,6 +29,7 @@ public class KnightQuestEntities {
     public static final RegistryObject<EntityType<NethermanEntity>> NETHERMAN;
     public static final RegistryObject<EntityType<NethermanCloneEntity>> NETHERMAN_CLONE;
     public static final RegistryObject<EntityType<NethermanTeleportChargeEntity>> NETHERMAN_TELEPORT_CHARGE;
+    public static final RegistryObject<EntityType<SwampmanAxeEntity>> SWAMPMAN_AXE;
 
     static {
         GREMLIN = register("gremlin", GremlinEntity::new, MobCategory.MONSTER , 1f, 1f);
@@ -45,6 +46,7 @@ public class KnightQuestEntities {
         NETHERMAN = register("netherman", NethermanEntity::new, MobCategory.MONSTER, 0.8f, 2.8f);
         NETHERMAN_CLONE = register("netherman_clone", NethermanCloneEntity::new, MobCategory.MONSTER, 0.8f, 2.8f);
         NETHERMAN_TELEPORT_CHARGE = register("netherman_teleport_charge", NethermanTeleportChargeEntity::new, MobCategory.MONSTER, 0.5f, 0.5f);
+        SWAMPMAN_AXE = register("swampman_axe", SwampmanAxeEntity::new, MobCategory.MONSTER, 0.3f, 1f);
     }
 
     private static <X extends Entity> RegistryObject<EntityType<X>> register(String name, EntityType.EntityFactory<X> entity, MobCategory category, float width, float height) {

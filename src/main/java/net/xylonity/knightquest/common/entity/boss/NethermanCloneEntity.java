@@ -78,7 +78,7 @@ public class NethermanCloneEntity extends Monster implements GeoEntity {
     }
 
     private void createCustomExplosionParticles() {
-        ExplosiveConfig.spawnParticles(level(), getX(), getY(), getZ(), 2, false, false, 1);
+        ExplosiveConfig.spawnParticles(level(), getX(), getY() + 1.2, getZ(), 2, false, false, 1);
     }
 
     private void explode() {

@@ -46,6 +46,7 @@ import net.xylonity.knightquest.common.api.explosiveenhancement.ExplosiveConfig;
 import net.xylonity.knightquest.common.api.util.ParticleGenerator;
 import net.xylonity.knightquest.common.api.util.TeleportValidator;
 import net.xylonity.knightquest.common.entity.boss.ai.*;
+import net.xylonity.knightquest.config.values.KQConfigValues;
 import net.xylonity.knightquest.registry.KnightQuestParticles;
 import net.xylonity.knightquest.registry.KnightQuestSounds;
 import org.jetbrains.annotations.NotNull;
@@ -136,7 +137,7 @@ public class NethermanEntity extends Monster implements GeoEntity {
         float progress = this.getHealth() / this.getMaxHealth();
         this.bossInfo.setProgress(progress);
 
-        if (getPhase() == 3 && tickCount % 40 == 0) {
+        if (getPhase() == 3 && tickCount % KQConfigValues.LIGHTNING_TICK_INTERVAL == 0 && KQConfigValues.LIGHTNING_STRIKE_IN_PHASE_THREE) {
             summonLightning();
         }
 
@@ -146,7 +147,9 @@ public class NethermanEntity extends Monster implements GeoEntity {
         }
 
         if (tickCount == 1) {
-            ExplosiveConfig.spawnParticles(level(), getX(), getY() + 0.5, getZ(), 4, false, false, 0);
+            if (KQConfigValues.GENERATE_PARTICLES_ON_SUMMON)
+                ExplosiveConfig.spawnParticles(level(), getX(), getY() + 0.5, getZ(), 4, false, false, 0);
+
             level().playSound(null, blockPosition(), SoundEvents.DRAGON_FIREBALL_EXPLODE, SoundSource.BLOCKS, 1f, 1f);
         }
 
@@ -307,7 +310,7 @@ public class NethermanEntity extends Monster implements GeoEntity {
 
             // Prevents teleporting when the incoming source kills the Netherman
 
-            if (isDamaged && pAmount < this.getHealth() && new Random().nextInt(0, 2) == 1) {
+            if (isDamaged && pAmount < this.getHealth() && getRandom().nextFloat() <= KQConfigValues.TELEPORT_PROBABILITY) {
                 teleportAroundTarget();
             }
 
@@ -330,7 +333,8 @@ public class NethermanEntity extends Monster implements GeoEntity {
     @Override
     public void die(@NotNull DamageSource pDamageSource) {
         super.die(pDamageSource);
-        restoreBlocks();
+        if (KQConfigValues.RESTORE_BLOCKS_POST_DEATH)
+            restoreBlocks();
     }
 
     /**
@@ -358,17 +362,17 @@ public class NethermanEntity extends Monster implements GeoEntity {
 
     private void winterStormAttack() {
 
-        double range = 26.0;
+        double range = KQConfigValues.WINTER_STORM_RADIUS;
         AABB area = new AABB(this.getX() - range, this.getY() - range, this.getZ() - range, this.getX() + range, this.getY() + range, this.getZ() + range);
         List<Player> players = this.level().getEntitiesOfClass(Player.class, area);
 
         for (Player player : players) {
             if (this.hasLineOfSight(player))
-                player.setTicksFrozen(player.getTicksFrozen() + 4);
+                player.setTicksFrozen(player.getTicksFrozen() + KQConfigValues.FROZEN_TICKS);
         }
 
-        int particleCount = 60;
-        double particleSpeed = 1.5;
+        int particleCount = KQConfigValues.SNOW_PARTICLE_COUNT;
+        double particleSpeed = KQConfigValues.SNOW_PARTICLE_SPEED;
         double time = this.tickCount / 20.0;
 
         for (int i = 0; i < particleCount; i++) {
@@ -441,7 +445,7 @@ public class NethermanEntity extends Monster implements GeoEntity {
 
         if (this.level() instanceof ServerLevel) {
             if (this.deathTime > 0 && this.deathTime % 5 == 0) {
-                int award = net.minecraftforge.event.ForgeEventFactory.getExperienceDrop(this, this.lastHurtByPlayer, Mth.floor((float) 500 * 0.08F));
+                int award = net.minecraftforge.event.ForgeEventFactory.getExperienceDrop(this, this.lastHurtByPlayer, Mth.floor((float) KQConfigValues.EXPERIENCE_DROP_AMOUNT * 0.08F));
                 ExperienceOrb.award((ServerLevel) this.level(), this.position(), award);
             }
         }

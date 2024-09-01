@@ -2,6 +2,7 @@ package net.xylonity.knightquest.common.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -29,6 +30,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.xylonity.knightquest.common.block.tracker.ChaliceBlockTracker;
 import net.xylonity.knightquest.common.entity.boss.NethermanEntity;
+import net.xylonity.knightquest.config.values.KQConfigValues;
 import net.xylonity.knightquest.registry.KnightQuestBlocks;
 import net.xylonity.knightquest.registry.KnightQuestEntities;
 import net.xylonity.knightquest.registry.KnightQuestItems;
@@ -83,27 +85,23 @@ public class ChaliceBlock extends Block {
 
         if (block.equals(KnightQuestBlocks.GREAT_CHALICE.get()) && item.equals(KnightQuestItems.GREAT_ESSENCE.get()) && (Arrays.asList(1, 2, 3, 4).contains(pState.getValue(fill)))) {
 
-            double centerX = pPos.getX() + 0.5;
-            double centerZ = pPos.getZ() + 0.5;
-            double initialY = pPos.getY() + 0.1;
-
-            if (pLevel.isClientSide()) {
-                int fillValue = pState.getValue(fill);
-
-                double xOffset = switch (fillValue) {
-                    case 1 -> 1d;
-                    case 2 -> 1.2d;
-                    case 3 -> 1.4d;
-                    case 4 -> 1.8d;
-                    default -> 0d;
-                };
-
-                if (xOffset != 0d) {
-                    pLevel.addParticle(KnightQuestParticles.STARSET_PARTICLE.get(), centerX, initialY - 0.48, centerZ, xOffset, 0d, 0d);
-                }
-            }
-
             if (!pLevel.isClientSide()) {
+                double centerX = pPos.getX() + 0.5;
+                double centerZ = pPos.getZ() + 0.5;
+                double initialY = pPos.getY() + 0.1;
+
+                double particleY = initialY - 0.48;
+
+                ClientboundLevelParticlesPacket packet = new ClientboundLevelParticlesPacket(
+                        KnightQuestParticles.STARSET_PARTICLE.get(),
+                        true,
+                        centerX, particleY, centerZ,
+                        0, 0, 0,
+                        1, 1
+                );
+
+                if (pLevel instanceof ServerLevel)
+                    pLevel.getServer().getPlayerList().broadcast(null, centerX, particleY, centerZ, 50, pLevel.dimension(), packet);
 
                 pLevel.playSound(null, pPos, SoundEvents.BUCKET_EMPTY, SoundSource.BLOCKS, 1f, 1f);
                 pLevel.setBlock(pPos, pState.cycle(fill), 3);
@@ -157,7 +155,7 @@ public class ChaliceBlock extends Block {
             }
         }
 
-        if (block.equals(KnightQuestBlocks.GREAT_CHALICE.get()) && item.equals(KnightQuestItems.RADIANT_ESSENCE.get()) && pState.getValue(fill).equals(5)) {
+        if (block.equals(KnightQuestBlocks.GREAT_CHALICE.get()) && item.equals(KnightQuestItems.RADIANT_ESSENCE.get()) && pState.getValue(fill).equals(5) && KQConfigValues.CAN_SUMMON_NETHERMAN) {
             if (!pLevel.isClientSide()) {
                 if (pPlayer.getItemInHand(pHand).getCount() > 1) {
                     int stackCount = stack.getCount();
@@ -221,7 +219,7 @@ public class ChaliceBlock extends Block {
                 pLevel.setBlock(pPos, pState.cycle(fill), 3);
 
                 LightningBolt lightningBolt = EntityType.LIGHTNING_BOLT.create(pLevel);
-                if (lightningBolt != null) {
+                if (lightningBolt != null && KQConfigValues.SPAWN_LIGHTNING_ON_SPAWN) {
                     lightningBolt.moveTo(pPos.getX() + 0.5, pPos.getY(), pPos.getZ() + 0.5);
                     pLevel.addFreshEntity(lightningBolt);
                 }

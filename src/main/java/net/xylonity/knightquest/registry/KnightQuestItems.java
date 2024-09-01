@@ -1,9 +1,6 @@
 package net.xylonity.knightquest.registry;
 
-import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.*;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.registries.DeferredRegister;
@@ -509,16 +506,16 @@ public class KnightQuestItems {
             () -> new ForgeSpawnEggItem(KnightQuestEntities.BADPATCH, 0xec160b, 0xeff1f8, new Item.Properties()));
     public static final RegistryObject<Item> GHOSTY_EGG = ITEMS.register("ghosty_spawn_egg",
             () -> new ForgeSpawnEggItem(KnightQuestEntities.GHOSTY, 0x2cb87e, 0xfbe105, new Item.Properties()));
-    public static final RegistryObject<Item> MOMMA_LIZZY_EGG = ITEMS.register("momma_lizzy_spawn_egg",
-            () -> new ForgeSpawnEggItem(KnightQuestEntities.MOMMA_LIZZY, 0x0babf2, 0x9f5b14, new Item.Properties()));
+    //public static final RegistryObject<Item> MOMMA_LIZZY_EGG = ITEMS.register("momma_lizzy_spawn_egg",
+    //        () -> new ForgeSpawnEggItem(KnightQuestEntities.MOMMA_LIZZY, 0x0babf2, 0x9f5b14, new Item.Properties()));
     public static final RegistryObject<Item> NETHERMAN_EGG = ITEMS.register("netherman_spawn_egg",
             () -> new ForgeSpawnEggItem(KnightQuestEntities.NETHERMAN, 0xebedec, 0xc3c3c3, new Item.Properties()));
-    public static final RegistryObject<Item> GHASTLING_EGG = ITEMS.register("ghastling_spawn_egg",
-            () -> new ForgeSpawnEggItem(KnightQuestEntities.SHIELD, 0x930c13, 0xfb9600, new Item.Properties()){
-                @Override
-                public void appendHoverText(@NotNull ItemStack pStack, @NotNull TooltipContext pContext, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pTooltipFlag) {
-                    pTooltipComponents.add(Component.translatable("tooltip.item.knightquest.ghastling_spawn_egg"));
-                    super.appendHoverText(pStack, pContext, pTooltipComponents, pTooltipFlag);
-                }
-            });
+    //public static final RegistryObject<Item> GHASTLING_EGG = ITEMS.register("ghastling_spawn_egg",
+    //        () -> new ForgeSpawnEggItem(KnightQuestEntities.SHIELD, 0x930c13, 0xfb9600, new Item.Properties()){
+    //            @Override
+    //            public void appendHoverText(@NotNull ItemStack pStack, @NotNull TooltipContext pContext, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pTooltipFlag) {
+    //                pTooltipComponents.add(Component.translatable("tooltip.item.knightquest.ghastling_spawn_egg"));
+    //                super.appendHoverText(pStack, pContext, pTooltipComponents, pTooltipFlag);
+    //            }
+    //        });
 }

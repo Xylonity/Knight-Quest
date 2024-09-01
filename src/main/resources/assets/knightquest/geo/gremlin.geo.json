@@ -3,7 +3,7 @@
 	"minecraft:geometry": [
 		{
 			"description": {
-				"identifier": "geometry.kq_gremlin",
+				"identifier": "geometry.unknown",
 				"texture_width": 64,
 				"texture_height": 64,
 				"visible_bounds_width": 2,
@@ -74,6 +74,14 @@
 						{"origin": [4, 14, -1], "size": [4, 3, 3], "uv": [50, 58], "mirror": true},
 						{"origin": [6, 17, -1], "size": [2, 3, 3], "uv": [39, 58], "mirror": true},
 						{"origin": [-4, 10, -4], "size": [8, 8, 8], "inflate": 0.5, "uv": [0, 0]}
+					]
+				},
+				{
+					"name": "Coin",
+					"parent": "Body",
+					"pivot": [-1.5, 3.5, -0.5],
+					"cubes": [
+						{"origin": [-2, 3, -1], "size": [1, 1, 1], "uv": [35, 44]}
 					]
 				}
 			]

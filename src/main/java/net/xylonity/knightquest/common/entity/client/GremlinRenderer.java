@@ -6,12 +6,11 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.xylonity.knightquest.KnightQuest;
 import net.xylonity.knightquest.common.entity.entities.GremlinEntity;
+import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 import software.bernie.geckolib.renderer.layer.AutoGlowingGeoLayer;
 
 public class GremlinRenderer extends GeoEntityRenderer<GremlinEntity> {
-
-    boolean sPhase = false;
 
     public GremlinRenderer(EntityRendererProvider.Context renderManager) {
         super(renderManager, new GremlinModel());
@@ -20,8 +19,8 @@ public class GremlinRenderer extends GeoEntityRenderer<GremlinEntity> {
     }
 
     @Override
-    public ResourceLocation getTextureLocation(GremlinEntity animatable) {
-        if (animatable.getHealth() < animatable.getMaxHealth() * 0.5) {
+    public @NotNull ResourceLocation getTextureLocation(GremlinEntity animatable) {
+        if (animatable.getPhase() == 2) {
             return ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "textures/entity/gremlin_angry.png");
         } else {
             return ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "textures/entity/gremlin.png");

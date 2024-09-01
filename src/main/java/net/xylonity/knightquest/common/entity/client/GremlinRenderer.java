@@ -11,8 +11,6 @@ import software.bernie.geckolib.renderer.layer.AutoGlowingGeoLayer;
 
 public class GremlinRenderer extends GeoEntityRenderer<GremlinEntity> {
 
-    boolean sPhase = false;
-
     public GremlinRenderer(EntityRendererProvider.Context renderManager) {
         super(renderManager, new GremlinModel());
 
@@ -21,7 +19,7 @@ public class GremlinRenderer extends GeoEntityRenderer<GremlinEntity> {
 
     @Override
     public ResourceLocation getTextureLocation(GremlinEntity animatable) {
-        if (animatable.getHealth() < animatable.getMaxHealth() * 0.5) {
+        if (animatable.getPhase() == 2) {
             return new ResourceLocation(KnightQuest.MOD_ID, "textures/entity/gremlin_angry.png");
         } else {
             return new ResourceLocation(KnightQuest.MOD_ID, "textures/entity/gremlin.png");

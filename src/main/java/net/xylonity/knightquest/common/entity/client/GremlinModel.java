@@ -19,7 +19,7 @@ public class GremlinModel extends GeoModel<GremlinEntity> {
 
     @Override
     public ResourceLocation getTextureResource(GremlinEntity animatable) {
-        if (animatable.getHealth() < animatable.getMaxHealth() * 0.5) {
+        if (animatable.getPhase() == 2) {
             return new ResourceLocation(KnightQuest.MOD_ID, "textures/entity/gremlin_angry.png");
         } else {
             return new ResourceLocation(KnightQuest.MOD_ID, "textures/entity/gremlin.png");

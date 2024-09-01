@@ -87,9 +87,6 @@ public class AbstractSwampmanAxeEntity extends Projectile {
         this.soundEvent = pSoundEvent;
     }
 
-    /**
-     * Checks if the entity is in range to render.
-     */
     public boolean shouldRenderAtSqrDistance(double pDistance) {
         double d0 = this.getBoundingBox().getSize() * 10.0D;
         if (Double.isNaN(d0)) {
@@ -105,33 +102,21 @@ public class AbstractSwampmanAxeEntity extends Projectile {
         this.entityData.define(PIERCE_LEVEL, (byte)0);
     }
 
-    /**
-     * Similar to setArrowHeading, it's point the throwable entity to a x, y, z direction.
-     */
     public void shoot(double pX, double pY, double pZ, float pVelocity, float pInaccuracy) {
         super.shoot(pX, pY, pZ, pVelocity, pInaccuracy);
         this.life = 0;
     }
 
-    /**
-     * Sets a target for the client to interpolate towards over the next few ticks
-     */
     public void lerpTo(double pX, double pY, double pZ, float pYaw, float pPitch, int pPosRotationIncrements, boolean pTeleport) {
         this.setPos(pX, pY, pZ);
         this.setRot(pYaw, pPitch);
     }
 
-    /**
-     * Updates the entity motion clientside, called by packets from the server
-     */
     public void lerpMotion(double pX, double pY, double pZ) {
         super.lerpMotion(pX, pY, pZ);
         this.life = 0;
     }
 
-    /**
-     * Called to update the entity's position/logic.
-     */
     public void tick() {
         super.tick();
         boolean flag = this.isNoPhysics();
@@ -139,14 +124,13 @@ public class AbstractSwampmanAxeEntity extends Projectile {
         if (this.xRotO == 0.0F && this.yRotO == 0.0F) {
             double d0 = vec3.horizontalDistance();
             this.setYRot((float)(Mth.atan2(vec3.x, vec3.z) * (double)(180F / (float)Math.PI)));
-            this.setXRot((float)(Mth.atan2(vec3.y, d0) * (double)(180F / (float)Math.PI)));
+            this.setXRot((float)(Mth.atan2(vec3.y, d0) * (double)(360F / (float)Math.PI)));
             this.yRotO = this.getYRot();
             this.xRotO = this.getXRot();
         }
 
         if (!this.inGround) {
-            float additionalRotation = 20;
-            this.xRotO = this.getXRot() + additionalRotation;
+            this.xRotO = this.getXRot() + 60;
         }
 
         BlockPos blockpos = this.blockPosition();
@@ -259,7 +243,7 @@ public class AbstractSwampmanAxeEntity extends Projectile {
                 this.setYRot((float)(Mth.atan2(d5, d1) * (double)(180F / (float)Math.PI)));
             }
 
-            this.setXRot((float)(Mth.atan2(d6, d4) * (double)(180F / (float)Math.PI)));
+            this.setXRot((float)(Mth.atan2(d6, d4) * (double)(360F / (float)Math.PI)));
             this.setXRot(lerpRotation(this.xRotO, this.getXRot()));
             this.setYRot(lerpRotation(this.yRotO, this.getYRot()));
             float f = 0.99F;
@@ -322,13 +306,12 @@ public class AbstractSwampmanAxeEntity extends Projectile {
 
     }
 
-    /**
-     * Called when the arrow hits an entity
-     */
     protected void onHitEntity(EntityHitResult pResult) {
         super.onHitEntity(pResult);
         Entity entity = pResult.getEntity();
         float f = (float)this.getDeltaMovement().length();
+        this.setXRot(0);
+        this.xRotO = 0;
         int i = Mth.ceil(Mth.clamp((double)f * this.baseDamage, 0.0D, (double)Integer.MAX_VALUE));
         if (this.getPierceLevel() > 0) {
             if (this.piercingIgnoreEntityIds == null) {
@@ -445,9 +428,6 @@ public class AbstractSwampmanAxeEntity extends Projectile {
         this.resetPiercedEntities();
     }
 
-    /**
-     * The sound made when an entity is hit by this projectile
-     */
     protected SoundEvent getDefaultHitGroundSoundEvent() {
         return SoundEvents.ARROW_HIT;
     }
@@ -459,9 +439,6 @@ public class AbstractSwampmanAxeEntity extends Projectile {
     protected void doPostHurtEffects(LivingEntity pTarget) {
     }
 
-    /**
-     * Gets the EntityHitResult representing the entity hit
-     */
     @Nullable
     protected EntityHitResult findHitEntity(Vec3 pStartVec, Vec3 pEndVec) {
         return ProjectileUtil.getEntityHitResult(this.level(), this, pStartVec, pEndVec, this.getBoundingBox().expandTowards(this.getDeltaMovement()).inflate(1.0D), this::canHitEntity);
@@ -488,9 +465,6 @@ public class AbstractSwampmanAxeEntity extends Projectile {
         pCompound.putBoolean("ShotFromCrossbow", this.shotFromCrossbow());
     }
 
-    /**
-     * (abstract) Protected helper method to read subclass entity data from NBT.
-     */
     public void readAdditionalSaveData(CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
         this.life = pCompound.getShort("life");
@@ -522,9 +496,6 @@ public class AbstractSwampmanAxeEntity extends Projectile {
 
     }
 
-    /**
-     * Called by a player entity when they collide with an entity
-     */
     public void playerTouch(Player pEntity) {
         if (!this.level().isClientSide && (this.inGround || this.isNoPhysics()) && this.shakeTime <= 0) {
             if (this.tryPickup(pEntity)) {
@@ -556,9 +527,6 @@ public class AbstractSwampmanAxeEntity extends Projectile {
         return this.baseDamage;
     }
 
-    /**
-     * Sets the amount of knockback the arrow applies when it hits a mob.
-     */
     public void setKnockback(int pKnockback) {
         this.knockback = pKnockback;
     }
@@ -567,9 +535,6 @@ public class AbstractSwampmanAxeEntity extends Projectile {
         return this.knockback;
     }
 
-    /**
-     * Returns {@code true} if it's possible to attack this entity with an item.
-     */
     public boolean isAttackable() {
         return false;
     }
@@ -578,9 +543,6 @@ public class AbstractSwampmanAxeEntity extends Projectile {
         return 0.13F;
     }
 
-    /**
-     * Whether the arrow has a stream of critical hit particles flying behind it.
-     */
     public void setCritArrow(boolean pCritArrow) {
         this.setFlag(1, pCritArrow);
     }
@@ -599,17 +561,11 @@ public class AbstractSwampmanAxeEntity extends Projectile {
 
     }
 
-    /**
-     * Whether the arrow has a stream of critical hit particles flying behind it.
-     */
     public boolean isCritArrow() {
         byte b0 = this.entityData.get(ID_FLAGS);
         return (b0 & 1) != 0;
     }
 
-    /**
-     * Whether the arrow was shot from a crossbow.
-     */
     public boolean shotFromCrossbow() {
         byte b0 = this.entityData.get(ID_FLAGS);
         return (b0 & 4) != 0;
@@ -641,17 +597,11 @@ public class AbstractSwampmanAxeEntity extends Projectile {
         return 0.6F;
     }
 
-    /**
-     * Sets if this arrow can noClip
-     */
     public void setNoPhysics(boolean pNoPhysics) {
         this.noPhysics = pNoPhysics;
         this.setFlag(2, pNoPhysics);
     }
 
-    /**
-     * Whether the arrow can noClip
-     */
     public boolean isNoPhysics() {
         if (!this.level().isClientSide) {
             return this.noPhysics;
@@ -660,9 +610,6 @@ public class AbstractSwampmanAxeEntity extends Projectile {
         }
     }
 
-    /**
-     * Sets data about if this arrow entity was shot from a crossbow
-     */
     public void setShotFromCrossbow(boolean pShotFromCrossbow) {
         this.setFlag(4, pShotFromCrossbow);
     }

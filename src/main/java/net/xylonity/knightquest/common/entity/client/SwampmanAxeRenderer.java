@@ -8,13 +8,11 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.phys.Vec3;
 import net.xylonity.knightquest.KnightQuest;
 import net.xylonity.knightquest.common.entity.entities.SwampmanAxeEntity;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
-import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 
 public class SwampmanAxeRenderer extends GeoEntityRenderer<SwampmanAxeEntity> {
@@ -24,7 +22,7 @@ public class SwampmanAxeRenderer extends GeoEntityRenderer<SwampmanAxeEntity> {
     }
 
     @Override
-    public ResourceLocation getTextureLocation(SwampmanAxeEntity animatable) {
+    public @NotNull ResourceLocation getTextureLocation(@NotNull SwampmanAxeEntity animatable) {
         return new ResourceLocation(KnightQuest.MOD_ID, "textures/entity/swampman.png");
     }
 
@@ -32,23 +30,8 @@ public class SwampmanAxeRenderer extends GeoEntityRenderer<SwampmanAxeEntity> {
         pConsumer.vertex(pMatrix, (float)pX, (float)pY, (float)pZ).color(255, 255, 255, 255).uv(pU, pV).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(pPackedLight).normal(pNormal, (float)pNormalX, (float)pNormalY, (float)pNormalZ).endVertex();
     }
 
-    private boolean rotationCalculated = false;
-    private float initialYaw;
-
-    public void setInitialYaw(float yaw) {
-        if (!this.rotationCalculated) {
-            this.initialYaw = yaw;
-            this.rotationCalculated = true;
-        }
-    }
-
-    public float getInitialYaw() {
-        return this.initialYaw;
-    }
-
-
     @Override
-    public void render(SwampmanAxeEntity entity, float entityYaw, float partialTick, PoseStack pPoseStack, MultiBufferSource bufferSource, int packedLight) {
+    public void render(SwampmanAxeEntity entity, float entityYaw, float partialTick, PoseStack pPoseStack, @NotNull MultiBufferSource bufferSource, int packedLight) {
 
         pPoseStack.pushPose();
 

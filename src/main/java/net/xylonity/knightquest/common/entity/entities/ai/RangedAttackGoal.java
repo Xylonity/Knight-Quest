@@ -7,6 +7,7 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.ProjectileWeaponItem;
+import net.xylonity.knightquest.common.entity.entities.SwampmanEntity;
 
 import java.util.EnumSet;
 
@@ -30,8 +31,15 @@ public class RangedAttackGoal<T extends net.minecraft.world.entity.Mob & RangedA
     }
 
     public boolean canUse() {
-        return this.mob.getTarget() != null && this.isHoldingRangedWeapon();
-    }
+        if (this.mob.getTarget() == null || !this.isHoldingRangedWeapon()) {
+            return false;
+        }
+
+        if (this.mob instanceof SwampmanEntity swampmanEntity) {
+            return swampmanEntity.getPhase() != 1;
+        }
+
+        return true;    }
 
     protected boolean isHoldingRangedWeapon() {
         return this.mob.isHolding(is -> is.getItem() instanceof ProjectileWeaponItem);

@@ -7,6 +7,7 @@ import net.minecraft.client.particle.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -22,7 +23,7 @@ public class StarsetParticle extends TextureSheetParticle {
     StarsetParticle(ClientLevel world, double x, double y, double z, SpriteSet sprites, double velX, double velY, double velZ) {
         super(world, x, y + 0.5, z, 0.0, 0.0, 0.0);
 
-        BlockPos blockPos = new BlockPos((int) x, (int) (y + 1), (int) z);
+        BlockPos blockPos = BlockPos.containing(x, y + 1, z);
 
         if (world.getBlockState(blockPos).getBlock() == KnightQuestBlocks.GREAT_CHALICE.get()) {
             int fillValue = world.getBlockState(blockPos).getValue(ChaliceBlock.fill);

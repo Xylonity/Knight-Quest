@@ -1,9 +1,6 @@
 package net.xylonity.knightquest.common.entity.entities;
 
 import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -157,7 +154,7 @@ public class EldBombEntity extends Creeper implements GeoEntity {
 
     private void poisonNearbyPlayers() {
         this.level().getEntitiesOfClass(Player.class, this.getBoundingBox().inflate(3.5)).forEach(player -> {
-            player.addEffect(new MobEffectInstance(MobEffects.POISON, 200, 1));
+            player.addEffect(new MobEffectInstance(MobEffects.POISON, 160, 0));
         });
     }
 

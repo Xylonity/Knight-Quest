@@ -4,16 +4,11 @@ import com.google.common.collect.Lists;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.protocol.game.ClientboundGameEventPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -30,9 +25,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
@@ -42,16 +35,12 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class AbstractSwampmanAxeEntity extends Projectile {
-    private static final double ARROW_BASE_DAMAGE = 2.0D;
     private static final EntityDataAccessor<Byte> ID_FLAGS = SynchedEntityData.defineId(AbstractSwampmanAxeEntity.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Byte> PIERCE_LEVEL = SynchedEntityData.defineId(AbstractSwampmanAxeEntity.class, EntityDataSerializers.BYTE);
-    private static final int FLAG_CRIT = 1;
-    private static final int FLAG_NOPHYSICS = 2;
-    private static final int FLAG_CROSSBOW = 4;
     @Nullable
     private BlockState lastState;
     protected boolean inGround;
@@ -181,6 +170,7 @@ public class AbstractSwampmanAxeEntity extends Projectile {
                 }
 
                 if (hitresult != null && hitresult.getType() == HitResult.Type.ENTITY) {
+                    assert hitresult instanceof EntityHitResult;
                     Entity entity = ((EntityHitResult)hitresult).getEntity();
                     Entity entity1 = this.getOwner();
                     if (entity instanceof Player && entity1 instanceof Player && !((Player)entity1).canHarmPlayer((Player)entity)) {
@@ -192,17 +182,18 @@ public class AbstractSwampmanAxeEntity extends Projectile {
                 if (hitresult != null && hitresult.getType() != HitResult.Type.MISS && !flag) {
                     switch (net.minecraftforge.event.ForgeEventFactory.onProjectileImpactResult(this, hitresult)) {
                         case SKIP_ENTITY:
-                            if (hitresult.getType() != HitResult.Type.ENTITY) { // If there is no entity, we just return default behaviour
+                            if (hitresult.getType() != HitResult.Type.ENTITY) {
                                 this.onHit(hitresult);
                                 this.hasImpulse = true;
                                 break;
                             }
+                            assert entityhitresult != null;
                             ignoredEntities.add(entityhitresult.getEntity().getId());
-                            entityhitresult = null; // Don't process any further
+                            entityhitresult = null;
                             break;
                         case STOP_AT_CURRENT_NO_DAMAGE:
                             this.discard();
-                            entityhitresult = null; // Don't process any further
+                            entityhitresult = null;
                             break;
                         case STOP_AT_CURRENT:
                             this.setPierceLevel((byte) 0);
@@ -247,17 +238,15 @@ public class AbstractSwampmanAxeEntity extends Projectile {
             this.setXRot(lerpRotation(this.xRotO, this.getXRot()));
             this.setYRot(lerpRotation(this.yRotO, this.getYRot()));
             float f = 0.99F;
-            float f1 = 0.05F;
             if (this.isInWater()) {
                 for(int j = 0; j < 4; ++j) {
-                    float f2 = 0.25F;
                     this.level().addParticle(ParticleTypes.BUBBLE, d7 - d5 * 0.25D, d2 - d6 * 0.25D, d3 - d1 * 0.25D, d5, d6, d1);
                 }
 
                 f = this.getWaterInertia();
             }
 
-            this.setDeltaMovement(vec3.scale((double)f));
+            this.setDeltaMovement(vec3.scale(f));
             if (!this.isNoGravity() && !flag) {
                 Vec3 vec34 = this.getDeltaMovement();
                 this.setDeltaMovement(vec34.x, vec34.y - (double)0.05F, vec34.z);
@@ -275,11 +264,11 @@ public class AbstractSwampmanAxeEntity extends Projectile {
     private void startFalling() {
         this.inGround = false;
         Vec3 vec3 = this.getDeltaMovement();
-        this.setDeltaMovement(vec3.multiply((double)(this.random.nextFloat() * 0.2F), (double)(this.random.nextFloat() * 0.2F), (double)(this.random.nextFloat() * 0.2F)));
+        this.setDeltaMovement(vec3.multiply((this.random.nextFloat() * 0.2F), (this.random.nextFloat() * 0.2F), (this.random.nextFloat() * 0.2F)));
         this.life = 0;
     }
 
-    public void move(MoverType pType, Vec3 pPos) {
+    public void move(@NotNull MoverType pType, @NotNull Vec3 pPos) {
         super.move(pType, pPos);
         if (pType != MoverType.SELF && this.shouldFall()) {
             this.startFalling();
@@ -306,13 +295,13 @@ public class AbstractSwampmanAxeEntity extends Projectile {
 
     }
 
-    protected void onHitEntity(EntityHitResult pResult) {
+    protected void onHitEntity(@NotNull EntityHitResult pResult) {
         super.onHitEntity(pResult);
         Entity entity = pResult.getEntity();
         float f = (float)this.getDeltaMovement().length();
         this.setXRot(0);
         this.xRotO = 0;
-        int i = Mth.ceil(Mth.clamp((double)f * this.baseDamage, 0.0D, (double)Integer.MAX_VALUE));
+        int i = Mth.ceil(Mth.clamp((double)f * this.baseDamage, 0.0D, Integer.MAX_VALUE));
         if (this.getPierceLevel() > 0) {
             if (this.piercingIgnoreEntityIds == null) {
                 this.piercingIgnoreEntityIds = new IntOpenHashSet(5);
@@ -331,7 +320,7 @@ public class AbstractSwampmanAxeEntity extends Projectile {
         }
 
         if (this.isCritArrow()) {
-            long j = (long)this.random.nextInt(i / 2 + 2);
+            long j = this.random.nextInt(i / 2 + 2);
             i = (int)Math.min(j + (long)i, 2147483647L);
         }
 
@@ -357,12 +346,7 @@ public class AbstractSwampmanAxeEntity extends Projectile {
                 return;
             }
 
-            if (entity instanceof LivingEntity) {
-                LivingEntity livingentity = (LivingEntity)entity;
-                if (!this.level().isClientSide && this.getPierceLevel() <= 0) {
-                    livingentity.setArrowCount(livingentity.getArrowCount() + 1);
-                }
-
+            if (entity instanceof LivingEntity livingentity) {
                 if (this.knockback > 0) {
                     double d0 = Math.max(0.0D, 1.0D - livingentity.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE));
                     Vec3 vec3 = this.getDeltaMovement().multiply(1.0D, 0.0D, 1.0D).normalize().scale((double)this.knockback * 0.6D * d0);
@@ -377,7 +361,7 @@ public class AbstractSwampmanAxeEntity extends Projectile {
                 }
 
                 this.doPostHurtEffects(livingentity);
-                if (entity1 != null && livingentity != entity1 && livingentity instanceof Player && entity1 instanceof ServerPlayer && !this.isSilent()) {
+                if (livingentity != entity1 && livingentity instanceof Player && entity1 instanceof ServerPlayer && !this.isSilent()) {
                     ((ServerPlayer)entity1).connection.send(new ClientboundGameEventPacket(ClientboundGameEventPacket.ARROW_HIT_PLAYER, 0.0F));
                 }
 
@@ -385,12 +369,11 @@ public class AbstractSwampmanAxeEntity extends Projectile {
                     this.piercedAndKilledEntities.add(livingentity);
                 }
 
-                if (!this.level().isClientSide && entity1 instanceof ServerPlayer) {
-                    ServerPlayer serverplayer = (ServerPlayer)entity1;
+                if (!this.level().isClientSide && entity1 instanceof ServerPlayer serverplayer) {
                     if (this.piercedAndKilledEntities != null && this.shotFromCrossbow()) {
                         CriteriaTriggers.KILLED_BY_CROSSBOW.trigger(serverplayer, this.piercedAndKilledEntities);
                     } else if (!entity.isAlive() && this.shotFromCrossbow()) {
-                        CriteriaTriggers.KILLED_BY_CROSSBOW.trigger(serverplayer, Arrays.asList(entity));
+                        CriteriaTriggers.KILLED_BY_CROSSBOW.trigger(serverplayer, List.of(entity));
                     }
                 }
             }
@@ -416,7 +399,7 @@ public class AbstractSwampmanAxeEntity extends Projectile {
         super.onHitBlock(pResult);
         Vec3 vec3 = pResult.getLocation().subtract(this.getX(), this.getY(), this.getZ());
         this.setDeltaMovement(vec3);
-        Vec3 vec31 = vec3.normalize().scale((double)0.05F);
+        Vec3 vec31 = vec3.normalize().scale(0.05F);
         this.setPosRaw(this.getX() - vec31.x, this.getY() - vec31.y, this.getZ() - vec31.z);
         this.playSound(this.getHitGroundSoundEvent(), 1.0F, 1.2F / (this.random.nextFloat() * 0.2F + 0.9F));
         this.inGround = true;
@@ -444,11 +427,11 @@ public class AbstractSwampmanAxeEntity extends Projectile {
         return ProjectileUtil.getEntityHitResult(this.level(), this, pStartVec, pEndVec, this.getBoundingBox().expandTowards(this.getDeltaMovement()).inflate(1.0D), this::canHitEntity);
     }
 
-    protected boolean canHitEntity(Entity p_36743_) {
-        return super.canHitEntity(p_36743_) && (this.piercingIgnoreEntityIds == null || !this.piercingIgnoreEntityIds.contains(p_36743_.getId())) && !this.ignoredEntities.contains(p_36743_.getId());
+    protected boolean canHitEntity(@NotNull Entity pEntity) {
+        return super.canHitEntity(pEntity) && (this.piercingIgnoreEntityIds == null || !this.piercingIgnoreEntityIds.contains(pEntity.getId())) && !this.ignoredEntities.contains(pEntity.getId());
     }
 
-    public void addAdditionalSaveData(CompoundTag pCompound) {
+    public void addAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.addAdditionalSaveData(pCompound);
         pCompound.putShort("life", (short)this.life);
         if (this.lastState != null) {
@@ -465,7 +448,7 @@ public class AbstractSwampmanAxeEntity extends Projectile {
         pCompound.putBoolean("ShotFromCrossbow", this.shotFromCrossbow());
     }
 
-    public void readAdditionalSaveData(CompoundTag pCompound) {
+    public void readAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
         this.life = pCompound.getShort("life");
         if (pCompound.contains("inBlockState", 10)) {
@@ -496,7 +479,7 @@ public class AbstractSwampmanAxeEntity extends Projectile {
 
     }
 
-    public void playerTouch(Player pEntity) {
+    public void playerTouch(@NotNull Player pEntity) {
         if (!this.level().isClientSide && (this.inGround || this.isNoPhysics()) && this.shakeTime <= 0) {
             if (this.tryPickup(pEntity)) {
                 pEntity.take(this, 1);
@@ -507,39 +490,21 @@ public class AbstractSwampmanAxeEntity extends Projectile {
     }
 
     protected boolean tryPickup(Player pPlayer) {
-        switch (this.pickup) {
-            case CREATIVE_ONLY:
-                return pPlayer.getAbilities().instabuild;
-            default:
-                return false;
+        if (Objects.requireNonNull(this.pickup) == AbstractArrow.Pickup.CREATIVE_ONLY) {
+            return pPlayer.getAbilities().instabuild;
         }
+        return false;
     }
 
-    protected Entity.MovementEmission getMovementEmission() {
+    protected Entity.@NotNull MovementEmission getMovementEmission() {
         return Entity.MovementEmission.NONE;
-    }
-
-    public void setBaseDamage(double pBaseDamage) {
-        this.baseDamage = pBaseDamage;
-    }
-
-    public double getBaseDamage() {
-        return this.baseDamage;
-    }
-
-    public void setKnockback(int pKnockback) {
-        this.knockback = pKnockback;
-    }
-
-    public int getKnockback() {
-        return this.knockback;
     }
 
     public boolean isAttackable() {
         return false;
     }
 
-    protected float getEyeHeight(Pose pPose, EntityDimensions pSize) {
+    protected float getEyeHeight(@NotNull Pose pPose, @NotNull EntityDimensions pSize) {
         return 0.13F;
     }
 
@@ -575,31 +540,8 @@ public class AbstractSwampmanAxeEntity extends Projectile {
         return this.entityData.get(PIERCE_LEVEL);
     }
 
-    public void setEnchantmentEffectsFromEntity(LivingEntity pShooter, float pVelocity) {
-        int i = EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER_ARROWS, pShooter);
-        int j = EnchantmentHelper.getEnchantmentLevel(Enchantments.PUNCH_ARROWS, pShooter);
-        this.setBaseDamage((double)(pVelocity * 2.0F) + this.random.triangle((double)this.level().getDifficulty().getId() * 0.11D, 0.57425D));
-        if (i > 0) {
-            this.setBaseDamage(this.getBaseDamage() + (double)i * 0.5D + 0.5D);
-        }
-
-        if (j > 0) {
-            this.setKnockback(j);
-        }
-
-        if (EnchantmentHelper.getEnchantmentLevel(Enchantments.FLAMING_ARROWS, pShooter) > 0) {
-            this.setSecondsOnFire(100);
-        }
-
-    }
-
     protected float getWaterInertia() {
         return 0.6F;
-    }
-
-    public void setNoPhysics(boolean pNoPhysics) {
-        this.noPhysics = pNoPhysics;
-        this.setFlag(2, pNoPhysics);
     }
 
     public boolean isNoPhysics() {

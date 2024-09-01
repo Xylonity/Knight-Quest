@@ -15,6 +15,7 @@ import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.Level;
 import net.xylonity.knightquest.registry.KnightQuestEntities;
+import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.*;
@@ -109,7 +110,7 @@ public class SwampmanAxeEntity extends AbstractSwampmanAxeEntity implements GeoE
         this.entityData.set(ID_EFFECT_COLOR, pFixedColor);
     }
 
-    public void addAdditionalSaveData(CompoundTag pCompound) {
+    public void addAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.addAdditionalSaveData(pCompound);
         if (this.potion != Potions.EMPTY) {
             pCompound.putString("Potion", BuiltInRegistries.POTION.getKey(this.potion).toString());
@@ -131,7 +132,7 @@ public class SwampmanAxeEntity extends AbstractSwampmanAxeEntity implements GeoE
 
     }
 
-    public void readAdditionalSaveData(CompoundTag pCompound) {
+    public void readAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
         if (pCompound.contains("Potion", 8)) {
             this.potion = PotionUtils.getPotion(pCompound);

@@ -35,6 +35,11 @@ public class KQConfigValues {
     // Ghosty Configuration Section
     public static float INVULNERABILITY_RADIUS_GHOSTY  = (float) (V ? KnightQuestCommonConfigs.INVULNERABILITY_RADIUS_GHOSTY.get() : 7.0);
 
+    // Swampman Configuration Section
+    public static float PHASE_2_HEALING_SWAMPMAN  = (float) (V ? KnightQuestCommonConfigs.PHASE_2_HEALING_SWAMPMAN.get() : 0.0);
+    public static boolean CAN_CHANGE_PHASE_SWAMPMAN = V ? KnightQuestCommonConfigs.CAN_CHANGE_PHASE_SWAMPMAN.get() : true;
+    public static boolean POISON_PHASE_2_SWAMPMAN = V ? KnightQuestCommonConfigs.POISON_PHASE_2_SWAMPMAN.get() : true;
+
     // Netherman Configuration Section
     public static double WINTER_STORM_RADIUS = V ? KnightQuestCommonConfigs.WINTER_STORM_RADIUS.get() : 50.0;
     public static int FROZEN_TICKS = V ? KnightQuestCommonConfigs.FROZEN_TICKS.get() : 4;

@@ -7,6 +7,8 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -14,7 +16,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.world.entity.ai.goal.SitWhenOrderedToGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
@@ -25,6 +26,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ProjectileWeaponItem;
 import net.minecraft.world.level.Level;
 import net.xylonity.knightquest.common.entity.entities.ai.RangedAttackGoal;
+import net.xylonity.knightquest.config.values.KQConfigValues;
 import net.xylonity.knightquest.registry.KnightQuestParticles;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -83,14 +85,16 @@ public class SwampmanEntity extends Monster implements GeoEntity, RangedAttackMo
 
     @Override
     public void performRangedAttack(@NotNull LivingEntity pTarget, float pVelocity) {
-        SwampmanAxeEntity abstractarrow = new SwampmanAxeEntity(level(), this);
+        SwampmanAxeEntity swampmanAxeEntity = new SwampmanAxeEntity(level(), this);
         double d0 = pTarget.getX() - this.getX();
-        double d1 = pTarget.getY(0.34D) - abstractarrow.getY();
+        double d1 = pTarget.getY(0.34D) - swampmanAxeEntity.getY();
         double d2 = pTarget.getZ() - this.getZ();
         double d3 = Math.sqrt(d0 * d0 + d2 * d2);
-        abstractarrow.shoot(d0, d1 + d3 * (double)0.2F, d2, 1.3F, (float)(14 - this.level().getDifficulty().getId() * 4));
+        swampmanAxeEntity.shoot(d0, d1 + d3 * (double)0.2F, d2, 1.3F, (float)(14 - this.level().getDifficulty().getId() * 4));
         this.playSound(SoundEvents.SKELETON_SHOOT, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
-        this.level().addFreshEntity(abstractarrow);
+        if (KQConfigValues.POISON_PHASE_2_SWAMPMAN)
+            swampmanAxeEntity.addEffect(new MobEffectInstance(MobEffects.POISON, 100, 0, true, true, true));
+        this.level().addFreshEntity(swampmanAxeEntity);
     }
 
     @Override
@@ -123,13 +127,16 @@ public class SwampmanEntity extends Monster implements GeoEntity, RangedAttackMo
         super.tick();
         if (this.getHealth() < getMaxHealth() * 0.5) {
 
-            if (!this.isHalfHealth) {
+            if (!this.isHalfHealth && KQConfigValues.CAN_CHANGE_PHASE_SWAMPMAN) {
                 this.level().addParticle(KnightQuestParticles.BLUEBLASTWAVE.get(), this.getX(), getY() - 0.48, getZ(), 2d, 0d, 0d);
                 this.level().playSound(null, this.blockPosition(), SoundEvents.EVOKER_PREPARE_SUMMON, SoundSource.HOSTILE, 1.0F, 1.0F);
                 this.isHalfHealth = true;
 
                 setPhase(2);
             }
+        }
+        if (this.getPhase() == 2 && tickCount % 20 == 0) {
+            this.heal(KQConfigValues.PHASE_2_HEALING_SWAMPMAN);
         }
     }
 

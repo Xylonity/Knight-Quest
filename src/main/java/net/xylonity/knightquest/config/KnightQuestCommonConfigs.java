@@ -25,6 +25,11 @@ public class KnightQuestCommonConfigs {
     public static final ForgeConfigSpec.DoubleValue MULTIPLIER_GREMLIN_ATTACK_SPEED;
     public static final ForgeConfigSpec.DoubleValue MULTIPLIER_GREMLIN_ATTACK_DAMAGE;
 
+    // Swampman Configurations
+    public static final ForgeConfigSpec.DoubleValue PHASE_2_HEALING_SWAMPMAN;
+    public static final ForgeConfigSpec.BooleanValue CAN_CHANGE_PHASE_SWAMPMAN;
+    public static final ForgeConfigSpec.BooleanValue POISON_PHASE_2_SWAMPMAN;
+
     // Netherman Configurations
     public static final ForgeConfigSpec.BooleanValue CAN_SUMMON_NETHERMAN;
     public static final ForgeConfigSpec.BooleanValue SPAWN_LIGHTNING_ON_SPAWN;
@@ -98,6 +103,13 @@ public class KnightQuestCommonConfigs {
         MULTIPLIER_GREMLIN_MOVEMENT_SPEED = BUILDER.defineInRange("Second phase movement speed multipler", 1.1, 1.0, 10.0);
         MULTIPLIER_GREMLIN_ATTACK_SPEED = BUILDER.defineInRange("Second phase attack speed multipler", 1.15, 1.0, 10.0);
         MULTIPLIER_GREMLIN_ATTACK_DAMAGE = BUILDER.defineInRange("Second phase attack damage multipler", 1.2, 1.0, 10.0);
+        BUILDER.pop();
+
+        // Swampman Configuration Section
+        BUILDER.push("Swampman Configuration");
+        PHASE_2_HEALING_SWAMPMAN = BUILDER.defineInRange("Amount of healing per second on second phase", 0.0, 0.0, 20.0);
+        CAN_CHANGE_PHASE_SWAMPMAN = BUILDER.define("Can change phase", true);
+        POISON_PHASE_2_SWAMPMAN = BUILDER.define("Should axe throwables apply poison effect", false);
         BUILDER.pop();
 
         // Netherman Configuration Section

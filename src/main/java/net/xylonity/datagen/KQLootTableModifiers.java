@@ -9,6 +9,7 @@ import net.minecraft.loot.function.SetCountLootFunction;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.loot.provider.number.UniformLootNumberProvider;
 import net.minecraft.util.Identifier;
+import net.xylonity.config.values.KQConfigValues;
 import net.xylonity.registry.KnightQuestItems;
 
 public class KQLootTableModifiers {
@@ -54,7 +55,7 @@ public class KQLootTableModifiers {
                 if (mobId.equals(resourceManager.getValue())) {
                     LootPool.Builder poolBuilder = LootPool.builder()
                             .rolls(ConstantLootNumberProvider.create(1))
-                            .conditionally(RandomChanceLootCondition.builder(0.15f))
+                            .conditionally(RandomChanceLootCondition.builder(KQConfigValues.DROP_CHANCE_SMALL_ESSENCE))
                             .with(ItemEntry.builder(KnightQuestItems.SMALL_ESSENCE))
                             .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1.0f, 1.0f)).build());
                     lootManager.pool(poolBuilder.build());
@@ -65,7 +66,7 @@ public class KQLootTableModifiers {
             if (RATMAN_ID.equals(resourceManager.getValue())) {
                 LootPool.Builder poolBuilder = LootPool.builder()
                         .rolls(ConstantLootNumberProvider.create(1))
-                        .conditionally(RandomChanceLootCondition.builder(0.4f))
+                        .conditionally(RandomChanceLootCondition.builder(KQConfigValues.DROP_CHANCE_RATMAN_EYE))
                         .with(ItemEntry.builder(KnightQuestItems.RATMAN_EYE))
                         .with(ItemEntry.builder(Items.CROSSBOW))
                         .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1.0f, 1.0f)).build());
@@ -75,7 +76,7 @@ public class KQLootTableModifiers {
             if (LIZZY_ID.equals(resourceManager.getValue())) {
                 LootPool.Builder poolBuilder = LootPool.builder()
                         .rolls(ConstantLootNumberProvider.create(1))
-                        .conditionally(RandomChanceLootCondition.builder(0.3f))
+                        .conditionally(RandomChanceLootCondition.builder(KQConfigValues.DROP_CHANCE_LIZZY_SCALE))
                         .with(ItemEntry.builder(KnightQuestItems.LIZZY_SCALE))
                         .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1.0f, 2.0f)).build());
                 lootManager.pool(poolBuilder.build());

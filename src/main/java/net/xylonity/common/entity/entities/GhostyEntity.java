@@ -17,6 +17,7 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.xylonity.config.values.KQConfigValues;
 import net.xylonity.registry.KnightQuestParticles;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoAnimatable;
@@ -94,7 +95,7 @@ public class GhostyEntity extends HostileEntity implements GeoEntity {
             }
         }
 
-        List<HostileEntity> nearbyMonsters = serverWorld.getEntitiesByClass(HostileEntity.class, this.getBoundingBox().expand(7), Entity::isLiving);
+        List<HostileEntity> nearbyMonsters = serverWorld.getEntitiesByClass(HostileEntity.class, this.getBoundingBox().expand(KQConfigValues.INVULNERABILITY_RADIUS_GHOSTY), Entity::isLiving);
         for (HostileEntity monster : nearbyMonsters) {
             monster.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 1, 4, false, false, false));
             if (!(monster instanceof GhostyEntity))

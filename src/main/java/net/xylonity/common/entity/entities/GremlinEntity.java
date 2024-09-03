@@ -22,6 +22,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
+import net.xylonity.common.entity.entities.ai.LookAroundGoal;
 import net.xylonity.common.entity.entities.ai.NearestAttackableTargetGoal;
 import net.xylonity.config.values.KQConfigValues;
 import net.xylonity.registry.KnightQuestEntities;
@@ -100,9 +101,6 @@ public class GremlinEntity extends HostileEntity implements GeoEntity {
         this.goalSelector.add(2, new LookAroundGoal(this));
         this.goalSelector.add(3, new TemptGoal(this, 0.5, Ingredient.ofItems(Items.WHEAT), false));
         this.goalSelector.add(4, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
-        this.goalSelector.add(5, new WanderAroundFarGoal(this, 0.5));
-        this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 6.0F));
-        this.goalSelector.add(7, new LookAroundGoal(this));
 
         this.targetSelector.add(1, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
         this.targetSelector.add(2, new RevengeGoal(this));
@@ -231,7 +229,7 @@ public class GremlinEntity extends HostileEntity implements GeoEntity {
                 this.setAttacking(false);
                 this.setAttacker(null);
                 this.attackingPlayer = null;
-                setGoldVariation(getRandom().nextInt());
+                setGoldVariation(getRandom().nextBetween(0, 2));
                 this.setIsPassive(true);
             }
 

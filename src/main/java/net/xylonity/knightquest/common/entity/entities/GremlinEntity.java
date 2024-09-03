@@ -7,19 +7,25 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.xylonity.knightquest.common.entity.entities.ai.NearestAttackableTargetGoal;
+import net.xylonity.knightquest.config.values.KQConfigValues;
 import net.xylonity.knightquest.registry.KnightQuestEntities;
 import net.xylonity.knightquest.registry.KnightQuestParticles;
 import org.jetbrains.annotations.NotNull;
@@ -34,38 +40,52 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 import software.bernie.geckolib3.util.GeckoLibUtil;
 
+import java.util.Objects;
+import java.util.Random;
+
 public class GremlinEntity extends Monster implements IAnimatable {
     private final AnimationFactory factory = GeckoLibUtil.createFactory(this);
-    private static final EntityDataAccessor<Boolean> INVULNERABLE = SynchedEntityData.defineId(GremlinEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> IS_PASSIVE = SynchedEntityData.defineId(GremlinEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> SHOULD_TAKE_COIN = SynchedEntityData.defineId(GremlinEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> GOLD_VARIATION = SynchedEntityData.defineId(GremlinEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> PHASE = SynchedEntityData.defineId(GremlinEntity.class, EntityDataSerializers.INT);
-    private final Level serverWorld;
-    private boolean isHalfHealth;
+    private static final EntityDataAccessor<Boolean> ATTACK = SynchedEntityData.defineId(GremlinEntity.class, EntityDataSerializers.BOOLEAN);
+    private int tickCounterShield = 0;
     private int tickCounter = 0;
+    private boolean isHalfHealth;
 
     public GremlinEntity(EntityType<? extends Monster> entityType, Level world) {
         super(entityType, world);
-        this.serverWorld = world;
+        if (!level.isClientSide()) {
+            boolean attack1 = new Random().nextBoolean();
+            this.entityData.set(ATTACK, attack1);
+        }
     }
 
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
-        this.entityData.define(INVULNERABLE, false);
+        this.entityData.define(IS_PASSIVE, false);
+        this.entityData.define(SHOULD_TAKE_COIN, false);
+        this.entityData.define(GOLD_VARIATION, 0);
         this.entityData.define(PHASE, 1);
+        this.entityData.define(ATTACK, false);
     }
 
-    public boolean getInvulnerability() {
-        return this.entityData.get(INVULNERABLE);
-    }
-    public int getPhase() {
-        return this.entityData.get(PHASE);
+    public boolean getIsPassive() { return this.entityData.get(IS_PASSIVE); }
+    public boolean getShouldTakeCoin() { return this.entityData.get(SHOULD_TAKE_COIN); }
+    public int getGoldVariation() { return this.entityData.get(GOLD_VARIATION); }
+    public int getPhase() { return this.entityData.get(PHASE); }
+    public boolean getAttack() {
+        return this.entityData.get(ATTACK);
     }
 
-    public void setInvulnerability(boolean invulnerability) {
-        this.entityData.set(INVULNERABLE, invulnerability);
-    }
-    public void setPhase(int phase) {
-        this.entityData.set(PHASE, phase);
+    public void setIsPassive(boolean isPassive) { this.entityData.set(IS_PASSIVE, isPassive); }
+    public void setShouldTakeCoin(boolean shouldTakeCoin) { this.entityData.set(SHOULD_TAKE_COIN, shouldTakeCoin); }
+    public void setGoldVariation(int goldVariation) { this.entityData.set(GOLD_VARIATION, goldVariation); }
+    public void setPhase(int phase) { this.entityData.set(PHASE, phase); }
+    public void setAttack(boolean attack) {
+        this.entityData.set(ATTACK, attack);
     }
 
     public static AttributeSupplier setAttributes() {
@@ -75,6 +95,12 @@ public class GremlinEntity extends Monster implements IAnimatable {
                 .add(Attributes.ATTACK_SPEED, 1.0f)
                 .add(Attributes.MOVEMENT_SPEED, 0.63f)
                 .add(Attributes.FOLLOW_RANGE, 35.0).build();
+    }
+
+    private void updateAttributes() {
+        Objects.requireNonNull(getAttribute(Attributes.ATTACK_DAMAGE)).setBaseValue(getAttributeValue(Attributes.ATTACK_DAMAGE) * KQConfigValues.MULTIPLIER_GREMLIN_ATTACK_DAMAGE);
+        Objects.requireNonNull(getAttribute(Attributes.MOVEMENT_SPEED)).setBaseValue(getAttributeValue(Attributes.MOVEMENT_SPEED) * KQConfigValues.MULTIPLIER_GREMLIN_MOVEMENT_SPEED);
+        Objects.requireNonNull(getAttribute(Attributes.ATTACK_SPEED)).setBaseValue(getAttributeValue(Attributes.ATTACK_SPEED) * KQConfigValues.MULTIPLIER_GREMLIN_ATTACK_SPEED);
     }
 
     @Override
@@ -89,12 +115,22 @@ public class GremlinEntity extends Monster implements IAnimatable {
         this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
 
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
+        this.targetSelector.addGoal(2, new HurtByTargetGoal(this));
+    }
+
+    @Override
+    public boolean hurt(@NotNull DamageSource pSource, float pAmount) {
+        if (tickCounter != 0)
+            return false;
+        else
+            return super.hurt(pSource, pAmount);
     }
 
     @Override
     public void registerControllers(AnimationData animationData) {
         animationData.addAnimationController(new AnimationController<>(this, "controller", 0, this::predicate));
         animationData.addAnimationController(new AnimationController<>(this, "attackcontroller", 0, this::attackPredicate));
+       // animationData.addAnimationController(new AnimationController<>(this, "coincontroller", 0, this::coinPredicate));
     }
 
     private <E extends IAnimatable> PlayState attackPredicate(AnimationEvent<E> event) {
@@ -110,17 +146,34 @@ public class GremlinEntity extends Monster implements IAnimatable {
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
 
-        if (event.isMoving()) {
+        if (tickCounter != 0) {
+            event.getController().markNeedsReload();
+            String goldVariation = getGoldVariation() == 0 ? "gold" : "gold2";
+            if (tickCounter == 1)
+                event.getController().setAnimation(new AnimationBuilder().addAnimation(goldVariation, ILoopType.EDefaultLoopTypes.PLAY_ONCE));
+        } else if (event.isMoving()) {
             event.getController().setAnimation(new AnimationBuilder().addAnimation("walk", ILoopType.EDefaultLoopTypes.LOOP));
         } else {
             event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", ILoopType.EDefaultLoopTypes.LOOP));
         }
 
-        if (this.isDeadOrDying()) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("death", ILoopType.EDefaultLoopTypes.LOOP));
+        //if (this.isDeadOrDying()) {
+        //    event.getController().setAnimation(new AnimationBuilder().addAnimation("death", ILoopType.EDefaultLoopTypes.LOOP));
+        //}
+
+        return PlayState.CONTINUE;
+    }
+
+    private PlayState coinPredicate(AnimationEvent<?> event) {
+
+        if (getIsPassive() && getShouldTakeCoin()) {
+            event.getController().markNeedsReload();
+            String goldVariation = getGoldVariation() == 0 ? "gold" : "gold2";
+            event.getController().setAnimation(new AnimationBuilder().addAnimation(goldVariation, ILoopType.EDefaultLoopTypes.PLAY_ONCE));
         }
 
         return PlayState.CONTINUE;
+
     }
 
     @Override
@@ -129,54 +182,73 @@ public class GremlinEntity extends Monster implements IAnimatable {
         if (this.getHealth() < getMaxHealth() * 0.5) {
 
             if (!this.isHalfHealth) {
-                this.getLevel().addParticle(KnightQuestParticles.GREMLIN_PARTICLE.get(), this.getX(), getY() - 0.48, getZ(), 2d, 0d, 0d);
-                this.getLevel().playSound(null, this.blockPosition(), SoundEvents.EVOKER_PREPARE_SUMMON, SoundSource.HOSTILE, 1.0F, 1.0F);
+                this.level.addParticle(KnightQuestParticles.GREMLIN_PARTICLE.get(), this.getX(), getY() - 0.48, getZ(), 2d, 0d, 0d);
+                this.level.playSound(null, this.blockPosition(), SoundEvents.EVOKER_PREPARE_SUMMON, SoundSource.HOSTILE, 1.0F, 1.0F);
                 this.isHalfHealth = true;
-                spawnShield();
+
+                if (getAttack())
+                    this.spawnShield();
+                else
+                    this.updateAttributes();
+
                 setPhase(2);
             }
 
-            setInvulnerability(hasShields());
-
-            tickCounter++;
-            if (tickCounter % 22 == 0 && tickCounter / 25 <= 1) {
-                spawnShield();
-            }
-        }
-    }
-
-    private boolean hasShields() {
-        double closestDistance = Double.MAX_VALUE;
-        LivingEntity closestShield = null;
-
-        for (LivingEntity entity : getLevel().getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(5))) {
-            if (entity instanceof GhastlingEntity) {
-                double distance = distanceToSqr(entity);
-                if (distance < closestDistance) {
-                    closestDistance = distance;
-                    closestShield = entity;
+            if (getAttack()) {
+                tickCounterShield++;
+                if (tickCounterShield % 22 == 0 && tickCounterShield / 25 <= 1) {
+                    spawnShield();
                 }
             }
+
         }
 
-        return closestShield != null;
-    }
+        if (getIsPassive()) {
+            tickCounter++;
 
-    @Override
-    public boolean hurt(@NotNull DamageSource pSource, float pAmount) {
-        if (getInvulnerability())
-            return false;
-        else
-            return super.hurt(pSource, pAmount);
+            if (tickCounter == 1) {
+                setShouldTakeCoin(true);
+            } else if (tickCounter == 3) {
+                setShouldTakeCoin(false);
+            } else if (tickCounter == 80) {
+                setIsPassive(false);
+                setShouldTakeCoin(false);
+                tickCounter = 0;
+            }
+        }
 
     }
 
     private void spawnShield() {
-        GhastlingEntity entity = KnightQuestEntities.SHIELD.get().create(serverWorld);
+        GhastlingEntity entity = KnightQuestEntities.SHIELD.get().create(level);
         if (entity != null) {
             entity.moveTo(this.getOnPos(), 1.0F, 0.0F);
-            serverWorld.addFreshEntity(entity);
+            level.addFreshEntity(entity);
         }
+    }
+
+    @Override
+    protected @NotNull InteractionResult mobInteract(@NotNull Player pPlayer, @NotNull InteractionHand pHand) {
+
+        if (KQConfigValues.CAN_TAKE_GOLD_GREMLIN) {
+
+            ItemStack itemstack = pPlayer.getItemInHand(pHand);
+            Item desiredItem = Items.GOLD_INGOT;
+            Item item = itemstack.getItem();
+
+            if (item.equals(desiredItem)) {
+                this.setTarget(null);
+                this.getBrain().eraseMemory(MemoryModuleType.ATTACK_TARGET);
+                this.getBrain().eraseMemory(MemoryModuleType.NEAREST_VISIBLE_PLAYER);
+                this.setLastHurtByMob(null);
+                this.setLastHurtByPlayer(null);
+                setGoldVariation(getRandom().nextInt(0, 2));
+                this.setIsPassive(true);
+            }
+
+        }
+
+        return super.mobInteract(pPlayer, pHand);
     }
 
     @Override

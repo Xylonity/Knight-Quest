@@ -15,6 +15,9 @@ import net.xylonity.knightquest.common.client.chest.GeoItemArmorChestRenderer;
 import net.xylonity.knightquest.common.client.leg.GeoItemArmorLeg;
 import net.xylonity.knightquest.common.client.leg.GeoItemArmorLegRenderer;
 import net.xylonity.knightquest.common.entity.client.*;
+import net.xylonity.knightquest.common.entity.client.samhain.SamhainModel;
+import net.xylonity.knightquest.common.entity.client.samhain.SamhainModelLayers;
+import net.xylonity.knightquest.common.entity.client.samhain.SamhainRenderer;
 import net.xylonity.knightquest.common.particle.*;
 import net.xylonity.knightquest.common.particle.explosiveenhancement.*;
 import net.xylonity.knightquest.common.particle.explosiveenhancement.blue.BlueBlastWaveParticle;
@@ -35,6 +38,8 @@ public class KQClientEventProviders {
         event.register(KnightQuestParticles.YELLOW_PARTICLE.get(), YellowParticle.Provider::new);
         event.register(KnightQuestParticles.GHOSTY_PARTICLE.get(), GhostyParticle.Provider::new);
         event.register(KnightQuestParticles.SNOWFLAKE_PARTICLE.get(), SnowflakeParticle.Provider::new);
+        event.register(KnightQuestParticles.POISON_PARTICLE.get(), PoisonParticle.Provider::new);
+        event.register(KnightQuestParticles.POISON_CLOUD_PARTICLE.get(), PoisonCloudParticle.Provider::new);
 
         /*
          * Explosive Enhancement particle registers
@@ -59,6 +64,13 @@ public class KQClientEventProviders {
     }
 
     @SubscribeEvent
+    public static void registerLayer(EntityRenderersEvent.RegisterLayerDefinitions event) {
+        event.registerLayerDefinition(SamhainModelLayers.SAMHAIN_LAYER, SamhainModel::createBodyLayer);
+        event.registerLayerDefinition(SamhainModelLayers.SAMHAIN_INNER_ARMOR_LAYER, SamhainModel::createBodyLayer);
+        event.registerLayerDefinition(SamhainModelLayers.SAMHAIN_OUTER_ARMOR_LAYER, SamhainModel::createBodyLayer);
+    }
+
+    @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event)
     {
         EntityRenderers.register(KnightQuestEntities.GREMLIN.get(), GremlinRenderer::new);
@@ -75,6 +87,7 @@ public class KQClientEventProviders {
         EntityRenderers.register(KnightQuestEntities.NETHERMAN.get(), NethermanRenderer::new);
         EntityRenderers.register(KnightQuestEntities.NETHERMAN_TELEPORT_CHARGE.get(), NethermanTeleportChargeRenderer::new);
         EntityRenderers.register(KnightQuestEntities.NETHERMAN_CLONE.get(), NethermanCloneRenderer::new);
+        EntityRenderers.register(KnightQuestEntities.SWAMPMAN_AXE.get(), SwampmanAxeRenderer::new);
     }
 
     @SubscribeEvent

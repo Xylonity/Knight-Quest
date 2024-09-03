@@ -17,6 +17,8 @@ public class KnightQuestParticles {
     public static final RegistryObject<SimpleParticleType> YELLOW_PARTICLE = register("yellow");
     public static final RegistryObject<SimpleParticleType> GHOSTY_PARTICLE = register("ghosty");
     public static final RegistryObject<SimpleParticleType> SNOWFLAKE_PARTICLE = register("snowflake");
+    public static final RegistryObject<SimpleParticleType> POISON_PARTICLE = register("poison");
+    public static final RegistryObject<SimpleParticleType> POISON_CLOUD_PARTICLE = register("poison_cloud");
 
     public static final RegistryObject<SimpleParticleType> BLASTWAVE = register2("blastwave");
     public static final RegistryObject<SimpleParticleType> FIREBALL = register2("fireball");

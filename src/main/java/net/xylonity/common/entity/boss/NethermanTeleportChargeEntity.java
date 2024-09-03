@@ -1,83 +1,47 @@
 package net.xylonity.common.entity.boss;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.*;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.boss.BossBar;
-import net.minecraft.entity.boss.ServerBossBar;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.damage.DamageTypes;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.listener.ClientPlayPacketListener;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.server.network.EntityTrackerEntry;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.Text;
-import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.xylonity.common.api.explosiveenhancement.ExplosiveConfig;
-import net.xylonity.common.api.util.ParticleGenerator;
-import net.xylonity.common.api.util.TeleportValidator;
-import net.xylonity.common.entity.boss.ai.*;
 import net.xylonity.registry.KnightQuestEntities;
-import net.xylonity.registry.KnightQuestParticles;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.*;
-import software.bernie.geckolib.animation.AnimationState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 public class NethermanTeleportChargeEntity extends AbstractNethermanProjectile implements GeoEntity {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
-    private int explosionPower = 1;
     private boolean hasCollided = false;
+    private int explosionPower = 1;
     private int ticksUntilDiscard = 0;
     private float rotationAngle = 0.0F;
 
-    public NethermanTeleportChargeEntity(EntityType<? extends AbstractNethermanProjectile> entityEntityType, World world) {
-        super(entityEntityType, world);
-        this.setNoGravity(true);
+    public NethermanTeleportChargeEntity(EntityType<? extends AbstractNethermanProjectile> entityType, World world) {
+        super(entityType, world);
     }
 
     public float getRotationAngle() {
         return rotationAngle;
     }
 
-    public NethermanTeleportChargeEntity(World pLevel, LivingEntity pShooter, double pOffsetX, double pOffsetY, double pOffsetZ, int pExplosionPower) {
-        super(KnightQuestEntities.NETHERMAN_TELEPORT_CHARGE, pShooter, pOffsetX, pOffsetY, pOffsetZ, pLevel);
-        this.explosionPower = pExplosionPower;
+    public NethermanTeleportChargeEntity(World world, LivingEntity owner, double velocityX, double velocityY, double velocityZ, int explosionPower) {
+        super(KnightQuestEntities.NETHERMAN_TELEPORT_CHARGE, owner, velocityX, velocityY, velocityZ, world);
+        this.explosionPower = explosionPower;
     }
 
-    @Override
     protected void onCollision(HitResult hitResult) {
         super.onCollision(hitResult);
-
         if (hitResult instanceof EntityHitResult entityHitResult && age < 10) {
             Entity hitEntity = entityHitResult.getEntity();
 
@@ -94,22 +58,7 @@ public class NethermanTeleportChargeEntity extends AbstractNethermanProjectile i
         }
 
         this.explode();
-    }
 
-    public void writeCustomDataToNbt(@NotNull NbtCompound pCompound) {
-        super.writeCustomDataToNbt(pCompound);
-        pCompound.putByte("ExplosionPower", (byte)this.explosionPower);
-    }
-
-    /**
-     * (abstract) Protected helper method to read subclass entity data from NBT.
-     */
-
-    public void readCustomDataFromNbt(@NotNull NbtCompound pCompound) {
-        super.readCustomDataFromNbt(pCompound);
-        if (pCompound.contains("ExplosionPower", 99)) {
-            this.explosionPower = pCompound.getByte("ExplosionPower");
-        }
     }
 
     private void explode() {
@@ -146,6 +95,19 @@ public class NethermanTeleportChargeEntity extends AbstractNethermanProjectile i
         rotationAngle += 6.0F;
         if (rotationAngle >= 360.0F) {
             rotationAngle -= 360.0F;
+        }
+
+    }
+
+    public void writeCustomDataToNbt(NbtCompound nbt) {
+        super.writeCustomDataToNbt(nbt);
+        nbt.putByte("ExplosionPower", (byte)this.explosionPower);
+    }
+
+    public void readCustomDataFromNbt(NbtCompound nbt) {
+        super.readCustomDataFromNbt(nbt);
+        if (nbt.contains("ExplosionPower", 99)) {
+            this.explosionPower = nbt.getByte("ExplosionPower");
         }
 
     }

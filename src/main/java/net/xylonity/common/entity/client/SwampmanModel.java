@@ -19,7 +19,11 @@ public class SwampmanModel extends GeoModel<SwampmanEntity> {
 
     @Override
     public Identifier getTextureResource(SwampmanEntity animatable) {
-        return Identifier.of(KnightQuest.MOD_ID, "textures/entity/swampman.png");
+        if (animatable.getPhase() == 2) {
+            return Identifier.of(KnightQuest.MOD_ID, "textures/entity/swampman_2.png");
+        } else {
+            return Identifier.of(KnightQuest.MOD_ID, "textures/entity/swampman.png");
+        }
     }
 
     @Override

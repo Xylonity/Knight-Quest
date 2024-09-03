@@ -8,8 +8,11 @@ import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.SimpleParticleType;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.xylonity.common.block.ChaliceBlock;
+import net.xylonity.registry.KnightQuestBlocks;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
@@ -19,7 +22,23 @@ public class StarsetParticle extends SpriteBillboardParticle {
 
     StarsetParticle(ClientWorld world, double x, double y, double z, double velX, double velY, double velZ, SpriteProvider sprites) {
         super(world, x, y + 0.5, z, 0.0, 0.0, 0.0);
-        this.scale = (float) velX;
+        BlockPos blockPos = BlockPos.ofFloored(x, y + 1, z);
+
+        if (world.getBlockState(blockPos).getBlock() == KnightQuestBlocks.GREAT_CHALICE) {
+            int fillValue = world.getBlockState(blockPos).get(ChaliceBlock.fill);
+
+            this.scale = switch (fillValue) {
+                case 1 -> 1f;
+                case 2 -> 1.2f;
+                case 3 -> 1.4f;
+                case 4 -> 1.8f;
+                default -> 0f;
+            };
+
+        } else {
+            this.scale = (float) velX;
+        }
+
         this.setVelocity(0D, 0D, 0D);
         this.maxAge = (int) (11 + (Math.floor(velX / 5)));
         this.sprites = sprites;

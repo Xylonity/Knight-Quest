@@ -19,7 +19,7 @@ public class GremlinRenderer extends GeoEntityRenderer<GremlinEntity> {
 
     @Override
     public Identifier getTextureLocation(GremlinEntity animatable) {
-        if (animatable.getHealth() < animatable.getMaxHealth() * 0.5) {
+        if (animatable.getPhase() == 2) {
             return Identifier.of(KnightQuest.MOD_ID, "textures/entity/gremlin_angry.png");
         } else {
             return Identifier.of(KnightQuest.MOD_ID, "textures/entity/gremlin.png");

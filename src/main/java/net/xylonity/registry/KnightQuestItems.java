@@ -520,13 +520,13 @@ public class KnightQuestItems {
             new SpawnEggItem(KnightQuestEntities.BADPATCH, 0xec160b, 0xeff1f8, new Item.Settings()));
     public static final Item GHOSTY_EGG = registerItem("ghosty_spawn_egg",
             new SpawnEggItem(KnightQuestEntities.GHOSTY, 0x2cb87e, 0xfbe105, new Item.Settings()));
-    public static final Item GHASTLING_EGG = registerItem("ghastling_spawn_egg",
-            new SpawnEggItem(KnightQuestEntities.SHIELD, 0x930c13, 0xfb9600, new Item.Settings()){
-                @Override
-                public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
-                    tooltip.add(Text.translatable("tooltip.item.knightquest.ghastling_spawn_egg"));
-                    super.appendTooltip(stack, context, tooltip, type);
-                }
-            });
+    //public static final Item GHASTLING_EGG = registerItem("ghastling_spawn_egg",
+    //        new SpawnEggItem(KnightQuestEntities.SHIELD, 0x930c13, 0xfb9600, new Item.Settings()){
+    //            @Override
+    //            public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
+    //                tooltip.add(Text.translatable("tooltip.item.knightquest.ghastling_spawn_egg"));
+    //                super.appendTooltip(stack, context, tooltip, type);
+    //            }
+    //        });
 
 }

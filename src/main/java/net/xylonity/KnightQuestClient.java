@@ -61,6 +61,7 @@ public class KnightQuestClient implements ClientModInitializer {
         EntityRendererRegistry.register(KnightQuestEntities.NETHERMAN, NethermanRenderer::new);
         EntityRendererRegistry.register(KnightQuestEntities.NETHERMAN_CLONE, NethermanCloneRenderer::new);
         EntityRendererRegistry.register(KnightQuestEntities.NETHERMAN_TELEPORT_CHARGE, NethermanTeleportChargeRenderer::new);
+        EntityRendererRegistry.register(KnightQuestEntities.SWAMPMAN_AXE, SwampmanAxeRenderer::new);
     }
 }
 

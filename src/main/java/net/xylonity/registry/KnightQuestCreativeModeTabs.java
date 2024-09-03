@@ -47,7 +47,7 @@ public class KnightQuestCreativeModeTabs {
                         entries.add(KnightQuestItems.LIZZY_EGG);
                         entries.add(KnightQuestItems.BADPATCH_EGG);
                         entries.add(KnightQuestItems.GHOSTY_EGG);
-                        entries.add(KnightQuestItems.GHASTLING_EGG);
+                        //entries.add(KnightQuestItems.GHASTLING_EGG);
 
                         entries.add(KnightQuestItems.SQUIRE_HELMET);
                         entries.add(KnightQuestItems.SQUIRE_CHESTPLATE);

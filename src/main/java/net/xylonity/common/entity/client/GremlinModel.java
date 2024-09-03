@@ -19,7 +19,7 @@ public class GremlinModel extends GeoModel<GremlinEntity> {
 
     @Override
     public Identifier getTextureResource(GremlinEntity animatable) {
-        if (animatable.getHealth() < animatable.getMaxHealth() * 0.5) {
+        if (animatable.getPhase() == 2) {
             return Identifier.of(KnightQuest.MOD_ID, "textures/entity/gremlin_angry.png");
         } else {
             return Identifier.of(KnightQuest.MOD_ID, "textures/entity/gremlin.png");
@@ -29,17 +29,6 @@ public class GremlinModel extends GeoModel<GremlinEntity> {
     @Override
     public Identifier getAnimationResource(GremlinEntity animatable) {
         return Identifier.of(KnightQuest.MOD_ID, "animations/gremlin.animation.json");
-    }
-
-    @Override
-    public void setCustomAnimations(GremlinEntity animatable, long instanceId, AnimationState<GremlinEntity> animationState) {
-        GeoBone head = getAnimationProcessor().getBone("head");
-
-        if (head != null) {
-            EntityModelData entityData = animationState.getData(DataTickets.ENTITY_MODEL_DATA);
-            head.setRotX(entityData.headPitch() * MathHelper.RADIANS_PER_DEGREE);
-            head.setRotY(entityData.netHeadYaw() * MathHelper.RADIANS_PER_DEGREE);
-        }
     }
 
 }

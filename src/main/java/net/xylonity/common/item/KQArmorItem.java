@@ -78,7 +78,7 @@ public class KQArmorItem extends ArmorItem {
 
     private static final StatusEffectInstance SHIELD_ARMOR = new StatusEffectInstance(StatusEffects.RESISTANCE, -1, 0, false, false, true);
     private static final StatusEffectInstance BAT_ARMOR = new StatusEffectInstance(StatusEffects.NIGHT_VISION, -1, 0, false, false, true);
-    private static final StatusEffectInstance PATH_ARMOR = new StatusEffectInstance(StatusEffects.INVISIBILITY, -1, 1, false, true, true);
+    private static final StatusEffectInstance PATH_ARMOR = new StatusEffectInstance(StatusEffects.SPEED, -1, 1, false, true, true);
     private static final StatusEffectInstance BOW_ARMOR = new StatusEffectInstance(StatusEffects.SPEED, -1, 1, false, false, true);
     private static final StatusEffectInstance HORN_ARMOR = new StatusEffectInstance(StatusEffects.STRENGTH, 400, 1, false, false, true);
     private static final StatusEffectInstance SEA_ARMOR = new StatusEffectInstance(StatusEffects.DOLPHINS_GRACE, -1, 0, false, false, true);
@@ -105,7 +105,7 @@ public class KQArmorItem extends ArmorItem {
                 }
             } else {
                 if (Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new HashMap<>()).getOrDefault(KQArmorMaterials.PATHSET, false))) {
-                    player.removeStatusEffect(StatusEffects.INVISIBILITY);
+                    player.removeStatusEffect(StatusEffects.SPEED);
                     effectAppliedByArmorMap.get(playerUUID).put(KQArmorMaterials.PATHSET, false);
                 }
             }
@@ -315,7 +315,7 @@ public class KQArmorItem extends ArmorItem {
                     }
 
                 if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.SHINOBI) && source.getSource() != null) {
-                    player.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, 120, 1, false, false, true));
+                    player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 120, 1, false, false, true));
                 }
 
                 if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.BAMBOOSET) && source.isOf(DamageTypes.FALL)) {

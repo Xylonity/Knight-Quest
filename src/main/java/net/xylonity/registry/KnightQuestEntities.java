@@ -23,10 +23,11 @@ public class KnightQuestEntities {
     public static final EntityType<LizzyEntity> LIZZY;
     public static final EntityType<BadPatchEntity> BADPATCH;
     public static final EntityType<GhostyEntity> GHOSTY;
-    public static final EntityType<ShieldEntity> SHIELD;
+    public static final EntityType<GhastlingEntity> SHIELD;
     public static final EntityType<NethermanEntity> NETHERMAN;
     public static final EntityType<NethermanCloneEntity> NETHERMAN_CLONE;
     public static final EntityType<NethermanTeleportChargeEntity> NETHERMAN_TELEPORT_CHARGE;
+    public static final EntityType<SwampmanAxeEntity> SWAMPMAN_AXE;
 
     public static void registerModEntities() {
         KnightQuest.LOGGER.info("Registering entities for " + KnightQuest.MOD_ID);
@@ -41,11 +42,12 @@ public class KnightQuestEntities {
         RATMAN = register("ratman", RatmanEntity::new, SpawnGroup.MONSTER , 1f, 1f);
         LIZZY = register("lizzy", LizzyEntity::new, SpawnGroup.AMBIENT , 1f, 0.3f);
         BADPATCH = register("bad_patch", BadPatchEntity::new, SpawnGroup.MONSTER , 1f, 1f);
-        SHIELD = register("ghastling", ShieldEntity::new, SpawnGroup.MONSTER , 0.65f, 0.65f);
+        SHIELD = register("ghastling", GhastlingEntity::new, SpawnGroup.MONSTER , 0.65f, 0.65f);
         GHOSTY = register("ghosty", GhostyEntity::new, SpawnGroup.MONSTER, 1f, 1f);
         NETHERMAN = register("netherman", NethermanEntity::new, SpawnGroup.MONSTER, 0.8f, 2.8f);
         NETHERMAN_CLONE = register("netherman_clone", NethermanCloneEntity::new, SpawnGroup.MONSTER, 0.8f, 2.8f);
         NETHERMAN_TELEPORT_CHARGE = register("netherman_teleport_charge", NethermanTeleportChargeEntity::new, SpawnGroup.MONSTER, 0.5f, 0.5f);
+        SWAMPMAN_AXE = register("swampman_axe", SwampmanAxeEntity::new, SpawnGroup.MONSTER, 0.3f, 1f);
     }
 
     private static <X extends Entity> EntityType<X> register(String name, EntityType.EntityFactory<X> entity,SpawnGroup spawnGroup, float width, float height) {

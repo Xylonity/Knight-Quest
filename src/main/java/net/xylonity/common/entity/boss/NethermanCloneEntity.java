@@ -77,7 +77,7 @@ public class NethermanCloneEntity extends HostileEntity implements GeoEntity {
     }
 
     private void createCustomExplosionParticles() {
-        ExplosiveConfig.spawnParticles(getWorld(), getX(), getY(), getZ(), 3, false, false, 1);
+        ExplosiveConfig.spawnParticles(getWorld(), getX(), getY() + 1, getZ(), 3, false, false, 1);
     }
 
     private void explode() {

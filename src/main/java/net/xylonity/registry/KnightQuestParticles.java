@@ -13,6 +13,8 @@ public class KnightQuestParticles {
     public static final SimpleParticleType GHOSTY_PARTICLE = FabricParticleTypes.simple();
     public static final SimpleParticleType GREMLIN_PARTICLE = FabricParticleTypes.simple();
     public static final SimpleParticleType SNOWFLAKE_PARTICLE = FabricParticleTypes.simple();
+    public static final SimpleParticleType POISON_PARTICLE = FabricParticleTypes.simple();
+    public static final SimpleParticleType POISON_CLOUD_PARTICLE = FabricParticleTypes.simple();
 
     public static final SimpleParticleType BLASTWAVE = FabricParticleTypes.simple();
     public static final SimpleParticleType BLUEBLASTWAVE = FabricParticleTypes.simple();
@@ -35,6 +37,8 @@ public class KnightQuestParticles {
         Registry.register(Registries.PARTICLE_TYPE, Identifier.of(KnightQuest.MOD_ID, "ghosty"), GHOSTY_PARTICLE);
         Registry.register(Registries.PARTICLE_TYPE, Identifier.of(KnightQuest.MOD_ID, "gremlin"), GREMLIN_PARTICLE);
         Registry.register(Registries.PARTICLE_TYPE, Identifier.of(KnightQuest.MOD_ID, "snowflake"), SNOWFLAKE_PARTICLE);
+        Registry.register(Registries.PARTICLE_TYPE, Identifier.of(KnightQuest.MOD_ID, "poison"), POISON_PARTICLE);
+        Registry.register(Registries.PARTICLE_TYPE, Identifier.of(KnightQuest.MOD_ID, "poison_cloud"), POISON_CLOUD_PARTICLE);
 
         Registry.register(Registries.PARTICLE_TYPE, Identifier.of(KnightQuest.MOD_ID, "blastwave"), BLASTWAVE);
 

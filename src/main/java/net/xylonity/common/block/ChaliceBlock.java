@@ -24,11 +24,11 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.xylonity.common.block.tracker.ChaliceBlockTracker;
 import net.xylonity.common.entity.boss.NethermanEntity;
+import net.xylonity.config.values.KQConfigValues;
 import net.xylonity.registry.KnightQuestBlocks;
 import net.xylonity.registry.KnightQuestEntities;
 import net.xylonity.registry.KnightQuestItems;
 import net.xylonity.registry.KnightQuestParticles;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.List;
@@ -84,41 +84,31 @@ public class ChaliceBlock extends Block {
 
         if (block.equals(KnightQuestBlocks.GREAT_CHALICE) && item.equals(KnightQuestItems.GREAT_ESSENCE) && (Arrays.asList(1, 2, 3, 4).contains(state.get(fill)))) {
 
-            double centerX = pos.getX() + 0.5;
-            double centerZ = pos.getZ() + 0.5;
-            double initialY = pos.getY() + 0.1;
-
-            if (world.isClient()) {
-                int fillValue = state.get(fill);
-
-                double xOffset = switch (fillValue) {
-                    case 1 -> 1d;
-                    case 2 -> 1.2d;
-                    case 3 -> 1.4d;
-                    case 4 -> 1.8d;
-                    default -> 0d;
-                };
-
-                if (xOffset != 0d) {
-                    world.addParticle(KnightQuestParticles.STARSET_PARTICLE, centerX, initialY - 0.48, centerZ, xOffset, 0d, 0d);
-                }
-            }
-
             if (!world.isClient()) {
+                double centerX = pos.getX() + 0.5;
+                double centerZ = pos.getZ() + 0.5;
+                double initialY = pos.getY() + 0.1;
+
+                double particleY = initialY - 0.48;
+
+                if (world instanceof ServerWorld serverWorld) {
+                    serverWorld.getPlayers().forEach(playerEntity -> serverWorld.spawnParticles(playerEntity, KnightQuestParticles.STARSET_PARTICLE, true,
+                            centerX, particleY, centerZ,
+                            1, 0, 0, 0, 1));
+                }
 
                 world.playSound(null, pos, SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.BLOCKS, 1f, 1f);
-                world.setBlockState(pos, state.cycle(fill));
+                world.setBlockState(pos, state.cycle(fill), 3);
 
                 if (stack.getCount() > 1) {
                     stack.decrement(1);
                 } else {
-                    player.setStackInHand(hand, new ItemStack(ItemStack.EMPTY.getItem()));
+                    player.setStackInHand(hand, ItemStack.EMPTY);
                 }
 
                 if (state.get(fill) == 4) {
                     world.playSound(null, pos, SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.BLOCKS, 1f, 1f);
                 }
-
             }
 
         }
@@ -156,7 +146,7 @@ public class ChaliceBlock extends Block {
             }
         }
 
-        if (block.equals(KnightQuestBlocks.GREAT_CHALICE) && item.equals(KnightQuestItems.RADIANT_ESSENCE) && state.get(fill).equals(5)) {
+        if (block.equals(KnightQuestBlocks.GREAT_CHALICE) && item.equals(KnightQuestItems.RADIANT_ESSENCE) && state.get(fill).equals(5) && KQConfigValues.CAN_SUMMON_NETHERMAN) {
             if (!world.isClient()) {
                 if (player.getStackInHand(hand).getCount() > 1) {
                     int stackCount = stack.getCount();
@@ -221,7 +211,7 @@ public class ChaliceBlock extends Block {
                 world.setBlockState(pos, state.cycle(fill), 3);
 
                 LightningEntity lightningBolt = EntityType.LIGHTNING_BOLT.create(world);
-                if (lightningBolt != null) {
+                if (lightningBolt != null && KQConfigValues.SPAWN_LIGHTNING_ON_SPAWN) {
                     lightningBolt.setPos(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
                     world.spawnEntity(lightningBolt);
                 }

@@ -4,6 +4,10 @@ pluginManagement {
 			name = 'Fabric'
 			url = 'https://maven.fabricmc.net/'
 		}
+		maven {
+			name = "Fuzs Mod Resources"
+			url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/"
+		}
 		mavenCentral()
 		gradlePluginPortal()
 	}

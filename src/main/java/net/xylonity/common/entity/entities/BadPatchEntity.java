@@ -9,6 +9,8 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Items;
+import net.minecraft.recipe.Ingredient;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
@@ -37,14 +39,15 @@ public class BadPatchEntity extends HostileEntity implements GeoEntity {
 
     @Override
     protected void initGoals() {
-        this.goalSelector.add(1, new RevengeGoal(this));
-        this.goalSelector.add(2, new MeleeAttackGoal(this, 0.5D, false));
-        this.goalSelector.add(3, new LookAroundGoal(this));
-        this.goalSelector.add(4, new MeleeAttackGoal(this, 0.5D, false));
-        this.goalSelector.add(5, new SwimGoal(this));
+        this.goalSelector.add(0, new SwimGoal(this));
+        this.goalSelector.add(1, new MeleeAttackGoal(this, 0.5f, true));
+        this.goalSelector.add(2, new LookAroundGoal(this));
+        this.goalSelector.add(3, new TemptGoal(this, 0.5f, Ingredient.ofItems(Items.WHEAT), false));
+        this.goalSelector.add(5, new WanderAroundFarGoal(this, 0.5f));
+        this.goalSelector.add(7, new LookAroundGoal(this));
 
-        this.targetSelector.add(6, new WanderNearTargetGoal(this, 0.5D, 15));
-        this.targetSelector.add(7, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
+        this.targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
+        this.targetSelector.add(2, new RevengeGoal(this));
     }
 
     @Override

@@ -70,7 +70,7 @@ public class MagicProjectileAttackGoal extends Goal {
                 }
 
                 if (this.chargeTime == 10) {
-                    Vec3d vec3 = this.netherman.getCameraPosVec(1.0F);
+                    Vec3d vec3 = this.netherman.getRotationVec(1.0F);
                     double d2 = livingentity.getX() - (this.netherman.getX() + vec3.x * 4.0D);
                     double d3 = livingentity.getBodyY(0.5F) - (0.5D + this.netherman.getBodyY(0.5F));
                     double d4 = livingentity.getZ() - (this.netherman.getZ() + vec3.z * 4.0D);

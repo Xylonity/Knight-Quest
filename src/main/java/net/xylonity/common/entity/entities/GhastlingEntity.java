@@ -21,14 +21,14 @@ import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.*;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class ShieldEntity extends HostileEntity implements GeoEntity {
+public class GhastlingEntity extends HostileEntity implements GeoEntity {
     private AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private final World serverWorld;
     private static final double RADIUS = 2.0;
     private static final double ANGULAR_SPEED = 0.1;
     private double angle;
 
-    public ShieldEntity(EntityType<? extends HostileEntity> entityType, World world) {
+    public GhastlingEntity(EntityType<? extends HostileEntity> entityType, World world) {
         super(entityType, world);
         this.serverWorld = world;
     }

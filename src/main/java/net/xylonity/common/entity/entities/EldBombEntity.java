@@ -1,29 +1,29 @@
 package net.xylonity.common.entity.entities;
 
-import net.minecraft.entity.AreaEffectCloudEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.CreeperEntity;
-import net.minecraft.entity.passive.CatEntity;
-import net.minecraft.entity.passive.OcelotEntity;
+import net.minecraft.entity.passive.PolarBearEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.network.packet.s2c.play.ParticleS2CPacket;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
+import net.xylonity.registry.KnightQuestParticles;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.*;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-import java.util.Collection;
-
 public class EldBombEntity extends CreeperEntity implements GeoEntity {
-    private AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private int currentFuseTime;
     private int fuseTime = 30;
     private int explosionRadius = 3;
@@ -42,13 +42,13 @@ public class EldBombEntity extends CreeperEntity implements GeoEntity {
 
     @Override
     protected void initGoals() {
-        this.goalSelector.add(1, new SwimGoal(this));
-        this.goalSelector.add(2, new CreeperIgniteGoal(this));
-        this.goalSelector.add(3, new FleeEntityGoal<>(this, OcelotEntity.class, 6.0F, 1.0, 1.2));
-        this.goalSelector.add(3, new FleeEntityGoal<>(this, CatEntity.class, 6.0F, 1.0, 1.2));
+        this.goalSelector.add(0, new SwimGoal(this));
+        this.goalSelector.add(1, new CreeperIgniteGoal(this));
+        this.goalSelector.add(3, new FleeEntityGoal<>(this, PolarBearEntity.class, 35.0F, 1.0, 0.5));
         this.goalSelector.add(4, new MeleeAttackGoal(this, 0.5, false));
-        this.goalSelector.add(5, new WanderAroundFarGoal(this, 0.5));
-        this.goalSelector.add(6, new LookAroundGoal(this));
+        this.goalSelector.add(5, new WanderAroundGoal(this, 0.5));
+        this.goalSelector.add(7, new LookAroundGoal(this));
+
         this.targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
         this.targetSelector.add(2, new RevengeGoal(this));
     }
@@ -64,6 +64,10 @@ public class EldBombEntity extends CreeperEntity implements GeoEntity {
         }
 
         return PlayState.CONTINUE;
+    }
+
+    public int getSwell() {
+        return this.currentFuseTime;
     }
 
     @Override
@@ -91,6 +95,9 @@ public class EldBombEntity extends CreeperEntity implements GeoEntity {
 
             if (this.currentFuseTime >= this.fuseTime) {
                 this.currentFuseTime = this.fuseTime;
+
+                this.poisonNearbyPlayers();
+
                 this.explode();
             }
         }
@@ -100,32 +107,54 @@ public class EldBombEntity extends CreeperEntity implements GeoEntity {
 
     private void explode() {
         if (!this.getWorld().isClient) {
-            float f = this.shouldRenderOverlay() ? 2.0F : 1.0F;
+            float power = this.shouldRenderOverlay() ? 2.5F : 1.0F;
             this.dead = true;
-            this.getWorld().createExplosion(this, this.getX(), this.getY(), this.getZ(), (float)this.explosionRadius * f, World.ExplosionSourceType.MOB);
-            this.spawnLingeringCloud();
-            this.discard();
-        }
+            this.getWorld().createExplosion(this, this.getX(), this.getY(), this.getZ(), (float)this.explosionRadius * power, World.ExplosionSourceType.MOB);
 
-    }
+            if (this.getWorld() instanceof ServerWorld serverWorld) {
+                for (int i = 0; i < 6; i++) {
+                    double particleX = this.getX();
+                    double particleY = this.getY() + 1;
+                    double particleZ = this.getZ();
 
-    private void spawnLingeringCloud() {
-        Collection<StatusEffectInstance> collection = this.getStatusEffects();
-        if (!collection.isEmpty()) {
-            AreaEffectCloudEntity areaeffectcloud = new AreaEffectCloudEntity(this.getWorld(), this.getX(), this.getY(), this.getZ());
-            areaeffectcloud.setRadius(1.5F);
-            areaeffectcloud.setRadiusOnUse(-0.5F);
-            areaeffectcloud.setWaitTime(10);
-            areaeffectcloud.setDuration(areaeffectcloud.getDuration() / 2);
-            areaeffectcloud.setRadius(-areaeffectcloud.getRadius() / (float)areaeffectcloud.getDuration());
+                    ParticleS2CPacket packet = new ParticleS2CPacket(
+                            KnightQuestParticles.POISON_PARTICLE,
+                            true,
+                            particleX, particleY, particleZ,
+                            1.2F, 1.2F, 1.2F,
+                            0.05F, 1
+                    );
 
-            for(StatusEffectInstance mobeffectinstance : collection) {
-                areaeffectcloud.addEffect(new StatusEffectInstance(mobeffectinstance));
+                    serverWorld.getPlayers().forEach(player -> player.networkHandler.sendPacket(packet));
+                }
+
+                float[] arrayX = {0.5F, -1, 1};
+                float[] arrayZ = {1, 0, -0.5F};
+
+                for (int i = 0; i < 3; i++) {
+                    double particleX = this.getX() + arrayX[i];
+                    double particleY = this.getY() + 0.2;
+                    double particleZ = this.getZ() + arrayZ[i];
+
+                    ParticleS2CPacket packet = new ParticleS2CPacket(
+                            KnightQuestParticles.POISON_CLOUD_PARTICLE,
+                            true,
+                            particleX, particleY, particleZ,
+                            0, 0.15F, 0,
+                            1F, 1
+                    );
+
+                    serverWorld.getPlayers().forEach(player -> player.networkHandler.sendPacket(packet));
+                }
             }
 
-            this.getWorld().spawnEntity(areaeffectcloud);
+            this.discard();
         }
+    }
 
+    private void poisonNearbyPlayers() {
+        this.getWorld().getEntitiesByClass(PlayerEntity.class, this.getBoundingBox().expand(3.5), player -> true)
+                .forEach(player -> player.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 160, 0)));
     }
 
     @Override

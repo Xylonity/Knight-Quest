@@ -35,7 +35,11 @@ import net.minecraft.world.World;
 import net.xylonity.common.api.explosiveenhancement.ExplosiveConfig;
 import net.xylonity.common.api.util.ParticleGenerator;
 import net.xylonity.common.api.util.TeleportValidator;
-import net.xylonity.common.entity.boss.ai.*;
+import net.xylonity.common.entity.boss.ai.MagicProjectileAttackGoal;
+import net.xylonity.common.entity.boss.ai.NethermanFlameGoal;
+import net.xylonity.common.entity.boss.ai.NethermanLavaTeleportGoal;
+import net.xylonity.common.entity.boss.ai.SpawnNethermanClonesGoal;
+import net.xylonity.config.values.KQConfigValues;
 import net.xylonity.registry.KnightQuestParticles;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -56,7 +60,7 @@ public class NethermanEntity extends HostileEntity implements GeoEntity {
     private static final TrackedData<Boolean> INVULNERABLE = DataTracker.registerData(NethermanEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     private static final TrackedData<Boolean> IS_ATTACKING = DataTracker.registerData(NethermanEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     private final Map<BlockPos, BlockState> changedBlocks = new HashMap<>();    // Restores the previous blocks after they are switched with lava
-    private int explosionPower = 1;
+    private final int explosionPower = 1;
     private int tickCounterFirstPhaseSwitch = 0;
     private int tickCounterSecondPhaseSwitch = 0;
     private boolean hasChangedPhase = false;
@@ -94,8 +98,7 @@ public class NethermanEntity extends HostileEntity implements GeoEntity {
         this.goalSelector.add(4, new SpawnNethermanClonesGoal(this));
 
         // Phase 3
-        // TODO: For some reason the projectile doesn't react to anything, marked for a potential fix someday
-        //this.goalSelector.add(5, new MagicProjectileAttackGoal(this));
+        this.goalSelector.add(5, new MagicProjectileAttackGoal(this));
 
         this.targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
     }
@@ -130,7 +133,7 @@ public class NethermanEntity extends HostileEntity implements GeoEntity {
             this.bossInfo.setPercent(progress);
         }
 
-        if (getPhase() == 3 && age % 40 == 0) {
+        if (getPhase() == 3 && age % KQConfigValues.LIGHTNING_TICK_INTERVAL == 0 && KQConfigValues.LIGHTNING_STRIKE_IN_PHASE_THREE) {
             summonLightning();
         }
 
@@ -140,7 +143,9 @@ public class NethermanEntity extends HostileEntity implements GeoEntity {
         }
 
         if (age == 1) {
-            ExplosiveConfig.spawnParticles(getWorld(), getX(), getY() + 0.5, getZ(), 4, false, false, 0);
+            if (KQConfigValues.GENERATE_PARTICLES_ON_SUMMON)
+                ExplosiveConfig.spawnParticles(getWorld(), getX(), getY() + 0.5, getZ(), 4, false, false, 0);
+
             getWorld().playSound(null, getBlockPos(), SoundEvents.ENTITY_DRAGON_FIREBALL_EXPLODE, SoundCategory.BLOCKS, 1f, 1f);
         }
 
@@ -300,7 +305,7 @@ public class NethermanEntity extends HostileEntity implements GeoEntity {
 
             // Prevents teleporting when the incoming source kills the Netherman
 
-            if (isDamaged && amount < this.getHealth() && new Random().nextInt(0, 2) == 1) {
+            if (isDamaged && amount < this.getHealth() && getRandom().nextFloat() <= KQConfigValues.TELEPORT_PROBABILITY) {
                 teleportAroundTarget();
             }
 
@@ -323,7 +328,8 @@ public class NethermanEntity extends HostileEntity implements GeoEntity {
     @Override
     public void onDeath(DamageSource damageSource) {
         super.onDeath(damageSource);
-        restoreBlocks();
+        if (KQConfigValues.RESTORE_BLOCKS_POST_DEATH)
+            restoreBlocks();
     }
 
     /**
@@ -341,17 +347,13 @@ public class NethermanEntity extends HostileEntity implements GeoEntity {
         return explosionPower;
     }
 
-    public AnimationController<?> getPhaseController() {
-        return this.cache.getManagerForId(this.getId()).getAnimationControllers().get("phasecontroller");
-    }
-
     /**
      * Performs a "snowy" attack generating a bunch of particles. Also, freezes players in the line of sight of the Netherman.
      */
 
     private void winterStormAttack() {
 
-        double range = 26.0;
+        double range = KQConfigValues.WINTER_STORM_RADIUS;
         Box area = new Box(
                 this.getX() - range, this.getY() - range, this.getZ() - range,
                 this.getX() + range, this.getY() + range, this.getZ() + range
@@ -360,11 +362,11 @@ public class NethermanEntity extends HostileEntity implements GeoEntity {
 
         for (PlayerEntity player : players) {
             if (this.canSee(player))
-                player.setFrozenTicks(player.getFrozenTicks() + 4);
+                player.setFrozenTicks(player.getFrozenTicks() + KQConfigValues.FROZEN_TICKS);
         }
 
-        int particleCount = 60;
-        double particleSpeed = 1.5;
+        int particleCount = KQConfigValues.SNOW_PARTICLE_COUNT;
+        double particleSpeed = KQConfigValues.SNOW_PARTICLE_SPEED;
         double time = this.age / 20.0;
 
         for (int i = 0; i < particleCount; i++) {
@@ -437,7 +439,7 @@ public class NethermanEntity extends HostileEntity implements GeoEntity {
 
         if (this.getWorld() instanceof ServerWorld) {
             if (this.deathTime > 0 && this.deathTime % 5 == 0) {
-                ExperienceOrbEntity.spawn((ServerWorld)this.getWorld(), this.getPos(), MathHelper.floor((float)500 * 0.08F));
+                ExperienceOrbEntity.spawn((ServerWorld)this.getWorld(), this.getPos(), MathHelper.floor((float) KQConfigValues.EXPERIENCE_DROP_AMOUNT * 0.08F));
             }
         }
 
@@ -460,8 +462,6 @@ public class NethermanEntity extends HostileEntity implements GeoEntity {
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "controller", 0, this::predicate));
         controllers.add(new AnimationController<>(this, "attackcontroller", 0, this::attackPredicate));
-        controllers.add(new AnimationController<>(this, "phasecontroller", 0, this::secondPhasePredicate));
-        controllers.add(new AnimationController<>(this, "rotationcontroller", 0, this::rotationPredicate));
         controllers.add(new AnimationController<>(this, "deadcontroller", 0, this::deadPredicate));
     }
 
@@ -475,33 +475,28 @@ public class NethermanEntity extends HostileEntity implements GeoEntity {
 
     }
 
-    private PlayState rotationPredicate(AnimationState<?> event) {
-
-        if (this.getHealth() < this.getMaxHealth() * 0.66F && !hasChangedPhase) {
-            event.getController().forceAnimationReset();
-            event.getController().setAnimation(RawAnimation.begin().then("rotation", Animation.LoopType.PLAY_ONCE));
-        }
-
-        return PlayState.CONTINUE;
-
-    }
-
-    private PlayState secondPhasePredicate(AnimationState<?> event) {
-
-        if (this.getHealth() < this.getMaxHealth() * 0.33F && !hasChangedSecondPhase) {
-            event.getController().setAnimation(RawAnimation.begin().then("phase_switch", Animation.LoopType.PLAY_ONCE));
-        }
-
-        return PlayState.CONTINUE;
-
-    }
-
     private PlayState predicate(AnimationState<?> event) {
 
-        if (getIsAttacking() && (getHealth() > getMaxHealth() * 0.70 || (getHealth() < getMaxHealth() * 0.60 && getHealth() > getMaxHealth() * 0.45) || getHealth() < getMaxHealth() * 0.30)) {
+        if (this.isDead())
+            return PlayState.STOP;
+
+        if (this.getHealth() < this.getMaxHealth() * 0.33F && tickCounterSecondPhaseSwitch < 140) {
+            if (!hasChangedSecondPhase) {
+                return PlayState.STOP;
+            }
+            if (tickCounterSecondPhaseSwitch < 10) {
+                event.getController().setAnimation(RawAnimation.begin().then("phase_switch", Animation.LoopType.PLAY_ONCE));
+            }
+        } else if (this.getHealth() < this.getMaxHealth() * 0.66F && tickCounterFirstPhaseSwitch < 195) {
+            if (!hasChangedPhase) {
+                return PlayState.STOP;
+            }
+            if (tickCounterFirstPhaseSwitch < 10) {
+                event.getController().setAnimation(RawAnimation.begin().then("rotation", Animation.LoopType.PLAY_ONCE));
+            }
+        } else if (getIsAttacking() && (getHealth() > getMaxHealth() * 0.70 || getHealth() < getMaxHealth() * 0.60)) {
             event.getController().setAnimation(RawAnimation.begin().then("teleport_charge", Animation.LoopType.PLAY_ONCE));
-        }
-        else if (event.isMoving()) {
+        } else if (event.isMoving()) {
             event.getController().setAnimation(RawAnimation.begin().then("walk", Animation.LoopType.LOOP));
         } else {
             event.getController().setAnimation(RawAnimation.begin().then("idle", Animation.LoopType.LOOP));

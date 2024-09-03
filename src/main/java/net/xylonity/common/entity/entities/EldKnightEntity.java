@@ -19,8 +19,9 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.xylonity.registry.KnightQuestParticles;
+import net.xylonity.config.values.KQConfigValues;
 import net.xylonity.registry.KnightQuestEntities;
+import net.xylonity.registry.KnightQuestParticles;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
@@ -50,13 +51,11 @@ public class EldKnightEntity extends HostileEntity implements GeoEntity {
     @Override
     protected void initGoals() {
         this.goalSelector.add(1, new MeleeAttackGoal(this, 0.45D, false));
-        this.goalSelector.add(2, new RevengeGoal(this, new Class[0]));
-        this.goalSelector.add(3, new LookAroundGoal(this));
-        this.goalSelector.add(5, new SwimGoal(this));
+        this.goalSelector.add(2, new LookAroundGoal(this));
+        this.goalSelector.add(3, new LookAtEntityGoal(this, PlayerEntity.class, 6.0F));
 
         this.targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
-        this.targetSelector.add(2, new WanderNearTargetGoal(this, 0.7D, 15));
-
+        this.targetSelector.add(2, new RevengeGoal(this));
     }
 
     @Override
@@ -133,13 +132,13 @@ public class EldKnightEntity extends HostileEntity implements GeoEntity {
 
         if (summoned && counter > 80) {
 
-            if (true) {
+            if (KQConfigValues.POISON_ELDKNIGHT) {
                 summonParticle();
                 poisonNearbyPlayers();
             }
 
             if (this.getHealth() < this.getMaxHealth() * 0.75) {
-                this.heal(3);
+                this.heal(KQConfigValues.HEAL_ELDKNIGHT);
             }
 
             counter = 0;
@@ -169,12 +168,17 @@ public class EldKnightEntity extends HostileEntity implements GeoEntity {
         return super.damage(pSource, pAmount);
     }
 
+    /**
+     * Manages the second phase of the mob by summoning `NUM_ELDBOMB_ELDKNIGHT` minions
+     * as defined in the common config file value, and pushes players nearby away.
+     */
+
     private void summonMinions() {
         double distance = 3.0;
-        double angle = (1 != 0) ? Math.toRadians((double) 360 / 3) : Math.toRadians(120);
+        double angle = (KQConfigValues.HEAL_ELDKNIGHT != 0) ? Math.toRadians((double) 360 / KQConfigValues.NUM_ELDBOMB_ELDKNIGHT) : Math.toRadians(120);
         boolean punch = false;
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < KQConfigValues.NUM_ELDBOMB_ELDKNIGHT; i++) {
             double xOffset = distance * Math.cos(angle * i);
             double zOffset = distance * Math.sin(angle * i);
             EldBombEntity entity = KnightQuestEntities.ELDBOMB.create(serverWorld);

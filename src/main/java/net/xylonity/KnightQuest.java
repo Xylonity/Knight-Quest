@@ -7,10 +7,11 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
+import net.fabricmc.loader.api.FabricLoader;
 import net.xylonity.common.entity.boss.NethermanCloneEntity;
 import net.xylonity.common.entity.boss.NethermanEntity;
-import net.xylonity.common.entity.boss.NethermanTeleportChargeEntity;
 import net.xylonity.common.item.KQArmorItem;
+import net.xylonity.config.InitializeConfig;
 import net.xylonity.datagen.KQEntitySpawn;
 import net.xylonity.registry.*;
 import net.xylonity.common.entity.entities.*;
@@ -18,7 +19,6 @@ import net.xylonity.common.event.KQExtraEvents;
 import net.xylonity.datagen.KQLootTableModifiers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import software.bernie.geckolib.GeckoLib;
 
 public class KnightQuest implements ModInitializer {
 	public static final String MOD_ID = "knightquest";
@@ -43,13 +43,16 @@ public class KnightQuest implements ModInitializer {
 		FabricDefaultAttributeRegistry.register(KnightQuestEntities.LIZZY, LizzyEntity.setAttributes());
 		FabricDefaultAttributeRegistry.register(KnightQuestEntities.BADPATCH, BadPatchEntity.setAttributes());
 		FabricDefaultAttributeRegistry.register(KnightQuestEntities.GHOSTY, GhostyEntity.setAttributes());
-		FabricDefaultAttributeRegistry.register(KnightQuestEntities.SHIELD, ShieldEntity.setAttributes());
+		FabricDefaultAttributeRegistry.register(KnightQuestEntities.SHIELD, GhastlingEntity.setAttributes());
 		FabricDefaultAttributeRegistry.register(KnightQuestEntities.NETHERMAN, NethermanEntity.setAttributes());
 		FabricDefaultAttributeRegistry.register(KnightQuestEntities.NETHERMAN_CLONE, NethermanCloneEntity.setAttributes());
 
 		KnightQuestEntities.registerModEntities();
 		KQLootTableModifiers.modifyLootTables();
 		KQEntitySpawn.addEntitySpawns();
+
+		if (FabricLoader.getInstance().isModLoaded("forgeconfigapiport"))
+			InitializeConfig.init();
 
 		UseBlockCallback.EVENT.register(new KQExtraEvents());
 		ServerTickEvents.END_SERVER_TICK.register(new KQArmorItem.OnEntityTickEvent());

@@ -11,6 +11,8 @@ import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.model.data.EntityModelData;
 
 public class EldBombModel extends GeoModel<EldBombEntity> {
+    private static final Identifier DEFAULT_TEXTURE = Identifier.of(KnightQuest.MOD_ID, "textures/entity/eldbomb.png");
+    private static final Identifier WHITE_TEXTURE = Identifier.of(KnightQuest.MOD_ID, "textures/entity/eldbomb_white.png");
 
     @Override
     public Identifier getModelResource(EldBombEntity animatable) {
@@ -19,7 +21,15 @@ public class EldBombModel extends GeoModel<EldBombEntity> {
 
     @Override
     public Identifier getTextureResource(EldBombEntity animatable) {
-        return Identifier.of(KnightQuest.MOD_ID, "textures/entity/eldbomb.png");
+        if (animatable.getSwell() > 10) {
+            if ((animatable.age / 5) % 2 == 0) {
+                return WHITE_TEXTURE;
+            } else {
+                return DEFAULT_TEXTURE;
+            }
+        }
+
+        return DEFAULT_TEXTURE;
     }
 
     @Override

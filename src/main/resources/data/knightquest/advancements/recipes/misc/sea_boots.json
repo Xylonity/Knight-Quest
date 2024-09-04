@@ -1,87 +1,24 @@
 {
-  "parent": "minecraft:recipes/root",
-  "criteria": {
-    "has_cyan_bed": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:cyan_bed"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:cyan_bed"
     },
-    "has_filled_goblet": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "knightquest:filled_goblet"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+    {
+      "item": "minecraft:phantom_membrane"
     },
-    "has_heart_of_the_sea": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:heart_of_the_sea"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+    {
+      "item": "minecraft:heart_of_the_sea"
     },
-    "has_netherite_boots": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:netherite_boots"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+    {
+      "item": "knightquest:filled_goblet"
     },
-    "has_phantom_membrane": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:phantom_membrane"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
-    },
-    "has_the_recipe": {
-      "conditions": {
-        "recipe": "minecraft:sea_boots"
-      },
-      "trigger": "minecraft:recipe_unlocked"
+    {
+      "item": "minecraft:netherite_boots"
     }
-  },
-  "requirements": [
-    [
-      "has_cyan_bed",
-      "has_phantom_membrane",
-      "has_heart_of_the_sea",
-      "has_filled_goblet",
-      "has_netherite_boots",
-      "has_the_recipe"
-    ]
   ],
-  "rewards": {
-    "recipes": [
-      "minecraft:sea_boots"
-    ]
-  },
-  "sends_telemetry_event": false
+  "result": {
+    "item": "knightquest:sea_boots"
+  }
 }

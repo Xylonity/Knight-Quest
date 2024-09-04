@@ -46,6 +46,7 @@ import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib3.core.manager.SingletonAnimationFactory;
 import software.bernie.geckolib3.util.GeckoLibUtil;
 
 import java.util.HashMap;
@@ -293,9 +294,9 @@ public class NethermanEntity extends Monster implements IAnimatable {
     public boolean hurt(@NotNull DamageSource pSource, float pAmount) {
         if (getInvulnerability()
                 || (pSource.isFire() && this.getPhase() == 1)
-                    || (pSource.isMagic() && this.getPhase() == 3)
-                        || (pSource.isExplosion())
-                            || (tickCount < 40))
+                || (pSource.isMagic() && this.getPhase() == 3)
+                || (pSource.isExplosion())
+                || (tickCount < 40))
             return false;
         else {
 

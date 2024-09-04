@@ -1,87 +1,24 @@
 {
-  "parent": "minecraft:recipes/root",
-  "criteria": {
-    "has_filled_goblet": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "knightquest:filled_goblet"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:snowball"
     },
-    "has_iron_axe": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:iron_axe"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+    {
+      "item": "minecraft:iron_axe"
     },
-    "has_netherite_chestplate": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:netherite_chestplate"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+    {
+      "item": "minecraft:stripped_mangrove_log"
     },
-    "has_snowball": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:snowball"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+    {
+      "item": "knightquest:filled_goblet"
     },
-    "has_stripped_mangrove_log": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:stripped_mangrove_log"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
-    },
-    "has_the_recipe": {
-      "conditions": {
-        "recipe": "minecraft:polar_chestplate"
-      },
-      "trigger": "minecraft:recipe_unlocked"
+    {
+      "item": "minecraft:diamond_chestplate"
     }
-  },
-  "requirements": [
-    [
-      "has_snowball",
-      "has_iron_axe",
-      "has_stripped_mangrove_log",
-      "has_filled_goblet",
-      "has_netherite_chestplate",
-      "has_the_recipe"
-    ]
   ],
-  "rewards": {
-    "recipes": [
-      "minecraft:polar_chestplate"
-    ]
-  },
-  "sends_telemetry_event": false
+  "result": {
+    "item": "knightquest:polar_chestplate"
+  }
 }

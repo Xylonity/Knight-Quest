@@ -1,87 +1,24 @@
 {
-  "parent": "minecraft:recipes/root",
-  "criteria": {
-    "has_arrow": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:arrow"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:arrow"
     },
-    "has_crossbow": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:crossbow"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+    {
+      "item": "minecraft:water_bucket"
     },
-    "has_filled_goblet": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "knightquest:filled_goblet"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+    {
+      "item": "minecraft:crossbow"
     },
-    "has_netherite_helmet": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:netherite_helmet"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+    {
+      "item": "knightquest:filled_goblet"
     },
-    "has_the_recipe": {
-      "conditions": {
-        "recipe": "minecraft:bow_helmet"
-      },
-      "trigger": "minecraft:recipe_unlocked"
-    },
-    "has_water_bucket": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:water_bucket"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+    {
+      "item": "minecraft:diamond_helmet"
     }
-  },
-  "requirements": [
-    [
-      "has_arrow",
-      "has_water_bucket",
-      "has_crossbow",
-      "has_filled_goblet",
-      "has_netherite_helmet",
-      "has_the_recipe"
-    ]
   ],
-  "rewards": {
-    "recipes": [
-      "minecraft:bow_helmet"
-    ]
-  },
-  "sends_telemetry_event": false
+  "result": {
+    "item": "knightquest:bow_helmet"
+  }
 }

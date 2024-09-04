@@ -1,87 +1,24 @@
 {
-  "parent": "minecraft:recipes/root",
-  "criteria": {
-    "has_bamboo": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:bamboo"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:red_dye"
     },
-    "has_coal": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:coal"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+    {
+      "item": "minecraft:bamboo"
     },
-    "has_filled_goblet": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "knightquest:filled_goblet"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+    {
+      "item": "minecraft:coal"
     },
-    "has_netherite_leggings": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:netherite_leggings"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+    {
+      "item": "knightquest:filled_goblet"
     },
-    "has_red_dye": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:red_dye"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
-    },
-    "has_the_recipe": {
-      "conditions": {
-        "recipe": "minecraft:bamboo_leggings"
-      },
-      "trigger": "minecraft:recipe_unlocked"
+    {
+      "item": "minecraft:diamond_leggings"
     }
-  },
-  "requirements": [
-    [
-      "has_red_dye",
-      "has_bamboo",
-      "has_coal",
-      "has_filled_goblet",
-      "has_netherite_leggings",
-      "has_the_recipe"
-    ]
   ],
-  "rewards": {
-    "recipes": [
-      "minecraft:bamboo_leggings"
-    ]
-  },
-  "sends_telemetry_event": false
+  "result": {
+    "item": "knightquest:bamboo_leggings"
+  }
 }

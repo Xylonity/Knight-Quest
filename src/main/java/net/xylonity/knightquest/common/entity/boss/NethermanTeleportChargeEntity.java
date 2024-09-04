@@ -93,7 +93,10 @@ public class NethermanTeleportChargeEntity extends AbstractNethermanProjectile i
     private void explode() {
         if (!this.level.isClientSide) {
 
-            this.level.explode(this, DamageSource.GENERIC, null, this.getX(), this.getY(), this.getZ(), 2F, false, Explosion.BlockInteraction.NONE);
+            //this.level.explode(this, DamageSource.GENERIC, null, this.getX(), this.getY(), this.getZ(), 2F, false, Explosion.BlockInteraction.NONE);
+            Explosion explosion = new Explosion(level, this, getX(), getY(), getZ(), 2F, false, Explosion.BlockInteraction.NONE);
+            explosion.explode();
+            explosion.finalizeExplosion(false);
 
             this.level.getEntitiesOfClass(Player.class, this.getBoundingBox().inflate(4.0)).forEach(player -> {
                 double randomX = this.getX() + (this.random.nextDouble() - 0.5) * 10;

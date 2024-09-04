@@ -1,87 +1,24 @@
 {
-  "parent": "minecraft:recipes/root",
-  "criteria": {
-    "has_beacon": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:beacon"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:beacon"
     },
-    "has_chiseled_deepslate": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:chiseled_deepslate"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+    {
+      "item": "minecraft:stone"
     },
-    "has_filled_goblet": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "knightquest:filled_goblet"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+    {
+      "item": "minecraft:chiseled_deepslate"
     },
-    "has_netherite_chestplate": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:netherite_chestplate"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+    {
+      "item": "knightquest:filled_goblet"
     },
-    "has_stone": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:stone"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
-    },
-    "has_the_recipe": {
-      "conditions": {
-        "recipe": "minecraft:silverfish_chestplate"
-      },
-      "trigger": "minecraft:recipe_unlocked"
+    {
+      "item": "minecraft:netherite_chestplate"
     }
-  },
-  "requirements": [
-    [
-      "has_beacon",
-      "has_stone",
-      "has_chiseled_deepslate",
-      "has_filled_goblet",
-      "has_netherite_chestplate",
-      "has_the_recipe"
-    ]
   ],
-  "rewards": {
-    "recipes": [
-      "minecraft:silverfish_chestplate"
-    ]
-  },
-  "sends_telemetry_event": false
+  "result": {
+    "item": "knightquest:silverfish_chestplate"
+  }
 }

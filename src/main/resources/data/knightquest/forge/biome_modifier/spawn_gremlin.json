@@ -3,7 +3,8 @@
   "biomes": [
     "minecraft:soul_sand_valley",
     "minecraft:nether_wastes",
-    "minecraft:crimson_forest"
+    "minecraft:crimson_forest",
+    "minecraft:warped_forest"
   ],
   "spawners": {
     "type": "knightquest:gremlin",

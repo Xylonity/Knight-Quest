@@ -1,87 +1,24 @@
 {
-  "parent": "minecraft:recipes/root",
-  "criteria": {
-    "has_filled_goblet": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "knightquest:filled_goblet"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:sculk_sensor"
     },
-    "has_green_candle": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:green_candle"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+    {
+      "item": "minecraft:green_candle"
     },
-    "has_netherite_helmet": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:netherite_helmet"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+    {
+      "item": "minecraft:yellow_bed"
     },
-    "has_sculk_sensor": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:sculk_sensor"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+    {
+      "item": "knightquest:filled_goblet"
     },
-    "has_the_recipe": {
-      "conditions": {
-        "recipe": "minecraft:skulk3_helmet"
-      },
-      "trigger": "minecraft:recipe_unlocked"
-    },
-    "has_yellow_bed": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:yellow_bed"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+    {
+      "item": "minecraft:netherite_helmet"
     }
-  },
-  "requirements": [
-    [
-      "has_sculk_sensor",
-      "has_green_candle",
-      "has_yellow_bed",
-      "has_filled_goblet",
-      "has_netherite_helmet",
-      "has_the_recipe"
-    ]
   ],
-  "rewards": {
-    "recipes": [
-      "minecraft:skulk3_helmet"
-    ]
-  },
-  "sends_telemetry_event": false
+  "result": {
+    "item": "knightquest:skulk3_helmet"
+  }
 }

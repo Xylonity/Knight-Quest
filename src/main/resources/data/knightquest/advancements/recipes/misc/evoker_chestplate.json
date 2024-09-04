@@ -1,87 +1,24 @@
 {
-  "parent": "minecraft:recipes/root",
-  "criteria": {
-    "has_dark_oak_log": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:dark_oak_log"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:totem_of_undying"
     },
-    "has_filled_goblet": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "knightquest:filled_goblet"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+    {
+      "item": "minecraft:dark_oak_log"
     },
-    "has_lapis_lazuli": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:lapis_lazuli"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+    {
+      "item": "minecraft:lapis_lazuli"
     },
-    "has_netherite_chestplate": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:netherite_chestplate"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+    {
+      "item": "knightquest:filled_goblet"
     },
-    "has_the_recipe": {
-      "conditions": {
-        "recipe": "minecraft:evoker_chestplate"
-      },
-      "trigger": "minecraft:recipe_unlocked"
-    },
-    "has_totem_of_undying": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:totem_of_undying"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+    {
+      "item": "minecraft:diamond_chestplate"
     }
-  },
-  "requirements": [
-    [
-      "has_totem_of_undying",
-      "has_dark_oak_log",
-      "has_lapis_lazuli",
-      "has_filled_goblet",
-      "has_netherite_chestplate",
-      "has_the_recipe"
-    ]
   ],
-  "rewards": {
-    "recipes": [
-      "minecraft:evoker_chestplate"
-    ]
-  },
-  "sends_telemetry_event": false
+  "result": {
+    "item": "knightquest:evoker_chestplate"
+  }
 }

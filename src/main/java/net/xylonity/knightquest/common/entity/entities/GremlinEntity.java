@@ -114,8 +114,8 @@ public class GremlinEntity extends Monster implements IAnimatable {
         this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 6.0F));
         this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
 
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
-        this.targetSelector.addGoal(2, new HurtByTargetGoal(this));
+        this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
     }
 
     @Override
@@ -130,7 +130,6 @@ public class GremlinEntity extends Monster implements IAnimatable {
     public void registerControllers(AnimationData animationData) {
         animationData.addAnimationController(new AnimationController<>(this, "controller", 0, this::predicate));
         animationData.addAnimationController(new AnimationController<>(this, "attackcontroller", 0, this::attackPredicate));
-       // animationData.addAnimationController(new AnimationController<>(this, "coincontroller", 0, this::coinPredicate));
     }
 
     private <E extends IAnimatable> PlayState attackPredicate(AnimationEvent<E> event) {
@@ -157,23 +156,7 @@ public class GremlinEntity extends Monster implements IAnimatable {
             event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", ILoopType.EDefaultLoopTypes.LOOP));
         }
 
-        //if (this.isDeadOrDying()) {
-        //    event.getController().setAnimation(new AnimationBuilder().addAnimation("death", ILoopType.EDefaultLoopTypes.LOOP));
-        //}
-
         return PlayState.CONTINUE;
-    }
-
-    private PlayState coinPredicate(AnimationEvent<?> event) {
-
-        if (getIsPassive() && getShouldTakeCoin()) {
-            event.getController().markNeedsReload();
-            String goldVariation = getGoldVariation() == 0 ? "gold" : "gold2";
-            event.getController().setAnimation(new AnimationBuilder().addAnimation(goldVariation, ILoopType.EDefaultLoopTypes.PLAY_ONCE));
-        }
-
-        return PlayState.CONTINUE;
-
     }
 
     @Override

@@ -507,13 +507,13 @@ public class KnightQuestItems {
             () -> new ForgeSpawnEggItem(KnightQuestEntities.GHOSTY, 0x2cb87e, 0xfbe105, new Item.Properties().tab(KnightQuest.CREATIVE_MODE_TAB)));
     public static final RegistryObject<Item> MOMMA_LIZZY_EGG = ITEMS.register("momma_lizzy_spawn_egg",
             () -> new ForgeSpawnEggItem(KnightQuestEntities.MOMMA_LIZZY, 0x0babf2, 0x9f5b14, new Item.Properties().tab(KnightQuest.CREATIVE_MODE_TAB)));
-    public static final RegistryObject<Item> GHASTLING_EGG = ITEMS.register("ghastling_spawn_egg",
-            () -> new ForgeSpawnEggItem(KnightQuestEntities.SHIELD, 0x930c13, 0xfb9600, new Item.Properties().tab(KnightQuest.CREATIVE_MODE_TAB)){
-                @Override
-                public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-                    pTooltipComponents.add(Component.translatable("tooltip.item.knightquest.ghastling_spawn_egg"));
-                    super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
-                }
-            });
+    //public static final RegistryObject<Item> GHASTLING_EGG = ITEMS.register("ghastling_spawn_egg",
+    //        () -> new ForgeSpawnEggItem(KnightQuestEntities.SHIELD, 0x930c13, 0xfb9600, new Item.Properties().tab(KnightQuest.CREATIVE_MODE_TAB)){
+    //            @Override
+    //            public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
+    //                pTooltipComponents.add(Component.translatable("tooltip.item.knightquest.ghastling_spawn_egg"));
+    //                super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+    //            }
+    //        });
     
 }

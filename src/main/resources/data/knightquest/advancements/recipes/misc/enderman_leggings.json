@@ -1,87 +1,24 @@
 {
-  "parent": "minecraft:recipes/root",
-  "criteria": {
-    "has_amethyst_shard": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:amethyst_shard"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:ender_pearl"
     },
-    "has_ender_pearl": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:ender_pearl"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+    {
+      "item": "minecraft:grass_block"
     },
-    "has_filled_goblet": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "knightquest:filled_goblet"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+    {
+      "item": "minecraft:amethyst_shard"
     },
-    "has_grass_block": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:grass_block"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+    {
+      "item": "knightquest:filled_goblet"
     },
-    "has_netherite_leggings": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:netherite_leggings"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
-    },
-    "has_the_recipe": {
-      "conditions": {
-        "recipe": "minecraft:enderman_leggings"
-      },
-      "trigger": "minecraft:recipe_unlocked"
+    {
+      "item": "minecraft:netherite_leggings"
     }
-  },
-  "requirements": [
-    [
-      "has_ender_pearl",
-      "has_grass_block",
-      "has_amethyst_shard",
-      "has_filled_goblet",
-      "has_netherite_leggings",
-      "has_the_recipe"
-    ]
   ],
-  "rewards": {
-    "recipes": [
-      "minecraft:enderman_leggings"
-    ]
-  },
-  "sends_telemetry_event": false
+  "result": {
+    "item": "knightquest:enderman_leggings"
+  }
 }

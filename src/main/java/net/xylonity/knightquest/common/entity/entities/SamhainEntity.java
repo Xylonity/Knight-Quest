@@ -18,14 +18,12 @@ import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.OwnerHurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.OwnerHurtTargetGoal;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.xylonity.knightquest.common.entity.entities.ai.MoveToPumpkinGoal;
@@ -46,7 +44,8 @@ import software.bernie.geckolib3.util.GeckoLibUtil;
 
 import java.util.*;
 
-public class SamhainEntity extends TamableAnimal implements RangedAttackMob {
+public class SamhainEntity extends TamableAnimal implements IAnimatable, RangedAttackMob {
+    private final AnimationFactory factory = GeckoLibUtil.createFactory(this);
     private static final EntityDataAccessor<Boolean> SITTING = SynchedEntityData.defineId(SamhainEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> SIT_VARIATION = SynchedEntityData.defineId(SamhainEntity.class, EntityDataSerializers.INT);
 
@@ -78,6 +77,12 @@ public class SamhainEntity extends TamableAnimal implements RangedAttackMob {
         this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
     }
 
+    @Override
+    public void registerControllers(AnimationData animationData) {
+        animationData.addAnimationController(new AnimationController<>(this, "controller", 0, this::predicate));
+        animationData.addAnimationController(new AnimationController<>(this, "attackcontroller", 0, this::attackPredicate));
+    }
+
     private <E extends IAnimatable> PlayState attackPredicate(AnimationEvent<E> event) {
 
         if (this.swinging && event.getController().getAnimationState().equals(AnimationState.Stopped)) {
@@ -91,21 +96,21 @@ public class SamhainEntity extends TamableAnimal implements RangedAttackMob {
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
 
-        if (event.isMoving()) {
+        if (this.isSitting()) {
+            String sitVariation = getSitVariation() == 0 ? "sit" : getSitVariation() == 1 ? "sit3" : "sit2";
+            event.getController().setAnimation(new AnimationBuilder().addAnimation(sitVariation, ILoopType.EDefaultLoopTypes.LOOP));
+        } else if (event.isMoving()) {
             event.getController().setAnimation(new AnimationBuilder().addAnimation("walk", ILoopType.EDefaultLoopTypes.LOOP));
         } else {
             event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", ILoopType.EDefaultLoopTypes.LOOP));
         }
 
-        if (this.dead) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("sit", ILoopType.EDefaultLoopTypes.LOOP));
-        }
-
-        if (this.dead) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("death", ILoopType.EDefaultLoopTypes.LOOP));
-        }
-
         return PlayState.CONTINUE;
+    }
+
+    @Override
+    public AnimationFactory getFactory() {
+        return this.factory;
     }
 
     @Override
@@ -183,22 +188,33 @@ public class SamhainEntity extends TamableAnimal implements RangedAttackMob {
         ItemStack itemStack = itemEntity.getItem();
         Item item = itemStack.getItem();
 
-        if ((item instanceof SwordItem || item instanceof AxeItem) && isTame()) {
+        final Item[] COMPATIBLE_WEAPONS = new Item[] {
+                Items.DIAMOND_AXE,
+                Items.IRON_SWORD,
+                Items.STONE_SWORD,
+                Items.GOLDEN_SWORD,
+                Items.WOODEN_SWORD,
+                Items.NETHERITE_SWORD,
+                Items.DIAMOND_SWORD,
+                Items.BOW,
+                KnightQuestItems.PALADIN_SWORD.get(),
+                KnightQuestItems.NAIL_SWORD.get(),
+                KnightQuestItems.UCHIGATANA.get(),
+                KnightQuestItems.KUKRI.get(),
+                KnightQuestItems.KHOPESH.get(),
+                KnightQuestItems.CLEAVER.get(),
+                KnightQuestItems.CRIMSON_SWORD.get(),
+                KnightQuestItems.WATER_SWORD.get(),
+                KnightQuestItems.STEEL_SWORD.get(),
+                KnightQuestItems.WATER_AXE.get(),
+                KnightQuestItems.STEEL_AXE.get()
+        };
+
+        if ((Arrays.stream(COMPATIBLE_WEAPONS).toList().contains(item)) && isTame()) {
             EquipmentSlot slot = LivingEntity.getEquipmentSlotForItem(itemStack);
             ItemStack currentItem = this.getItemInHand(InteractionHand.MAIN_HAND);
 
             if (currentItem.isEmpty()) {
-                this.setItemSlot(slot, itemStack.split(1));
-
-                if (itemStack.isEmpty()) {
-                    itemEntity.discard();
-                }
-            }
-        } else if (item instanceof ArmorItem armorItem && isTame()) {
-            EquipmentSlot slot = armorItem.getSlot();
-            ItemStack currentArmor = this.getItemBySlot(slot);
-
-            if (currentArmor.isEmpty()) {
                 this.setItemSlot(slot, itemStack.split(1));
 
                 if (itemStack.isEmpty()) {

@@ -57,8 +57,9 @@ public class EldBombEntity extends Creeper implements IAnimatable {
         this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 0.5, false));
         this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 0.5));
         this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
-        this.targetSelector.addGoal(2, new HurtByTargetGoal(this, new Class[0]));
+
+        this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {

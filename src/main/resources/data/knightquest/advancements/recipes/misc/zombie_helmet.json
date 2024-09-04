@@ -1,87 +1,24 @@
 {
-  "parent": "minecraft:recipes/root",
-  "criteria": {
-    "has_filled_goblet": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "knightquest:filled_goblet"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:rotten_flesh"
     },
-    "has_green_dye": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:green_dye"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+    {
+      "item": "minecraft:poisonous_potato"
     },
-    "has_netherite_helmet": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:netherite_helmet"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+    {
+      "item": "minecraft:green_dye"
     },
-    "has_poisonous_potato": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:poisonous_potato"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+    {
+      "item": "knightquest:filled_goblet"
     },
-    "has_rotten_flesh": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:rotten_flesh"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
-    },
-    "has_the_recipe": {
-      "conditions": {
-        "recipe": "minecraft:zombie_helmet"
-      },
-      "trigger": "minecraft:recipe_unlocked"
+    {
+      "item": "minecraft:diamond_helmet"
     }
-  },
-  "requirements": [
-    [
-      "has_rotten_flesh",
-      "has_poisonous_potato",
-      "has_green_dye",
-      "has_filled_goblet",
-      "has_netherite_helmet",
-      "has_the_recipe"
-    ]
   ],
-  "rewards": {
-    "recipes": [
-      "minecraft:zombie_helmet"
-    ]
-  },
-  "sends_telemetry_event": false
+  "result": {
+    "item": "knightquest:zombie_helmet"
+  }
 }

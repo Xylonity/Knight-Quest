@@ -1,87 +1,24 @@
 {
-  "parent": "minecraft:recipes/root",
-  "criteria": {
-    "has_filled_goblet": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "knightquest:filled_goblet"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:poisonous_potato"
     },
-    "has_glass_bottle": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:glass_bottle"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+    {
+      "item": "minecraft:glass_bottle"
     },
-    "has_netherite_chestplate": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:netherite_chestplate"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+    {
+      "item": "minecraft:red_concrete_powder"
     },
-    "has_poisonous_potato": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:poisonous_potato"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+    {
+      "item": "knightquest:filled_goblet"
     },
-    "has_red_concrete_powder": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:red_concrete_powder"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
-    },
-    "has_the_recipe": {
-      "conditions": {
-        "recipe": "minecraft:witch_chestplate"
-      },
-      "trigger": "minecraft:recipe_unlocked"
+    {
+      "item": "minecraft:diamond_chestplate"
     }
-  },
-  "requirements": [
-    [
-      "has_poisonous_potato",
-      "has_glass_bottle",
-      "has_red_concrete_powder",
-      "has_filled_goblet",
-      "has_netherite_chestplate",
-      "has_the_recipe"
-    ]
   ],
-  "rewards": {
-    "recipes": [
-      "minecraft:witch_chestplate"
-    ]
-  },
-  "sends_telemetry_event": false
+  "result": {
+    "item": "knightquest:witch_chestplate"
+  }
 }

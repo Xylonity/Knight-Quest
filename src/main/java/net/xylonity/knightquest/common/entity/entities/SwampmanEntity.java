@@ -84,8 +84,8 @@ public class SwampmanEntity  extends Monster implements IAnimatable, RangedAttac
         this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 0.6D, true));
         this.goalSelector.addGoal(3, new RandomLookAroundGoal(this));
 
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
-        this.targetSelector.addGoal(2, new HurtByTargetGoal(this));
+        this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
     }
 
     @Override

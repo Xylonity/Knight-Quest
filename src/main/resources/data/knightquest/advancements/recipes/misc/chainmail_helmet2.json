@@ -1,87 +1,24 @@
 {
-  "parent": "minecraft:recipes/root",
-  "criteria": {
-    "has_apple": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:apple"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:iron_axe"
     },
-    "has_filled_goblet": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "knightquest:filled_goblet"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+    {
+      "item": "minecraft:wheat_seeds"
     },
-    "has_iron_axe": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:iron_axe"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+    {
+      "item": "minecraft:apple"
     },
-    "has_iron_helmet": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:iron_helmet"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+    {
+      "item": "knightquest:filled_goblet"
     },
-    "has_the_recipe": {
-      "conditions": {
-        "recipe": "minecraft:chainmail_helmet2"
-      },
-      "trigger": "minecraft:recipe_unlocked"
-    },
-    "has_wheat_seeds": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:wheat_seeds"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+    {
+      "item": "minecraft:iron_helmet"
     }
-  },
-  "requirements": [
-    [
-      "has_iron_axe",
-      "has_wheat_seeds",
-      "has_apple",
-      "has_filled_goblet",
-      "has_iron_helmet",
-      "has_the_recipe"
-    ]
   ],
-  "rewards": {
-    "recipes": [
-      "minecraft:chainmail_helmet2"
-    ]
-  },
-  "sends_telemetry_event": false
+  "result": {
+    "item": "knightquest:chainmail_helmet2"
+  }
 }

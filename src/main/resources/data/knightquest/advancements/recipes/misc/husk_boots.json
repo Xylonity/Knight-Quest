@@ -1,87 +1,24 @@
 {
-  "parent": "minecraft:recipes/root",
-  "criteria": {
-    "has_filled_goblet": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "knightquest:filled_goblet"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:sandstone"
     },
-    "has_lapis_lazuli": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:lapis_lazuli"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+    {
+      "item": "minecraft:lapis_lazuli"
     },
-    "has_netherite_boots": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:netherite_boots"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+    {
+      "item": "minecraft:yellow_dye"
     },
-    "has_sandstone": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:sandstone"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+    {
+      "item": "knightquest:filled_goblet"
     },
-    "has_the_recipe": {
-      "conditions": {
-        "recipe": "minecraft:husk_boots"
-      },
-      "trigger": "minecraft:recipe_unlocked"
-    },
-    "has_yellow_dye": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:yellow_dye"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+    {
+      "item": "minecraft:netherite_boots"
     }
-  },
-  "requirements": [
-    [
-      "has_sandstone",
-      "has_lapis_lazuli",
-      "has_yellow_dye",
-      "has_filled_goblet",
-      "has_netherite_boots",
-      "has_the_recipe"
-    ]
   ],
-  "rewards": {
-    "recipes": [
-      "minecraft:husk_boots"
-    ]
-  },
-  "sends_telemetry_event": false
+  "result": {
+    "item": "knightquest:husk_boots"
+  }
 }

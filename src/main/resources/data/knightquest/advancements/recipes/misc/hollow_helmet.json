@@ -1,87 +1,24 @@
 {
-  "parent": "minecraft:recipes/root",
-  "criteria": {
-    "has_enchanted_golden_apple": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:enchanted_golden_apple"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:enchanted_golden_apple"
     },
-    "has_filled_goblet": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "knightquest:filled_goblet"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+    {
+      "item": "minecraft:magma_cream"
     },
-    "has_magma_cream": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:magma_cream"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+    {
+      "item": "minecraft:red_mushroom"
     },
-    "has_netherite_helmet": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:netherite_helmet"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+    {
+      "item": "knightquest:filled_goblet"
     },
-    "has_red_mushroom": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:red_mushroom"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
-    },
-    "has_the_recipe": {
-      "conditions": {
-        "recipe": "minecraft:hollow_helmet"
-      },
-      "trigger": "minecraft:recipe_unlocked"
+    {
+      "item": "minecraft:netherite_helmet"
     }
-  },
-  "requirements": [
-    [
-      "has_enchanted_golden_apple",
-      "has_magma_cream",
-      "has_red_mushroom",
-      "has_filled_goblet",
-      "has_netherite_helmet",
-      "has_the_recipe"
-    ]
   ],
-  "rewards": {
-    "recipes": [
-      "minecraft:hollow_helmet"
-    ]
-  },
-  "sends_telemetry_event": false
+  "result": {
+    "item": "knightquest:hollow_helmet"
+  }
 }

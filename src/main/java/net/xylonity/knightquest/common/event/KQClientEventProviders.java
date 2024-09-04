@@ -15,9 +15,6 @@ import net.xylonity.knightquest.common.client.chest.GeoItemArmorChestRenderer;
 import net.xylonity.knightquest.common.client.leg.GeoItemArmorLeg;
 import net.xylonity.knightquest.common.client.leg.GeoItemArmorLegRenderer;
 import net.xylonity.knightquest.common.entity.client.*;
-import net.xylonity.knightquest.common.entity.client.samhain.SamhainModel;
-import net.xylonity.knightquest.common.entity.client.samhain.SamhainModelLayers;
-import net.xylonity.knightquest.common.entity.client.samhain.SamhainRenderer;
 import net.xylonity.knightquest.common.particle.*;
 import net.xylonity.knightquest.common.particle.explosiveenhancement.*;
 import net.xylonity.knightquest.common.particle.explosiveenhancement.blue.BlueBlastWaveParticle;
@@ -61,13 +58,6 @@ public class KQClientEventProviders {
 
         event.register(KnightQuestParticles.REDBLASTWAVE.get(), RedBlastWaveParticle.Provider::new);
         event.register(KnightQuestParticles.REDFIREBALL.get(), RedFireballParticle.Provider::new);
-    }
-
-    @SubscribeEvent
-    public static void registerLayer(EntityRenderersEvent.RegisterLayerDefinitions event) {
-        event.registerLayerDefinition(SamhainModelLayers.SAMHAIN_LAYER, SamhainModel::createBodyLayer);
-        event.registerLayerDefinition(SamhainModelLayers.SAMHAIN_INNER_ARMOR_LAYER, SamhainModel::createBodyLayer);
-        event.registerLayerDefinition(SamhainModelLayers.SAMHAIN_OUTER_ARMOR_LAYER, SamhainModel::createBodyLayer);
     }
 
     @SubscribeEvent

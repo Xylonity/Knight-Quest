@@ -4,10 +4,7 @@
   "ingredients": [
     {
       "item": "minecraft:diamond_sword"
-    },
-    {
-      "item": "minecraft:cherry_wood"
-    },
+    }
     {
       "item": "minecraft:red_banner"
     },

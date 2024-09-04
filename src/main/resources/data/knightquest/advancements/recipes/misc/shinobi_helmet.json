@@ -1,87 +1,21 @@
 {
-  "parent": "minecraft:recipes/root",
-  "criteria": {
-    "has_cherry_wood": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:cherry_wood"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:diamond_sword"
     },
-    "has_diamond_sword": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:diamond_sword"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+    {
+      "item": "minecraft:red_banner"
     },
-    "has_filled_goblet": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "knightquest:filled_goblet"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+    {
+      "item": "knightquest:filled_goblet"
     },
-    "has_netherite_helmet": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:netherite_helmet"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
-    },
-    "has_red_banner": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:red_banner"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
-    },
-    "has_the_recipe": {
-      "conditions": {
-        "recipe": "minecraft:shinobi_helmet"
-      },
-      "trigger": "minecraft:recipe_unlocked"
+    {
+      "item": "minecraft:diamond_helmet"
     }
-  },
-  "requirements": [
-    [
-      "has_diamond_sword",
-      "has_cherry_wood",
-      "has_red_banner",
-      "has_filled_goblet",
-      "has_netherite_helmet",
-      "has_the_recipe"
-    ]
   ],
-  "rewards": {
-    "recipes": [
-      "minecraft:shinobi_helmet"
-    ]
-  },
-  "sends_telemetry_event": false
+  "result": {
+    "item": "knightquest:shinobi_helmet"
+  }
 }

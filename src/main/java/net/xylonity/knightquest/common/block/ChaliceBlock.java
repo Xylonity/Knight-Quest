@@ -29,6 +29,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.xylonity.knightquest.common.block.tracker.ChaliceBlockTracker;
 import net.xylonity.knightquest.common.entity.boss.NethermanEntity;
+import net.xylonity.knightquest.config.values.KQConfigValues;
 import net.xylonity.knightquest.registry.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -150,7 +151,7 @@ public class ChaliceBlock extends Block {
             }
         }
 
-        if (block.equals(KnightQuestBlocks.GREAT_CHALICE.get()) && item.equals(KnightQuestItems.RADIANT_ESSENCE.get()) && pState.getValue(fill).equals(5)) {
+        if (block.equals(KnightQuestBlocks.GREAT_CHALICE.get()) && item.equals(KnightQuestItems.RADIANT_ESSENCE.get()) && pState.getValue(fill).equals(5) && KQConfigValues.CAN_SUMMON_NETHERMAN) {
             if (!pLevel.isClientSide()) {
                 if (pPlayer.getItemInHand(pHand).getCount() > 1) {
                     int stackCount = stack.getCount();
@@ -214,7 +215,7 @@ public class ChaliceBlock extends Block {
                 pLevel.setBlock(pPos, pState.cycle(fill), 3);
 
                 LightningBolt lightningBolt = EntityType.LIGHTNING_BOLT.create(pLevel);
-                if (lightningBolt != null) {
+                if (lightningBolt != null && KQConfigValues.SPAWN_LIGHTNING_ON_SPAWN) {
                     lightningBolt.moveTo(pPos.getX() + 0.5, pPos.getY(), pPos.getZ() + 0.5);
                     pLevel.addFreshEntity(lightningBolt);
                 }

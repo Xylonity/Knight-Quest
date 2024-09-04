@@ -50,7 +50,7 @@ public class AbstractSwampmanAxeEntity extends Projectile {
     public AbstractArrow.Pickup pickup = AbstractArrow.Pickup.DISALLOWED;
     public int shakeTime;
     private int life;
-    private double baseDamage = 2.0D;
+    private double baseDamage = 5.0D;
     private int knockback;
     private SoundEvent soundEvent = this.getDefaultHitGroundSoundEvent();
     @Nullable

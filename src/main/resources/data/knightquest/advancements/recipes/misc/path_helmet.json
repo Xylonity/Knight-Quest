@@ -1,24 +1,87 @@
 {
-  "type": "minecraft:crafting_shapeless",
-  "category": "misc",
-  "ingredients": [
-    {
-      "item": "minecraft:black_dye"
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_black_dye": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:black_dye"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    {
-      "item": "minecraft:coarse_dirt"
+    "has_coarse_dirt": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:coarse_dirt"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    {
-      "item": "minecraft:leather"
+    "has_filled_goblet": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "knightquest:filled_goblet"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    {
-      "item": "knightquest:filled_goblet"
+    "has_leather": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:leather"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    {
-      "item": "minecraft:diamond_helmet"
+    "has_netherite_helmet": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:netherite_helmet"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:path_helmet"
+      },
+      "trigger": "minecraft:recipe_unlocked"
     }
+  },
+  "requirements": [
+    [
+      "has_black_dye",
+      "has_coarse_dirt",
+      "has_leather",
+      "has_filled_goblet",
+      "has_netherite_helmet",
+      "has_the_recipe"
+    ]
   ],
-  "result": {
-    "item": "knightquest:path_helmet"
-  }
+  "rewards": {
+    "recipes": [
+      "minecraft:path_helmet"
+    ]
+  },
+  "sends_telemetry_event": false
 }

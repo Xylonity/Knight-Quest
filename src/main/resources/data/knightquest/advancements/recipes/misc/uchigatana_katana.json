@@ -1,24 +1,61 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "category": "misc",
-  "key": {
-    "I": {
-      "item": "knightquest:lizzy_scale"
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_diamond": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:diamond"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    "S": {
-      "item": "minecraft:diamond_sword"
+    "has_diamond_sword": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:diamond_sword"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    "X": {
-      "item": "minecraft:diamond"
+    "has_lizzy_scale": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "knightquest:lizzy_scale"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:uchigatana_katana"
+      },
+      "trigger": "minecraft:recipe_unlocked"
     }
   },
-  "pattern": [
-    "X",
-    "I",
-    "S"
+  "requirements": [
+    [
+      "has_diamond",
+      "has_lizzy_scale",
+      "has_diamond_sword",
+      "has_the_recipe"
+    ]
   ],
-  "result": {
-    "item": "knightquest:uchigatana_katana"
+  "rewards": {
+    "recipes": [
+      "minecraft:uchigatana_katana"
+    ]
   },
-  "show_notification": true
+  "sends_telemetry_event": false
 }

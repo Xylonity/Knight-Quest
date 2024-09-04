@@ -1,24 +1,87 @@
 {
-  "type": "minecraft:crafting_shapeless",
-  "category": "misc",
-  "ingredients": [
-    {
-      "item": "minecraft:sandstone"
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_filled_goblet": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "knightquest:filled_goblet"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    {
-      "item": "minecraft:pufferfish"
+    "has_netherite_helmet": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:netherite_helmet"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    {
-      "item": "minecraft:yellow_dye"
+    "has_pufferfish": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:pufferfish"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    {
-      "item": "knightquest:filled_goblet"
+    "has_sandstone": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:sandstone"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    {
-      "item": "minecraft:netherite_helmet"
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:husk_helmet3"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_yellow_dye": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:yellow_dye"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     }
+  },
+  "requirements": [
+    [
+      "has_sandstone",
+      "has_pufferfish",
+      "has_yellow_dye",
+      "has_filled_goblet",
+      "has_netherite_helmet",
+      "has_the_recipe"
+    ]
   ],
-  "result": {
-    "item": "knightquest:husk_helmet3"
-  }
+  "rewards": {
+    "recipes": [
+      "minecraft:husk_helmet3"
+    ]
+  },
+  "sends_telemetry_event": false
 }

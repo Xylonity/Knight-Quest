@@ -1,18 +1,61 @@
 {
-  "type": "minecraft:crafting_shapeless",
-  "category": "misc",
-  "ingredients": [
-    {
-      "item": "minecraft:golden_apple"
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_filled_goblet": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "knightquest:filled_goblet"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    {
-      "item": "knightquest:filled_goblet"
+    "has_golden_apple": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:golden_apple"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    {
-      "item": "minecraft:diamond_boots"
+    "has_netherite_boots": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:netherite_boots"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:apple_boots"
+      },
+      "trigger": "minecraft:recipe_unlocked"
     }
+  },
+  "requirements": [
+    [
+      "has_golden_apple",
+      "has_filled_goblet",
+      "has_netherite_boots",
+      "has_the_recipe"
+    ]
   ],
-  "result": {
-    "item": "knightquest:apple_boots"
-  }
+  "rewards": {
+    "recipes": [
+      "minecraft:apple_boots"
+    ]
+  },
+  "sends_telemetry_event": false
 }

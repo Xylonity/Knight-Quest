@@ -1,24 +1,87 @@
 {
-  "type": "minecraft:crafting_shapeless",
-  "category": "misc",
-  "ingredients": [
-    {
-      "item": "minecraft:lime_dye"
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_deepslate_iron_ore": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:deepslate_iron_ore"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    {
-      "item": "minecraft:spider_eye"
+    "has_filled_goblet": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "knightquest:filled_goblet"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    {
-      "item": "minecraft:deepslate_iron_ore"
+    "has_lime_dye": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:lime_dye"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    {
-      "item": "knightquest:filled_goblet"
+    "has_netherite_boots": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:netherite_boots"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    {
-      "item": "minecraft:netherite_boots"
+    "has_spider_eye": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:spider_eye"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:forze_boots"
+      },
+      "trigger": "minecraft:recipe_unlocked"
     }
+  },
+  "requirements": [
+    [
+      "has_lime_dye",
+      "has_spider_eye",
+      "has_deepslate_iron_ore",
+      "has_filled_goblet",
+      "has_netherite_boots",
+      "has_the_recipe"
+    ]
   ],
-  "result": {
-    "item": "knightquest:forze_boots"
-  }
+  "rewards": {
+    "recipes": [
+      "minecraft:forze_boots"
+    ]
+  },
+  "sends_telemetry_event": false
 }

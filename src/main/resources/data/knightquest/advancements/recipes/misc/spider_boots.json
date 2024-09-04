@@ -1,24 +1,87 @@
 {
-  "type": "minecraft:crafting_shapeless",
-  "category": "misc",
-  "ingredients": [
-    {
-      "item": "minecraft:piston"
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_bone_meal": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:bone_meal"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    {
-      "item": "minecraft:spider_eye"
+    "has_filled_goblet": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "knightquest:filled_goblet"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    {
-      "item": "minecraft:bone_meal"
+    "has_netherite_boots": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:netherite_boots"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    {
-      "item": "knightquest:filled_goblet"
+    "has_piston": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:piston"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    {
-      "item": "minecraft:diamond_boots"
+    "has_spider_eye": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:spider_eye"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:spider_boots"
+      },
+      "trigger": "minecraft:recipe_unlocked"
     }
+  },
+  "requirements": [
+    [
+      "has_piston",
+      "has_spider_eye",
+      "has_bone_meal",
+      "has_filled_goblet",
+      "has_netherite_boots",
+      "has_the_recipe"
+    ]
   ],
-  "result": {
-    "item": "knightquest:spider_boots"
-  }
+  "rewards": {
+    "recipes": [
+      "minecraft:spider_boots"
+    ]
+  },
+  "sends_telemetry_event": false
 }

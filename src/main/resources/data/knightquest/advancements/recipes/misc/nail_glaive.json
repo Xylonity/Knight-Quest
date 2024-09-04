@@ -1,24 +1,61 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "category": "misc",
-  "key": {
-    "I": {
-      "item": "knightquest:filled_goblet"
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_filled_goblet": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "knightquest:filled_goblet"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    "S": {
-      "item": "minecraft:netherite_sword"
+    "has_iron_block": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:iron_block"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    "X": {
-      "item": "minecraft:iron_block"
+    "has_netherite_sword": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:netherite_sword"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:nail_glaive"
+      },
+      "trigger": "minecraft:recipe_unlocked"
     }
   },
-  "pattern": [
-    "X",
-    "I",
-    "S"
+  "requirements": [
+    [
+      "has_iron_block",
+      "has_filled_goblet",
+      "has_netherite_sword",
+      "has_the_recipe"
+    ]
   ],
-  "result": {
-    "item": "knightquest:nail_glaive"
+  "rewards": {
+    "recipes": [
+      "minecraft:nail_glaive"
+    ]
   },
-  "show_notification": true
+  "sends_telemetry_event": false
 }

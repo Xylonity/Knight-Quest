@@ -71,8 +71,8 @@ public class SwampmanEntity  extends Monster implements IAnimatable, RangedAttac
 
     public static AttributeSupplier setAttributes() {
         return Monster.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 22.0D)
-                .add(Attributes.ATTACK_DAMAGE, 4f)
+                .add(Attributes.MAX_HEALTH, 50.0D)
+                .add(Attributes.ATTACK_DAMAGE, 8f)
                 .add(Attributes.ATTACK_SPEED, 0.8f)
                 .add(Attributes.MOVEMENT_SPEED, 0.5f).build();
     }

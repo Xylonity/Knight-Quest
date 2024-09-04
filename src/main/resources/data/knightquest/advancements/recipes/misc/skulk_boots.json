@@ -1,24 +1,87 @@
 {
-  "type": "minecraft:crafting_shapeless",
-  "category": "misc",
-  "ingredients": [
-    {
-      "item": "minecraft:sculk_sensor"
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_filled_goblet": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "knightquest:filled_goblet"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    {
-      "item": "minecraft:green_candle"
+    "has_green_candle": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:green_candle"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    {
-      "item": "minecraft:white_concrete"
+    "has_netherite_boots": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:netherite_boots"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    {
-      "item": "knightquest:filled_goblet"
+    "has_sculk_sensor": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:sculk_sensor"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    {
-      "item": "minecraft:netherite_boots"
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:skulk_boots"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_white_concrete": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:white_concrete"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     }
+  },
+  "requirements": [
+    [
+      "has_sculk_sensor",
+      "has_green_candle",
+      "has_white_concrete",
+      "has_filled_goblet",
+      "has_netherite_boots",
+      "has_the_recipe"
+    ]
   ],
-  "result": {
-    "item": "knightquest:skulk_boots"
-  }
+  "rewards": {
+    "recipes": [
+      "minecraft:skulk_boots"
+    ]
+  },
+  "sends_telemetry_event": false
 }

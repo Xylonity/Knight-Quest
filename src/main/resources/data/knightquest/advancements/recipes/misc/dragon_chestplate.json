@@ -1,24 +1,87 @@
 {
-  "type": "minecraft:crafting_shapeless",
-  "category": "misc",
-  "ingredients": [
-    {
-      "item": "minecraft:ender_eye"
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_end_stone_bricks": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:end_stone_bricks"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    {
-      "item": "minecraft:shulker_shell"
+    "has_ender_eye": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:ender_eye"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    {
-      "item": "minecraft:end_stone_bricks"
+    "has_filled_goblet": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "knightquest:filled_goblet"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    {
-      "item": "knightquest:filled_goblet"
+    "has_netherite_chestplate": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:netherite_chestplate"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    {
-      "item": "minecraft:netherite_chestplate"
+    "has_shulker_shell": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:shulker_shell"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:dragon_chestplate"
+      },
+      "trigger": "minecraft:recipe_unlocked"
     }
+  },
+  "requirements": [
+    [
+      "has_ender_eye",
+      "has_shulker_shell",
+      "has_end_stone_bricks",
+      "has_filled_goblet",
+      "has_netherite_chestplate",
+      "has_the_recipe"
+    ]
   ],
-  "result": {
-    "item": "knightquest:dragon_chestplate"
-  }
+  "rewards": {
+    "recipes": [
+      "minecraft:dragon_chestplate"
+    ]
+  },
+  "sends_telemetry_event": false
 }

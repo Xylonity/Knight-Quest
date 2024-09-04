@@ -1,24 +1,87 @@
 {
-  "type": "minecraft:crafting_shapeless",
-  "category": "misc",
-  "ingredients": [
-    {
-      "item": "minecraft:cyan_bed"
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_cyan_bed": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:cyan_bed"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    {
-      "item": "minecraft:phantom_membrane"
+    "has_filled_goblet": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "knightquest:filled_goblet"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    {
-      "item": "minecraft:lime_dye"
+    "has_lime_dye": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:lime_dye"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    {
-      "item": "knightquest:filled_goblet"
+    "has_netherite_helmet": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:netherite_helmet"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    {
-      "item": "minecraft:netherite_helmet"
+    "has_phantom_membrane": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:phantom_membrane"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:phantom_helmet"
+      },
+      "trigger": "minecraft:recipe_unlocked"
     }
+  },
+  "requirements": [
+    [
+      "has_cyan_bed",
+      "has_phantom_membrane",
+      "has_lime_dye",
+      "has_filled_goblet",
+      "has_netherite_helmet",
+      "has_the_recipe"
+    ]
   ],
-  "result": {
-    "item": "knightquest:phantom_helmet"
-  }
+  "rewards": {
+    "recipes": [
+      "minecraft:phantom_helmet"
+    ]
+  },
+  "sends_telemetry_event": false
 }

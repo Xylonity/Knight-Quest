@@ -1,24 +1,87 @@
 {
-  "type": "minecraft:crafting_shapeless",
-  "category": "misc",
-  "ingredients": [
-    {
-      "item": "minecraft:cyan_bed"
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_cyan_bed": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:cyan_bed"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    {
-      "item": "minecraft:phantom_membrane"
+    "has_filled_goblet": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "knightquest:filled_goblet"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    {
-      "item": "minecraft:heart_of_the_sea"
+    "has_heart_of_the_sea": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:heart_of_the_sea"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    {
-      "item": "knightquest:filled_goblet"
+    "has_netherite_chestplate": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:netherite_chestplate"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    {
-      "item": "minecraft:netherite_chestplate"
+    "has_phantom_membrane": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:phantom_membrane"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:sea_chestplate"
+      },
+      "trigger": "minecraft:recipe_unlocked"
     }
+  },
+  "requirements": [
+    [
+      "has_cyan_bed",
+      "has_phantom_membrane",
+      "has_heart_of_the_sea",
+      "has_filled_goblet",
+      "has_netherite_chestplate",
+      "has_the_recipe"
+    ]
   ],
-  "result": {
-    "item": "knightquest:sea_chestplate"
-  }
+  "rewards": {
+    "recipes": [
+      "minecraft:sea_chestplate"
+    ]
+  },
+  "sends_telemetry_event": false
 }

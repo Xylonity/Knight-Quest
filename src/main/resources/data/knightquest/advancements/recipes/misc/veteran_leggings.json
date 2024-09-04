@@ -1,24 +1,87 @@
 {
-  "type": "minecraft:crafting_shapeless",
-  "category": "misc",
-  "ingredients": [
-    {
-      "item": "minecraft:iron_horse_armor"
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_diamond_sword": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:diamond_sword"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    {
-      "item": "minecraft:diamond_sword"
+    "has_enchanted_golden_apple": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:enchanted_golden_apple"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    {
-      "item": "minecraft:enchanted_golden_apple"
+    "has_filled_goblet": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "knightquest:filled_goblet"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    {
-      "item": "knightquest:filled_goblet"
+    "has_iron_horse_armor": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:iron_horse_armor"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    {
-      "item": "minecraft:netherite_leggings"
+    "has_netherite_leggings": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:netherite_leggings"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:veteran_leggings"
+      },
+      "trigger": "minecraft:recipe_unlocked"
     }
+  },
+  "requirements": [
+    [
+      "has_iron_horse_armor",
+      "has_diamond_sword",
+      "has_enchanted_golden_apple",
+      "has_filled_goblet",
+      "has_netherite_leggings",
+      "has_the_recipe"
+    ]
   ],
-  "result": {
-    "item": "knightquest:veteran_leggings"
-  }
+  "rewards": {
+    "recipes": [
+      "minecraft:veteran_leggings"
+    ]
+  },
+  "sends_telemetry_event": false
 }

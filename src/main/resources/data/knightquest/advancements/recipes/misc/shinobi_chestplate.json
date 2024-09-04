@@ -1,21 +1,87 @@
 {
-  "type": "minecraft:crafting_shapeless",
-  "category": "misc",
-  "ingredients": [
-    {
-      "item": "minecraft:diamond_sword"
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_cherry_wood": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:cherry_wood"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    {
-      "item": "minecraft:red_banner"
+    "has_diamond_sword": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:diamond_sword"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    {
-      "item": "knightquest:filled_goblet"
+    "has_filled_goblet": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "knightquest:filled_goblet"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    {
-      "item": "minecraft:diamond_chestplate"
+    "has_netherite_chestplate": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:netherite_chestplate"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_red_banner": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:red_banner"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:shinobi_chestplate"
+      },
+      "trigger": "minecraft:recipe_unlocked"
     }
+  },
+  "requirements": [
+    [
+      "has_diamond_sword",
+      "has_cherry_wood",
+      "has_red_banner",
+      "has_filled_goblet",
+      "has_netherite_chestplate",
+      "has_the_recipe"
+    ]
   ],
-  "result": {
-    "item": "knightquest:shinobi_chestplate"
-  }
+  "rewards": {
+    "recipes": [
+      "minecraft:shinobi_chestplate"
+    ]
+  },
+  "sends_telemetry_event": false
 }

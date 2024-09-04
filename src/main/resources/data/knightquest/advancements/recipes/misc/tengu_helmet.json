@@ -1,24 +1,87 @@
 {
-  "type": "minecraft:crafting_shapeless",
-  "category": "misc",
-  "ingredients": [
-    {
-      "item": "minecraft:red_glazed_terracotta"
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_filled_goblet": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "knightquest:filled_goblet"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    {
-      "item": "minecraft:redstone_torch"
+    "has_netherite_helmet": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:netherite_helmet"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    {
-      "item": "minecraft:red_sand"
+    "has_red_glazed_terracotta": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:red_glazed_terracotta"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    {
-      "item": "knightquest:filled_goblet"
+    "has_red_sand": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:red_sand"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    {
-      "item": "minecraft:netherite_helmet"
+    "has_redstone_torch": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:redstone_torch"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:tengu_helmet"
+      },
+      "trigger": "minecraft:recipe_unlocked"
     }
+  },
+  "requirements": [
+    [
+      "has_red_glazed_terracotta",
+      "has_redstone_torch",
+      "has_red_sand",
+      "has_filled_goblet",
+      "has_netherite_helmet",
+      "has_the_recipe"
+    ]
   ],
-  "result": {
-    "item": "knightquest:tengu_helmet"
-  }
+  "rewards": {
+    "recipes": [
+      "minecraft:tengu_helmet"
+    ]
+  },
+  "sends_telemetry_event": false
 }

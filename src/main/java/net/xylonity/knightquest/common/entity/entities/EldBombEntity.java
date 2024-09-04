@@ -1,7 +1,10 @@
 package net.xylonity.knightquest.common.entity.entities;
 
+import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -16,6 +19,7 @@ import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraftforge.event.ForgeEventFactory;
+import net.xylonity.knightquest.registry.KnightQuestParticles;
 import software.bernie.geckolib3.core.AnimationState;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -75,6 +79,10 @@ public class EldBombEntity extends Creeper implements IAnimatable {
         return PlayState.CONTINUE;
     }
 
+    public int getSwell() {
+        return this.swell;
+    }
+
     @Override
     public void tick() {
         if (this.isAlive()) {
@@ -96,6 +104,9 @@ public class EldBombEntity extends Creeper implements IAnimatable {
 
             if (this.swell >= this.maxSwell) {
                 this.swell = this.maxSwell;
+
+                this.poisonNearbyPlayers();
+
                 this.explode();
             }
         }
@@ -103,32 +114,55 @@ public class EldBombEntity extends Creeper implements IAnimatable {
         super.tick();
     }
 
-    private void spawnLingeringCloud() {
-        Collection<MobEffectInstance> collection = this.getActiveEffects();
-        if (!collection.isEmpty()) {
-            AreaEffectCloud areaeffectcloud = new AreaEffectCloud(this.getLevel(), this.getX(), this.getY(), this.getZ());
-            areaeffectcloud.setRadius(1.5F);
-            areaeffectcloud.setRadiusOnUse(-0.5F);
-            areaeffectcloud.setWaitTime(10);
-            areaeffectcloud.setDuration(areaeffectcloud.getDuration() / 2);
-            areaeffectcloud.setRadiusPerTick(-areaeffectcloud.getRadius() / (float)areaeffectcloud.getDuration());
-
-            for(MobEffectInstance mobeffectinstance : collection) {
-                areaeffectcloud.addEffect(new MobEffectInstance(mobeffectinstance));
-            }
-
-            this.getLevel().addFreshEntity(areaeffectcloud);
-        }
-
+    private void poisonNearbyPlayers() {
+        this.level.getEntitiesOfClass(Player.class, this.getBoundingBox().inflate(3.5)).forEach(player -> {
+            player.addEffect(new MobEffectInstance(MobEffects.POISON, 160, 0));
+        });
     }
 
     private void explode() {
-        if (!this.getLevel().isClientSide) {
-            Explosion.BlockInteraction explosion$blockinteraction = ForgeEventFactory.getMobGriefingEvent(this.level, this) ? Explosion.BlockInteraction.DESTROY : Explosion.BlockInteraction.NONE;
-            float $$0 = this.isPowered() ? 2.5F : 1.0F;
+        if (!this.level.isClientSide) {
+            float power = this.isPowered() ? 2.5F : 1.0F;
             this.dead = true;
-            this.getLevel().explode(this, this.getX(), this.getY(), this.getZ(), (float)this.explosionRadius * $$0, explosion$blockinteraction);
-            this.spawnLingeringCloud();
+            this.level.explode(this, this.getX(), this.getY(), this.getZ(), (float)this.explosionRadius * power, Explosion.BlockInteraction.DESTROY);
+
+            if (this.level instanceof ServerLevel serverLevel) {
+                for (int i = 0; i < 6; i++) {
+                    double particleX = this.getX();
+                    double particleY = this.getY() + 1;
+                    double particleZ = this.getZ();
+
+                    ClientboundLevelParticlesPacket packet = new ClientboundLevelParticlesPacket(
+                            KnightQuestParticles.POISON_PARTICLE.get(),
+                            true,
+                            particleX, particleY, particleZ,
+                            1.2F, 1.2F, 1.2F,
+                            0.05F, 1
+                    );
+
+                    serverLevel.getServer().getPlayerList().broadcast(null, this.getX(), this.getY(), this.getZ(), 50, serverLevel.dimension(), packet);
+                }
+
+                float[] arrayX = {0.5F, -1, 1};
+                float[] arrayZ = {1, 0, -0.5F};
+
+                for (int i = 0; i < 3; i++) {
+                    double particleX = this.getX() + arrayX[i];
+                    double particleY = this.getY() - 0.2;
+                    double particleZ = this.getZ() + arrayZ[i];
+
+                    ClientboundLevelParticlesPacket packet = new ClientboundLevelParticlesPacket(
+                            KnightQuestParticles.POISON_CLOUD_PARTICLE.get(),
+                            true,
+                            particleX, particleY, particleZ,
+                            0, 0.15F, 0,
+                            1F, 1
+                    );
+
+                    serverLevel.getServer().getPlayerList().broadcast(null, this.getX(), this.getY(), this.getZ(), 50, serverLevel.dimension(), packet);
+                }
+            }
+
             this.discard();
         }
 

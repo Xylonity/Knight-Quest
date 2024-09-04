@@ -15,7 +15,11 @@ public class SwampmanModel extends AnimatedGeoModel<SwampmanEntity> {
 
     @Override
     public ResourceLocation getTextureResource(SwampmanEntity animatable) {
-        return new ResourceLocation(KnightQuest.MOD_ID, "textures/entity/swampman.png");
+        if (animatable.getPhase() == 2) {
+            return new ResourceLocation(KnightQuest.MOD_ID, "textures/entity/swampman_2.png");
+        } else {
+            return new ResourceLocation(KnightQuest.MOD_ID, "textures/entity/swampman.png");
+        }
     }
 
     @Override

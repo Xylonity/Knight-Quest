@@ -37,7 +37,16 @@ public class KnightQuestBlocks {
     }
 
     public static final RegistryObject<Block> GREAT_CHALICE = registerBlock("great_chalice",
-            () -> new ChaliceBlock(BlockBehaviour.Properties.of(Material.HEAVY_METAL).requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.COPPER).lightLevel(state -> state.getValue(ChaliceBlock.fill).equals(5) ? 5 : 0))
+            () -> new ChaliceBlock(BlockBehaviour.Properties.of(Material.HEAVY_METAL).requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.COPPER)
+                    .lightLevel(state ->
+            switch (state.getValue(ChaliceBlock.fill)) {
+                case 1 -> 1;
+                case 2, 9 -> 2;
+                case 3, 8 -> 4;
+                case 4, 7 -> 6;
+                case 5, 6 -> 8;
+                default -> 0;
+            }))
             {
                 @Override
                 public void appendHoverText(@NotNull ItemStack pStack, @Nullable BlockGetter pLevel, @NotNull List<Component> pTooltip, @NotNull TooltipFlag pFlag) {

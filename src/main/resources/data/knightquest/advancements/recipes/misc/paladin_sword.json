@@ -1,24 +1,61 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "category": "misc",
-  "key": {
-    "I": {
-      "item": "knightquest:filled_goblet"
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_filled_goblet": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "knightquest:filled_goblet"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    "S": {
-      "item": "minecraft:netherite_sword"
+    "has_netherite_sword": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:netherite_sword"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     },
-    "X": {
-      "item": "knightquest:ratman_eye"
+    "has_ratman_eye": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "knightquest:ratman_eye"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:paladin_sword"
+      },
+      "trigger": "minecraft:recipe_unlocked"
     }
   },
-  "pattern": [
-    "X",
-    "I",
-    "S"
+  "requirements": [
+    [
+      "has_ratman_eye",
+      "has_filled_goblet",
+      "has_netherite_sword",
+      "has_the_recipe"
+    ]
   ],
-  "result": {
-    "item": "knightquest:paladin_sword"
+  "rewards": {
+    "recipes": [
+      "minecraft:paladin_sword"
+    ]
   },
-  "show_notification": true
+  "sends_telemetry_event": false
 }

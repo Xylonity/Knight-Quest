@@ -94,6 +94,11 @@ public class SamhainEntity extends TamableAnimal implements IAnimatable, RangedA
         return PlayState.CONTINUE;
     }
 
+    @Override
+    public @NotNull HumanoidArm getMainArm() {
+        return HumanoidArm.RIGHT;
+    }
+
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
 
         if (this.isSitting()) {
@@ -189,7 +194,6 @@ public class SamhainEntity extends TamableAnimal implements IAnimatable, RangedA
         Item item = itemStack.getItem();
 
         final Item[] COMPATIBLE_WEAPONS = new Item[] {
-                Items.DIAMOND_AXE,
                 Items.IRON_SWORD,
                 Items.STONE_SWORD,
                 Items.GOLDEN_SWORD,
@@ -236,7 +240,7 @@ public class SamhainEntity extends TamableAnimal implements IAnimatable, RangedA
         setSitting(tag.getBoolean("isSitting"));
 
         for (EquipmentSlot slot : EquipmentSlot.values()) {
-            if (slot.getType() == EquipmentSlot.Type.ARMOR) {
+            if (slot.getType() == EquipmentSlot.Type.HAND) {
                 CompoundTag stackNbt = tag.getCompound(slot.getName());
                 ItemStack stack = ItemStack.of(stackNbt);
                 if (!stack.isEmpty()) {
@@ -258,7 +262,7 @@ public class SamhainEntity extends TamableAnimal implements IAnimatable, RangedA
         tag.putBoolean("isSitting", this.isSitting());
 
         for (EquipmentSlot slot : EquipmentSlot.values()) {
-            if (slot.getType() == EquipmentSlot.Type.ARMOR) {
+            if (slot.getType() == EquipmentSlot.Type.HAND) {
                 ItemStack stack = this.getItemBySlot(slot);
                 if (!stack.isEmpty()) {
                     CompoundTag stackNbt = new CompoundTag();

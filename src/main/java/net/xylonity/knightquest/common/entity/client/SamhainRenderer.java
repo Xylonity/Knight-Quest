@@ -15,6 +15,7 @@ import net.xylonity.knightquest.KnightQuest;
 import net.xylonity.knightquest.common.entity.entities.SamhainEntity;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.example.client.DefaultBipedBoneIdents;
+import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.processor.IBone;
 import software.bernie.geckolib3.geo.render.built.GeoBone;
 import software.bernie.geckolib3.renderers.geo.ExtendedGeoEntityRenderer;
@@ -62,6 +63,16 @@ public class SamhainRenderer extends ExtendedGeoEntityRenderer<SamhainEntity> {
 
     @Override
     protected void preRenderItem(PoseStack poseStack, ItemStack itemStack, String s, SamhainEntity samhainEntity, IBone iBone) {
+
+        AnimationController<?> controller = animatable.getFactory().getOrCreateAnimationData(animatable.getId()).getAnimationControllers().get("controller");
+        if (controller != null && controller.getCurrentAnimation() != null) {
+            String currentAnimationName = controller.getCurrentAnimation().animationName.toLowerCase();
+            if (currentAnimationName.contains("sit")) {
+                poseStack.scale(0, 0, 0);
+                return;
+            }
+        }
+
         if (itemStack == SamhainRenderer.this.mainHandItem) {
             poseStack.mulPose(Vector3f.XP.rotationDegrees(-90.0F));
             poseStack.translate(0.05, 0.1, -0.45);

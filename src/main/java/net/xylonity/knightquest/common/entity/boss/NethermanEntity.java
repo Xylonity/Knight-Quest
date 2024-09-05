@@ -473,8 +473,6 @@ public class NethermanEntity extends Monster implements GeoEntity {
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "controller", 0, this::predicate));
         controllers.add(new AnimationController<>(this, "attackcontroller", 0, this::attackPredicate));
-        controllers.add(new AnimationController<>(this, "phasecontroller", 0, this::secondPhasePredicate));
-        controllers.add(new AnimationController<>(this, "rotationcontroller", 0, this::rotationPredicate));
         controllers.add(new AnimationController<>(this, "deadcontroller", 0, this::deadPredicate));
     }
 
@@ -488,33 +486,28 @@ public class NethermanEntity extends Monster implements GeoEntity {
 
     }
 
-    private PlayState rotationPredicate(AnimationState<?> event) {
-
-        if (this.getHealth() < this.getMaxHealth() * 0.66F && !hasChangedPhase) {
-            event.getController().forceAnimationReset();
-            event.getController().setAnimation(RawAnimation.begin().then("rotation", Animation.LoopType.PLAY_ONCE));
-        }
-
-        return PlayState.CONTINUE;
-
-    }
-
-    private PlayState secondPhasePredicate(AnimationState<?> event) {
-
-        if (this.getHealth() < this.getMaxHealth() * 0.33F && !hasChangedSecondPhase) {
-            event.getController().setAnimation(RawAnimation.begin().then("phase_switch", Animation.LoopType.PLAY_ONCE));
-        }
-
-        return PlayState.CONTINUE;
-
-    }
-
     private PlayState predicate(AnimationState<?> event) {
 
-        if (getIsAttacking() && (getHealth() > getMaxHealth() * 0.70 || (getHealth() < getMaxHealth() * 0.60 && getHealth() > getMaxHealth() * 0.45) || getHealth() < getMaxHealth() * 0.30)) {
+        if (this.isDeadOrDying())
+            return PlayState.STOP;
+
+        if (this.getHealth() < this.getMaxHealth() * 0.33F && tickCounterSecondPhaseSwitch < 140) {
+            if (!hasChangedSecondPhase) {
+                return PlayState.STOP;
+            }
+            if (tickCounterSecondPhaseSwitch < 10) {
+                event.getController().setAnimation(RawAnimation.begin().then("phase_switch", Animation.LoopType.PLAY_ONCE));
+            }
+        } else if (this.getHealth() < this.getMaxHealth() * 0.66F && tickCounterFirstPhaseSwitch < 195) {
+            if (!hasChangedPhase) {
+                return PlayState.STOP;
+            }
+            if (tickCounterFirstPhaseSwitch < 10) {
+                event.getController().setAnimation(RawAnimation.begin().then("rotation", Animation.LoopType.PLAY_ONCE));
+            }
+        } else if (getIsAttacking() && (getHealth() > getMaxHealth() * 0.70 || (getHealth() < getMaxHealth() * 0.60 && getHealth() > getMaxHealth() * 0.45) || getHealth() < getMaxHealth() * 0.30)) {
             event.getController().setAnimation(RawAnimation.begin().then("teleport_charge", Animation.LoopType.PLAY_ONCE));
-        }
-        else if (event.isMoving()) {
+        } else if (event.isMoving()) {
             event.getController().setAnimation(RawAnimation.begin().then("walk", Animation.LoopType.LOOP));
         } else {
             event.getController().setAnimation(RawAnimation.begin().then("idle", Animation.LoopType.LOOP));

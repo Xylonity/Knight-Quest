@@ -6,10 +6,13 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.xylonity.knightquest.KnightQuest;
 import net.xylonity.knightquest.common.entity.entities.EldBombEntity;
+import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 import software.bernie.geckolib.renderer.layer.AutoGlowingGeoLayer;
 
 public class EldBombRenderer extends GeoEntityRenderer<EldBombEntity> {
+    private static final ResourceLocation DEFAULT_TEXTURE = ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "textures/entity/eldbomb.png");
+    private static final ResourceLocation WHITE_TEXTURE = ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "textures/entity/eldbomb_white.png");
 
     public EldBombRenderer(EntityRendererProvider.Context renderManager) {
         super(renderManager, new EldBombModel());
@@ -18,8 +21,16 @@ public class EldBombRenderer extends GeoEntityRenderer<EldBombEntity> {
     }
 
     @Override
-    public ResourceLocation getTextureLocation(EldBombEntity animatable) {
-        return ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "textures/entity/eldbomb.png");
+    public @NotNull ResourceLocation getTextureLocation(EldBombEntity animatable) {
+        if (animatable.getSwell() > 10) {
+            if ((animatable.tickCount / 5) % 2 == 0) {
+                return WHITE_TEXTURE;
+            } else {
+                return DEFAULT_TEXTURE;
+            }
+        }
+
+        return DEFAULT_TEXTURE;
     }
 
     @Override

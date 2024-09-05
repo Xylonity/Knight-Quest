@@ -3,7 +3,7 @@ package net.xylonity.knightquest.common.entity.client;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.xylonity.knightquest.KnightQuest;
-import net.xylonity.knightquest.common.entity.custom.SamhainEntity;
+import net.xylonity.knightquest.common.entity.entities.SamhainEntity;
 import software.bernie.geckolib.animation.AnimationState;
 import software.bernie.geckolib.cache.object.GeoBone;
 import software.bernie.geckolib.constant.DataTickets;
@@ -14,17 +14,11 @@ public class SamhainModel extends GeoModel<SamhainEntity> {
 
     @Override
     public ResourceLocation getModelResource(SamhainEntity animatable) {
-        if (animatable.hasArmor()) {
-            return ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "geo/samhain_squire.geo.json");
-        }
         return ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "geo/samhain.geo.json");
     }
 
     @Override
     public ResourceLocation getTextureResource(SamhainEntity animatable) {
-        if (animatable.hasArmor()) {
-            return ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "textures/entity/samhain_squire.png");
-        }
         return ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "textures/entity/samhain.png");
     }
 
@@ -35,7 +29,7 @@ public class SamhainModel extends GeoModel<SamhainEntity> {
 
     @Override
     public void setCustomAnimations(SamhainEntity animatable, long instanceId, AnimationState<SamhainEntity> animationState) {
-        GeoBone head = getAnimationProcessor().getBone("Head");
+        GeoBone head = getAnimationProcessor().getBone("bipedHead");
 
         if (head != null) {
             EntityModelData entityData = animationState.getData(DataTickets.ENTITY_MODEL_DATA);

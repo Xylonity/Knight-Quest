@@ -30,7 +30,7 @@ import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.living.LivingEntityUseItemEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
-import net.xylonity.knightquest.config.init.KQConfigValues;
+import net.xylonity.knightquest.config.values.KQConfigValues;
 import net.xylonity.knightquest.registry.KnightQuestItems;
 import net.xylonity.knightquest.common.material.KQArmorMaterials;
 import org.jetbrains.annotations.NotNull;
@@ -76,7 +76,7 @@ public class KQArmorItem extends ArmorItem {
 
     private static final MobEffectInstance SHIELD_ARMOR = new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, -1, 0, false, false, true);
     private static final MobEffectInstance BAT_ARMOR = new MobEffectInstance(MobEffects.NIGHT_VISION, -1, 0, false, false, true);
-    private static final MobEffectInstance PATH_ARMOR = new MobEffectInstance(MobEffects.INVISIBILITY, -1, 2, false, true, true);
+    private static final MobEffectInstance PATH_ARMOR = new MobEffectInstance(MobEffects.MOVEMENT_SPEED, -1, 2, false, true, true);
     private static final MobEffectInstance BOW_ARMOR = new MobEffectInstance(MobEffects.MOVEMENT_SPEED, -1, 0, false, false, true);
     private static final MobEffectInstance HORN_ARMOR = new MobEffectInstance(MobEffects.DAMAGE_BOOST, 400, 0, false, false, true);
     private static final MobEffectInstance SEA_ARMOR = new MobEffectInstance(MobEffects.DOLPHINS_GRACE, -1, 0, false, false, true);
@@ -112,7 +112,7 @@ public class KQArmorItem extends ArmorItem {
                     }
                 } else {
                     if (Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new HashMap<>()).getOrDefault(KQArmorMaterials.PATHSET, false))) {
-                        player.removeEffect(MobEffects.INVISIBILITY);
+                        player.removeEffect(MobEffects.MOVEMENT_SPEED);
                         effectAppliedByArmorMap.get(playerUUID).put(KQArmorMaterials.PATHSET, false);
                     }
                 }
@@ -341,7 +341,7 @@ public class KQArmorItem extends ArmorItem {
 
                 if (KQConfigValues.SHINOBI)
                     if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.SHINOBI) && event.getSource().getEntity() != null) {
-                        player.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, 120, 1, false, false, true));
+                        player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 120, 1, false, false, true));
                     }
 
                 if (KQConfigValues.BAMBOOSET)

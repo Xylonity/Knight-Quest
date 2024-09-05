@@ -3,7 +3,7 @@ package net.xylonity.knightquest.common.entity.client;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.xylonity.knightquest.KnightQuest;
-import net.xylonity.knightquest.common.entity.custom.SwampmanEntity;
+import net.xylonity.knightquest.common.entity.entities.SwampmanEntity;
 import software.bernie.geckolib.animation.AnimationState;
 import software.bernie.geckolib.cache.object.GeoBone;
 import software.bernie.geckolib.constant.DataTickets;
@@ -19,7 +19,11 @@ public class SwampmanModel extends GeoModel<SwampmanEntity> {
 
     @Override
     public ResourceLocation getTextureResource(SwampmanEntity animatable) {
-        return ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "textures/entity/swampman.png");
+        if (animatable.getPhase() == 2) {
+            return ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "textures/entity/swampman_2.png");
+        } else {
+            return ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "textures/entity/swampman.png");
+        }
     }
 
     @Override

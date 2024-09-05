@@ -11,7 +11,7 @@ import net.xylonity.knightquest.KnightQuest;
 import net.xylonity.knightquest.common.entity.boss.NethermanCloneEntity;
 import net.xylonity.knightquest.common.entity.boss.NethermanEntity;
 import net.xylonity.knightquest.common.entity.boss.NethermanTeleportChargeEntity;
-import net.xylonity.knightquest.common.entity.custom.*;
+import net.xylonity.knightquest.common.entity.entities.*;
 
 public class KnightQuestEntities {
 
@@ -32,6 +32,7 @@ public class KnightQuestEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<NethermanEntity>> NETHERMAN;
     public static final DeferredHolder<EntityType<?>, EntityType<NethermanCloneEntity>> NETHERMAN_CLONE;
     public static final DeferredHolder<EntityType<?>, EntityType<NethermanTeleportChargeEntity>> NETHERMAN_TELEPORT_CHARGE;
+    public static final DeferredHolder<EntityType<?>, EntityType<SwampmanAxeEntity>> SWAMPMAN_AXE;
 
     static {
         GREMLIN = register("gremlin", GremlinEntity::new, MobCategory.MONSTER , 1f, 1f);
@@ -48,6 +49,7 @@ public class KnightQuestEntities {
         NETHERMAN = register("netherman", NethermanEntity::new, MobCategory.MONSTER, 0.8f, 2.8f);
         NETHERMAN_CLONE = register("netherman_clone", NethermanCloneEntity::new, MobCategory.MONSTER, 0.8f, 2.8f);
         NETHERMAN_TELEPORT_CHARGE = register("netherman_teleport_charge", NethermanTeleportChargeEntity::new, MobCategory.MONSTER, 0.5f, 0.5f);
+        SWAMPMAN_AXE = register("swampman_axe", SwampmanAxeEntity::new, MobCategory.MONSTER, 0.3f, 1f);
     }
 
     private static <X extends Entity> DeferredHolder<EntityType<?>, EntityType<X>> register(String name, EntityType.EntityFactory<X> entity, MobCategory category, float width, float height) {

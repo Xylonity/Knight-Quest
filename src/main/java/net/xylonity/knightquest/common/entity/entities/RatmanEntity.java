@@ -1,4 +1,4 @@
-package net.xylonity.knightquest.common.entity.custom;
+package net.xylonity.knightquest.common.entity.entities;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -17,6 +17,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RangedBowAttackGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.animal.Turtle;
@@ -55,19 +56,19 @@ public class RatmanEntity extends Skeleton implements GeoEntity {
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+    protected void defineSynchedData(SynchedEntityData.@NotNull Builder pBuilder) {
         super.defineSynchedData(pBuilder);
         pBuilder.define(ATTACK1, false);
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag pCompound) {
+    public void addAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.addAdditionalSaveData(pCompound);
         pCompound.putBoolean("attack1", this.getAttack1());
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag compound) {
+    public void readAdditionalSaveData(@NotNull CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         this.setAttack1(compound.getBoolean("attack1"));
     }
@@ -80,12 +81,12 @@ public class RatmanEntity extends Skeleton implements GeoEntity {
         this.entityData.set(ATTACK1, attack1);
     }
 
-    public static AttributeSupplier.Builder setAttributes() {
+    public static AttributeSupplier setAttributes() {
         return Skeleton.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 22.0D)
                 .add(Attributes.ATTACK_DAMAGE, 4f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
-                .add(Attributes.MOVEMENT_SPEED, 0.5f);
+                .add(Attributes.MOVEMENT_SPEED, 0.5f).build();
     }
 
     @Override
@@ -94,15 +95,16 @@ public class RatmanEntity extends Skeleton implements GeoEntity {
         this.goalSelector.addGoal(1, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(2, new RangedBowAttackGoal<>(this, 0.7D, 10, 15.0f));
 
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
+        this.targetSelector.addGoal(2, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Turtle.class, 10, true, false, Turtle.BABY_ON_LAND_SELECTOR));
+        this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Turtle.class, 10, true, false, Turtle.BABY_ON_LAND_SELECTOR));
     }
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-        controllerRegistrar.add(new AnimationController<>(this, "controller", 0, this::predicate));
-        controllerRegistrar.add(new AnimationController<>(this, "attackcontroller", 0, this::attackPredicate));
+        controllerRegistrar.add(new AnimationController(this, "controller", 0, this::predicate));
+        controllerRegistrar.add(new AnimationController(this, "attackcontroller", 0, this::attackPredicate));
     }
 
     @Override
@@ -147,7 +149,7 @@ public class RatmanEntity extends Skeleton implements GeoEntity {
     }
 
     @Override
-    protected SoundEvent getHurtSound(DamageSource pDamageSource) {
+    protected SoundEvent getHurtSound(@NotNull DamageSource pDamageSource) {
         return SoundEvents.FOX_HURT;
     }
 
@@ -157,7 +159,7 @@ public class RatmanEntity extends Skeleton implements GeoEntity {
     }
 
     @Override
-    protected void playStepSound(BlockPos pPos, BlockState pState) {
+    protected void playStepSound(@NotNull BlockPos pPos, @NotNull BlockState pState) {
         this.playSound(SoundEvents.WOLF_STEP, 0.15F, 1.0F);
     }
 
@@ -224,7 +226,7 @@ public class RatmanEntity extends Skeleton implements GeoEntity {
             double y = getY() + (radius * scale * Math.sin(phi) * Math.sin(theta));
             double z = getZ() + (radius * scale * Math.cos(phi));
 
-            serverWorld.addParticle(ParticleTypes.CAMPFIRE_SIGNAL_SMOKE, x, y, z, 0, 0.0, 0.0);
+            serverWorld.addParticle(ParticleTypes.CAMPFIRE_COSY_SMOKE, x, y, z, 0, 0.0, 0.0);
         }
 
         this.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, 100, 1));

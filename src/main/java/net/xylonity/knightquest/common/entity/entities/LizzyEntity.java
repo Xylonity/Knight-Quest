@@ -1,4 +1,4 @@
-package net.xylonity.knightquest.common.entity.custom;
+package net.xylonity.knightquest.common.entity.entities;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -17,6 +17,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -32,16 +33,16 @@ public class LizzyEntity extends Animal implements GeoEntity {
     }
 
     @Override
-    public boolean isFood(ItemStack itemStack) {
+    public boolean isFood(ItemStack pStack) {
         return false;
     }
 
-    public static AttributeSupplier.Builder setAttributes() {
+    public static AttributeSupplier setAttributes() {
         return Animal.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 10.0D)
                 .add(Attributes.ATTACK_DAMAGE, 0.5f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
-                .add(Attributes.MOVEMENT_SPEED, 0.6f);
+                .add(Attributes.MOVEMENT_SPEED, 0.6f).build();
     }
 
     @Override
@@ -82,13 +83,13 @@ public class LizzyEntity extends Animal implements GeoEntity {
     }
 
     @Override
-    protected SoundEvent getSwimSound() {
+    protected @NotNull SoundEvent getSwimSound() {
         return SoundEvents.AXOLOTL_SWIM;
     }
 
     @Nullable
     @Override
-    protected SoundEvent getHurtSound(DamageSource pDamageSource) {
+    protected SoundEvent getHurtSound(@NotNull DamageSource pDamageSource) {
         return SoundEvents.TURTLE_HURT;
     }
 
@@ -98,13 +99,13 @@ public class LizzyEntity extends Animal implements GeoEntity {
     }
 
     @Override
-    protected void playStepSound(BlockPos pPos, BlockState pState) {
+    protected void playStepSound(@NotNull BlockPos pPos, @NotNull BlockState pState) {
         this.playSound(SoundEvents.WOLF_STEP, 0.15F, 1.0F);
     }
 
     @Nullable
     @Override
-    public AgeableMob getBreedOffspring(ServerLevel serverLevel, AgeableMob ageableMob) {
+    public AgeableMob getBreedOffspring(@NotNull ServerLevel serverLevel, @NotNull AgeableMob ageableMob) {
         return null;
     }
 }

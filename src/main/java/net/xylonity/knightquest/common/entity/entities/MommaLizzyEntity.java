@@ -1,4 +1,4 @@
-package net.xylonity.knightquest.common.entity.custom;
+package net.xylonity.knightquest.common.entity.entities;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -34,17 +34,18 @@ public class MommaLizzyEntity extends Animal implements GeoEntity {
     }
 
     @Override
-    public boolean isFood(ItemStack itemStack) {
+    public boolean isFood(ItemStack pStack) {
         return false;
     }
 
-    public static AttributeSupplier.Builder setAttributes() {
+    public static AttributeSupplier setAttributes() {
         return Animal.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 10.0D)
                 .add(Attributes.ATTACK_DAMAGE, 0.5f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
-                .add(Attributes.MOVEMENT_SPEED, 0.6f);
+                .add(Attributes.MOVEMENT_SPEED, 0.6f).build();
     }
+
 
     @Override
     protected void registerGoals() {
@@ -61,10 +62,16 @@ public class MommaLizzyEntity extends Animal implements GeoEntity {
         controllerRegistrar.add(new AnimationController<>(this, "controller", 0, this::predicate));
     }
 
-   //private boolean isPlayerNearby() {
-   //    return this.level().getEntitiesOfClass(Player.class, this.getBoundingBox().inflate(2.0D)).stream()
-   //            .anyMatch(player -> !player.isShiftKeyDown() && player.distanceToSqr(this) <= 4.0D);
-   //}
+   private boolean isPlayerNearby() {
+       return this.level().getEntitiesOfClass(Player.class, this.getBoundingBox().inflate(2.0D)).stream()
+               .anyMatch(player -> !player.isShiftKeyDown() && player.distanceToSqr(this) <= 4.0D);
+   }
+
+    @Override
+    public void tick() {
+        super.tick();
+
+    }
 
     private <T extends GeoAnimatable> PlayState predicate(AnimationState<T> event) {
         if (this.isSwimming()) {

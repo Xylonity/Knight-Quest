@@ -5,7 +5,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.xylonity.knightquest.KnightQuest;
-import net.xylonity.knightquest.common.entity.custom.GhostyEntity;
+import net.xylonity.knightquest.common.entity.entities.GhostyEntity;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 
 public class GhostyRenderer extends GeoEntityRenderer<GhostyEntity> {

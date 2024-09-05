@@ -1,4 +1,4 @@
-package net.xylonity.knightquest.common.entity.custom;
+package net.xylonity.knightquest.common.entity.entities;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
@@ -13,14 +13,13 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import net.xylonity.knightquest.config.values.KQConfigValues;
 import net.xylonity.knightquest.registry.KnightQuestParticles;
-import net.xylonity.knightquest.config.init.KQConfigValues;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -47,18 +46,13 @@ public class GhostyEntity extends Monster implements GeoEntity {
         this.serverWorld = world;
     }
 
-    public static AttributeSupplier.Builder setAttributes() {
+    public static AttributeSupplier setAttributes() {
         return Monster.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 1.0D)
                 .add(Attributes.ATTACK_DAMAGE, 0f)
                 .add(Attributes.ATTACK_SPEED, 0f)
                 .add(Attributes.MOVEMENT_SPEED, 0.63f)
-                .add(Attributes.FOLLOW_RANGE, 35.0);
-    }
-
-    @Override
-    protected void registerGoals() {
-        this.goalSelector.addGoal(1, new LookAtPlayerGoal(this, Player.class, 20F));
+                .add(Attributes.FOLLOW_RANGE, 35.0).build();
     }
 
     @Override
@@ -78,6 +72,14 @@ public class GhostyEntity extends Monster implements GeoEntity {
         this.remove(RemovalReason.KILLED);
         return false;
     }
+
+    /**
+     * Handles the logical behavior of the mob, without defining goals or animations.
+     * When a player is near the ghosty, it will look at and follow the player,
+     * visually enhanced with a sin function that gives it a ghost-like movement.
+     * If any hostile entities are nearby, the ghost grants them Protection V,
+     * effectively rendering them invulnerable.
+     */
 
 
     @Override
@@ -167,53 +169,27 @@ public class GhostyEntity extends Monster implements GeoEntity {
         }
     }
 
-    @Override public boolean isFallFlying() {
-        return super.isFallFlying();
-    }
-    @Override public boolean canSpawnSprintParticle() {
-        return false;
-    }
+    @Override public boolean isFallFlying() {return super.isFallFlying();}
+    @Override public boolean canSpawnSprintParticle() {return false;}
     @Override protected void removeEffectParticles() {}
     @Override public boolean causeFallDamage(float pFallDistance, float pMultiplier, DamageSource pSource) {return false;}
-    @Override public boolean isNoGravity() {
-        return true;
-    }
-    @Override public boolean canBeCollidedWith() {
-        return false;
-    }
+    @Override public boolean isNoGravity() {return true;}
+    @Override public boolean canBeCollidedWith() {return false;}
     @Override protected void pushEntities() {}
     @Override public void push(Entity pEntity) {}
-    @Override public boolean isOnFire() {
-        return false;
-    }
-    @Override public boolean isInLava() {
-        return false;
-    }
-    @Override public boolean isInWater() {
-        return false;
-    }
-    @Override public boolean isInWall() {
-        return false;
-    }
+    @Override public boolean isOnFire() {return false;}
+    @Override public boolean isInLava() {return false;}
+    @Override public boolean isInWater() {return false;}
+    @Override public boolean isInWall() {return false;}
     @Override protected void spawnSprintParticle() {}
-    @Override public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return cache;
-    }
-    @Override protected SoundEvent getSwimSound() {
-        return null;
-    }
-    @Override protected SoundEvent getDeathSound() {
-        return null;
-    }
+    @Override public AnimatableInstanceCache getAnimatableInstanceCache() {return cache;}
+    @Override protected SoundEvent getSwimSound() {return null;}
+    @Override protected SoundEvent getDeathSound() {return null;}
     @Override public void playSound(SoundEvent pSound) {}
     @Override public void playSound(SoundEvent pSound, float pVolume, float pPitch) {}
-    @Nullable @Override protected SoundEvent getAmbientSound() {
-        return null;
-    }
+    @Nullable @Override protected SoundEvent getAmbientSound() {return null;}
     @Override protected void playHurtSound(DamageSource pSource) {}
-    @Override protected SoundEvent getHurtSound(DamageSource pDamageSource) {
-        return null;
-    }
+    @Override protected SoundEvent getHurtSound(DamageSource pDamageSource) {return null;}
     @Override protected void playStepSound(BlockPos pPos, BlockState pState) {}
 
 }

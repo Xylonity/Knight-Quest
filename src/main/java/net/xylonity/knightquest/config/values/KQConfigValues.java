@@ -1,4 +1,4 @@
-package net.xylonity.knightquest.config.init;
+package net.xylonity.knightquest.config.values;
 
 import net.neoforged.fml.loading.FMLPaths;
 import net.xylonity.knightquest.config.KnightQuestCommonConfigs;
@@ -6,18 +6,55 @@ import net.xylonity.knightquest.config.KnightQuestCommonConfigs;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+/**
+ * Auxiliary configuration values in case the dedicated configuration file is not detected,
+ * allowing for hot-reloading (this is particularly useful in client-sided configurations).
+ */
+
 public class KQConfigValues {
 
     static Path CONFIG_PATH = FMLPaths.CONFIGDIR.get().resolve("knightquest.toml");
     private static final boolean V = Files.exists(CONFIG_PATH);
+
+    // Eld Knight Configuration Section
     public static boolean POISON_ELDKNIGHT = V ? KnightQuestCommonConfigs.POISON_ELDKNIGHT.get() : true;
     public static int NUM_ELDBOMB_ELDKNIGHT = V ? KnightQuestCommonConfigs.NUM_ELDBOMB_ELDKNIGHT.get() : 3;
     public static float HEAL_ELDKNIGHT = (float) (V ? KnightQuestCommonConfigs.HEAL_ELDKNIGHT.get() : 3.0);
+
+    // Drop Chance Configuration Section
     public static float DROP_CHANCE_SMALL_ESSENCE  = (float) (V ? KnightQuestCommonConfigs.DROP_CHANCE_SMALL_ESSENCE.get() : 0.15);
-    public static float DROP_CHANCE_RATMAN_EYE  = (float) (V ? KnightQuestCommonConfigs.DROP_CHANCE_RATMAN_EYE.get() : 0.2);
+    public static float DROP_CHANCE_RATMAN_EYE  = (float) (V ? KnightQuestCommonConfigs.DROP_CHANCE_RATMAN_EYE.get() : 0.4);
     public static float DROP_CHANCE_LIZZY_SCALE  = (float) (V ? KnightQuestCommonConfigs.DROP_CHANCE_LIZZY_SCALE.get() : 0.3);
+
+    // Gremlin Configuration Section
+    public static boolean CAN_TAKE_GOLD_GREMLIN = V ? KnightQuestCommonConfigs.CAN_TAKE_GOLD_GREMLIN.get() : true;
+    public static float MULTIPLIER_GREMLIN_MOVEMENT_SPEED = (float) (V ? KnightQuestCommonConfigs.MULTIPLIER_GREMLIN_MOVEMENT_SPEED.get() : 1.15);
+    public static float MULTIPLIER_GREMLIN_ATTACK_SPEED = (float) (V ? KnightQuestCommonConfigs.MULTIPLIER_GREMLIN_ATTACK_SPEED.get() : 1.15);
+    public static float MULTIPLIER_GREMLIN_ATTACK_DAMAGE = (float) (V ? KnightQuestCommonConfigs.MULTIPLIER_GREMLIN_ATTACK_DAMAGE.get() : 1.15);
+
+    // Ghosty Configuration Section
     public static float INVULNERABILITY_RADIUS_GHOSTY  = (float) (V ? KnightQuestCommonConfigs.INVULNERABILITY_RADIUS_GHOSTY.get() : 7.0);
 
+    // Swampman Configuration Section
+    public static float PHASE_2_HEALING_SWAMPMAN  = (float) (V ? KnightQuestCommonConfigs.PHASE_2_HEALING_SWAMPMAN.get() : 0.0);
+    public static boolean CAN_CHANGE_PHASE_SWAMPMAN = V ? KnightQuestCommonConfigs.CAN_CHANGE_PHASE_SWAMPMAN.get() : true;
+    public static boolean POISON_PHASE_2_SWAMPMAN = V ? KnightQuestCommonConfigs.POISON_PHASE_2_SWAMPMAN.get() : true;
+
+    // Netherman Configuration Section
+    public static double WINTER_STORM_RADIUS = V ? KnightQuestCommonConfigs.WINTER_STORM_RADIUS.get() : 50.0;
+    public static int FROZEN_TICKS = V ? KnightQuestCommonConfigs.FROZEN_TICKS.get() : 4;
+    public static boolean CAN_SUMMON_NETHERMAN = V ? KnightQuestCommonConfigs.CAN_SUMMON_NETHERMAN.get() : true;
+    public static boolean SPAWN_LIGHTNING_ON_SPAWN = V ? KnightQuestCommonConfigs.SPAWN_LIGHTNING_ON_SPAWN.get() : true;
+    public static boolean GENERATE_PARTICLES_ON_SUMMON = V ? KnightQuestCommonConfigs.GENERATE_PARTICLES_ON_SUMMON.get() : true;
+    public static double TELEPORT_PROBABILITY = V ? KnightQuestCommonConfigs.TELEPORT_PROBABILITY.get() : 0.5;
+    public static boolean RESTORE_BLOCKS_POST_DEATH = V ? KnightQuestCommonConfigs.RESTORE_BLOCKS_POST_DEATH.get() : true;
+    public static int EXPERIENCE_DROP_AMOUNT = V ? KnightQuestCommonConfigs.EXPERIENCE_DROP_AMOUNT.get() : 500;
+    public static boolean LIGHTNING_STRIKE_IN_PHASE_THREE = V ? KnightQuestCommonConfigs.LIGHTNING_STRIKE_IN_PHASE_THREE.get() : true;
+    public static int LIGHTNING_TICK_INTERVAL = V ? KnightQuestCommonConfigs.LIGHTNING_TICK_INTERVAL.get() : 40;
+    public static double SNOW_PARTICLE_SPEED = V ? KnightQuestCommonConfigs.SNOW_PARTICLE_SPEED.get() : 1.5;
+    public static int SNOW_PARTICLE_COUNT = V ? KnightQuestCommonConfigs.SNOW_PARTICLE_COUNT.get() : 60;
+
+    // Armor Passives Configuration Section
     public static boolean DEEPSLATESET = V ? KnightQuestCommonConfigs.ENABLE_DEEPSLATESET.get() : true;
     public static boolean EVOKERSET = V ? KnightQuestCommonConfigs.ENABLE_EVOKERSET.get() : true;
     public static boolean SQUIRESET = V ? KnightQuestCommonConfigs.ENABLE_SQUIRESET.get() : true;

@@ -16,22 +16,22 @@ import net.xylonity.knightquest.common.entity.boss.NethermanCloneEntity;
 import net.xylonity.knightquest.common.entity.boss.NethermanEntity;
 import net.xylonity.knightquest.datagen.KQGlobalLootModifiersProvider;
 import net.xylonity.knightquest.registry.KnightQuestEntities;
-import net.xylonity.knightquest.common.entity.custom.*;
+import net.xylonity.knightquest.common.entity.entities.*;
 
 public class KQEventRegisters {
     @SubscribeEvent
     public static void registerEntityAttributes(EntityAttributeCreationEvent event) {
-        event.put(KnightQuestEntities.BADPATCH.value(), BadPatchEntity.setAttributes().build());
-        event.put(KnightQuestEntities.ELDBOMB.value(), EldBombEntity.setAttributes().build());
-        event.put(KnightQuestEntities.ELDKINGHT.value(), EldKnightEntity.setAttributes().build());
-        event.put(KnightQuestEntities.GHOSTY.value(), GhostyEntity.setAttributes().build());
-        event.put(KnightQuestEntities.GREMLIN.value(), GremlinEntity.setAttributes().build());
-        event.put(KnightQuestEntities.LIZZY.value(), LizzyEntity.setAttributes().build());
-        event.put(KnightQuestEntities.MOMMA_LIZZY.value(), MommaLizzyEntity.setAttributes().build());
-        event.put(KnightQuestEntities.RATMAN.value(), RatmanEntity.setAttributes().build());
-        event.put(KnightQuestEntities.SAMHAIN.value(), SamhainEntity.setAttributes().build());
-        event.put(KnightQuestEntities.SHIELD.value(), GhastlingEntity.setAttributes().build());
-        event.put(KnightQuestEntities.SWAMPMAN.value(), SwampmanEntity.setAttributes().build());
+        event.put(KnightQuestEntities.BADPATCH.value(), BadPatchEntity.setAttributes());
+        event.put(KnightQuestEntities.ELDBOMB.value(), EldBombEntity.setAttributes());
+        event.put(KnightQuestEntities.ELDKINGHT.value(), EldKnightEntity.setAttributes());
+        event.put(KnightQuestEntities.GHOSTY.value(), GhostyEntity.setAttributes());
+        event.put(KnightQuestEntities.GREMLIN.value(), GremlinEntity.setAttributes());
+        event.put(KnightQuestEntities.LIZZY.value(), LizzyEntity.setAttributes());
+        event.put(KnightQuestEntities.MOMMA_LIZZY.value(), MommaLizzyEntity.setAttributes());
+        event.put(KnightQuestEntities.RATMAN.value(), RatmanEntity.setAttributes());
+        event.put(KnightQuestEntities.SAMHAIN.value(), SamhainEntity.setAttributes());
+        event.put(KnightQuestEntities.SHIELD.value(), GhastlingEntity.setAttributes());
+        event.put(KnightQuestEntities.SWAMPMAN.value(), SwampmanEntity.setAttributes());
         event.put(KnightQuestEntities.NETHERMAN.value(), NethermanEntity.setAttributes());
         event.put(KnightQuestEntities.NETHERMAN_CLONE.value(), NethermanCloneEntity.setAttributes());
     }

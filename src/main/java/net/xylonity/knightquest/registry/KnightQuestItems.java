@@ -508,15 +508,15 @@ public class KnightQuestItems {
             () -> new DeferredSpawnEggItem(KnightQuestEntities.BADPATCH, 0xec160b, 0xeff1f8, new Item.Properties()));
     public static final DeferredHolder<Item, Item> GHOSTY_EGG = ITEMS.register("ghosty_spawn_egg",
             () -> new DeferredSpawnEggItem(KnightQuestEntities.GHOSTY, 0x2cb87e, 0xfbe105, new Item.Properties()));
-    public static final DeferredHolder<Item, Item> MOMMA_LIZZY_EGG = ITEMS.register("momma_lizzy_spawn_egg",
-            () -> new DeferredSpawnEggItem(KnightQuestEntities.MOMMA_LIZZY, 0x0babf2, 0x9f5b14, new Item.Properties()));
-    public static final DeferredHolder<Item, Item> GHASTLING_EGG = ITEMS.register("ghastling_spawn_egg",
-            () -> new DeferredSpawnEggItem(KnightQuestEntities.SHIELD, 0x930c13, 0xfb9600, new Item.Properties()) {
-                @Override
-                public void appendHoverText(@NotNull ItemStack pStack, @NotNull Item.TooltipContext pContext, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pTooltipFlag) {
-                    pTooltipComponents.add(Component.translatable("tooltip.item.knightquest.ghastling_spawn_egg"));
-                    super.appendHoverText(pStack, pContext, pTooltipComponents, pTooltipFlag);
-                }
-            });
+    //public static final DeferredHolder<Item, Item> MOMMA_LIZZY_EGG = ITEMS.register("momma_lizzy_spawn_egg",
+    //        () -> new DeferredSpawnEggItem(KnightQuestEntities.MOMMA_LIZZY, 0x0babf2, 0x9f5b14, new Item.Properties()));
+    //public static final DeferredHolder<Item, Item> GHASTLING_EGG = ITEMS.register("ghastling_spawn_egg",
+    //        () -> new DeferredSpawnEggItem(KnightQuestEntities.SHIELD, 0x930c13, 0xfb9600, new Item.Properties()) {
+    //            @Override
+    //            public void appendHoverText(@NotNull ItemStack pStack, @NotNull Item.TooltipContext pContext, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pTooltipFlag) {
+    //                pTooltipComponents.add(Component.translatable("tooltip.item.knightquest.ghastling_spawn_egg"));
+    //                super.appendHoverText(pStack, pContext, pTooltipComponents, pTooltipFlag);
+    //            }
+    //        });
 
 }

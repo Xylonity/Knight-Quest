@@ -13,7 +13,7 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
 import net.neoforged.neoforge.common.loot.LootModifier;
 import net.xylonity.knightquest.registry.KnightQuestItems;
-import net.xylonity.knightquest.config.init.KQConfigValues;
+import net.xylonity.knightquest.config.values.KQConfigValues;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Random;

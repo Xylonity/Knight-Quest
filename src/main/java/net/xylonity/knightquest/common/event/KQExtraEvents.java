@@ -8,7 +8,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
-import net.xylonity.knightquest.common.entity.custom.SamhainEntity;
+import net.xylonity.knightquest.common.entity.entities.SamhainEntity;
 import net.xylonity.knightquest.registry.KnightQuestEntities;
 
 public class KQExtraEvents {

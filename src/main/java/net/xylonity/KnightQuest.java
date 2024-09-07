@@ -7,7 +7,7 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
-import net.fabricmc.loader.api.FabricLoader;
+import net.xylonity.common.api.FCAPChecker;
 import net.xylonity.common.entity.boss.NethermanCloneEntity;
 import net.xylonity.common.entity.boss.NethermanEntity;
 import net.xylonity.common.item.KQArmorItem;
@@ -51,8 +51,12 @@ public class KnightQuest implements ModInitializer {
 		KQLootTableModifiers.modifyLootTables();
 		KQEntitySpawn.addEntitySpawns();
 
-		if (FabricLoader.getInstance().isModLoaded("forgeconfigapiport"))
+		if (FCAPChecker.isLoaded()) {
+			KnightQuest.LOGGER.info("[Knight Quest] The mod 'forgeconfigapiport' was detected, reading config file `knightquest.toml` for Knight Quest.");
 			InitializeConfig.init();
+		} else {
+			KnightQuest.LOGGER.warn("[Knight Quest] The mod 'forgeconfigapiport' is not loaded or is using a version lower than 21.0.2. Skipping configuration generation and reading for Knight Quest...");
+		}
 
 		UseBlockCallback.EVENT.register(new KQExtraEvents());
 		ServerTickEvents.END_SERVER_TICK.register(new KQArmorItem.OnEntityTickEvent());

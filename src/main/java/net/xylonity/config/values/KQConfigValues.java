@@ -1,6 +1,7 @@
 package net.xylonity.config.values;
 
 import net.fabricmc.loader.api.FabricLoader;
+import net.xylonity.common.api.FCAPChecker;
 import net.xylonity.config.KnightQuestCommonConfigs;
 
 import java.nio.file.Files;
@@ -9,12 +10,14 @@ import java.nio.file.Path;
 /**
  * Auxiliary configuration values in case the dedicated configuration file is not detected,
  * allowing for hot-reloading (this is particularly useful in client-sided configurations).
+ * In the Fabric version it's used for default config values when the `FCAP` mod isn't
+ * detected or is using a wrong version.
  */
 
 public class KQConfigValues {
 
     static Path CONFIG_PATH = FabricLoader.getInstance().getConfigDir().resolve("knightquest.toml");
-    private static final boolean V = Files.exists(CONFIG_PATH) && FabricLoader.getInstance().isModLoaded("forgeconfigapiport");
+    private static final boolean V = Files.exists(CONFIG_PATH) && FCAPChecker.isLoaded();
 
     // Eld Knight Configuration Section
     public static boolean POISON_ELDKNIGHT = V ? KnightQuestCommonConfigs.POISON_ELDKNIGHT.get() : true;

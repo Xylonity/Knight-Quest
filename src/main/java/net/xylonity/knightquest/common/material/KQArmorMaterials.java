@@ -13,7 +13,7 @@ import java.util.function.Supplier;
 
 public enum KQArmorMaterials implements ArmorMaterial {
 
-    APPLE_SET("appleset", 35, new int[]{ 3, 8, 6, 3 }, 20,
+    APPLE_SET("apple", 35, new int[]{ 3, 8, 6, 3 }, 20,
             SoundEvents.ARMOR_EQUIP_DIAMOND, 2.5f, 0.05F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),
     BAMBOOSET_BLUE("bamboo_blue", 40, new int[]{ 3, 8, 6, 3 }, 25,
             SoundEvents.ARMOR_EQUIP_NETHERITE,4f, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get())),

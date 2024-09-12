@@ -9,7 +9,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.level.ItemLike;
 import net.xylonity.knightquest.KnightQuest;
 import net.xylonity.knightquest.registry.KnightQuestItems;
 
@@ -76,186 +75,146 @@ public class KQArmorMaterials {
 
     static {
 
-        APPLE_SET = register("appleset", createArmorValuesMap(3, 6, 8, 3), 15, SoundEvents.ARMOR_EQUIP_NETHERITE, 4F, 0.1F, () -> {
-            return Ingredient.of(new ItemLike[]{KnightQuestItems.GREAT_ESSENCE.get()});
-        }, List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "appleset"), "", true)));
-        BAMBOOSET_BLUE = register("bamboo_blue", createArmorValuesMap(3, 6, 8, 3), 37, SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F,
-                () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
+        APPLE_SET = register("apple", createArmorValuesMap(3, 6, 8, 3), 20,
+                SoundEvents.ARMOR_EQUIP_DIAMOND, 2.5F, 0.05F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
+                List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "apple"), "", true)));
+        BAMBOOSET_BLUE = register("bamboo_blue", createArmorValuesMap(3, 6, 8, 3), 25,
+                SoundEvents.ARMOR_EQUIP_NETHERITE, 4F, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
                 List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "bamboo_blue"), "", true)));
-
-        BAMBOOSET_GREEN = register("bamboo_green", createArmorValuesMap(3, 6, 8, 3), 37, SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F,
-                () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
+        BAMBOOSET_GREEN = register("bamboo_green", createArmorValuesMap(3, 6, 8, 3), 25,
+                SoundEvents.ARMOR_EQUIP_NETHERITE, 4F, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
                 List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "bamboo_green"), "", true)));
-
-        BAMBOOSET = register("bamboo", createArmorValuesMap(3, 6, 8, 3), 37, SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F,
-                () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
+        BAMBOOSET = register("bamboo", createArmorValuesMap(3, 6, 8, 3), 20,
+                SoundEvents.ARMOR_EQUIP_DIAMOND, 2.5F, 0.05F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
                 List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "bamboo"), "", true)));
-
-        BATSET = register("bat", createArmorValuesMap(3, 6, 8, 3), 37, SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F,
-                () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
+        BATSET = register("bat", createArmorValuesMap(3, 6, 8, 3), 25,
+                SoundEvents.ARMOR_EQUIP_NETHERITE, 4F, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
                 List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "bat"), "", true)));
-
-        BLAZESET = register("blaze", createArmorValuesMap(3, 6, 8, 3), 37, SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F,
-                () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
+        BLAZESET = register("blaze", createArmorValuesMap(3, 6, 8, 3), 20,
+                SoundEvents.ARMOR_EQUIP_DIAMOND, 2.5F, 0.05F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
                 List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "blaze"), "", true)));
-
-        BOWSET = register("bow", createArmorValuesMap(3, 6, 8, 3), 37, SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F,
-                () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
+        BOWSET = register("bow", createArmorValuesMap(3, 6, 8, 3), 20,
+                SoundEvents.ARMOR_EQUIP_DIAMOND, 2.5F, 0.05F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
                 List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "bow"), "", true)));
-
-        HORNSET = register("horn", createArmorValuesMap(3, 6, 8, 3), 37, SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F,
-                () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
+        HORNSET = register("horn", createArmorValuesMap(3, 6, 8, 3), 25,
+                SoundEvents.ARMOR_EQUIP_NETHERITE, 4F, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
                 List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "horn"), "", true)));
-
-        CREEPERSET = register("creeper", createArmorValuesMap(3, 6, 8, 3), 37, SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F,
-                () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
+        CREEPERSET = register("creeper", createArmorValuesMap(3, 6, 8, 3), 25,
+                SoundEvents.ARMOR_EQUIP_NETHERITE, 4F, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
                 List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "creeper"), "", true)));
-
-        DEEPSLATESET = register("deepslate", createArmorValuesMap(3, 6, 8, 3), 37, SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F,
-                () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
+        DEEPSLATESET = register("deepslate", createArmorValuesMap(3, 6, 8, 3), 20,
+                SoundEvents.ARMOR_EQUIP_DIAMOND, 2.5F, 0.05F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
                 List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "deepslate"), "", true)));
-
-        DRAGONSET = register("dragon", createArmorValuesMap(3, 6, 8, 3), 37, SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F,
-                () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
+        DRAGONSET = register("dragon", createArmorValuesMap(3, 6, 8, 3), 25,
+                SoundEvents.ARMOR_EQUIP_NETHERITE, 4F, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
                 List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "dragon"), "", true)));
-
-        ENDERMANSET = register("enderman", createArmorValuesMap(3, 6, 8, 3), 37, SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F,
-                () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
+        ENDERMANSET = register("enderman", createArmorValuesMap(3, 6, 8, 3), 25,
+                SoundEvents.ARMOR_EQUIP_NETHERITE, 4F, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
                 List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "enderman"), "", true)));
-
-        EVOKERSET = register("evoker", createArmorValuesMap(3, 6, 8, 3), 37, SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F,
-                () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
+        EVOKERSET = register("evoker", createArmorValuesMap(3, 6, 8, 3), 20,
+                SoundEvents.ARMOR_EQUIP_DIAMOND, 2.5F, 0.05F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
                 List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "evoker"), "", true)));
-
-        FORZESET = register("forze", createArmorValuesMap(3, 6, 8, 3), 37, SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F,
-                () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
+        FORZESET = register("forze", createArmorValuesMap(3, 6, 8, 3), 25,
+                SoundEvents.ARMOR_EQUIP_NETHERITE, 4F, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
                 List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "forze"), "", true)));
-
-        HOLLOWSET = register("hollow", createArmorValuesMap(3, 6, 8, 3), 37, SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F,
-                () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
+        HOLLOWSET = register("hollow", createArmorValuesMap(3, 6, 8, 3), 25,
+                SoundEvents.ARMOR_EQUIP_NETHERITE, 4F, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
                 List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "hollow"), "", true)));
-
-        NETHERSET = register("nether", createArmorValuesMap(3, 6, 8, 3), 37, SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F,
-                () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
+        NETHERSET = register("nether", createArmorValuesMap(3, 6, 8, 3), 25,
+                SoundEvents.ARMOR_EQUIP_NETHERITE, 4F, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
                 List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "nether"), "", true)));
-
-        VETERANSET = register("veteran", createArmorValuesMap(3, 6, 8, 3), 37, SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F,
-                () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
+        VETERANSET = register("veteran", createArmorValuesMap(3, 6, 8, 3), 25,
+                SoundEvents.ARMOR_EQUIP_NETHERITE, 4F, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
                 List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "veteran"), "", true)));
-
-        PATHSET = register("path", createArmorValuesMap(3, 6, 8, 3), 37, SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F,
-                () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
+        PATHSET = register("path", createArmorValuesMap(3, 6, 8, 3), 20,
+                SoundEvents.ARMOR_EQUIP_DIAMOND, 2.5F, 0.05F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
                 List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "path"), "", true)));
-
-        PHANTOMSET = register("phantom", createArmorValuesMap(3, 6, 8, 3), 37, SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F,
-                () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
+        PHANTOMSET = register("phantom", createArmorValuesMap(3, 6, 8, 3), 25,
+                SoundEvents.ARMOR_EQUIP_NETHERITE, 4F, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
                 List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "phantom"), "", true)));
-
-        SEASET = register("sea", createArmorValuesMap(3, 6, 8, 3), 37, SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F,
-                () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
+        SEASET = register("sea", createArmorValuesMap(3, 6, 8, 3), 25,
+                SoundEvents.ARMOR_EQUIP_NETHERITE, 4F, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
                 List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "sea"), "", true)));
-
-        SHIELDSET = register("shield", createArmorValuesMap(3, 6, 8, 3), 37, SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F,
-                () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
+        SHIELDSET = register("shield", createArmorValuesMap(3, 6, 8, 3), 25,
+                SoundEvents.ARMOR_EQUIP_NETHERITE, 4F, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
                 List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "shield"), "", true)));
-
-        SILVERSET = register("silver", createArmorValuesMap(3, 6, 8, 3), 37, SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F,
-                () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
+        SILVERSET = register("silver", createArmorValuesMap(3, 6, 8, 3), 20,
+                SoundEvents.ARMOR_EQUIP_DIAMOND, 2.5F, 0.05F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
                 List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "silver"), "", true)));
-
-        SILVERFISHSET = register("silverfish", createArmorValuesMap(3, 6, 8, 3), 37, SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F,
-                () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
+        SILVERFISHSET = register("silverfish", createArmorValuesMap(3, 6, 8, 3), 25,
+                SoundEvents.ARMOR_EQUIP_NETHERITE, 4F, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
                 List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "silverfish"), "", true)));
-
-        SKELETONSET = register("skeleton", createArmorValuesMap(3, 6, 8, 3), 37, SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F,
-                () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
+        SKELETONSET = register("skeleton", createArmorValuesMap(3, 6, 8, 3), 20,
+                SoundEvents.ARMOR_EQUIP_DIAMOND, 2.5F, 0.05F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
                 List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "skeleton"), "", true)));
-
-        SPIDERSET = register("spider", createArmorValuesMap(3, 6, 8, 3), 37, SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F,
-                () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
+        SPIDERSET = register("spider", createArmorValuesMap(3, 6, 8, 3), 20,
+                SoundEvents.ARMOR_EQUIP_DIAMOND, 2.5F, 0.05F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
                 List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "spider"), "", true)));
-
-        WARLORDSET = register("warlord", createArmorValuesMap(3, 6, 8, 3), 37, SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F,
-                () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
+        WARLORDSET = register("warlord", createArmorValuesMap(3, 6, 8, 3), 25,
+                SoundEvents.ARMOR_EQUIP_NETHERITE, 4F, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
                 List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "warlord"), "", true)));
-
-        STRAWHATSET = register("strawhat", createArmorValuesMap(3, 6, 8, 3), 37, SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F,
-                () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
+        STRAWHATSET = register("strawhat", createArmorValuesMap(3, 6, 8, 3), 20,
+                SoundEvents.ARMOR_EQUIP_DIAMOND, 2.5F, 0.05F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
                 List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "strawhat"), "", true)));
-
-        PIRATESET = register("pirate", createArmorValuesMap(3, 6, 8, 3), 37, SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F,
-                () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
+        PIRATESET = register("pirate", createArmorValuesMap(3, 6, 8, 3), 25,
+                SoundEvents.ARMOR_EQUIP_NETHERITE, 4F, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
                 List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "pirate"), "", true)));
-
-        CONQUISTADORSET = register("conquistador", createArmorValuesMap(3, 6, 8, 3), 37, SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F,
-                () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
+        CONQUISTADORSET = register("conquistador", createArmorValuesMap(3, 6, 8, 3), 25,
+                SoundEvents.ARMOR_EQUIP_NETHERITE, 4F, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
                 List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "conquistador"), "", true)));
-
-        ZOMBIESET = register("zombie", createArmorValuesMap(3, 6, 8, 3), 37, SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F,
-                () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
+        ZOMBIESET = register("zombie", createArmorValuesMap(3, 6, 8, 3), 20,
+                SoundEvents.ARMOR_EQUIP_DIAMOND, 2.5F, 0.05F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
                 List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "zombie"), "", true)));
-
-        HUSKSET = register("husk", createArmorValuesMap(3, 6, 8, 3), 37, SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F,
-                () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
+        HUSKSET = register("husk", createArmorValuesMap(3, 6, 8, 3), 25,
+                SoundEvents.ARMOR_EQUIP_NETHERITE, 4F, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
                 List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "husk"), "", true)));
-
-        WITHERSET = register("wither", createArmorValuesMap(3, 6, 8, 3), 37, SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F,
-                () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
+        WITHERSET = register("wither", createArmorValuesMap(3, 6, 8, 3), 25,
+                SoundEvents.ARMOR_EQUIP_NETHERITE, 4F, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
                 List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "wither"), "", true)));
-
-        SQUIRESET = register("squire", createArmorValuesMap(3, 6, 8, 3), 37, SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F,
-                () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
+        SQUIRESET = register("squire", createArmorValuesMap(3, 6, 8, 3), 25,
+                SoundEvents.ARMOR_EQUIP_NETHERITE, 4F, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
                 List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "squire"), "", true)));
-
-        TUNIC_BLUE = register("tunic_blue", createArmorValuesMap(2, 5, 5, 2), 20, SoundEvents.ARMOR_EQUIP_LEATHER, 0.4f, 0F,
-                () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
+        TUNIC_BLUE = register("tunic_blue", createArmorValuesMap(2, 5, 5, 2), 25,
+                SoundEvents.ARMOR_EQUIP_LEATHER, 0.5f, 0F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
                 List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "tunic_blue"), "", true)));
-
-        TUNIC_GREEN = register("tunic_green", createArmorValuesMap(2, 5, 5, 2), 20, SoundEvents.ARMOR_EQUIP_LEATHER, 0.4f, 0F,
-                () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
+        TUNIC_GREEN = register("tunic_green", createArmorValuesMap(2, 5, 5, 2), 25,
+                SoundEvents.ARMOR_EQUIP_LEATHER, 0.5f, 0F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
                 List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "tunic_green"), "", true)));
-
-        TUNIC_YELLOW = register("tunic_yellow", createArmorValuesMap(2, 5, 5, 2), 20, SoundEvents.ARMOR_EQUIP_LEATHER, 0.4f, 0F,
-                () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
+        TUNIC_YELLOW = register("tunic_yellow", createArmorValuesMap(2, 5, 5, 2), 25,
+                SoundEvents.ARMOR_EQUIP_LEATHER, 0.5f, 0F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
                 List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "tunic_yellow"), "", true)));
-
-        TUNIC_RED = register("tunic_red", createArmorValuesMap(2, 5, 5, 2), 20, SoundEvents.ARMOR_EQUIP_LEATHER, 0.4f, 0F,
-                () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
+        TUNIC_RED = register("tunic_red", createArmorValuesMap(2, 5, 5, 2), 25,
+                SoundEvents.ARMOR_EQUIP_LEATHER, 0.5f, 0F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
                 List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "tunic_red"), "", true)));
-
-        TUNIC_SEA = register("tunic_sea", createArmorValuesMap(2, 5, 5, 2), 20, SoundEvents.ARMOR_EQUIP_LEATHER, 0.4f, 0F,
-                () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
+        TUNIC_SEA = register("tunic_sea", createArmorValuesMap(2, 5, 5, 2), 25,
+                SoundEvents.ARMOR_EQUIP_LEATHER, 0.5f, 0F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
                 List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "tunic_sea"), "", true)));
-
-        CHAINMAIL = register("chainmail", createArmorValuesMap(2, 5, 5, 2), 20, SoundEvents.ARMOR_EQUIP_NETHERITE, 0.4f, 0F,
-                () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
+        CHAINMAIL = register("chainmail", createArmorValuesMap(2, 5, 5, 2), 25,
+                SoundEvents.ARMOR_EQUIP_NETHERITE, 4F, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
                 List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "chainmail"), "", true)));
-
-        WITCH = register("witch", createArmorValuesMap(3, 6, 8, 3), 37, SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F,
-                () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
+        WITCH = register("witch", createArmorValuesMap(3, 6, 8, 3), 20,
+                SoundEvents.ARMOR_EQUIP_DIAMOND, 2.5F, 0.05F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
                 List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "witch"), "", true)));
-
-        POLAR = register("polar", createArmorValuesMap(3, 6, 8, 3), 37, SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F,
-                () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
+        POLAR = register("polar", createArmorValuesMap(3, 6, 8, 3), 20,
+                SoundEvents.ARMOR_EQUIP_DIAMOND, 2.5F, 0.05F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
                 List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "polar"), "", true)));
-
-        SHINOBI = register("shinobi", createArmorValuesMap(3, 6, 8, 3), 37, SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F,
-                () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
+        SHINOBI = register("shinobi", createArmorValuesMap(3, 6, 8, 3), 20,
+                SoundEvents.ARMOR_EQUIP_DIAMOND, 2.5F, 0.05F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
                 List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "shinobi"), "", true)));
-
-        SKULK = register("skulk", createArmorValuesMap(3, 6, 8, 3), 37, SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F,
-                () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
+        SKULK = register("skulk", createArmorValuesMap(3, 6, 8, 3), 25,
+                SoundEvents.ARMOR_EQUIP_NETHERITE, 4F, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
                 List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "skulk"), "", true)));
-
-        TENGU = register("tengu", createArmorValuesMap(3, 6, 8, 3), 37, SoundEvents.ARMOR_EQUIP_NETHERITE, 4f, 0.1F,
-                () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
+        TENGU = register("tengu", createArmorValuesMap(3, 6, 8, 3), 25,
+                SoundEvents.ARMOR_EQUIP_NETHERITE, 4F, 0.1F, () -> Ingredient.of(KnightQuestItems.GREAT_ESSENCE.get()),
                 List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "tengu"), "", true)));
 
     }
 
     public static String getKeyNameFromMaterial(Holder<ArmorMaterial> holder) {
         String keyName = holder.unwrapKey().orElseThrow().location().toString();
-        return keyName.replace(":", ".");
+        keyName = keyName.replace(":", ".");
+        keyName = keyName.replace("knightquest.", "");
+        return keyName;
     }
 
     private static Holder<ArmorMaterial> register(String pName, EnumMap<ArmorItem.Type, Integer> pDefense, int pEnchantmentValue, Holder<SoundEvent> pEquipSound, float pToughness, float pKnockbackResistance, Supplier<Ingredient> pRepairIngridient, List<ArmorMaterial.Layer> pLayers) {

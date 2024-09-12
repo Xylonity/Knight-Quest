@@ -77,19 +77,83 @@ public class KQArmorItem extends ArmorItem {
     }
 
     /**
+     * Enables or disables tooltips based on the "enable" boolean value in the configuration file
+     */
+
+    public enum ArmorSet {
+        DEEPSLATE(KQConfigValues.DEEPSLATESET),
+        EVOKER(KQConfigValues.EVOKERSET),
+        SQUIRE(KQConfigValues.SQUIRESET),
+        BLAZE(KQConfigValues.BLAZESET),
+        DRAGON(KQConfigValues.DRAGONSET),
+        BAMBOO_GREEN(KQConfigValues.BAMBOOSET_GREEN),
+        SHINOBI(KQConfigValues.SHINOBI),
+        BAMBOO(KQConfigValues.BAMBOOSET),
+        PATH(KQConfigValues.PATHSET),
+        BOW(KQConfigValues.BOWSET),
+        BAT(KQConfigValues.BATSET),
+        SHIELD(KQConfigValues.SHIELDSET),
+        PHANTOM(KQConfigValues.PHANTOMSET),
+        HORN(KQConfigValues.HORNSET),
+        SEA(KQConfigValues.SEASET),
+        PIRATE(KQConfigValues.PIRATESET),
+        SPIDER(KQConfigValues.SPIDERSET),
+        NETHER(KQConfigValues.NETHERSET),
+        SKULK(KQConfigValues.SKULK),
+        STRAWHAT(KQConfigValues.STRAWHATSET),
+        ENDERMAN(KQConfigValues.ENDERMANSET),
+        VETERAN(KQConfigValues.VETERANSET),
+        FORZE(KQConfigValues.FORZESET),
+        CREEPER(KQConfigValues.CREEPERSET),
+        POLAR(KQConfigValues.POLAR),
+        SILVER(KQConfigValues.SILVERSET),
+        HOLLOW(KQConfigValues.HOLLOWSET),
+        WITHER(KQConfigValues.WITHERSET),
+        APPLE(KQConfigValues.APPLE_SET),
+        CONQUISTADOR(KQConfigValues.CONQUISTADORSET),
+        WITCH(KQConfigValues.WITCH),
+        TENGU(KQConfigValues.TENGU_HELMET),
+        HUSK(KQConfigValues.HUSKSET),
+        BAMBOO_BLUE(KQConfigValues.BAMBOOSET_BLUE),
+        WARLORD(KQConfigValues.WARLORDSET),
+        ZOMBIE(KQConfigValues.ZOMBIESET),
+        SILVERFISH(KQConfigValues.SILVERFISHSET),
+        SKELETON(KQConfigValues.SKELETONSET);
+
+        private final Boolean configValue;
+
+        ArmorSet(Boolean configValue) {
+            this.configValue = configValue;
+        }
+
+        public boolean isEnabled() {
+            return this.configValue;
+        }
+    }
+
+    private boolean isArmorSetConfigEnabled(String bonusTooltip) {
+        try {
+            ArmorSet armorSet = ArmorSet.valueOf(bonusTooltip.toUpperCase());
+            return armorSet.isEnabled();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /**
      * Adds `passive ability` tooltips to each KQArmorItem corresponding to each registered armor set. Uses the
      * same name as the material registered for each individual armor set, as they are essentially identical.
      */
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @NotNull TooltipContext pContext, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pTooltipFlag) {
-        if (hasTooltip)
-            if (!Objects.equals(bonusTooltip, "knightquest.chainmail") && !Objects.equals(bonusTooltip, "knightquest.tengu")) {
+        if (hasTooltip && isArmorSetConfigEnabled(bonusTooltip))
+            if (!Objects.equals(bonusTooltip, "chainmail") && !Objects.equals(bonusTooltip, "tengu")) {
                 pTooltipComponents.add(Component.translatable("tooltip.item.knightquest.full_set_bonus"));
-                pTooltipComponents.add(Component.translatable("tooltip.item." + bonusTooltip + "_helmet.bonus"));
-            } else if (Objects.equals(bonusTooltip, "knightquest.tengu")) {
+                pTooltipComponents.add(Component.translatable("tooltip.item.knightquest." + bonusTooltip + "_helmet.bonus"));
+            } else if (Objects.equals(bonusTooltip, "tengu")) {
                 pTooltipComponents.add(Component.translatable("tooltip.item.knightquest.full_helmet_bonus"));
-                pTooltipComponents.add(Component.translatable("tooltip.item." + bonusTooltip + "_helmet.bonus"));
+                pTooltipComponents.add(Component.translatable("tooltip.item.knightquest." + bonusTooltip + "_helmet.bonus"));
             }
 
         super.appendHoverText(pStack, pContext, pTooltipComponents, pTooltipFlag);

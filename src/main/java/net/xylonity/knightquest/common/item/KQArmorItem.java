@@ -448,7 +448,9 @@ public class KQArmorItem extends ArmorItem {
                             ));
                         }
 
-                        player.level().getEntitiesOfClass(Monster.class, player.getBoundingBox().inflate(3.5)).forEach(entity -> {
+                        Class<? extends Entity> classToPush = KQConfigValues.BAMBOOSET_PUSH_PLAYERS ? Entity.class : Monster.class;
+
+                        player.level().getEntitiesOfClass(classToPush, player.getBoundingBox().inflate(3.5)).forEach(entity -> {
                             Vec3 direction = entity.position().subtract(player.position()).normalize().scale(event.getAmount() * 0.5);
                             entity.push(direction.x, direction.y + 0.5, direction.z);
                         });
@@ -460,7 +462,7 @@ public class KQArmorItem extends ArmorItem {
 
                         Random random = new Random();
                         if (random.nextFloat() < 0.3) {
-                            int radius = 5;
+                            int radius = KQConfigValues.TELEPORT_RADIUS_ENDERMANSET;
                             BlockPos playerPos = player.blockPosition();
                             List<BlockPos> validPositions = new ArrayList<>();
 
@@ -496,8 +498,8 @@ public class KQArmorItem extends ArmorItem {
                 if (KQConfigValues.FORZESET)
                     if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.FORZESET)) {
                         Random random = new Random();
-                        if (event.getSource().getEntity() != null && random.nextFloat() < 0.3)
-                            event.getSource().getEntity().hurt(event.getSource(), event.getAmount() * 0.5F);
+                        if (event.getSource().getEntity() != null && random.nextFloat() < KQConfigValues.FORZESET_DEFLECT_CHANCE)
+                            event.getSource().getEntity().hurt(event.getSource(), event.getAmount() * (float) KQConfigValues.FORZESET_DEFLECT_DAMAGE);
                     }
 
                 if (KQConfigValues.CREEPERSET)
@@ -521,23 +523,23 @@ public class KQArmorItem extends ArmorItem {
                 if (KQConfigValues.SILVERSET)
                     if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.SILVERSET) && player.level().isNight()) {
                         Random random = new Random();
-                        if (random.nextFloat() < 0.30) {
+                        if (random.nextFloat() < KQConfigValues.SILVERSET_BURN_CHANCE) {
                             event.getEntity().setRemainingFireTicks(random.nextInt(2, 8) * 20);
                         }
                     }
 
                 if (KQConfigValues.HOLLOWSET)
                     if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.HOLLOWSET))
-                        player.heal(Math.min((float) (event.getAmount() * 0.25), event.getEntity().getHealth()));
+                        player.heal(Math.min((float) (event.getAmount() * KQConfigValues.HOLLOWSET_HEALING_MULTIPLIER), event.getEntity().getHealth()));
 
                 if (KQConfigValues.DRAGONSET)
                     if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.DRAGONSET))
-                        event.setAmount((float) (event.getAmount() * 1.15));
+                        event.setAmount((float) (event.getAmount() * KQConfigValues.DRAGONSET_DAMAGE_MULTIPLIER));
 
                 if (KQConfigValues.WITHERSET)
                     if (event.getSource().is(DamageTypes.ARROW) && KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.WITHERSET)) {
                         Random random = new Random();
-                        if (event.getSource().getEntity() != null && random.nextFloat() < 0.3)
+                        if (event.getSource().getEntity() != null && random.nextFloat() < KQConfigValues.WITHERSET_WITHER_CHANCE)
                             event.getEntity().addEffect(new MobEffectInstance(MobEffects.WITHER, 120, 0, false, false, false));
                     }
             }
@@ -617,9 +619,15 @@ public class KQArmorItem extends ArmorItem {
 
                 if (KQConfigValues.WARLORDSET)
                     if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.WARLORDSET)) {
-                        for (Entity entity : player.level().getEntitiesOfClass(Player.class, player.getBoundingBox().inflate(15.0))) {
-                            if (entity instanceof Player nearbyPlayer && entity != player) {
-                                nearbyPlayer.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 100, 0, false, false, true));
+                        for (Entity entity : player.level().getEntitiesOfClass(Player.class, player.getBoundingBox().inflate(KQConfigValues.WARLORD_SET_EFFECT_RADIUS))) {
+                            if (KQConfigValues.SHOULD_WARLORD_SET_EFFECT_APPLY_TO_ITSELF) {
+                                if (entity instanceof Player nearbyPlayer) {
+                                    nearbyPlayer.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 100, 0, false, false, true));
+                                }
+                            } else {
+                                if (entity instanceof Player nearbyPlayer && entity != player) {
+                                    nearbyPlayer.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 100, 0, false, false, true));
+                                }
                             }
                         }
                     }
@@ -627,8 +635,8 @@ public class KQArmorItem extends ArmorItem {
                 if (KQConfigValues.ZOMBIESET)
                     if (!player.level().isClientSide) {
                         if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.ZOMBIESET) && player.level().isNight()) {
-                            if (player.tickCount % 120 == 0) {
-                                player.heal(1.0F);
+                            if (player.tickCount % KQConfigValues.ZOMBIESET_HEALING_TICKS == 0) {
+                                player.heal((float) KQConfigValues.ZOMBIESET_HEALING_AMOUNT);
                             }
                         }
                     }

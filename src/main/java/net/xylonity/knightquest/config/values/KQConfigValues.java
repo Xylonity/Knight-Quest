@@ -67,7 +67,7 @@ public class KQConfigValues {
     public static int WARLORD_SET_EFFECT_RADIUS = V ? KnightQuestCommonConfigs.WARLORD_SET_EFFECT_RADIUS.get() : 15;
     public static double ZOMBIESET_HEALING_AMOUNT = V ? KnightQuestCommonConfigs.ZOMBIESET_HEALING_AMOUNT.get() : 1.0;
     public static int ZOMBIESET_HEALING_TICKS = V ? KnightQuestCommonConfigs.ZOMBIESET_HEALING_TICKS.get() : 120;
- 
+
     // Armor Passives Enabler Configuration Section
     public static boolean DEEPSLATESET = V ? KnightQuestCommonConfigs.ENABLE_DEEPSLATESET.get() : true;
     public static boolean EVOKERSET = V ? KnightQuestCommonConfigs.ENABLE_EVOKERSET.get() : true;

@@ -220,8 +220,8 @@ public class KQArmorMaterials {
     private static Holder<ArmorMaterial> register(String pName, EnumMap<ArmorItem.Type, Integer> pDefense, int pEnchantmentValue, Holder<SoundEvent> pEquipSound, float pToughness, float pKnockbackResistance, Supplier<Ingredient> pRepairIngridient, List<ArmorMaterial.Layer> pLayers) {
         EnumMap<ArmorItem.Type, Integer> enummap = new EnumMap<>(ArmorItem.Type.class);
 
-        for (ArmorItem.Type armoritem$type : ArmorItem.Type.values()) {
-            enummap.put(armoritem$type, pDefense.get(armoritem$type));
+        for (ArmorItem.Type armor : ArmorItem.Type.values()) {
+            enummap.put(armor, pDefense.get(armor));
         }
 
         return Registry.registerForHolder(

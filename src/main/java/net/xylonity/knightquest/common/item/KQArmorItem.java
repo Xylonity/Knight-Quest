@@ -71,7 +71,7 @@ public class KQArmorItem extends ArmorItem {
     private static final Map<UUID, Map<Holder<ArmorMaterial>, Boolean>> effectAppliedByArmorMap = new HashMap<>();
 
     public KQArmorItem(Holder<ArmorMaterial> material, Type type, Properties settings) {
-        super(material, type, settings.stacksTo(1).durability(type.getDurability(37)));
+        super(material, type, settings.stacksTo(1));
         this.bonusTooltip = KQArmorMaterials.getKeyNameFromMaterial(material);
         this.hasTooltip = true;
     }

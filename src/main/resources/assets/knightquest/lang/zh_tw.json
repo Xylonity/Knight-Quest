@@ -1,5 +1,5 @@
 {
-  "itemgroup.knightquest": "骑士征途",
+  "itemgroup.knightquest": "Knight Quest",
   "item.knightquest.great_essence": "大精华",
   "item.knightquest.small_essence": "小精华",
   "item.knightquest.empty_goblet": "空酒杯",
@@ -204,7 +204,7 @@
   "tooltip.item.knightquest.blaze_helmet.bonus": "§7§o-擊中敵人時有40%的機率點燃對方",
   "tooltip.item.knightquest.tengu_helmet.bonus": "§7§o-空中可以進行雙重跳躍",
   "tooltip.item.knightquest.pirate_helmet.bonus": "§7§o-提供幸運效果",
-  "tooltip.item.knightquest.appleset_helmet.bonus": "§7§o-食用蘋果時提供飽和效果",
+  "tooltip.item.knightquest.apple_helmet.bonus": "§7§o-食用蘋果時提供飽和效果",
   "tooltip.item.knightquest.bamboo_green_helmet.bonus": "§7§o-提供毒抗性",
   "tooltip.item.knightquest.dragon_helmet.bonus": "§7§o-額外10%的傷害並且不受龍息影響",
   "tooltip.item.knightquest.squire_helmet.bonus": "§7§o-提供15%的傷害減免",

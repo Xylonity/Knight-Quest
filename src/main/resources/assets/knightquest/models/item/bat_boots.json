@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "knightquest:item/bamboo_boots_icon"
+    "layer0": "knightquest:item/bat_boots_icon"
   }
 }

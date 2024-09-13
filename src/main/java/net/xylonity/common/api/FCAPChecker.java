@@ -1,6 +1,7 @@
 package net.xylonity.common.api;
 
 import net.fabricmc.loader.api.*;
+import net.xylonity.KnightQuest;
 
 public class FCAPChecker {
 
@@ -24,7 +25,7 @@ public class FCAPChecker {
                         return true;
 
                 } catch (VersionParsingException e) {
-                    throw new RuntimeException(e);
+                    KnightQuest.LOGGER.warn("[Knight Quest] Version Parsing Error while reading 'forgeconfigapiport' properties...");
                 }
             }
         }

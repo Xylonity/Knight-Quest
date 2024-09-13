@@ -52,8 +52,72 @@ public class KQArmorItem extends ArmorItem {
     private final String bonusTooltip;
 
     public KQArmorItem(RegistryEntry<ArmorMaterial> material, Type type, Settings settings) {
-        super(material, type, settings.maxCount(1).maxDamage(type.getMaxDamage(37)));
+        super(material, type, settings.maxCount(1));
         this.bonusTooltip = KQArmorMaterials.getKeyNameFromMaterial(material);
+    }
+
+    /**
+     * Enables or disables tooltips based on the "enable" boolean value in the configuration file
+     */
+
+    public enum ArmorSet {
+        DEEPSLATE(KQConfigValues.DEEPSLATESET),
+        EVOKER(KQConfigValues.EVOKERSET),
+        SQUIRE(KQConfigValues.SQUIRESET),
+        BLAZE(KQConfigValues.BLAZESET),
+        DRAGON(KQConfigValues.DRAGONSET),
+        BAMBOO_GREEN(KQConfigValues.BAMBOOSET_GREEN),
+        SHINOBI(KQConfigValues.SHINOBI),
+        BAMBOO(KQConfigValues.BAMBOOSET),
+        PATH(KQConfigValues.PATHSET),
+        BOW(KQConfigValues.BOWSET),
+        BAT(KQConfigValues.BATSET),
+        SHIELD(KQConfigValues.SHIELDSET),
+        PHANTOM(KQConfigValues.PHANTOMSET),
+        HORN(KQConfigValues.HORNSET),
+        SEA(KQConfigValues.SEASET),
+        PIRATE(KQConfigValues.PIRATESET),
+        SPIDER(KQConfigValues.SPIDERSET),
+        NETHER(KQConfigValues.NETHERSET),
+        SKULK(KQConfigValues.SKULK),
+        STRAWHAT(KQConfigValues.STRAWHATSET),
+        ENDERMAN(KQConfigValues.ENDERMANSET),
+        VETERAN(KQConfigValues.VETERANSET),
+        FORZE(KQConfigValues.FORZESET),
+        CREEPER(KQConfigValues.CREEPERSET),
+        POLAR(KQConfigValues.POLAR),
+        SILVER(KQConfigValues.SILVERSET),
+        HOLLOW(KQConfigValues.HOLLOWSET),
+        WITHER(KQConfigValues.WITHERSET),
+        APPLE(KQConfigValues.APPLE_SET),
+        CONQUISTADOR(KQConfigValues.CONQUISTADORSET),
+        WITCH(KQConfigValues.WITCH),
+        TENGU(KQConfigValues.TENGU_HELMET),
+        HUSK(KQConfigValues.HUSKSET),
+        BAMBOO_BLUE(KQConfigValues.BAMBOOSET_BLUE),
+        WARLORD(KQConfigValues.WARLORDSET),
+        ZOMBIE(KQConfigValues.ZOMBIESET),
+        SILVERFISH(KQConfigValues.SILVERFISHSET),
+        SKELETON(KQConfigValues.SKELETONSET);
+
+        private final Boolean configValue;
+
+        ArmorSet(Boolean configValue) {
+            this.configValue = configValue;
+        }
+
+        public boolean isEnabled() {
+            return this.configValue;
+        }
+    }
+
+    private boolean isArmorSetConfigEnabled(String bonusTooltip) {
+        try {
+            ArmorSet armorSet = ArmorSet.valueOf(bonusTooltip.toUpperCase());
+            return armorSet.isEnabled();
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     /**
@@ -63,13 +127,15 @@ public class KQArmorItem extends ArmorItem {
 
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
-        if (!Objects.equals(bonusTooltip, "knightquest.chainmail") && !Objects.equals(bonusTooltip, "knightquest.tengu")) {
-            tooltip.add(Text.translatable("tooltip.item.knightquest.full_set_bonus"));
-            tooltip.add(Text.translatable("tooltip.item." + bonusTooltip + "_helmet.bonus"));
-        } else if (Objects.equals(bonusTooltip, "knightquest.tengu")) {
-            tooltip.add(Text.translatable("tooltip.item.knightquest.full_helmet_bonus"));
-            tooltip.add(Text.translatable("tooltip.item." + bonusTooltip + "_helmet.bonus"));
-        }
+        if (isArmorSetConfigEnabled(bonusTooltip))
+            if (!Objects.equals(bonusTooltip, "chainmail") && !Objects.equals(bonusTooltip, "tengu")) {
+                tooltip.add(Text.translatable("tooltip.item.knightquest.full_set_bonus"));
+                tooltip.add(Text.translatable("tooltip.item.knightquest." + bonusTooltip + "_helmet.bonus"));
+            } else if (Objects.equals(bonusTooltip, "tengu")) {
+                tooltip.add(Text.translatable("tooltip.item.knightquest.full_helmet_bonus"));
+                tooltip.add(Text.translatable("tooltip.item.knightquest." + bonusTooltip + "_helmet.bonus"));
+            }
+
         super.appendTooltip(stack, context, tooltip, type);
     }
 

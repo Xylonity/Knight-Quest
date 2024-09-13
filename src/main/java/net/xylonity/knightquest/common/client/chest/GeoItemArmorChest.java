@@ -6,8 +6,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.xylonity.knightquest.KnightQuest;
+import net.xylonity.knightquest.common.item.KQArmorItem;
 import net.xylonity.knightquest.common.material.KQArmorMaterials;
-import net.xylonity.knightquest.registry.KnightQuestCreativeModeTabs;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.core.IAnimatable;
@@ -46,15 +46,26 @@ public class GeoItemArmorChest extends GeoArmorItem implements IAnimatable {
         return textureResource;
     }
 
+    private boolean isArmorSetConfigEnabled(String bonusTooltip) {
+        try {
+            KQArmorItem.ArmorSet armorSet = KQArmorItem.ArmorSet.valueOf(bonusTooltip.toUpperCase());
+            return armorSet.isEnabled();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        if (!Objects.equals(bonusTooltip, "chainmail") && !Objects.equals(bonusTooltip, "tengu")) {
-            pTooltipComponents.add(Component.translatable("tooltip.item.knightquest.full_set_bonus"));
-            pTooltipComponents.add(Component.translatable("tooltip.item.knightquest." + bonusTooltip + "_helmet.bonus"));
-        } else if (Objects.equals(bonusTooltip, "tengu")) {
-            pTooltipComponents.add(Component.translatable("tooltip.item.knightquest.full_helmet_bonus"));
-            pTooltipComponents.add(Component.translatable("tooltip.item.knightquest." + bonusTooltip + "_helmet.bonus"));
-        }
+        if (isArmorSetConfigEnabled(bonusTooltip))
+            if (!Objects.equals(bonusTooltip, "chainmail") && !Objects.equals(bonusTooltip, "tengu")) {
+                pTooltipComponents.add(Component.translatable("tooltip.item.knightquest.full_set_bonus"));
+                pTooltipComponents.add(Component.translatable("tooltip.item.knightquest." + bonusTooltip + "_helmet.bonus"));
+            } else if (Objects.equals(bonusTooltip, "tengu")) {
+                pTooltipComponents.add(Component.translatable("tooltip.item.knightquest.full_helmet_bonus"));
+                pTooltipComponents.add(Component.translatable("tooltip.item.knightquest." + bonusTooltip + "_helmet.bonus"));
+            }
+
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 

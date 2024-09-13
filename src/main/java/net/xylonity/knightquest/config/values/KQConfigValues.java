@@ -55,6 +55,20 @@ public class KQConfigValues {
     public static int SNOW_PARTICLE_COUNT = V ? KnightQuestCommonConfigs.SNOW_PARTICLE_COUNT.get() : 60;
 
     // Armor Passives Configuration Section
+    public static boolean BAMBOOSET_PUSH_PLAYERS = V ? KnightQuestCommonConfigs.ENABLE_BAMBOOSET_PUSH_PLAYERS.get() : false;
+    public static int TELEPORT_RADIUS_ENDERMANSET = V ? KnightQuestCommonConfigs.TELEPORT_RADIUS_ENDERMANSET.get() : 10;
+    public static double FORZESET_DEFLECT_CHANCE = V ? KnightQuestCommonConfigs.FORZESET_DEFLECT_CHANCE.get() : 0.3;
+    public static double FORZESET_DEFLECT_DAMAGE = V ? KnightQuestCommonConfigs.FORZESET_DEFLECT_DAMAGE.get() : 0.5;
+    public static double SILVERSET_BURN_CHANCE = V ? KnightQuestCommonConfigs.SILVERSET_BURN_CHANCE.get() : 0.3;
+    public static double HOLLOWSET_HEALING_MULTIPLIER = V ? KnightQuestCommonConfigs.HOLLOWSET_HEALING_MULTIPLIER.get() : 0.25;
+    public static double DRAGONSET_DAMAGE_MULTIPLIER = V ? KnightQuestCommonConfigs.DRAGONSET_DAMAGE_MULTIPLIER.get() : 1.15;
+    public static double WITHERSET_WITHER_CHANCE = V ? KnightQuestCommonConfigs.WITHERSET_WITHER_CHANCE.get() : 0.3;
+    public static boolean SHOULD_WARLORD_SET_EFFECT_APPLY_TO_ITSELF = V ? KnightQuestCommonConfigs.SHOULD_WARLORD_SET_EFFECT_APPLY_TO_ITSELF.get() : false;
+    public static int WARLORD_SET_EFFECT_RADIUS = V ? KnightQuestCommonConfigs.WARLORD_SET_EFFECT_RADIUS.get() : 15;
+    public static double ZOMBIESET_HEALING_AMOUNT = V ? KnightQuestCommonConfigs.ZOMBIESET_HEALING_AMOUNT.get() : 1.0;
+    public static int ZOMBIESET_HEALING_TICKS = V ? KnightQuestCommonConfigs.ZOMBIESET_HEALING_TICKS.get() : 120;
+
+    // Armor Passives Enabler Configuration Section
     public static boolean DEEPSLATESET = V ? KnightQuestCommonConfigs.ENABLE_DEEPSLATESET.get() : true;
     public static boolean EVOKERSET = V ? KnightQuestCommonConfigs.ENABLE_EVOKERSET.get() : true;
     public static boolean SQUIRESET = V ? KnightQuestCommonConfigs.ENABLE_SQUIRESET.get() : true;

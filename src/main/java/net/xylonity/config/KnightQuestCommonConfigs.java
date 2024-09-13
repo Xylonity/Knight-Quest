@@ -45,6 +45,20 @@ public class KnightQuestCommonConfigs {
     public static final ForgeConfigSpec.IntValue FROZEN_TICKS;
 
     // Armor Set Configurations
+    public static final ForgeConfigSpec.BooleanValue ENABLE_BAMBOOSET_PUSH_PLAYERS;
+    public static final ForgeConfigSpec.IntValue TELEPORT_RADIUS_ENDERMANSET;
+    public static final ForgeConfigSpec.DoubleValue FORZESET_DEFLECT_CHANCE;
+    public static final ForgeConfigSpec.DoubleValue FORZESET_DEFLECT_DAMAGE;
+    public static final ForgeConfigSpec.DoubleValue SILVERSET_BURN_CHANCE;
+    public static final ForgeConfigSpec.DoubleValue HOLLOWSET_HEALING_MULTIPLIER;
+    public static final ForgeConfigSpec.DoubleValue DRAGONSET_DAMAGE_MULTIPLIER;
+    public static final ForgeConfigSpec.DoubleValue WITHERSET_WITHER_CHANCE;
+    public static final ForgeConfigSpec.BooleanValue SHOULD_WARLORD_SET_EFFECT_APPLY_TO_ITSELF;
+    public static final ForgeConfigSpec.IntValue WARLORD_SET_EFFECT_RADIUS;
+    public static final ForgeConfigSpec.DoubleValue ZOMBIESET_HEALING_AMOUNT;
+    public static final ForgeConfigSpec.IntValue ZOMBIESET_HEALING_TICKS;
+
+    // Armor Set Passive Enabler Configurations
     public static final ForgeConfigSpec.BooleanValue ENABLE_DEEPSLATESET;
     public static final ForgeConfigSpec.BooleanValue ENABLE_EVOKERSET;
     public static final ForgeConfigSpec.BooleanValue ENABLE_SQUIRESET;
@@ -135,8 +149,24 @@ public class KnightQuestCommonConfigs {
         DROP_CHANCE_LIZZY_SCALE = BUILDER.defineInRange("Drop chance for lizzy scale", 0.30, 0, 1);
         BUILDER.pop();
 
-        // Armor Passives Configuration Section
-        BUILDER.push("Armor Passives Configuration");
+        // Armor Set Passives Configuration Section
+        BUILDER.push("Armor Set Passives Configuration");
+        ENABLE_BAMBOOSET_PUSH_PLAYERS = BUILDER.define("Should Bamboo Set push players?", false);
+        TELEPORT_RADIUS_ENDERMANSET = BUILDER.defineInRange("Teleport radius for Enderman Set", 10, 5, 30);
+        FORZESET_DEFLECT_CHANCE = BUILDER.defineInRange("Chance for Forze Set to deflect", 0.3, 0.1, 1.0);
+        FORZESET_DEFLECT_DAMAGE = BUILDER.defineInRange("Damage multiplier for Forze Set deflection", 0.5, 0.1, 2.0);
+        SILVERSET_BURN_CHANCE = BUILDER.defineInRange("Chance for Silver Set to burn", 0.3, 0.1, 1.0);
+        HOLLOWSET_HEALING_MULTIPLIER = BUILDER.defineInRange("Healing multiplier per hit for Hollow Set (healing won't be higher than victim's health)", 0.25, 0.1, 2.0);
+        DRAGONSET_DAMAGE_MULTIPLIER = BUILDER.defineInRange("Damage multiplier for Dragon Set", 1.15, 1.0, 2.0);
+        WITHERSET_WITHER_CHANCE = BUILDER.defineInRange("Chance of applying Wither with Wither Set", 0.3, 0.1, 1.0);
+        SHOULD_WARLORD_SET_EFFECT_APPLY_TO_ITSELF = BUILDER.define("Should Warlord Set effect apply to itself?", false);
+        WARLORD_SET_EFFECT_RADIUS = BUILDER.defineInRange("Effect radius for Warlord Set", 15, 1, 40);
+        ZOMBIESET_HEALING_AMOUNT = BUILDER.defineInRange("Healing amount for Zombie Set", 1.0, 0.5, 10.0);
+        ZOMBIESET_HEALING_TICKS = BUILDER.defineInRange("Time in ticks for Zombie Set healing interval", 120, 1, 1000);
+        BUILDER.pop();
+
+        // Armor Set Passives Enabler Configuration Section
+        BUILDER.push("Armor Set Passives Enabler Configuration");
         ENABLE_DEEPSLATESET = BUILDER.define("Enable Deepslate Set Passive", true);
         ENABLE_EVOKERSET = BUILDER.define("Enable Evoker Set Passive", true);
         ENABLE_SQUIRESET = BUILDER.define("Enable Squire Set Passive", true);

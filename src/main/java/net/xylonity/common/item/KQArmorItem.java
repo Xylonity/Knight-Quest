@@ -431,7 +431,9 @@ public class KQArmorItem extends ArmorItem {
                             ));
                         }
 
-                        player.getWorld().getEntitiesByClass(HostileEntity.class, player.getBoundingBox().expand(3.5), HostileEntity::isLiving).forEach(entity1 -> {
+                        Class<? extends Entity> classToPush = KQConfigValues.BAMBOOSET_PUSH_PLAYERS ? Entity.class : HostileEntity.class;
+
+                        player.getWorld().getNonSpectatingEntities(classToPush, player.getBoundingBox().expand(3.5)).forEach(entity1 -> {
                             Vec3d direction = entity1.getPos().subtract(player.getPos()).normalize().multiply(amount * 0.5);
                             entity1.addVelocity(direction.x, direction.y + 0.5, direction.z);
                         });
@@ -443,7 +445,7 @@ public class KQArmorItem extends ArmorItem {
 
                         Random random = new Random();
                         if (random.nextFloat() < 0.3) {
-                            int radius = 10;
+                            int radius = KQConfigValues.TELEPORT_RADIUS_ENDERMANSET;
                             BlockPos playerPos = player.getBlockPos();
                             List<BlockPos> validPositions = new ArrayList<>();
 
@@ -480,8 +482,8 @@ public class KQArmorItem extends ArmorItem {
                 if (KQConfigValues.FORZESET)
                     if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.FORZESET)) {
                         Random random = new Random();
-                        if (source.getSource() != null && random.nextFloat() < 0.3)
-                            source.getSource().damage(source.getSource().getDamageSources().generic(), amount * 0.5F);
+                        if (source.getSource() != null && random.nextFloat() < KQConfigValues.FORZESET_DEFLECT_CHANCE)
+                            source.getSource().damage(source, amount * (float) KQConfigValues.FORZESET_DEFLECT_DAMAGE);
                     }
 
                 if (KQConfigValues.CREEPERSET)
@@ -506,26 +508,26 @@ public class KQArmorItem extends ArmorItem {
                 if (KQConfigValues.SILVERSET)
                     if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.SILVERSET) && player.getWorld().isNight()) {
                         Random random = new Random();
-                        if (random.nextFloat() < 0.30) {
+                        if (random.nextFloat() < KQConfigValues.SILVERSET_BURN_CHANCE) {
                             entity.setFireTicks(random.nextInt(2, 8) * 20);
                         }
                     }
 
                 if (KQConfigValues.HOLLOWSET)
                     if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.HOLLOWSET) && source.getSource() instanceof LivingEntity livingEntity) {
-                        player.heal(Math.min((float) (amount * 0.25), livingEntity.getHealth()));
+                        player.heal(Math.min((float) (amount * KQConfigValues.HOLLOWSET_HEALING_MULTIPLIER), livingEntity.getHealth()));
                     }
 
                 if (KQConfigValues.DRAGONSET)
-                    if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.DRAGONSET)) {
-                        entity.damage(Objects.requireNonNull(source.getSource()).getDamageSources().generic(), (float) (amount * 1.15));
+                    if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.DRAGONSET) && source.getSource() != null) {
+                        entity.damage(source.getSource().getDamageSources().generic(), (float) (amount * KQConfigValues.DRAGONSET_DAMAGE_MULTIPLIER));
                         return false;
                     }
 
                 if (KQConfigValues.WITHERSET)
                     if (source.isOf(DamageTypes.ARROW) && KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.WITHERSET)) {
                         Random random = new Random();
-                        if (random.nextFloat() < 0.3)
+                        if (random.nextFloat() < KQConfigValues.WITHERSET_WITHER_CHANCE)
                             entity.addStatusEffect(new StatusEffectInstance(StatusEffects.WITHER, 120, 0, false, false, false));
                     }
             }
@@ -659,9 +661,15 @@ public class KQArmorItem extends ArmorItem {
 
                 if (KQConfigValues.WARLORDSET)
                     if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.WARLORDSET)) {
-                        for (Entity entity : player.getWorld().getEntitiesByClass(PlayerEntity.class, player.getBoundingBox().expand(15.0), PlayerEntity::isPlayer)) {
-                            if (entity instanceof PlayerEntity nearbyPlayer && entity != player) {
-                                nearbyPlayer.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 100, 0, false, false, true));
+                        for (Entity entity : player.getWorld().getNonSpectatingEntities(PlayerEntity.class, player.getBoundingBox().expand(KQConfigValues.WARLORD_SET_EFFECT_RADIUS))) {
+                            if (KQConfigValues.SHOULD_WARLORD_SET_EFFECT_APPLY_TO_ITSELF) {
+                                if (entity instanceof PlayerEntity nearbyPlayer) {
+                                    nearbyPlayer.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 100, 0, false, false, true));
+                                }
+                            } else {
+                                if (entity instanceof PlayerEntity nearbyPlayer && entity != player) {
+                                    nearbyPlayer.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 100, 0, false, false, true));
+                                }
                             }
                         }
                     }
@@ -670,8 +678,8 @@ public class KQArmorItem extends ArmorItem {
 
                     if (KQConfigValues.ZOMBIESET)
                         if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.ZOMBIESET) && player.getWorld().isNight()) {
-                            if (player.age % 120 == 0) {
-                                player.heal(1.0F);
+                            if (player.age % KQConfigValues.ZOMBIESET_HEALING_TICKS == 0) {
+                                player.heal((float) KQConfigValues.ZOMBIESET_HEALING_AMOUNT);
                             }
                         }
 

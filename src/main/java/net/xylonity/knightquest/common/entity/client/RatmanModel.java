@@ -19,7 +19,7 @@ public class RatmanModel extends GeoModel<RatmanEntity> {
 
     @Override
     public ResourceLocation getTextureResource(RatmanEntity animatable) {
-        return new ResourceLocation(KnightQuest.MOD_ID, "textures/entity/ratman.png");
+        return new ResourceLocation(KnightQuest.MOD_ID, "textures/entity/ratman" + animatable.getVariation() + ".png");
     }
 
     @Override

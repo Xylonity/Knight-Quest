@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.xylonity.knightquest.KnightQuest;
 import net.xylonity.knightquest.common.entity.entities.RatmanEntity;
+import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 import software.bernie.geckolib.renderer.layer.AutoGlowingGeoLayer;
 
@@ -18,13 +19,13 @@ public class RatmanRenderer extends GeoEntityRenderer<RatmanEntity> {
     }
 
     @Override
-    public ResourceLocation getTextureLocation(RatmanEntity animatable) {
-        return new ResourceLocation(KnightQuest.MOD_ID, "textures/entity/ratman.png");
+    public @NotNull ResourceLocation getTextureLocation(RatmanEntity animatable) {
+        return new ResourceLocation(KnightQuest.MOD_ID, "textures/entity/ratman" + animatable.getVariation() + ".png");
     }
 
     @Override
-    public void render(RatmanEntity entity, float entityYaw, float partialTick, PoseStack poseStack,
-                       MultiBufferSource bufferSource, int packedLight) {
+    public void render(RatmanEntity entity, float entityYaw, float partialTick, @NotNull PoseStack poseStack,
+                       @NotNull MultiBufferSource bufferSource, int packedLight) {
         if (entity.isBaby()) {
             poseStack.scale(0.4f, 0.4f, 0.4f);
         } else {

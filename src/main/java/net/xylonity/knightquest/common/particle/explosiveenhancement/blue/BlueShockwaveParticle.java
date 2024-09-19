@@ -5,7 +5,6 @@ import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.xylonity.knightquest.common.api.explosiveenhancement.ExplosiveValues;
 import net.xylonity.knightquest.common.particle.explosiveenhancement.ShockwaveParticle;
 
 public class BlueShockwaveParticle extends ShockwaveParticle {

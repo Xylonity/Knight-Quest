@@ -10,7 +10,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.xylonity.knightquest.KnightQuest;
-import net.xylonity.knightquest.common.client.GeoItemArmor;
+import net.xylonity.knightquest.client.armor.GeoItemArmor;
 import net.xylonity.knightquest.common.item.KQArmorItem;
 import net.xylonity.knightquest.common.item.KQItem;
 import net.xylonity.knightquest.common.material.KQArmorMaterials;

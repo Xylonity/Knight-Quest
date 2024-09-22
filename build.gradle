@@ -70,12 +70,16 @@ repositories {
             includeGroup("com.eliotlash.mclib")
         }
     }
-
+    maven {
+        url "https://cursemaven.com"
+    }
 }
 
 dependencies {
 
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+
+    implementation fg.deobf("curse.maven:knight-lib-1105855:5745889")
 
     implementation fg.deobf("software.bernie.geckolib:geckolib-forge-${minecraft_version}:${geckolib_version}")
 

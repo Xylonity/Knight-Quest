@@ -63,8 +63,6 @@ public class KnightQuestItems {
         return ITEMS.register(name, () -> new KQItem(new Item.Properties(), name));
     }
 
-    public static final RegistryObject<Item> GREAT_ESSENCE = registerItem("great_essence");
-    public static final RegistryObject<Item> SMALL_ESSENCE = registerItem("small_essence");
     public static final RegistryObject<Item> RADIANT_ESSENCE = registerItem("radiant_essence");
     public static final RegistryObject<Item> EMPTY_GOBLET = registerItem("empty_goblet");
     public static final RegistryObject<Item> FILLED_GOBLET = registerItem("filled_goblet");

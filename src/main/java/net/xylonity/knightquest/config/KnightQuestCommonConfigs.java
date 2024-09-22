@@ -12,7 +12,7 @@ public class KnightQuestCommonConfigs {
     public static final ForgeConfigSpec.DoubleValue HEAL_ELDKNIGHT;
 
     // Drop Chance Configurations
-    public static final ForgeConfigSpec.DoubleValue DROP_CHANCE_SMALL_ESSENCE;
+    // public static final ForgeConfigSpec.DoubleValue DROP_CHANCE_SMALL_ESSENCE;
     public static final ForgeConfigSpec.DoubleValue DROP_CHANCE_RATMAN_EYE;
     public static final ForgeConfigSpec.DoubleValue DROP_CHANCE_LIZZY_SCALE;
 
@@ -144,7 +144,8 @@ public class KnightQuestCommonConfigs {
 
         // Drop Chance Configuration Section
         BUILDER.push("Drop Chance Configuration");
-        DROP_CHANCE_SMALL_ESSENCE = BUILDER.comment("Drop chance for small essence").defineInRange("Drop chance for small essence", 0.15, 0, 1);
+        // DROP_CHANCE_SMALL_ESSENCE = BUILDER.comment("Drop chance for small essence").defineInRange("Drop chance for small essence", 0.15, 0, 1);
+        BUILDER.comment("Drop chance for small essence must be changed inside knightlib.toml");
         DROP_CHANCE_RATMAN_EYE = BUILDER.defineInRange("Drop chance for ratman eye", 0.40, 0, 1);
         DROP_CHANCE_LIZZY_SCALE = BUILDER.defineInRange("Drop chance for lizzy scale", 0.30, 0, 1);
         BUILDER.pop();

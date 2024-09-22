@@ -1,5 +1,6 @@
 package net.xylonity.knightquest.common.entity.entities;
 
+import dev.xylonity.knightlib.compat.registry.KnightLibParticles;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
@@ -105,7 +106,7 @@ public class GhostyEntity extends Monster implements GeoEntity {
             monster.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 1, 4, false, false, false));
             if (!(monster instanceof GhostyEntity))
                 for (int i = 0; i < 4 && tickCount % 25 == 0; ++i) {
-                    serverWorld.addParticle(KnightQuestParticles.STARSET_PARTICLE.get(), monster.getX(), monster.getY() - 0.48, monster.getZ(), 1.2d, 0d, 0d);
+                    serverWorld.addParticle(KnightLibParticles.STARSET_PARTICLE.get(), monster.getX(), monster.getY() - 0.48, monster.getZ(), 1.2d, 0d, 0d);
                 }
         }
 

@@ -208,14 +208,20 @@ public class RatmanEntity extends Skeleton implements GeoEntity {
         double arrowZ = Math.sin(Math.toRadians(angle));
 
         Arrow arrow = new Arrow(serverWorld, this);
-        arrow.setPos(getX() + arrowX, arrowY - 1.5, getZ() + arrowZ);
+        arrow.setPos(getX() + arrowX, arrowY - 1.8, getZ() + arrowZ);
         arrow.setShotFromCrossbow(false);
 
         double velX = Math.cos(Math.toRadians(angle));
         double velZ = Math.sin(Math.toRadians(angle));
         arrow.setDeltaMovement(velX, 0.3, velZ);
 
-        arrow.addEffect(new MobEffectInstance(MobEffects.POISON, 100, 1));
+        switch (getVariation()) {
+            case 1 -> arrow.addEffect(new MobEffectInstance(MobEffects.POISON, 100, 0));
+            case 2 -> arrow.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 100, 0));
+            case 3 -> arrow.addEffect(new MobEffectInstance(MobEffects.WITHER, 100, 0));
+            default -> arrow.setSecondsOnFire(10);
+        }
+
         serverWorld.playSound(null, this.blockPosition(), SoundEvents.DISPENSER_LAUNCH, SoundSource.HOSTILE, 0.75F, 1.0F);
 
         serverWorld.addFreshEntity(arrow);

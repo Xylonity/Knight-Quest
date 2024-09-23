@@ -24,7 +24,7 @@ public class GhostyModel extends GeoModel<GhostyEntity> {
 
     @Override
     public ResourceLocation getAnimationResource(GhostyEntity animatable) {
-        return new ResourceLocation(KnightQuest.MOD_ID, "animations/helmet.animation.json");
+        return new ResourceLocation(KnightQuest.MOD_ID, "animations/ghosty.animation.json");
     }
 
     @Override

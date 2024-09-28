@@ -170,7 +170,7 @@ public class KQArmorItem extends ArmorItem {
             UUID playerUUID = player.getUUID();
 
             if (KQConfigValues.PATHSET)
-                if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.PATHSET) && player.isShiftKeyDown()) {
+                if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.PATHSET) && level.isDay()) {
                     if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new HashMap<>()).getOrDefault(KQArmorMaterials.PATHSET, false))) {
                         player.addEffect(PATH_ARMOR);
                         effectAppliedByArmorMap.get(playerUUID).put(KQArmorMaterials.PATHSET, true);
@@ -527,8 +527,11 @@ public class KQArmorItem extends ArmorItem {
             if (event.getEntity() instanceof Player player)
                 if (KQConfigValues.APPLE_SET)
                     if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.APPLE_SET))
-                        if (event.getItem().getItem().equals(Items.APPLE))
-                            player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 200, 0, false, true, true));
+                        if (event.getItem().getItem().equals(Items.GOLDEN_APPLE)) {
+                            player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 200, 1, false, true, true));
+                            player.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, 4800, 1, false, true, true));
+                            player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 2400, 0, false, true, true));
+                        }
         }
 
         @SubscribeEvent

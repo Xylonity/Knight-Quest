@@ -84,8 +84,8 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity, RangedAtt
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-        controllerRegistrar.add(new AnimationController<>(this, "controller", 0, this::predicate));
-        controllerRegistrar.add(new AnimationController<>(this, "attackcontroller", 0, this::attackPredicate));
+        controllerRegistrar.add(new AnimationController<>(this, "controller", this::predicate));
+        controllerRegistrar.add(new AnimationController<>(this, "attackcontroller", this::attackPredicate));
     }
 
     private PlayState attackPredicate(AnimationState<?> event) {

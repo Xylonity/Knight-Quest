@@ -57,6 +57,15 @@ public class KnightQuestCommonConfigs {
     public static final ForgeConfigSpec.IntValue WARLORD_SET_EFFECT_RADIUS;
     public static final ForgeConfigSpec.DoubleValue ZOMBIESET_HEALING_AMOUNT;
     public static final ForgeConfigSpec.IntValue ZOMBIESET_HEALING_TICKS;
+    public static final ForgeConfigSpec.DoubleValue DEEPSLATE_FALL_DAMAGE_MULTIPLIER;
+    public static final ForgeConfigSpec.DoubleValue EVOKER_DARKNESS_CHANCE;
+    public static final ForgeConfigSpec.DoubleValue SQUIRE_DAMAGE_RECEIVED_MULTIPLIER;
+    public static final ForgeConfigSpec.DoubleValue BLAZE_FIRE_CHANCE;
+    public static final ForgeConfigSpec.IntValue BLAZE_FIRE_DURATION_MIN;
+    public static final ForgeConfigSpec.IntValue BLAZE_FIRE_DURATION_MAX;
+    public static final ForgeConfigSpec.DoubleValue CREEPER_EXPLOSION_DAMAGE_MULTIPLIER;
+    public static final ForgeConfigSpec.IntValue SILVERFISH_EFFECT_MAX_HEIGHT;
+    public static final ForgeConfigSpec.IntValue SKULK_MAX_LIGHT_LEVEL;
 
     // Armor Set Passive Enabler Configurations
     public static final ForgeConfigSpec.BooleanValue ENABLE_DEEPSLATESET;
@@ -164,6 +173,15 @@ public class KnightQuestCommonConfigs {
         WARLORD_SET_EFFECT_RADIUS = BUILDER.defineInRange("Effect radius for Warlord Set", 15, 1, 40);
         ZOMBIESET_HEALING_AMOUNT = BUILDER.defineInRange("Healing amount for Zombie Set", 1.0, 0.5, 10.0);
         ZOMBIESET_HEALING_TICKS = BUILDER.defineInRange("Time in ticks for Zombie Set healing interval", 120, 1, 1000);
+        DEEPSLATE_FALL_DAMAGE_MULTIPLIER = BUILDER.defineInRange("Fall damage multiplier for Deepslate Set", 0.2, 0.0, 1.0);
+        EVOKER_DARKNESS_CHANCE = BUILDER.defineInRange("Chance to apply Darkness for Evoker Set", 0.25, 0.0, 1.0);
+        SQUIRE_DAMAGE_RECEIVED_MULTIPLIER = BUILDER.defineInRange("Damage received multiplier for Squire Set", 0.85, 0.0, 1.0);
+        BLAZE_FIRE_CHANCE = BUILDER.defineInRange("Chance to apply Fire for Blaze Set", 0.4, 0.0, 1.0);
+        BLAZE_FIRE_DURATION_MIN = BUILDER.defineInRange("Minimum seconds on fire for Blaze Set", 2, 1, 100);
+        BLAZE_FIRE_DURATION_MAX = BUILDER.defineInRange("Maximum seconds on fire for Blaze Set", 8, 1, 200);
+        CREEPER_EXPLOSION_DAMAGE_MULTIPLIER = BUILDER.defineInRange("Explosion damage multiplier for Creeper Set", 0.1, 0.0, 1.0);
+        SILVERFISH_EFFECT_MAX_HEIGHT = BUILDER.defineInRange("Maximum height to apply effect for Silverfish Set", 50, 0, 100);
+        SKULK_MAX_LIGHT_LEVEL = BUILDER.defineInRange("Maximum light level to grant effect for Skulk Set", 4, 0, 15);
         BUILDER.pop();
 
         // Armor Set Passives Enabler Configuration Section

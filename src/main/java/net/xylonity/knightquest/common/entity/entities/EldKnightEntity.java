@@ -24,8 +24,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.xylonity.knightquest.registry.KnightQuestEntities;
-import net.xylonity.knightquest.registry.KnightQuestParticles;
 import net.xylonity.knightquest.config.values.KQConfigValues;
+import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
@@ -34,7 +34,7 @@ import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class EldKnightEntity extends Monster implements GeoEntity {
-    private AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private final Level serverWorld;
     private boolean summoned = false;
     private int counter;
@@ -69,7 +69,7 @@ public class EldKnightEntity extends Monster implements GeoEntity {
         controllerRegistrar.add(new AnimationController<>(this, "attackcontroller", 0, this::attackPredicate));
     }
 
-    private PlayState attackPredicate(AnimationState event) {
+    private PlayState attackPredicate(AnimationState<?> event) {
 
         if (this.swinging && event.getController().getAnimationState().equals(AnimationController.State.STOPPED)) {
             event.getController().forceAnimationReset();
@@ -97,7 +97,7 @@ public class EldKnightEntity extends Monster implements GeoEntity {
     }
 
     @Override
-    protected SoundEvent getSwimSound() {
+    protected @NotNull SoundEvent getSwimSound() {
         return SoundEvents.AXOLOTL_SWIM;
     }
 
@@ -107,12 +107,12 @@ public class EldKnightEntity extends Monster implements GeoEntity {
     }
 
     @Override
-    protected SoundEvent getHurtSound(DamageSource pDamageSource) {
+    protected SoundEvent getHurtSound(@NotNull DamageSource pDamageSource) {
         return SoundEvents.IRON_GOLEM_HURT;
     }
 
     @Override
-    protected void playStepSound(BlockPos pPos, BlockState pState) {
+    protected void playStepSound(@NotNull BlockPos pPos, @NotNull BlockState pState) {
         this.playSound(SoundEvents.IRON_GOLEM_STEP, 0.15F, 1.0F);
     }
 
@@ -224,7 +224,7 @@ public class EldKnightEntity extends Monster implements GeoEntity {
 
     private void poisonNearbyPlayers() {
         this.serverWorld.getEntitiesOfClass(Player.class, this.getBoundingBox().inflate(3.5)).forEach(player -> {
-            player.addEffect(new MobEffectInstance(MobEffects.POISON, 200, 1));
+            player.addEffect(new MobEffectInstance(MobEffects.POISON, 200, 0));
         });
     }
 

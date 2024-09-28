@@ -65,7 +65,7 @@ description='''${mod_description}'''
 [[dependencies.${mod_id}]]
     modId="knightlib"
     mandatory=true
-    versionRange="[0,)"
+    versionRange="[1.0.0,)"
     ordering="NONE"
     side="BOTH"
 

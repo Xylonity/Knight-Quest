@@ -1,5 +1,6 @@
 package net.xylonity.knightquest.common.entity.entities;
 
+import dev.xylonity.knightlib.compat.registry.KnightLibItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -121,7 +122,7 @@ public class SamhainEntity extends TamableAnimal implements IAnimatable, RangedA
     @Override
     public @NotNull InteractionResult mobInteract(Player player, @NotNull InteractionHand hand) {
         ItemStack itemstack = player.getItemInHand(hand);
-        Item itemForTaming = KnightQuestItems.GREAT_ESSENCE.get();
+        Item itemForTaming = KnightLibItems.GREAT_ESSENCE.get();
         Item item = itemstack.getItem();
 
         /*
@@ -157,12 +158,12 @@ public class SamhainEntity extends TamableAnimal implements IAnimatable, RangedA
          */
 
         if (isTame() && !this.level.isClientSide && hand == InteractionHand.MAIN_HAND && getOwner() == player) {
-            if ((itemstack.getItem().equals(KnightQuestItems.GREAT_ESSENCE.get()) || itemstack.getItem().equals(KnightQuestItems.SMALL_ESSENCE.get()))
+            if ((itemstack.getItem().equals(KnightLibItems.GREAT_ESSENCE.get()) || itemstack.getItem().equals(KnightLibItems.SMALL_ESSENCE.get()))
                     && this.getHealth() < this.getMaxHealth()) {
 
-                if (itemstack.getItem().equals(KnightQuestItems.GREAT_ESSENCE.get())) {
+                if (itemstack.getItem().equals(KnightLibItems.GREAT_ESSENCE.get())) {
                     this.heal(16.0F);
-                } else if (itemstack.getItem().equals(KnightQuestItems.SMALL_ESSENCE.get())) {
+                } else if (itemstack.getItem().equals(KnightLibItems.SMALL_ESSENCE.get())) {
                     this.heal(4.0F);
                 }
 

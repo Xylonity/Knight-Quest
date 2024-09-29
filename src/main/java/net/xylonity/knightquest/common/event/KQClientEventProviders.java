@@ -14,7 +14,7 @@ import net.xylonity.knightquest.client.armor.chest.GeoItemArmorChest;
 import net.xylonity.knightquest.client.armor.chest.GeoItemArmorChestRenderer;
 import net.xylonity.knightquest.client.armor.leg.GeoItemArmorLeg;
 import net.xylonity.knightquest.client.armor.leg.GeoItemArmorLegRenderer;
-import net.xylonity.knightquest.common.entity.client.*;
+import net.xylonity.knightquest.client.entity.renderer.*;
 import net.xylonity.knightquest.common.particle.*;
 import net.xylonity.knightquest.common.particle.explosiveenhancement.*;
 import net.xylonity.knightquest.common.particle.explosiveenhancement.blue.BlueBlastWaveParticle;

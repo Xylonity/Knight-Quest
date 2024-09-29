@@ -1,5 +1,6 @@
 package net.xylonity.knightquest.common.entity.entities;
 
+import dev.xylonity.knightlib.compat.registry.KnightLibParticles;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvent;
@@ -231,7 +232,7 @@ public class EldKnightEntity extends Monster implements IAnimatable {
     }
 
     private void summonParticle() {
-        serverWorld.addParticle(KnightQuestParticles.STARSET_PARTICLE.get(), this.getX(), getY() - 0.48, getZ(), 4d, 0d, 0d);
+        serverWorld.addParticle(KnightLibParticles.STARSET_PARTICLE.get(), this.getX(), getY() - 0.48, getZ(), 4d, 0d, 0d);
     }
 
 }

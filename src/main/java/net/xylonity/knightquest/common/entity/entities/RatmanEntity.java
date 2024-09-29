@@ -229,7 +229,13 @@ public class RatmanEntity extends Skeleton implements IAnimatable {
         double velZ = Math.sin(Math.toRadians(angle));
         arrow.setDeltaMovement(velX, 0.3, velZ);
 
-        arrow.addEffect(new MobEffectInstance(MobEffects.POISON, 100, 1));
+        switch (getVariation()) {
+            case 1 -> arrow.addEffect(new MobEffectInstance(MobEffects.POISON, 100, 0));
+            case 2 -> arrow.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 100, 0));
+            case 3 -> arrow.addEffect(new MobEffectInstance(MobEffects.WITHER, 100, 0));
+            default -> arrow.setSecondsOnFire(10);
+        }
+
         serverWorld.playSound(null, this.blockPosition(), SoundEvents.DISPENSER_LAUNCH, SoundSource.HOSTILE, 0.75F, 1.0F);
 
         serverWorld.addFreshEntity(arrow);

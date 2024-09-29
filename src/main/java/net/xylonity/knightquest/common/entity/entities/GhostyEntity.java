@@ -63,7 +63,10 @@ public class GhostyEntity extends Monster implements IAnimatable {
         animationData.addAnimationController(new AnimationController<>(this, "controller", 0, this::predicate));
     }
 
-    private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) { return PlayState.CONTINUE; }
+    private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+        event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", ILoopType.EDefaultLoopTypes.LOOP));
+        return PlayState.CONTINUE;
+    }
 
     @Override
     public boolean hurt(DamageSource pSource, float pAmount) {

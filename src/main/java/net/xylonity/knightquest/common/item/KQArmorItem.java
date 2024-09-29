@@ -165,7 +165,7 @@ public class KQArmorItem extends ArmorItem {
             UUID playerUUID = player.getUUID();
 
             if (KQConfigValues.PATHSET)
-                if (hasFullSetOn(player, KQArmorMaterials.PATHSET) && player.isShiftKeyDown()) {
+                if (hasFullSetOn(player, KQArmorMaterials.PATHSET) && pLevel.isDay()) {
                     if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new HashMap<>()).getOrDefault(KQArmorMaterials.PATHSET, false))) {
                         player.addEffect(PATH_ARMOR);
                         effectAppliedByArmorMap.get(playerUUID).put(KQArmorMaterials.PATHSET, true);
@@ -295,7 +295,7 @@ public class KQArmorItem extends ArmorItem {
                 }
 
             if (KQConfigValues.SKULK)
-                if (hasFullSetOn(player, KQArmorMaterials.SKULK) && player.level.getMaxLocalRawBrightness(player.blockPosition()) <= 4) {
+                if (hasFullSetOn(player, KQArmorMaterials.SKULK) && player.level.getMaxLocalRawBrightness(player.blockPosition()) <= KQConfigValues.SKULK_MAX_LIGHT_LEVEL) {
                     if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new HashMap<>()).getOrDefault(KQArmorMaterials.SKULK, false))) {
                         player.addEffect(SKULK_ARMOR);
                         effectAppliedByArmorMap.get(playerUUID).put(KQArmorMaterials.SKULK, true);
@@ -372,27 +372,27 @@ public class KQArmorItem extends ArmorItem {
                 if (KQConfigValues.DEEPSLATESET)
                     if (event.getSource().isFall() && KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.DEEPSLATESET)) {
                         float originalDamage = event.getAmount();
-                        float reducedDamage = originalDamage * 0.20f;
+                        float reducedDamage = (float) (originalDamage * KQConfigValues.DEEPSLATE_FALL_DAMAGE_MULTIPLIER);
                         event.setAmount(reducedDamage);
                     }
 
                 if (KQConfigValues.EVOKERSET)
                     if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.EVOKERSET)) {
                         Random random = new Random();
-                        if (event.getSource().getEntity() != null && event.getSource().getEntity() instanceof LivingEntity entity && random.nextFloat() < 0.15)
+                        if (event.getSource().getEntity() != null && event.getSource().getEntity() instanceof LivingEntity entity && random.nextFloat() < (float) KQConfigValues.EVOKER_DARKNESS_CHANCE)
                             entity.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 120, 0, false, false, true));
                     }
 
                 if (KQConfigValues.SQUIRESET)
                     if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.SQUIRESET)) {
-                        event.setAmount(event.getAmount() * 0.85F);
+                        event.setAmount((float) (event.getAmount() * KQConfigValues.SQUIRE_DAMAGE_RECEIVED_MULTIPLIER));
                     }
 
                 if (KQConfigValues.BLAZESET)
                     if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.BLAZESET)) {
                         Random random = new Random();
-                        if (event.getSource().getEntity() != null && random.nextFloat() < 0.4)
-                            event.getSource().getEntity().setSecondsOnFire(random.nextInt(2, 8));
+                        if (event.getSource().getEntity() != null && random.nextFloat() < (float) KQConfigValues.BLAZE_FIRE_CHANCE)
+                            event.getSource().getEntity().setSecondsOnFire(random.nextInt(KQConfigValues.BLAZE_FIRE_DURATION_MIN, KQConfigValues.BLAZE_FIRE_DURATION_MAX));
                     }
 
                 if (KQConfigValues.BAMBOOSET_GREEN)
@@ -491,7 +491,7 @@ public class KQArmorItem extends ArmorItem {
                 if (KQConfigValues.CREEPERSET)
                     if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.CREEPERSET)) {
                         if (event.getSource().getEntity() != null && event.getSource().isExplosion())
-                            event.setAmount(event.getAmount() * 0.1F);
+                            event.setAmount((float) (event.getAmount() * KQConfigValues.CREEPER_EXPLOSION_DAMAGE_MULTIPLIER));
                     }
 
             }
@@ -530,8 +530,11 @@ public class KQArmorItem extends ArmorItem {
             if (event.getEntity() instanceof Player player)
                 if (KQConfigValues.APPLE_SET)
                     if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.APPLE_SET))
-                        if (event.getItem().getItem().equals(Items.APPLE))
-                            player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 200, 0, false, true, true));
+                        if (event.getItem().getItem().equals(Items.GOLDEN_APPLE)) {
+                            player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 200, 1, false, true, true));
+                            player.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, 4800, 1, false, true, true));
+                            player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 2400, 0, false, true, true));
+                        }
         }
 
         @SubscribeEvent
@@ -626,7 +629,7 @@ public class KQArmorItem extends ArmorItem {
                         player.setTicksFrozen(0);
 
                 if (KQConfigValues.SILVERFISHSET)
-                    if (hasFullSetOn(player, KQArmorMaterials.SILVERFISHSET) && player.getY() < 50) {
+                    if (hasFullSetOn(player, KQArmorMaterials.SILVERFISHSET) && player.getY() < KQConfigValues.SILVERFISH_EFFECT_MAX_HEIGHT) {
                         if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(player.getUUID(), k -> new HashMap<>()).getOrDefault(KQArmorMaterials.SILVERFISHSET, false))) {
                             player.addEffect(SILVERFISH_ARMOR);
                             effectAppliedByArmorMap.get(player.getUUID()).put(KQArmorMaterials.SILVERFISHSET, true);

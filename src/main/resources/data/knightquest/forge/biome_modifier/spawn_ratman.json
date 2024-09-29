@@ -8,7 +8,7 @@
   ],
   "spawners": {
     "type": "knightquest:ratman",
-    "weight": 50,
+    "weight": 25,
     "minCount": 1,
     "maxCount": 2
   }

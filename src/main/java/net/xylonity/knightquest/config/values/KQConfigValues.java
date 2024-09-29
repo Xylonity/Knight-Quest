@@ -116,4 +116,5 @@ public class KQConfigValues {
     public static boolean ZOMBIESET = V ? KnightQuestCommonConfigs.ENABLE_ZOMBIESET.get() : true;
     public static boolean SILVERFISHSET = V ? KnightQuestCommonConfigs.ENABLE_SILVERFISHSET.get() : true;
     public static boolean SKELETONSET = V ? KnightQuestCommonConfigs.ENABLE_SKELETONSET.get() : true;
+
 }

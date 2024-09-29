@@ -65,6 +65,9 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
     maven {
+        url "https://cursemaven.com"
+    }
+    maven {
         name = 'GeckoLib'
         url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
     }
@@ -75,6 +78,8 @@ dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
     implementation fg.deobf('software.bernie.geckolib:geckolib-forge-1.19:3.1.40')
+
+    implementation fg.deobf("curse.maven:knight-lib-1105855:5767706")
 
 }
 

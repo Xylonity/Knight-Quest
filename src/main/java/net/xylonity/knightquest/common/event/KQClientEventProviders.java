@@ -30,7 +30,6 @@ public class KQClientEventProviders {
 
     @SubscribeEvent
     public static void registerParticleFactories(final RegisterParticleProvidersEvent event) {
-        event.register(KnightQuestParticles.STARSET_PARTICLE.get(), StarsetParticle.Provider::new);
         event.register(KnightQuestParticles.GREMLIN_PARTICLE.get(), GremlinParticle.Provider::new);
         event.register(KnightQuestParticles.YELLOW_PARTICLE.get(), YellowParticle.Provider::new);
         event.register(KnightQuestParticles.GHOSTY_PARTICLE.get(), GhostyParticle.Provider::new);

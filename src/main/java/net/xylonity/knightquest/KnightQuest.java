@@ -27,7 +27,6 @@ public class KnightQuest
     {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        KnightQuestBlocks.BLOCKS.register(modEventBus);
         KnightQuestItems.ITEMS.register(modEventBus);
         KnightQuestEntities.ENTITY.register(modEventBus);
         KQLootModifiers.LOOT_MODIFIER_SERIALIZERS.register(modEventBus);

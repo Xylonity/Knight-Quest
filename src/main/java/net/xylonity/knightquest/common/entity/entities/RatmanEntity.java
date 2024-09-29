@@ -133,13 +133,9 @@ public class RatmanEntity extends Skeleton implements IAnimatable {
 
     private <E extends IAnimatable> PlayState attackPredicate(AnimationEvent<E> event) {
 
-        if (this.isUsingItem() && this.getMainHandItem().getItem() instanceof ProjectileWeaponItem) {
-            event.getController().markNeedsReload();
-            event.getController().setAnimation((new AnimationBuilder()).addAnimation("bow_attack", ILoopType.EDefaultLoopTypes.PLAY_ONCE));
-        } else if (this.swinging && event.getController().getAnimationState().equals(AnimationState.Stopped)) {
+        if (this.isUsingItem()) {
             event.getController().markNeedsReload();
             event.getController().setAnimation((new AnimationBuilder()).addAnimation("attack", ILoopType.EDefaultLoopTypes.PLAY_ONCE));
-            this.swinging = false;
         }
 
         return PlayState.CONTINUE;
@@ -151,10 +147,6 @@ public class RatmanEntity extends Skeleton implements IAnimatable {
             event.getController().setAnimation(new AnimationBuilder().addAnimation("walk", ILoopType.EDefaultLoopTypes.LOOP));
         } else {
             event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", ILoopType.EDefaultLoopTypes.LOOP));
-        }
-
-        if (this.dead) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("death", ILoopType.EDefaultLoopTypes.LOOP));
         }
 
         return PlayState.CONTINUE;

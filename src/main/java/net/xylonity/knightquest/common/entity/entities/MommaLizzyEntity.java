@@ -74,10 +74,6 @@ public class MommaLizzyEntity extends Animal implements IAnimatable {
             event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", ILoopType.EDefaultLoopTypes.LOOP));
         }
 
-        if (this.dead) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("death", ILoopType.EDefaultLoopTypes.LOOP));
-        }
-
         return PlayState.CONTINUE;
     }
 

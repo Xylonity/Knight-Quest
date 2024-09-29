@@ -9,10 +9,13 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
@@ -27,8 +30,10 @@ import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ProjectileWeaponItem;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.core.AnimationState;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -49,6 +54,7 @@ public class RatmanEntity extends Skeleton implements IAnimatable {
     private int counter = 0;
     private int arrowRotation = 50;
     private static final EntityDataAccessor<Boolean> ATTACK1 = SynchedEntityData.defineId(RatmanEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> VARIATION = SynchedEntityData.defineId(RatmanEntity.class, EntityDataSerializers.INT);
 
     public RatmanEntity(EntityType<? extends Skeleton> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -63,26 +69,35 @@ public class RatmanEntity extends Skeleton implements IAnimatable {
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(ATTACK1, false);
+        this.entityData.define(VARIATION, 1);
     }
 
     @Override
     public void addAdditionalSaveData(CompoundTag pCompound) {
         super.addAdditionalSaveData(pCompound);
         pCompound.putBoolean("attack1", this.getAttack1());
+        pCompound.putInt("Variant", this.getVariation());
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         this.setAttack1(compound.getBoolean("attack1"));
+        this.entityData.set(VARIATION, compound.getInt("Variant"));
     }
 
     public boolean getAttack1() {
         return this.entityData.get(ATTACK1);
     }
+    public int getVariation() {
+        return this.entityData.get(VARIATION);
+    }
 
     public void setAttack1(boolean attack1) {
         this.entityData.set(ATTACK1, attack1);
+    }
+    public void setVariation(int variation) {
+        this.entityData.set(VARIATION, variation);
     }
 
     public static AttributeSupplier setAttributes() {
@@ -151,7 +166,7 @@ public class RatmanEntity extends Skeleton implements IAnimatable {
     }
 
     @Override
-    protected SoundEvent getSwimSound() {
+    protected @NotNull SoundEvent getSwimSound() {
         return SoundEvents.AXOLOTL_SWIM;
     }
 
@@ -161,7 +176,7 @@ public class RatmanEntity extends Skeleton implements IAnimatable {
     }
 
     @Override
-    protected SoundEvent getHurtSound(DamageSource pDamageSource) {
+    protected SoundEvent getHurtSound(@NotNull DamageSource pDamageSource) {
         return SoundEvents.FOX_HURT;
     }
 
@@ -171,7 +186,7 @@ public class RatmanEntity extends Skeleton implements IAnimatable {
     }
 
     @Override
-    protected void playStepSound(BlockPos pPos, BlockState pState) {
+    protected void playStepSound(@NotNull BlockPos pPos, @NotNull BlockState pState) {
         this.playSound(SoundEvents.WOLF_STEP, 0.15F, 1.0F);
     }
 
@@ -245,6 +260,10 @@ public class RatmanEntity extends Skeleton implements IAnimatable {
 
     }
 
-
-
+    @Nullable
+    @Override
+    public SpawnGroupData finalizeSpawn(@NotNull ServerLevelAccessor pLevel, @NotNull DifficultyInstance pDifficulty, @NotNull MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
+        setVariation(getRandom().nextIntBetweenInclusive(1, 4));
+        return super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
+    }
 }

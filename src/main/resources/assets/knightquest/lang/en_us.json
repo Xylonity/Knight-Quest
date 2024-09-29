@@ -1,6 +1,8 @@
 {
   "itemGroup.knightquest": "Knight Quest",
 
+  "achievement.knightquest.description": "The start of the journey",
+
   "item.knightquest.great_essence": "Great essence",
   "item.knightquest.small_essence": "Small essence",
   "item.knightquest.radiant_essence": "Radiant essence",

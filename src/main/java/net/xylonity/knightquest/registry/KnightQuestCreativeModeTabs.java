@@ -24,9 +24,9 @@ public class KnightQuestCreativeModeTabs extends CreativeModeTab {
 
     @Override
     public void fillItemList(NonNullList<ItemStack> pItems) {
-        pItems.add(new ItemStack(KnightLibItems.GREAT_ESSENCE.get()));
-        pItems.add(new ItemStack(KnightLibItems.SMALL_ESSENCE.get()));
         pItems.add(new ItemStack(KnightLibBlocks.GREAT_CHALICE.get()));
+        pItems.add(new ItemStack(KnightLibItems.SMALL_ESSENCE.get()));
+        pItems.add(new ItemStack(KnightLibItems.GREAT_ESSENCE.get()));
 
         super.fillItemList(pItems);
     }

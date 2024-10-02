@@ -200,7 +200,7 @@ public class KnightQuestItems {
                     , "textures/armor/forze_helmet.png", "geo/forze_helmet.geo.json"));
     public static final RegistryObject<Item> FORZE_CHESTPLATE = ITEMS.register("forze_chestplate",
             () -> new GeoItemArmorChest(KQArmorMaterials.FORZESET, EquipmentSlot.CHEST,new Item.Properties()
-                    , "textures/armor/forze_main.png", "geo/forze_main.geo.json"));
+                    , "textures/armor/forze_chestplate.png", "geo/forze_main.geo.json"));
     public static final RegistryObject<Item> FORZE_LEGGINGS = ITEMS.register("forze_leggings",
             () -> new KQArmorItem(KQArmorMaterials.FORZESET, EquipmentSlot.LEGS,new Item.Properties()));
     public static final RegistryObject<Item> FORZE_BOOTS = ITEMS.register("forze_boots",
@@ -231,7 +231,7 @@ public class KnightQuestItems {
                     , "textures/armor/veteran_helmet.png", "geo/veteran_helmet.geo.json"));
     public static final RegistryObject<Item> VETERAN_CHESTPLATE = ITEMS.register("veteran_chestplate",
             () -> new GeoItemArmorChest(KQArmorMaterials.VETERANSET, EquipmentSlot.CHEST,new Item.Properties()
-                    , "textures/armor/veteran_main.png", "geo/veteran_main.geo.json"));
+                    , "textures/armor/veteran_chestplate.png", "geo/veteran_main.geo.json"));
     public static final RegistryObject<Item> VETERAN_LEGGINGS = ITEMS.register("veteran_leggings",
             () -> new GeoItemArmorLeg(KQArmorMaterials.VETERANSET, EquipmentSlot.LEGS,new Item.Properties()
                     , "textures/armor/veteran_leggings.png", "geo/veteran_leggings.geo.json"));
@@ -283,7 +283,7 @@ public class KnightQuestItems {
                     , "textures/armor/silver_helmet.png", "geo/silver_helmet.geo.json"));
     public static final RegistryObject<Item> SILVER_CHESTPLATE = ITEMS.register("silver_chestplate",
             () -> new GeoItemArmorChest(KQArmorMaterials.SILVERSET, EquipmentSlot.CHEST,new Item.Properties()
-                    , "textures/armor/silver_main.png", "geo/silver_main.geo.json"));
+                    , "textures/armor/silver_chestplate.png", "geo/silver_main.geo.json"));
     public static final RegistryObject<Item> SILVER_LEGGINGS = ITEMS.register("silver_leggings",
             () -> new KQArmorItem(KQArmorMaterials.SILVERSET, EquipmentSlot.LEGS,new Item.Properties()));
     public static final RegistryObject<Item> SILVER_BOOTS = ITEMS.register("silver_boots",
@@ -314,7 +314,7 @@ public class KnightQuestItems {
                     , "textures/armor/spider_helmet.png", "geo/spider_helmet.geo.json"));
     public static final RegistryObject<Item> SPIDER_CHESTPLATE = ITEMS.register("spider_chestplate",
             () -> new GeoItemArmorChest(KQArmorMaterials.SPIDERSET, EquipmentSlot.CHEST,new Item.Properties()
-                    , "textures/armor/spider_main.png", "geo/spider_main.geo.json"));
+                    , "textures/armor/spider_chestplate.png", "geo/spider_main.geo.json"));
     public static final RegistryObject<Item> SPIDER_LEGGINGS = ITEMS.register("spider_leggings",
             () -> new KQArmorItem(KQArmorMaterials.SPIDERSET, EquipmentSlot.LEGS,new Item.Properties()));
     public static final RegistryObject<Item> SPIDER_BOOTS = ITEMS.register("spider_boots",

@@ -14,54 +14,12 @@ import net.xylonity.registry.KnightQuestItems;
 
 public class KQLootTableModifiers {
 
-    /**
-     * Declaration of certain mobs that will drop the small_essence item
-     */
-
-    private static final Identifier[] MOB_IDS;
-
-    static {
-        String[] vanilla = {
-                "creeper", "spider", "skeleton", "zombie", "cave_spider",
-                "blaze", "enderman", "ghast", "magma_cube", "phantom",
-                "slime", "stray", "vex", "drowned", "witch", "husk",
-                "zombie_villager", "wither_skeleton", "pillager",
-                "vindicator", "evoker", "hoglin", "piglin"
-        };
-
-        String[] knightquest = {
-                "gremlin", "eldknight", "samhain", "ratman", "swampman",
-                "eldbomb", "lizzy", "bad_patch"
-        };
-
-        MOB_IDS = new Identifier[vanilla.length + knightquest.length];
-
-        for (int i = 0; i < vanilla.length; i++) {
-            MOB_IDS[i] = Identifier.of("minecraft", "entities/" + vanilla[i]);
-        }
-
-        for (int i = 0; i < knightquest.length; i++) {
-            MOB_IDS[vanilla.length + i] = Identifier.of("knightquest", "entities/" + knightquest[i]);
-        }
-    }
-
     private static final Identifier RATMAN_ID = Identifier.of("knightquest", "entities/ratman");
     private static final Identifier LIZZY_ID = Identifier.of("knightquest", "entities/lizzy");
 
     public static void modifyLootTables() {
 
         LootTableEvents.MODIFY.register((resourceManager, lootManager, id, tableBuilder) -> {
-            for (Identifier mobId : MOB_IDS) {
-                if (mobId.equals(resourceManager.getValue())) {
-                    LootPool.Builder poolBuilder = LootPool.builder()
-                            .rolls(ConstantLootNumberProvider.create(1))
-                            .conditionally(RandomChanceLootCondition.builder(KQConfigValues.DROP_CHANCE_SMALL_ESSENCE))
-                            .with(ItemEntry.builder(KnightQuestItems.SMALL_ESSENCE))
-                            .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1.0f, 1.0f)).build());
-                    lootManager.pool(poolBuilder.build());
-                    break;
-                }
-            }
 
             if (RATMAN_ID.equals(resourceManager.getValue())) {
                 LootPool.Builder poolBuilder = LootPool.builder()

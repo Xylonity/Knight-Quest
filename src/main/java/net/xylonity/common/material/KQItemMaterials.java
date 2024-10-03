@@ -1,6 +1,7 @@
 package net.xylonity.common.material;
 
 import com.google.common.base.Suppliers;
+import dev.xylonity.knightlib.compat.registry.KnightLibItems;
 import net.minecraft.block.Block;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.recipe.Ingredient;
@@ -14,27 +15,27 @@ import java.util.function.Supplier;
 public enum KQItemMaterials implements ToolMaterial {
 
     PALADIN(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 4, 2131, 0.5f, 3.3f, 15,
-            () -> Ingredient.ofItems(KnightQuestItems.GREAT_ESSENCE)),
+            () -> Ingredient.ofItems(KnightLibItems.GREAT_ESSENCE.get())),
     NAIL(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 4, 1821, 0.5f, 2.2f, 15,
-            () -> Ingredient.ofItems(KnightQuestItems.GREAT_ESSENCE)),
+            () -> Ingredient.ofItems(KnightLibItems.GREAT_ESSENCE.get())),
     UCHIGATANA(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 4, 1080, 0.5f, 2.8f, 15,
-            () -> Ingredient.ofItems(KnightQuestItems.GREAT_ESSENCE)),
+            () -> Ingredient.ofItems(KnightLibItems.GREAT_ESSENCE.get())),
     KUKRI(BlockTags.INCORRECT_FOR_IRON_TOOL, 4, 200, 0.5f, 1f, 15,
-            () -> Ingredient.ofItems(KnightQuestItems.GREAT_ESSENCE)),
+            () -> Ingredient.ofItems(KnightLibItems.GREAT_ESSENCE.get())),
     KHOPESH(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 4, 1831, 0.5f, 3.1f, 15,
-            () -> Ingredient.ofItems(KnightQuestItems.GREAT_ESSENCE)),
+            () -> Ingredient.ofItems(KnightLibItems.GREAT_ESSENCE.get())),
     CLEAVER(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 4, 1831, 0.5f, 3f, 15,
-            () -> Ingredient.ofItems(KnightQuestItems.GREAT_ESSENCE)),
+            () -> Ingredient.ofItems(KnightLibItems.GREAT_ESSENCE.get())),
     CRIMSON_SWORD(BlockTags.INCORRECT_FOR_DIAMOND_TOOL, 4, 1450, 0.5f, 2.3f, 15,
-            () -> Ingredient.ofItems(KnightQuestItems.GREAT_ESSENCE)),
+            () -> Ingredient.ofItems(KnightLibItems.GREAT_ESSENCE.get())),
     WATER_SWORD(BlockTags.INCORRECT_FOR_DIAMOND_TOOL, 4, 850, 0.5f, 1.8f, 15,
-            () -> Ingredient.ofItems(KnightQuestItems.GREAT_ESSENCE)),
+            () -> Ingredient.ofItems(KnightLibItems.GREAT_ESSENCE.get())),
     STEEL_SWORD(BlockTags.INCORRECT_FOR_IRON_TOOL, 4, 300, 0.5f, 2.3f, 15,
-            () -> Ingredient.ofItems(KnightQuestItems.GREAT_ESSENCE)),
+            () -> Ingredient.ofItems(KnightLibItems.GREAT_ESSENCE.get())),
     WATER_AXE(BlockTags.INCORRECT_FOR_IRON_TOOL, 4, 850, 6.0f, 1.3f, 15,
-            () -> Ingredient.ofItems(KnightQuestItems.GREAT_ESSENCE)),
+            () -> Ingredient.ofItems(KnightLibItems.GREAT_ESSENCE.get())),
     STEEL_AXE(BlockTags.INCORRECT_FOR_IRON_TOOL, 4, 300, 6.5f, 1.5f, 15,
-            () -> Ingredient.ofItems(KnightQuestItems.GREAT_ESSENCE));
+            () -> Ingredient.ofItems(KnightLibItems.GREAT_ESSENCE.get()));
 
     private final TagKey<Block> inverseTag;
     private final int itemDurability;

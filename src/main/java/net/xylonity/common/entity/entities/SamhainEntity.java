@@ -1,5 +1,6 @@
 package net.xylonity.common.entity.entities;
 
+import dev.xylonity.knightlib.compat.registry.KnightLibItems;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.RangedAttackMob;
@@ -182,7 +183,7 @@ public class SamhainEntity extends TameableEntity implements GeoEntity, RangedAt
     public ActionResult interactMob(PlayerEntity player, Hand hand) {
         ItemStack itemstack = player.getStackInHand(hand);
         Item item = itemstack.getItem();
-        Item itemForTaming = KnightQuestItems.GREAT_ESSENCE;
+        Item itemForTaming = KnightLibItems.GREAT_ESSENCE.get();
 
         /*
          * Consumes a single Great Essence item and tames the Samhain.
@@ -219,15 +220,15 @@ public class SamhainEntity extends TameableEntity implements GeoEntity, RangedAt
          */
 
         if (isTamed() && !this.getWorld().isClient() && hand == Hand.MAIN_HAND && (getOwner() == player || player.getUuid().equals(ownerUUID))) {
-            if ((itemstack.getItem().equals(KnightQuestItems.GREAT_ESSENCE) || itemstack.getItem().equals(KnightQuestItems.SMALL_ESSENCE)) && this.getHealth() < this.getMaxHealth()) {
+            if ((itemstack.getItem().equals(KnightLibItems.GREAT_ESSENCE.get()) || itemstack.getItem().equals(KnightLibItems.SMALL_ESSENCE.get())) && this.getHealth() < this.getMaxHealth()) {
 
                 if (!player.getAbilities().creativeMode) {
                     itemstack.decrement(1);
                 }
 
-                if (itemstack.getItem().equals(KnightQuestItems.GREAT_ESSENCE)) {
+                if (itemstack.getItem().equals(KnightLibItems.GREAT_ESSENCE.get())) {
                     this.heal(16.0F);
-                } else if (itemstack.getItem().equals(KnightQuestItems.SMALL_ESSENCE)) {
+                } else if (itemstack.getItem().equals(KnightLibItems.SMALL_ESSENCE.get())) {
                     this.heal(4.0F);
                 }
 

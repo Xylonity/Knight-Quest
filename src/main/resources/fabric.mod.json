@@ -11,7 +11,7 @@
 		"homepage": "https://fabricmc.net/",
 		"sources": "https://github.com/FabricMC/fabric-example-mod"
 	},
-	"license": "MIT",
+	"license": "GNU GPL v3.0",
 	"icon": "assets/knightquest/icon.png",
 	"environment": "*",
 	"entrypoints": {
@@ -27,6 +27,7 @@
 	},
 	"depends": {
 		"fabricloader": ">=0.15.11",
+		"knightlib": ">=1.0.0",
 		"minecraft": "~1.21",
 		"java": ">=21",
 		"fabric-api": "*",

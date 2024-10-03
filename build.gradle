@@ -22,6 +22,9 @@ repositories {
 		name = "Fuzs Mod Resources"
 		url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/"
 	}
+	maven {
+		url "https://cursemaven.com"
+	}
 }
 
 dependencies {
@@ -34,7 +37,8 @@ dependencies {
 	modImplementation "software.bernie.geckolib:geckolib-fabric-${minecraft_version}:${geckolib_version}"
 
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-	
+
+	modImplementation "curse.maven:knight-lib-1105855:5777867"
 }
 
 processResources {

@@ -1,7 +1,9 @@
 package net.xylonity.common.entity.entities;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -26,7 +28,10 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.LocalDifficulty;
+import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
@@ -42,19 +47,27 @@ public class RatmanEntity extends SkeletonEntity implements GeoEntity {
     private int counter = 0;
     private int arrowRotation = 50;
     private static final TrackedData<Boolean> ATTACK1 = DataTracker.registerData(RatmanEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+    private static final TrackedData<Integer> VARIATION = DataTracker.registerData(RatmanEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
     @Override
     protected void initDataTracker(DataTracker.Builder builder) {
         super.initDataTracker(builder);
         builder.add(ATTACK1, false);
+        builder.add(VARIATION, 1);
     }
 
     public boolean getAttack1() {
         return this.dataTracker.get(ATTACK1);
     }
+    public int getVariation() {
+        return this.dataTracker.get(VARIATION);
+    }
 
     public void setAttack1(boolean invulnerable) {
         this.dataTracker.set(ATTACK1, invulnerable);
+    }
+    public void setVariation(int variation) {
+        this.dataTracker.set(VARIATION, variation);
     }
 
     @Override
@@ -234,5 +247,12 @@ public class RatmanEntity extends SkeletonEntity implements GeoEntity {
     @Override
     protected EntityNavigation createNavigation(World world) {
         return super.createNavigation(world);
+    }
+
+    @Nullable
+    @Override
+    public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData) {
+        setVariation(getRandom().nextBetween(1, 4));
+        return super.initialize(world, difficulty, spawnReason, entityData);
     }
 }

@@ -1,7 +1,5 @@
 package net.xylonity.registry;
 
-import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroupEntries;
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.item.*;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.registry.Registries;
@@ -9,7 +7,7 @@ import net.minecraft.registry.Registry;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.xylonity.KnightQuest;
-import net.xylonity.common.client.GeoItemArmor;
+import net.xylonity.client.armor.GeoItemArmor;
 import net.xylonity.common.item.KQArmorItem;
 import net.xylonity.common.item.KQItem;
 import net.xylonity.common.material.KQArmorMaterials;
@@ -19,23 +17,12 @@ import java.util.List;
 
 public class KnightQuestItems {
 
-    private static void addItemsToIngredientTabItemGroup(FabricItemGroupEntries entries) {
-        entries.add(GREAT_ESSENCE);
-    }
-
     private static Item registerItem(String name, Item item) {
         return Registry.register(Registries.ITEM, Identifier.of(KnightQuest.MOD_ID, name), item);
     }
 
-    public static void register() {
+    public static void register() {}
 
-        KnightQuest.LOGGER.debug("Registering items for " + KnightQuest.MOD_ID);
-
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(KnightQuestItems::addItemsToIngredientTabItemGroup);
-    }
-
-    public static final Item GREAT_ESSENCE = registerItem("great_essence", new KQItem(new Item.Settings(), "great_essence"));
-    public static final Item SMALL_ESSENCE = registerItem("small_essence", new KQItem(new Item.Settings(), "small_essence"));
     public static final Item RADIANT_ESSENCE = registerItem("radiant_essence", new KQItem(new Item.Settings(), "radiant_essence"));
     public static final Item EMPTY_GOBLET = registerItem("empty_goblet", new KQItem(new Item.Settings(), "empty_goblet"));
     public static final Item FILLED_GOBLET = registerItem("filled_goblet", new KQItem(new Item.Settings(), "filled_goblet"));

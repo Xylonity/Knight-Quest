@@ -5,25 +5,20 @@ import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.render.RenderLayer;
-import net.xylonity.common.entity.boss.NethermanEntity;
+import net.xylonity.client.entity.renderer.*;
 import net.xylonity.common.particle.*;
 import net.xylonity.common.particle.explosiveenhancement.*;
 import net.xylonity.common.particle.explosiveenhancement.blue.BlueBlastWaveParticle;
 import net.xylonity.common.particle.explosiveenhancement.blue.BlueFireballParticle;
 import net.xylonity.common.particle.explosiveenhancement.red.RedBlastWaveParticle;
 import net.xylonity.common.particle.explosiveenhancement.red.RedFireballParticle;
-import net.xylonity.registry.KnightQuestBlocks;
 import net.xylonity.registry.KnightQuestParticles;
 import net.xylonity.registry.KnightQuestEntities;
-import net.xylonity.common.entity.client.*;
 
 public class KnightQuestClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
 
-        BlockRenderLayerMap.INSTANCE.putBlock(KnightQuestBlocks.GREAT_CHALICE, RenderLayer.getCutout());
-
-        ParticleFactoryRegistry.getInstance().register(KnightQuestParticles.STARSET_PARTICLE, StarsetParticle.Factory::new);
         ParticleFactoryRegistry.getInstance().register(KnightQuestParticles.CHALICE_PARTICLE, ChaliceParticle.Factory::new);
         ParticleFactoryRegistry.getInstance().register(KnightQuestParticles.GHOSTY_PARTICLE, GhostyParticle.Factory::new);
         ParticleFactoryRegistry.getInstance().register(KnightQuestParticles.GREMLIN_PARTICLE, GremlinParticle.Factory::new);

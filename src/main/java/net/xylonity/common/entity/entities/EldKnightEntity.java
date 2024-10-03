@@ -1,5 +1,6 @@
 package net.xylonity.common.entity.entities;
 
+import dev.xylonity.knightlib.compat.registry.KnightLibParticles;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.*;
@@ -44,7 +45,7 @@ public class EldKnightEntity extends HostileEntity implements GeoEntity {
                 .add(EntityAttributes.GENERIC_MAX_HEALTH, 90.0D)
                 .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 12f)
                 .add(EntityAttributes.GENERIC_ATTACK_SPEED, 0.4f)
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.5f)
+                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.55f)
                 .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 0.4f);
     }
 
@@ -152,7 +153,7 @@ public class EldKnightEntity extends HostileEntity implements GeoEntity {
     }
 
     private void summonParticle() {
-        serverWorld.addParticle(KnightQuestParticles.STARSET_PARTICLE, this.getX(), getY() - 0.48, getZ(), 4d, 0d, 0d);
+        serverWorld.addParticle(KnightLibParticles.STARSET_PARTICLE, this.getX(), getY() - 0.48, getZ(), 4d, 0d, 0d);
     }
 
     @Override

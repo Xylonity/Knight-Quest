@@ -4,13 +4,8 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.data.client.BlockStateModelGenerator;
 import net.minecraft.data.client.ItemModelGenerator;
-import net.minecraft.data.client.Model;
 import net.minecraft.data.client.Models;
-import net.minecraft.util.Identifier;
-import net.xylonity.registry.KnightQuestBlocks;
 import net.xylonity.registry.KnightQuestItems;
-
-import java.util.Optional;
 
 public class KQModelProvider extends FabricModelProvider {
 
@@ -18,14 +13,11 @@ public class KQModelProvider extends FabricModelProvider {
 
     @Override
     public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
-        blockStateModelGenerator.registerSimpleCubeAll(KnightQuestBlocks.GREAT_CHALICE);
-
     }
 
     @Override
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
 
-        itemModelGenerator.register(KnightQuestItems.GREAT_ESSENCE, Models.GENERATED);
        /* itemModelGenerator.register(KnightQuestItems.SMALL_ESSENCE, Models.GENERATED);
         itemModelGenerator.register(KnightQuestItems.RATMAN_EYE, Models.GENERATED);
         itemModelGenerator.register(KnightQuestItems.LIZZY_SCALE, Models.GENERATED);

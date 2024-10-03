@@ -1,5 +1,6 @@
 package net.xylonity.common.entity.entities;
 
+import dev.xylonity.knightlib.compat.registry.KnightLibParticles;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.LookAtEntityGoal;
@@ -100,7 +101,7 @@ public class GhostyEntity extends HostileEntity implements GeoEntity {
             monster.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 1, 4, false, false, false));
             if (!(monster instanceof GhostyEntity))
                 for (int i = 0; i < 4 && age % 25 == 0; ++i) {
-                    serverWorld.addParticle(KnightQuestParticles.STARSET_PARTICLE, monster.getX(), monster.getY() - 0.48, monster.getZ(), 1.2d, 0d, 0d);
+                    serverWorld.addParticle(KnightLibParticles.STARSET_PARTICLE, monster.getX(), monster.getY() - 0.48, monster.getZ(), 1.2d, 0d, 0d);
                 }
         }
 

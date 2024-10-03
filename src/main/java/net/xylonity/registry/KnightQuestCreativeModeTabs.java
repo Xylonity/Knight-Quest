@@ -1,5 +1,7 @@
 package net.xylonity.registry;
 
+import dev.xylonity.knightlib.compat.registry.KnightLibBlocks;
+import dev.xylonity.knightlib.compat.registry.KnightLibItems;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -14,10 +16,10 @@ public class KnightQuestCreativeModeTabs {
             Identifier.of(KnightQuest.MOD_ID, "knightquest"),
             FabricItemGroup.builder().texture(Identifier.of(KnightQuest.MOD_ID, "textures/gui/container/creative_inventory/tab_knightquest.png")).displayName(Text.translatable("itemgroup.knightquest"))
                     .icon(() -> new ItemStack(KnightQuestItems.PALADIN_SWORD)).entries((displayContext, entries) -> {
-                        entries.add(KnightQuestBlocks.GREAT_CHALICE);
+                        entries.add(KnightLibBlocks.GREAT_CHALICE);
 
-                        entries.add(KnightQuestItems.SMALL_ESSENCE);
-                        entries.add(KnightQuestItems.GREAT_ESSENCE);
+                        entries.add(KnightLibItems.SMALL_ESSENCE.get());
+                        entries.add(KnightLibItems.GREAT_ESSENCE.get());
                         entries.add(KnightQuestItems.RADIANT_ESSENCE);
                         entries.add(KnightQuestItems.EMPTY_GOBLET);
                         entries.add(KnightQuestItems.FILLED_GOBLET);

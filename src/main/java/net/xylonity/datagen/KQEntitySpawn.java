@@ -14,10 +14,10 @@ import net.xylonity.common.entity.entities.LizzyEntity;
 public class KQEntitySpawn {
 
     public static void addEntitySpawns() {
-        BiomeModifications.addSpawn(BiomeSelectors.includeByKey(BiomeKeys.DRIPSTONE_CAVES), SpawnGroup.MONSTER, KnightQuestEntities.RATMAN, 50, 1, 2);
-        BiomeModifications.addSpawn(BiomeSelectors.includeByKey(BiomeKeys.LUSH_CAVES), SpawnGroup.MONSTER, KnightQuestEntities.RATMAN, 50, 1, 2);
-        BiomeModifications.addSpawn(BiomeSelectors.includeByKey(BiomeKeys.DESERT), SpawnGroup.MONSTER, KnightQuestEntities.RATMAN, 50, 1, 2);
-        BiomeModifications.addSpawn(BiomeSelectors.includeByKey(BiomeKeys.JUNGLE), SpawnGroup.MONSTER, KnightQuestEntities.RATMAN, 50, 1, 2);
+        BiomeModifications.addSpawn(BiomeSelectors.includeByKey(BiomeKeys.DRIPSTONE_CAVES), SpawnGroup.MONSTER, KnightQuestEntities.RATMAN, 35, 1, 2);
+        BiomeModifications.addSpawn(BiomeSelectors.includeByKey(BiomeKeys.LUSH_CAVES), SpawnGroup.MONSTER, KnightQuestEntities.RATMAN, 35, 1, 2);
+        BiomeModifications.addSpawn(BiomeSelectors.includeByKey(BiomeKeys.DESERT), SpawnGroup.MONSTER, KnightQuestEntities.RATMAN, 35, 1, 2);
+        BiomeModifications.addSpawn(BiomeSelectors.includeByKey(BiomeKeys.JUNGLE), SpawnGroup.MONSTER, KnightQuestEntities.RATMAN, 35, 1, 2);
 
         BiomeModifications.addSpawn(BiomeSelectors.includeByKey(BiomeKeys.SOUL_SAND_VALLEY), SpawnGroup.MONSTER, KnightQuestEntities.GREMLIN, 25, 1, 1);
         BiomeModifications.addSpawn(BiomeSelectors.includeByKey(BiomeKeys.NETHER_WASTES), SpawnGroup.MONSTER, KnightQuestEntities.GREMLIN, 25, 1, 1);
@@ -36,8 +36,8 @@ public class KQEntitySpawn {
         BiomeModifications.addSpawn(BiomeSelectors.includeByKey(BiomeKeys.SNOWY_SLOPES), SpawnGroup.MONSTER, KnightQuestEntities.ELDBOMB, 25, 1, 2);
         BiomeModifications.addSpawn(BiomeSelectors.includeByKey(BiomeKeys.SNOWY_TAIGA), SpawnGroup.MONSTER, KnightQuestEntities.ELDBOMB, 25, 1, 2);
 
-        BiomeModifications.addSpawn(BiomeSelectors.includeByKey(BiomeKeys.FOREST), SpawnGroup.MONSTER, KnightQuestEntities.ELDBOMB, 20, 1, 2);
-        BiomeModifications.addSpawn(BiomeSelectors.includeByKey(BiomeKeys.TAIGA), SpawnGroup.MONSTER, KnightQuestEntities.ELDBOMB, 20, 1, 2);
+        BiomeModifications.addSpawn(BiomeSelectors.includeByKey(BiomeKeys.FOREST), SpawnGroup.MONSTER, KnightQuestEntities.ELDKNIGHT, 25, 1, 2);
+        BiomeModifications.addSpawn(BiomeSelectors.includeByKey(BiomeKeys.TAIGA), SpawnGroup.MONSTER, KnightQuestEntities.ELDKNIGHT, 25, 1, 2);
         BiomeModifications.addSpawn(BiomeSelectors.includeByKey(BiomeKeys.SNOWY_BEACH), SpawnGroup.MONSTER, KnightQuestEntities.ELDKNIGHT, 20, 1, 1);
         BiomeModifications.addSpawn(BiomeSelectors.includeByKey(BiomeKeys.SNOWY_PLAINS), SpawnGroup.MONSTER, KnightQuestEntities.ELDKNIGHT, 20, 1, 1);
         BiomeModifications.addSpawn(BiomeSelectors.includeByKey(BiomeKeys.SNOWY_SLOPES), SpawnGroup.MONSTER, KnightQuestEntities.ELDKNIGHT, 20, 1, 1);

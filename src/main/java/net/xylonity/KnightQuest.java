@@ -28,7 +28,6 @@ public class KnightQuest implements ModInitializer {
 	public void onInitialize() {
 
 		KnightQuestItems.register();
-		KnightQuestBlocks.register();
 		KnightQuestCreativeModeTabs.register();
 
 		KnightQuestParticles.register();

@@ -61,6 +61,9 @@ repositories {
         name = 'GeckoLib'
         url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
     }
+    maven {
+        url "https://cursemaven.com"
+    }
 }
 
 dependencies {
@@ -69,6 +72,8 @@ dependencies {
     implementation "software.bernie.geckolib:geckolib-forge-${minecraft_version}:${geckolib_version}"
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+
+    implementation "curse.maven:knight-lib-1105855:5777866"
 
     implementation('net.sf.jopt-simple:jopt-simple:5.0.4') { version { strictly '5.0.4' } }
 }

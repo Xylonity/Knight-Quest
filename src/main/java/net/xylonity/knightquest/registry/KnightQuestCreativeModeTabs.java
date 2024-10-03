@@ -1,5 +1,7 @@
 package net.xylonity.knightquest.registry;
 
+import dev.xylonity.knightlib.compat.registry.KnightLibBlocks;
+import dev.xylonity.knightlib.compat.registry.KnightLibItems;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -21,10 +23,10 @@ public class KnightQuestCreativeModeTabs {
                             .title(Component.translatable("itemgroup.knightquest"))
                             .displayItems((itemDisplayParameters, output) -> {
 
-                                output.accept(KnightQuestBlocks.GREAT_CHALICE.get());
+                                output.accept(KnightLibBlocks.GREAT_CHALICE.get());
 
-                                output.accept(KnightQuestItems.SMALL_ESSENCE.get());
-                                output.accept(KnightQuestItems.GREAT_ESSENCE.get());
+                                output.accept(KnightLibItems.SMALL_ESSENCE.get());
+                                output.accept(KnightLibItems.GREAT_ESSENCE.get());
                                 output.accept(KnightQuestItems.RADIANT_ESSENCE.get());
                                 output.accept(KnightQuestItems.RADIANT_ESSENCE.get());
                                 output.accept(KnightQuestItems.EMPTY_GOBLET.get());

@@ -39,12 +39,13 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 import java.util.Random;
 
 public class RatmanEntity extends Skeleton implements GeoEntity {
-    private AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private final Level serverWorld;
     private boolean summoned = false;
     private int counter = 0;
     private int arrowRotation = 50;
     private static final EntityDataAccessor<Boolean> ATTACK1 = SynchedEntityData.defineId(RatmanEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> VARIATION = SynchedEntityData.defineId(RatmanEntity.class, EntityDataSerializers.INT);
 
     public RatmanEntity(EntityType<? extends Skeleton> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -59,26 +60,35 @@ public class RatmanEntity extends Skeleton implements GeoEntity {
     protected void defineSynchedData(SynchedEntityData.@NotNull Builder pBuilder) {
         super.defineSynchedData(pBuilder);
         pBuilder.define(ATTACK1, false);
+        pBuilder.define(VARIATION, 1);
     }
 
     @Override
     public void addAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.addAdditionalSaveData(pCompound);
         pCompound.putBoolean("attack1", this.getAttack1());
+        pCompound.putInt("Variant", this.getVariation());
     }
 
     @Override
     public void readAdditionalSaveData(@NotNull CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         this.setAttack1(compound.getBoolean("attack1"));
+        this.entityData.set(VARIATION, compound.getInt("Variant"));
     }
 
     public boolean getAttack1() {
         return this.entityData.get(ATTACK1);
     }
+    public int getVariation() {
+        return this.entityData.get(VARIATION);
+    }
 
     public void setAttack1(boolean attack1) {
         this.entityData.set(ATTACK1, attack1);
+    }
+    public void setVariation(int variation) {
+        this.entityData.set(VARIATION, variation);
     }
 
     public static AttributeSupplier setAttributes() {
@@ -103,8 +113,8 @@ public class RatmanEntity extends Skeleton implements GeoEntity {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-        controllerRegistrar.add(new AnimationController(this, "controller", 0, this::predicate));
-        controllerRegistrar.add(new AnimationController(this, "attackcontroller", 0, this::attackPredicate));
+        controllerRegistrar.add(new AnimationController<>(this, "controller", 0, this::predicate));
+        controllerRegistrar.add(new AnimationController<>(this, "attackcontroller", 0, this::attackPredicate));
     }
 
     @Override
@@ -202,7 +212,13 @@ public class RatmanEntity extends Skeleton implements GeoEntity {
         double velZ = Math.sin(Math.toRadians(angle));
         arrow.setDeltaMovement(velX, 0.3, velZ);
 
-        arrow.addEffect(new MobEffectInstance(MobEffects.POISON, 100, 1));
+        switch (getVariation()) {
+            case 1 -> arrow.addEffect(new MobEffectInstance(MobEffects.POISON, 100, 0));
+            case 2 -> arrow.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 100, 0));
+            case 3 -> arrow.addEffect(new MobEffectInstance(MobEffects.WITHER, 100, 0));
+            default -> arrow.igniteForSeconds(10);
+        }
+
         serverWorld.playSound(null, this.blockPosition(), SoundEvents.DISPENSER_LAUNCH, SoundSource.HOSTILE, 0.75F, 1.0F);
 
         serverWorld.addFreshEntity(arrow);

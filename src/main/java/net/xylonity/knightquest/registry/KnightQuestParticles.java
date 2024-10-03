@@ -11,7 +11,6 @@ public class KnightQuestParticles {
 
     public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, KnightQuest.MOD_ID);
 
-    public static final RegistryObject<SimpleParticleType> STARSET_PARTICLE = register("starset");
     public static final RegistryObject<SimpleParticleType> GREMLIN_PARTICLE = register("gremlin");
     public static final RegistryObject<SimpleParticleType> YELLOW_PARTICLE = register("yellow");
     public static final RegistryObject<SimpleParticleType> GHOSTY_PARTICLE = register("ghosty");

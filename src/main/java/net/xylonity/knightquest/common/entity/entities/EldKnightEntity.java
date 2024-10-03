@@ -1,5 +1,6 @@
 package net.xylonity.knightquest.common.entity.entities;
 
+import dev.xylonity.knightlib.compat.registry.KnightLibParticles;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvent;
@@ -47,7 +48,7 @@ public class EldKnightEntity extends Monster implements GeoEntity {
                 .add(Attributes.MAX_HEALTH, 90.0D)
                 .add(Attributes.ATTACK_DAMAGE, 12f)
                 .add(Attributes.ATTACK_SPEED, 0.4f)
-                .add(Attributes.MOVEMENT_SPEED, 0.5f)
+                .add(Attributes.MOVEMENT_SPEED, 0.55f)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 0.4f).build();
     }
 
@@ -227,7 +228,7 @@ public class EldKnightEntity extends Monster implements GeoEntity {
     }
 
     private void summonParticle() {
-        serverWorld.addParticle(KnightQuestParticles.STARSET_PARTICLE.get(), this.getX(), getY() - 0.48, getZ(), 4d, 0d, 0d);
+        serverWorld.addParticle(KnightLibParticles.STARSET_PARTICLE.get(), this.getX(), getY() - 0.48, getZ(), 4d, 0d, 0d);
     }
 
 }

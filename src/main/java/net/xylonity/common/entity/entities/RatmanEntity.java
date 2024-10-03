@@ -105,7 +105,13 @@ public class RatmanEntity extends SkeletonEntity implements GeoEntity {
         double velZ = Math.sin(Math.toRadians(angle));
         arrow.setVelocity(velX, 0.3, velZ);
 
-        arrow.addEffect(new StatusEffectInstance(StatusEffects.POISON, 100, 1));
+        switch (getVariation()) {
+            case 1 -> arrow.addEffect(new StatusEffectInstance(StatusEffects.POISON, 100, 0));
+            case 2 -> arrow.addEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 100, 0));
+            case 3 -> arrow.addEffect(new StatusEffectInstance(StatusEffects.WITHER, 100, 0));
+            default -> arrow.setFireTicks(200);
+        }
+
         serverWorld.playSound(null, this.getBlockPos(), SoundEvents.BLOCK_DISPENSER_LAUNCH, SoundCategory.HOSTILE, 0.75F, 1.0F);
 
         serverWorld.spawnEntity(arrow);

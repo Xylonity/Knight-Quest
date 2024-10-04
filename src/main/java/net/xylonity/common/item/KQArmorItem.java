@@ -1,8 +1,13 @@
 package net.xylonity.common.item;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -35,13 +40,6 @@ import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class KQArmorItem extends ArmorItem {
-
-    /**
-     * Manages individual jump states for each player on the server, ensuring that there will
-     * not be infinite jumps when there are more than two players present.
-     */
-
-    private static final Map<UUID, Boolean> doubleJumpStates = new HashMap<>();
 
     /**
      * Dual Hashmap that inherits old declared effects when a new set is equipped, preventing
@@ -446,7 +444,7 @@ public class KQArmorItem extends ArmorItem {
                         Class<? extends Entity> classToPush = KQConfigValues.BAMBOOSET_PUSH_PLAYERS ? Entity.class : HostileEntity.class;
 
                         player.getWorld().getNonSpectatingEntities(classToPush, player.getBoundingBox().expand(3.5)).forEach(entity1 -> {
-                            Vec3d direction = entity1.getPos().subtract(player.getPos()).normalize().multiply(amount * 0.5);
+                            Vec3d direction = entity1.getPos().subtract(player.getPos()).normalize().multiply(0 * 0.5);
                             entity1.addVelocity(direction.x, direction.y + 0.5, direction.z);
                         });
 
@@ -604,64 +602,66 @@ public class KQArmorItem extends ArmorItem {
 
     }
 
+    @Environment(EnvType.CLIENT)
+    public static class ClientEventHandlers {
+
+        public static void registerClientEvents() {
+            ClientTickEvents.END_CLIENT_TICK.register(ClientEventHandlers::onClientTick);
+        }
+
+        /**
+         * Manages individual jump states for each player on the server, ensuring that there will
+         * not be infinite jumps when there are more than two players present.
+         */
+
+        private static final Map<UUID, Boolean> doubleJumpStates = new HashMap<>();
+
+        private static void onClientTick(MinecraftClient client) {
+            ClientPlayerEntity player = client.player;
+            if (player == null) return;
+
+            if (KQConfigValues.TENGU_HELMET && player.getInventory().getArmorStack(3).getItem().equals(KnightQuestItems.TENGU_HELMET)) {
+                boolean canDoubleJump = doubleJumpStates.getOrDefault(player.getUuid(), true);
+
+                if (!player.isOnGround() && player.getVelocity().y < 0 && canDoubleJump) {
+                    if (client.options.jumpKey.isPressed()) {
+                        handleClientSideDoubleJump(player);
+                    }
+                }
+
+                if (player.isOnGround()) {
+                    doubleJumpStates.put(player.getUuid(), true);
+                }
+            }
+        }
+
+        private static void handleClientSideDoubleJump(ClientPlayerEntity player) {
+            UUID playerUUID = player.getUuid();
+            boolean canDoubleJump = doubleJumpStates.getOrDefault(playerUUID, true);
+
+            if (canDoubleJump) {
+                doubleJumpStates.put(playerUUID, false);
+
+                for (int i = 0; i < 360; i += 60) {
+                    double angleRadians = Math.toRadians(i);
+
+                    double particleX = player.getX() + 0.4 * Math.cos(angleRadians);
+                    double particleZ = player.getZ() + 0.4 * Math.sin(angleRadians);
+
+                    player.getWorld().addParticle(ParticleTypes.CLOUD, particleX, player.getY(), particleZ, 0d, 0.35d, 0d);
+                }
+
+                player.jump();
+            }
+        }
+    }
+
     public static class OnEntityTickEvent implements ServerTickEvents.EndTick {
-
-        // This method generates a crash on dedicated servers. Temporary disabled.
-
-        //private static void handleClientSideDoubleJump(PlayerEntity player) {
-        //    if (MinecraftClient.getInstance().options.jumpKey.isPressed()) {
-        //        boolean canDoubleJump = doubleJumpStates.getOrDefault(player.getUuid(), true);
-        //        if (canDoubleJump) {
-        //            doubleJumpStates.put(player.getUuid(), false);
-        //
-        //            for (int i = 0; i < 360; i += 60) {
-        //                double angleRadians = Math.toRadians(i);
-        //
-        //                double particleX = player.getX() + 0.4 * Math.cos(angleRadians);
-        //                double particleZ = player.getZ() + 0.4 * Math.sin(angleRadians);
-        //
-        //                ((ServerPlayerEntity) player).networkHandler.sendPacket(new ParticleS2CPacket(
-        //                        ParticleTypes.CLOUD,
-        //                        true,
-        //                        particleX,
-        //                        player.getY(),
-        //                        particleZ,
-        //                        0.0f,
-        //                        0.35f,
-        //                        0.0f,
-        //                        0.0f,
-        //                        1
-        //                ));
-        //
-        //            }
-        //
-        //            player.jump();
-        //            player.velocityModified = true;
-        //        }
-        //    }
-        //}
 
         @Override
         public void onEndTick(MinecraftServer server) {
 
             for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
-
-                if (KQConfigValues.TENGU_HELMET)
-                    if (player.getInventory().getArmorStack(3).getItem().equals(KnightQuestItems.TENGU_HELMET)) {
-                        boolean canDoubleJump = doubleJumpStates.getOrDefault(player.getUuid(), true);
-
-                        if (!player.isOnGround() && player.getVelocity().y < 0 && canDoubleJump) {
-
-                            //handleClientSideDoubleJump(player);
-
-                            player.jump();
-                            player.velocityModified = true;
-                            doubleJumpStates.put(player.getUuid(), false);
-                        }
-
-                        if (player.isOnGround())
-                            doubleJumpStates.put(player.getUuid(), true);
-                    }
 
                 if (KQConfigValues.HUSKSET)
                     if (hasFullSetOn(player, KQArmorMaterials.HUSKSET) && (player.getWorld().getBiome(player.getBlockPos()).matchesKey(BiomeKeys.DESERT)

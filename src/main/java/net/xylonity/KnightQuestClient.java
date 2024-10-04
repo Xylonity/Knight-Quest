@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.render.RenderLayer;
 import net.xylonity.client.entity.renderer.*;
+import net.xylonity.common.item.KQArmorItem;
 import net.xylonity.common.particle.*;
 import net.xylonity.common.particle.explosiveenhancement.*;
 import net.xylonity.common.particle.explosiveenhancement.blue.BlueBlastWaveParticle;
@@ -57,6 +58,8 @@ public class KnightQuestClient implements ClientModInitializer {
         EntityRendererRegistry.register(KnightQuestEntities.NETHERMAN_CLONE, NethermanCloneRenderer::new);
         EntityRendererRegistry.register(KnightQuestEntities.NETHERMAN_TELEPORT_CHARGE, NethermanTeleportChargeRenderer::new);
         EntityRendererRegistry.register(KnightQuestEntities.SWAMPMAN_AXE, SwampmanAxeRenderer::new);
+
+        KQArmorItem.ClientEventHandlers.registerClientEvents();
     }
 }
 

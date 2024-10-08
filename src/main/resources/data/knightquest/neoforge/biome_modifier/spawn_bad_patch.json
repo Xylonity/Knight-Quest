@@ -6,7 +6,7 @@
   ],
   "spawners": {
     "type": "knightquest:bad_patch",
-    "weight": 10,
+    "weight": 5,
     "minCount": 1,
     "maxCount": 2
   }

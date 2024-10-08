@@ -52,10 +52,6 @@ public class KQAddItemModifier extends LootModifier {
             }
         }
 
-        if (item == KnightQuestItems.SMALL_ESSENCE.get() && new Random().nextFloat() <= KQConfigValues.DROP_CHANCE_SMALL_ESSENCE) {
-            generatedLoot.add(new ItemStack(this.item));
-        }
-
         if (item == KnightQuestItems.RATMAN_EYE.get() && new Random().nextFloat() <= KQConfigValues.DROP_CHANCE_RATMAN_EYE) {
             generatedLoot.add(new ItemStack(this.item));
         }

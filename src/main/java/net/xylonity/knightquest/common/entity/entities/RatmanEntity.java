@@ -9,10 +9,13 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
@@ -28,8 +31,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ProjectileWeaponItem;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
@@ -39,12 +44,13 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 import java.util.Random;
 
 public class RatmanEntity extends Skeleton implements GeoEntity {
-    private AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private final Level serverWorld;
     private boolean summoned = false;
     private int counter = 0;
     private int arrowRotation = 50;
     private static final EntityDataAccessor<Boolean> ATTACK1 = SynchedEntityData.defineId(RatmanEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> VARIATION = SynchedEntityData.defineId(RatmanEntity.class, EntityDataSerializers.INT);
 
     public RatmanEntity(EntityType<? extends Skeleton> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -59,26 +65,35 @@ public class RatmanEntity extends Skeleton implements GeoEntity {
     protected void defineSynchedData(SynchedEntityData.@NotNull Builder pBuilder) {
         super.defineSynchedData(pBuilder);
         pBuilder.define(ATTACK1, false);
+        pBuilder.define(VARIATION, 1);
     }
 
     @Override
     public void addAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.addAdditionalSaveData(pCompound);
         pCompound.putBoolean("attack1", this.getAttack1());
+        pCompound.putInt("Variant", this.getVariation());
     }
 
     @Override
     public void readAdditionalSaveData(@NotNull CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         this.setAttack1(compound.getBoolean("attack1"));
+        this.entityData.set(VARIATION, compound.getInt("Variant"));
     }
 
     public boolean getAttack1() {
         return this.entityData.get(ATTACK1);
     }
+    public int getVariation() {
+        return this.entityData.get(VARIATION);
+    }
 
     public void setAttack1(boolean attack1) {
         this.entityData.set(ATTACK1, attack1);
+    }
+    public void setVariation(int variation) {
+        this.entityData.set(VARIATION, variation);
     }
 
     public static AttributeSupplier setAttributes() {
@@ -103,8 +118,8 @@ public class RatmanEntity extends Skeleton implements GeoEntity {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-        controllerRegistrar.add(new AnimationController(this, "controller", 0, this::predicate));
-        controllerRegistrar.add(new AnimationController(this, "attackcontroller", 0, this::attackPredicate));
+        controllerRegistrar.add(new AnimationController<>(this, "controller", 0, this::predicate));
+        controllerRegistrar.add(new AnimationController<>(this, "attackcontroller", 0, this::attackPredicate));
     }
 
     @Override
@@ -139,7 +154,7 @@ public class RatmanEntity extends Skeleton implements GeoEntity {
     }
 
     @Override
-    protected SoundEvent getSwimSound() {
+    protected @NotNull SoundEvent getSwimSound() {
         return SoundEvents.AXOLOTL_SWIM;
     }
 
@@ -202,7 +217,13 @@ public class RatmanEntity extends Skeleton implements GeoEntity {
         double velZ = Math.sin(Math.toRadians(angle));
         arrow.setDeltaMovement(velX, 0.3, velZ);
 
-        arrow.addEffect(new MobEffectInstance(MobEffects.POISON, 100, 1));
+        switch (getVariation()) {
+            case 1 -> arrow.addEffect(new MobEffectInstance(MobEffects.POISON, 100, 0));
+            case 2 -> arrow.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 100, 0));
+            case 3 -> arrow.addEffect(new MobEffectInstance(MobEffects.WITHER, 100, 0));
+            default -> arrow.igniteForSeconds(10);
+        }
+
         serverWorld.playSound(null, this.blockPosition(), SoundEvents.DISPENSER_LAUNCH, SoundSource.HOSTILE, 0.75F, 1.0F);
 
         serverWorld.addFreshEntity(arrow);
@@ -233,6 +254,10 @@ public class RatmanEntity extends Skeleton implements GeoEntity {
 
     }
 
-
-
+    @Nullable
+    @Override
+    public SpawnGroupData finalizeSpawn(@NotNull ServerLevelAccessor pLevel, @NotNull DifficultyInstance pDifficulty, @NotNull MobSpawnType pSpawnType, @Nullable SpawnGroupData pSpawnGroupData) {
+        setVariation(getRandom().nextIntBetweenInclusive(1, 4));
+        return super.finalizeSpawn(pLevel, pDifficulty, pSpawnType, pSpawnGroupData);
+    }
 }

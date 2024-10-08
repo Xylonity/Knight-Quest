@@ -4,12 +4,11 @@
     "minecraft:forest",
     "minecraft:taiga",
     "minecraft:desert",
-    "minecraft:lush_caves",
-    "minecraft:flower_forest"
+    "minecraft:lush_caves"
   ],
   "spawners": {
     "type": "knightquest:lizzy",
-    "weight": 2,
+    "weight": 8,
     "minCount": 1,
     "maxCount": 1
   }

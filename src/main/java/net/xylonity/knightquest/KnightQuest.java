@@ -11,7 +11,6 @@ import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.xylonity.knightquest.common.event.KQClientEventProviders;
 import net.xylonity.knightquest.common.event.KQEventRegisters;
 import net.xylonity.knightquest.common.event.KQExtraEvents;
-import net.xylonity.knightquest.registry.KnightQuestBlocks;
 import net.xylonity.knightquest.registry.KnightQuestCreativeModeTabs;
 import net.xylonity.knightquest.registry.KnightQuestItems;
 import net.xylonity.knightquest.registry.KnightQuestEntities;
@@ -31,7 +30,6 @@ public class KnightQuest
 
         KnightQuestItems.ITEMS.register(modEventBus);
         KnightQuestCreativeModeTabs.CREATIVE_MODE_TABS.register(modEventBus);
-        KnightQuestBlocks.BLOCKS.register(modEventBus);
         KnightQuestEntities.ENTITY.register(modEventBus);
         KQLootModifiers.LOOT_MODIFIER_SERIALIZERS.register(modEventBus);
         KnightQuestParticles.PARTICLES.register(modEventBus);

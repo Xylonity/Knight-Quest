@@ -7,7 +7,7 @@ import net.neoforged.neoforge.common.DeferredSpawnEggItem;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.xylonity.knightquest.KnightQuest;
-import net.xylonity.knightquest.common.client.GeoItemArmor;
+import net.xylonity.knightquest.client.armor.GeoItemArmor;
 import net.xylonity.knightquest.common.item.KQArmorItem;
 import net.xylonity.knightquest.common.item.KQItem;
 import net.xylonity.knightquest.common.material.KQArmorMaterials;
@@ -20,9 +20,6 @@ public class KnightQuestItems {
 
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(BuiltInRegistries.ITEM, KnightQuest.MOD_ID);
 
-    public static final DeferredHolder<Item, BlockItem> GREAT_CHALICE = ITEMS.register("great_chalice", () -> new BlockItem(KnightQuestBlocks.GREAT_CHALICE.get(), new Item.Properties()));
-    public static final DeferredHolder<Item, Item> GREAT_ESSENCE = ITEMS.register("great_essence", () -> new KQItem(new Item.Properties(), "great_essence"));
-    public static final DeferredHolder<Item, Item> SMALL_ESSENCE = ITEMS.register("small_essence", () -> new KQItem(new Item.Properties(), "small_essence"));
     public static final DeferredHolder<Item, Item> RADIANT_ESSENCE = ITEMS.register("radiant_essence", () -> new KQItem(new Item.Properties(), "radiant_essence"));
     public static final DeferredHolder<Item, Item> EMPTY_GOBLET = ITEMS.register("empty_goblet", () -> new KQItem(new Item.Properties(), "empty_goblet"));
     public static final DeferredHolder<Item, Item> FILLED_GOBLET = ITEMS.register("filled_goblet", () -> new KQItem(new Item.Properties(), "filled_goblet"));

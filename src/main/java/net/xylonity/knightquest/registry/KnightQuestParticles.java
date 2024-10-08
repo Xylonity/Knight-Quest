@@ -13,7 +13,6 @@ public class KnightQuestParticles {
     public static final DeferredRegister<ParticleType<?>> PARTICLES =
             DeferredRegister.create(BuiltInRegistries.PARTICLE_TYPE, KnightQuest.MOD_ID);
 
-    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> STARSET_PARTICLE = register("starset");
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> GREMLIN_PARTICLE = register("gremlin");
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> YELLOW_PARTICLE = register("yellow");
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> GHOSTY_PARTICLE = register("ghosty");

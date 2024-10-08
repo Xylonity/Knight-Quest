@@ -1,14 +1,14 @@
 {
   "type": "neoforge:add_spawns",
   "biomes": [
-    "minecraft:warm_ocean",
-    "minecraft:frozen_ocean",
-    "minecraft:deep_ocean",
-    "minecraft:lukewarm_ocean"
+    "minecraft:beach",
+    "minecraft:river",
+    "minecraft:jungle",
+    "minecraft:sparse_jungle"
   ],
   "spawners": {
     "type": "knightquest:swampman",
-    "weight": 5,
+    "weight": 15,
     "minCount": 1,
     "maxCount": 1
   }

@@ -7,12 +7,11 @@
     "minecraft:snowy_plains",
     "minecraft:snowy_slopes",
     "minecraft:snowy_taiga"
-
   ],
   "spawners": {
     "type": "knightquest:eldbomb",
     "weight": 25,
     "minCount": 1,
-    "maxCount": 2
+    "maxCount": 1
   }
 }

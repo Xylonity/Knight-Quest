@@ -1,5 +1,6 @@
 package net.xylonity.knightquest.common.entity.entities;
 
+import dev.xylonity.knightlib.compat.registry.KnightLibItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -27,7 +28,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.xylonity.knightquest.common.entity.entities.ai.MoveToPumpkinGoal;
 import net.xylonity.knightquest.common.entity.entities.ai.RangedAttackGoal;
-import net.xylonity.knightquest.registry.KnightQuestItems;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -121,7 +121,7 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity, RangedAtt
     @Override
     public @NotNull InteractionResult mobInteract(Player player, @NotNull InteractionHand hand) {
         ItemStack itemstack = player.getItemInHand(hand);
-        Item itemForTaming = KnightQuestItems.GREAT_ESSENCE.get();
+        Item itemForTaming = KnightLibItems.GREAT_ESSENCE.get();
         Item item = itemstack.getItem();
 
         /*
@@ -155,12 +155,12 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity, RangedAtt
          */
 
         if (isTame() && !this.level().isClientSide && hand == InteractionHand.MAIN_HAND && getOwner() == player) {
-            if ((itemstack.getItem().equals(KnightQuestItems.GREAT_ESSENCE.get()) || itemstack.getItem().equals(KnightQuestItems.SMALL_ESSENCE.get()))
+            if ((itemstack.getItem().equals(KnightLibItems.GREAT_ESSENCE.get()) || itemstack.getItem().equals(KnightLibItems.SMALL_ESSENCE.get()))
                     && this.getHealth() < this.getMaxHealth()) {
 
-                if (itemstack.getItem().equals(KnightQuestItems.GREAT_ESSENCE.get())) {
+                if (itemstack.getItem().equals(KnightLibItems.GREAT_ESSENCE.get())) {
                     this.heal(16.0F);
-                } else if (itemstack.getItem().equals(KnightQuestItems.SMALL_ESSENCE.get())) {
+                } else if (itemstack.getItem().equals(KnightLibItems.SMALL_ESSENCE.get())) {
                     this.heal(4.0F);
                 }
 

@@ -13,6 +13,11 @@
 			"bones": [
 				{
 					"name": "body",
+					"pivot": [0, 16, 0]
+				},
+				{
+					"name": "body2",
+					"parent": "body",
 					"pivot": [0, 16, 0],
 					"cubes": [
 						{"origin": [-6, 33, -5.5], "size": [12, 6, 10], "uv": [0, 0]},

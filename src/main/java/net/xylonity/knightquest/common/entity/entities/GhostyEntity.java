@@ -1,5 +1,6 @@
 package net.xylonity.knightquest.common.entity.entities;
 
+import dev.xylonity.knightlib.compat.registry.KnightLibParticles;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
@@ -20,21 +21,19 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.xylonity.knightquest.config.values.KQConfigValues;
 import net.xylonity.knightquest.registry.KnightQuestParticles;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.animation.PlayState;
+import software.bernie.geckolib.animation.*;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.List;
 import java.util.Objects;
 
 public class GhostyEntity extends Monster implements GeoEntity {
-    private AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private final Level serverWorld;
     private static final double ANGULAR_SPEED = 0.1;
     private double angle;
@@ -57,15 +56,16 @@ public class GhostyEntity extends Monster implements GeoEntity {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-        controllerRegistrar.add(new AnimationController(this, "controller", 0, this::predicate));
+        controllerRegistrar.add(new AnimationController<>(this, "controller", 0, this::predicate));
     }
 
     private <T extends GeoAnimatable> PlayState predicate(AnimationState<T> event) {
+        event.getController().setAnimation(RawAnimation.begin().then("idle", Animation.LoopType.PLAY_ONCE));
         return PlayState.CONTINUE;
     }
 
     @Override
-    public boolean hurt(DamageSource pSource, float pAmount) {
+    public boolean hurt(@NotNull DamageSource pSource, float pAmount) {
         serverWorld.addParticle(ParticleTypes.EXPLOSION, this.getX(), this.getY() + 0.5, this.getZ(), 1.2d, 0d, 0d);
         serverWorld.playSound(null, this.blockPosition(), SoundEvents.FOX_SCREECH, SoundSource.HOSTILE, 1.0F, 1.0F);
 
@@ -106,7 +106,7 @@ public class GhostyEntity extends Monster implements GeoEntity {
             monster.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 1, 4, false, false, false));
             if (!(monster instanceof GhostyEntity))
                 for (int i = 0; i < 4 && tickCount % 25 == 0; ++i) {
-                    serverWorld.addParticle(KnightQuestParticles.STARSET_PARTICLE.get(), monster.getX(), monster.getY() - 0.48, monster.getZ(), 1.2d, 0d, 0d);
+                    serverWorld.addParticle(KnightLibParticles.STARSET_PARTICLE.get(), monster.getX(), monster.getY() - 0.48, monster.getZ(), 1.2d, 0d, 0d);
                 }
         }
 
@@ -172,24 +172,22 @@ public class GhostyEntity extends Monster implements GeoEntity {
     @Override public boolean isFallFlying() {return super.isFallFlying();}
     @Override public boolean canSpawnSprintParticle() {return false;}
     @Override protected void removeEffectParticles() {}
-    @Override public boolean causeFallDamage(float pFallDistance, float pMultiplier, DamageSource pSource) {return false;}
+    @Override public boolean causeFallDamage(float pFallDistance, float pMultiplier, @NotNull DamageSource pSource) {return false;}
     @Override public boolean isNoGravity() {return true;}
-    @Override public boolean canBeCollidedWith() {return false;}
     @Override protected void pushEntities() {}
-    @Override public void push(Entity pEntity) {}
+    @Override public void push(@NotNull Entity pEntity) {}
     @Override public boolean isOnFire() {return false;}
     @Override public boolean isInLava() {return false;}
     @Override public boolean isInWater() {return false;}
     @Override public boolean isInWall() {return false;}
     @Override protected void spawnSprintParticle() {}
     @Override public AnimatableInstanceCache getAnimatableInstanceCache() {return cache;}
-    @Override protected SoundEvent getSwimSound() {return null;}
     @Override protected SoundEvent getDeathSound() {return null;}
-    @Override public void playSound(SoundEvent pSound) {}
-    @Override public void playSound(SoundEvent pSound, float pVolume, float pPitch) {}
+    @Override public void playSound(@NotNull SoundEvent pSound) {}
+    @Override public void playSound(@NotNull SoundEvent pSound, float pVolume, float pPitch) {}
     @Nullable @Override protected SoundEvent getAmbientSound() {return null;}
-    @Override protected void playHurtSound(DamageSource pSource) {}
-    @Override protected SoundEvent getHurtSound(DamageSource pDamageSource) {return null;}
-    @Override protected void playStepSound(BlockPos pPos, BlockState pState) {}
+    @Override protected void playHurtSound(@NotNull DamageSource pSource) {}
+    @Override protected SoundEvent getHurtSound(@NotNull DamageSource pDamageSource) {return null;}
+    @Override protected void playStepSound(@NotNull BlockPos pPos, @NotNull BlockState pState) {}
 
 }

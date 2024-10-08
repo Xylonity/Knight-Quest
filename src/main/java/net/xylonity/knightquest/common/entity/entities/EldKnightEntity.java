@@ -25,7 +25,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.xylonity.knightquest.config.values.KQConfigValues;
 import net.xylonity.knightquest.registry.KnightQuestEntities;
-import net.xylonity.knightquest.registry.KnightQuestParticles;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
@@ -33,7 +32,7 @@ import software.bernie.geckolib.animation.*;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class EldKnightEntity extends Monster implements GeoEntity {
-    private AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private final Level serverWorld;
     private boolean summoned = false;
     private int counter;
@@ -48,7 +47,7 @@ public class EldKnightEntity extends Monster implements GeoEntity {
                 .add(Attributes.MAX_HEALTH, 90.0D)
                 .add(Attributes.ATTACK_DAMAGE, 12f)
                 .add(Attributes.ATTACK_SPEED, 0.4f)
-                .add(Attributes.MOVEMENT_SPEED, 0.5f)
+                .add(Attributes.MOVEMENT_SPEED, 0.55f)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 0.4f).build();
     }
 

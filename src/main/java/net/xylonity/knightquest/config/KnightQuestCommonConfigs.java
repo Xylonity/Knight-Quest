@@ -12,7 +12,7 @@ public class KnightQuestCommonConfigs {
     public static final ModConfigSpec.DoubleValue HEAL_ELDKNIGHT;
 
     // Drop Chance Configurations
-    public static final ModConfigSpec.DoubleValue DROP_CHANCE_SMALL_ESSENCE;
+    // public static final ModConfigSpec.DoubleValue DROP_CHANCE_SMALL_ESSENCE;
     public static final ModConfigSpec.DoubleValue DROP_CHANCE_RATMAN_EYE;
     public static final ModConfigSpec.DoubleValue DROP_CHANCE_LIZZY_SCALE;
 
@@ -57,6 +57,15 @@ public class KnightQuestCommonConfigs {
     public static final ModConfigSpec.IntValue WARLORD_SET_EFFECT_RADIUS;
     public static final ModConfigSpec.DoubleValue ZOMBIESET_HEALING_AMOUNT;
     public static final ModConfigSpec.IntValue ZOMBIESET_HEALING_TICKS;
+    public static final ModConfigSpec.DoubleValue DEEPSLATE_FALL_DAMAGE_MULTIPLIER;
+    public static final ModConfigSpec.DoubleValue EVOKER_DARKNESS_CHANCE;
+    public static final ModConfigSpec.DoubleValue SQUIRE_DAMAGE_RECEIVED_MULTIPLIER;
+    public static final ModConfigSpec.DoubleValue BLAZE_FIRE_CHANCE;
+    public static final ModConfigSpec.IntValue BLAZE_FIRE_DURATION_MIN;
+    public static final ModConfigSpec.IntValue BLAZE_FIRE_DURATION_MAX;
+    public static final ModConfigSpec.DoubleValue CREEPER_EXPLOSION_DAMAGE_MULTIPLIER;
+    public static final ModConfigSpec.IntValue SILVERFISH_EFFECT_MAX_HEIGHT;
+    public static final ModConfigSpec.IntValue SKULK_MAX_LIGHT_LEVEL;
 
     // Armor Set Passive Enabler Configurations
     public static final ModConfigSpec.BooleanValue ENABLE_DEEPSLATESET;
@@ -144,7 +153,8 @@ public class KnightQuestCommonConfigs {
 
         // Drop Chance Configuration Section
         BUILDER.push("Drop Chance Configuration");
-        DROP_CHANCE_SMALL_ESSENCE = BUILDER.comment("Drop chance for small essence").defineInRange("Drop chance for small essence", 0.15, 0, 1);
+        // DROP_CHANCE_SMALL_ESSENCE = BUILDER.comment("Drop chance for small essence").defineInRange("Drop chance for small essence", 0.15, 0, 1);
+        BUILDER.comment("Drop chance for small essence must be changed inside knightlib.toml");
         DROP_CHANCE_RATMAN_EYE = BUILDER.defineInRange("Drop chance for ratman eye", 0.40, 0, 1);
         DROP_CHANCE_LIZZY_SCALE = BUILDER.defineInRange("Drop chance for lizzy scale", 0.30, 0, 1);
         BUILDER.pop();
@@ -163,6 +173,15 @@ public class KnightQuestCommonConfigs {
         WARLORD_SET_EFFECT_RADIUS = BUILDER.defineInRange("Effect radius for Warlord Set", 15, 1, 40);
         ZOMBIESET_HEALING_AMOUNT = BUILDER.defineInRange("Healing amount for Zombie Set", 1.0, 0.5, 10.0);
         ZOMBIESET_HEALING_TICKS = BUILDER.defineInRange("Time in ticks for Zombie Set healing interval", 120, 1, 1000);
+        DEEPSLATE_FALL_DAMAGE_MULTIPLIER = BUILDER.defineInRange("Fall damage multiplier for Deepslate Set", 0.2, 0.0, 1.0);
+        EVOKER_DARKNESS_CHANCE = BUILDER.defineInRange("Chance to apply Darkness for Evoker Set", 0.25, 0.0, 1.0);
+        SQUIRE_DAMAGE_RECEIVED_MULTIPLIER = BUILDER.defineInRange("Damage received multiplier for Squire Set", 0.85, 0.0, 1.0);
+        BLAZE_FIRE_CHANCE = BUILDER.defineInRange("Chance to apply Fire for Blaze Set", 0.4, 0.0, 1.0);
+        BLAZE_FIRE_DURATION_MIN = BUILDER.defineInRange("Minimum seconds on fire for Blaze Set", 2, 1, 100);
+        BLAZE_FIRE_DURATION_MAX = BUILDER.defineInRange("Maximum seconds on fire for Blaze Set", 8, 1, 200);
+        CREEPER_EXPLOSION_DAMAGE_MULTIPLIER = BUILDER.defineInRange("Explosion damage multiplier for Creeper Set", 0.1, 0.0, 1.0);
+        SILVERFISH_EFFECT_MAX_HEIGHT = BUILDER.defineInRange("Maximum height to apply effect for Silverfish Set", 50, 0, 100);
+        SKULK_MAX_LIGHT_LEVEL = BUILDER.defineInRange("Maximum light level to grant effect for Skulk Set", 4, 0, 15);
         BUILDER.pop();
 
         // Armor Set Passives Enabler Configuration Section

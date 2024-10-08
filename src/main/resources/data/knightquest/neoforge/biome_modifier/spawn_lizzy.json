@@ -8,7 +8,7 @@
   ],
   "spawners": {
     "type": "knightquest:lizzy",
-    "weight": 8,
+    "weight": 7,
     "minCount": 1,
     "maxCount": 1
   }

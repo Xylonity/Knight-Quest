@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
@@ -32,10 +33,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeKeys;
+import net.xylonity.common.api.FCAPChecker;
 import net.xylonity.common.material.KQArmorMaterials;
 import net.xylonity.config.values.KQConfigValues;
 import net.xylonity.registry.KnightQuestItems;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -504,10 +508,11 @@ public class KQArmorItem extends ArmorItem {
 
                 if (KQConfigValues.CREEPERSET)
                     if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.CREEPERSET)) {
-                        if (source.getSource() != null && (source.isOf(DamageTypes.EXPLOSION) || source.isOf(DamageTypes.PLAYER_EXPLOSION))) {
+                        if (source.isOf(DamageTypes.EXPLOSION) || source.isOf(DamageTypes.PLAYER_EXPLOSION)) {
                             isProcessingDamage.set(true);
                             try {
                                 player.damage(source, amount * (float) KQConfigValues.CREEPER_EXPLOSION_DAMAGE_MULTIPLIER);
+                                return false;
                             } finally {
                                 isProcessingDamage.set(false);
                             }

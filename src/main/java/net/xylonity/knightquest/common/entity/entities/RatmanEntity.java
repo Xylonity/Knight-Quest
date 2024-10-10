@@ -255,7 +255,7 @@ public class RatmanEntity extends Skeleton implements GeoEntity {
     @Nullable
     @Override
     public SpawnGroupData finalizeSpawn(@NotNull ServerLevelAccessor pLevel, @NotNull DifficultyInstance pDifficulty, @NotNull MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
-        setVariation(getRandom().nextIntBetweenInclusive(1, 4));
+        setVariation(getRandom().nextInt(4) + 1);
         return super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
     }
 }

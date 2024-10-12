@@ -29,14 +29,14 @@ public class NethermanCloneEntity extends Monster implements GeoEntity {
         super(pEntityType, pLevel);
     }
 
-    public static AttributeSupplier setAttributes() {
+    public static AttributeSupplier.Builder setAttributes() {
         return Monster.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 0.5F)
                 .add(Attributes.ATTACK_DAMAGE, 8f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
                 .add(Attributes.MOVEMENT_SPEED, 0.80f)
                 .add(Attributes.FOLLOW_RANGE, 35.0)
-                .add(Attributes.KNOCKBACK_RESISTANCE, 5.0).build();
+                .add(Attributes.KNOCKBACK_RESISTANCE, 5.0);
     }
 
     @Override

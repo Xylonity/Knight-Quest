@@ -95,12 +95,12 @@ public class RatmanEntity extends Skeleton implements GeoEntity {
         this.entityData.set(VARIATION, variation);
     }
 
-    public static AttributeSupplier setAttributes() {
+    public static AttributeSupplier.Builder setAttributes() {
         return Skeleton.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 22.0D)
                 .add(Attributes.ATTACK_DAMAGE, 4f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
-                .add(Attributes.MOVEMENT_SPEED, 0.5f).build();
+                .add(Attributes.MOVEMENT_SPEED, 0.5f);
     }
 
     @Override

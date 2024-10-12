@@ -33,13 +33,13 @@ public class BadPatchEntity extends Monster implements GeoEntity {
         super(entityType, world);
     }
 
-    public static AttributeSupplier setAttributes() {
+    public static AttributeSupplier.Builder setAttributes() {
         return Monster.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 7.0D)
                 .add(Attributes.ATTACK_DAMAGE, 4f)
                 .add(Attributes.ATTACK_SPEED, 0.2f)
                 .add(Attributes.MOVEMENT_SPEED, 0.5f)
-                .add(Attributes.FOLLOW_RANGE, 35.0).build();
+                .add(Attributes.FOLLOW_RANGE, 35.0);
     }
 
     @Override

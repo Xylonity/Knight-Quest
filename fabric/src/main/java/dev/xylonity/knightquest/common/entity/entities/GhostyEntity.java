@@ -45,13 +45,13 @@ public class GhostyEntity extends Monster implements GeoEntity {
         this.serverWorld = world;
     }
 
-    public static AttributeSupplier setAttributes() {
+    public static AttributeSupplier.Builder setAttributes() {
         return Monster.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 1.0D)
                 .add(Attributes.ATTACK_DAMAGE, 0f)
                 .add(Attributes.ATTACK_SPEED, 0f)
                 .add(Attributes.MOVEMENT_SPEED, 0.63f)
-                .add(Attributes.FOLLOW_RANGE, 35.0).build();
+                .add(Attributes.FOLLOW_RANGE, 35.0);
     }
 
     @Override

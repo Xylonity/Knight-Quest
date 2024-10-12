@@ -44,13 +44,13 @@ public class GhastlingEntity extends Monster implements GeoEntity {
         this.explodeTimer = 8 * 20 + random.nextInt(4 * 20);
     }
 
-    public static AttributeSupplier setAttributes() {
+    public static AttributeSupplier.Builder setAttributes() {
         return Monster.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 1.0D)
                 .add(Attributes.ATTACK_DAMAGE, 5f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
                 .add(Attributes.MOVEMENT_SPEED, 0.63f)
-                .add(Attributes.FOLLOW_RANGE, 35.0).build();
+                .add(Attributes.FOLLOW_RANGE, 35.0);
     }
 
     @Override

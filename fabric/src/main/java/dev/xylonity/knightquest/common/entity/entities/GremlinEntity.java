@@ -84,13 +84,13 @@ public class GremlinEntity extends Monster implements GeoEntity {
         this.entityData.set(ATTACK, attack);
     }
 
-    public static AttributeSupplier setAttributes() {
+    public static AttributeSupplier.Builder setAttributes() {
         return Monster.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 35.0D)
                 .add(Attributes.ATTACK_DAMAGE, 5.5f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
                 .add(Attributes.MOVEMENT_SPEED, 0.63f)
-                .add(Attributes.FOLLOW_RANGE, 35.0).build();
+                .add(Attributes.FOLLOW_RANGE, 35.0);
     }
 
     private void updateAttributes() {

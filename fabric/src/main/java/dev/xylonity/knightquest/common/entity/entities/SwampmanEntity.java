@@ -66,12 +66,12 @@ public class SwampmanEntity extends Monster implements GeoEntity, RangedAttackMo
 
     public void setPhase(int phase) { this.entityData.set(PHASE, phase); }
 
-    public static AttributeSupplier setAttributes() {
+    public static AttributeSupplier.Builder setAttributes() {
         return Monster.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 50.0D)
                 .add(Attributes.ATTACK_DAMAGE, 7f)
                 .add(Attributes.ATTACK_SPEED, 0.5f)
-                .add(Attributes.MOVEMENT_SPEED, 0.5f).build();
+                .add(Attributes.MOVEMENT_SPEED, 0.5f);
     }
 
     @Override

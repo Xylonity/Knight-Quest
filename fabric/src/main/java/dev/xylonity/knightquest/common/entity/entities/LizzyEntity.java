@@ -32,12 +32,12 @@ public class LizzyEntity extends Animal implements GeoEntity {
         super(entityType, world);
     }
 
-    public static AttributeSupplier setAttributes() {
+    public static AttributeSupplier.Builder setAttributes() {
         return Animal.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 10.0D)
                 .add(Attributes.ATTACK_DAMAGE, 0.5f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
-                .add(Attributes.MOVEMENT_SPEED, 0.6f).build();
+                .add(Attributes.MOVEMENT_SPEED, 0.6f);
     }
 
     @Override

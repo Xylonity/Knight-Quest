@@ -75,14 +75,14 @@ public class NethermanEntity extends Monster implements GeoEntity {
         super(pEntityType, pLevel);
     }
 
-    public static AttributeSupplier setAttributes() {
+    public static AttributeSupplier.Builder setAttributes() {
         return Monster.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 350.0D)
                 .add(Attributes.ATTACK_DAMAGE, 8.0f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
                 .add(Attributes.MOVEMENT_SPEED, 0.70f)
                 .add(Attributes.FOLLOW_RANGE, 35.0)
-                .add(Attributes.KNOCKBACK_RESISTANCE, 5.0).build();
+                .add(Attributes.KNOCKBACK_RESISTANCE, 5.0);
     }
 
     @Override

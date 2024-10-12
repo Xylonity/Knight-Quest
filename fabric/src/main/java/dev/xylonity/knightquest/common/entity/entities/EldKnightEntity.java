@@ -44,13 +44,13 @@ public class EldKnightEntity extends Monster implements GeoEntity {
         serverWorld = world;
     }
 
-    public static AttributeSupplier setAttributes() {
+    public static AttributeSupplier.Builder setAttributes() {
         return Monster.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 90.0D)
                 .add(Attributes.ATTACK_DAMAGE, 12f)
                 .add(Attributes.ATTACK_SPEED, 0.4f)
                 .add(Attributes.MOVEMENT_SPEED, 0.55f)
-                .add(Attributes.KNOCKBACK_RESISTANCE, 0.4f).build();
+                .add(Attributes.KNOCKBACK_RESISTANCE, 0.4f);
     }
 
     @Override

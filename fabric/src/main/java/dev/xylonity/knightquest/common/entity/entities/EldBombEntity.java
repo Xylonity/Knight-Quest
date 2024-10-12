@@ -35,12 +35,12 @@ public class EldBombEntity extends Creeper implements GeoEntity {
         super(entityType, world);
     }
 
-    public static AttributeSupplier setAttributes() {
+    public static AttributeSupplier.Builder setAttributes() {
         return Creeper.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 7.0D)
                 .add(Attributes.ATTACK_DAMAGE, 0.5f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
-                .add(Attributes.MOVEMENT_SPEED, 0.5f).build();
+                .add(Attributes.MOVEMENT_SPEED, 0.5f);
     }
 
     @Override

@@ -26,14 +26,10 @@ import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ProjectileWeaponItem;
-import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.phys.Vec3;
@@ -43,13 +39,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 
 public class KQArmorItem extends ArmorItem {
-
-    /**
-     * Manages individual jump states for each player on the server, ensuring that there will
-     * not be infinite jumps when there are more than two players present.
-     */
-
-    private static final Map<UUID, Boolean> doubleJumpStates = new HashMap<>();
 
     /**
      * Dual Hashmap that inherits old declared effects when a new set is equipped, preventing
@@ -628,9 +617,9 @@ public class KQArmorItem extends ArmorItem {
             LocalPlayer player = client.player;
             if (player == null) return;
 
-            if (KQConfigValues.TENGU_HELMET && player.getItemBySlot(EquipmentSlot.HEAD).getItem().equals(KnightQuestItems.TENGU_HELMET)) {
-                UUID playerUUID = player.getUUID();
-                boolean canDoubleJump = doubleJumpStates.getOrDefault(playerUUID, true);
+            if (KQConfigValues.TENGU_HELMET && player.getInventory().getArmor(3).getItem() == KnightQuestItems.TENGU_HELMET.get()) {
+
+                boolean canDoubleJump = doubleJumpStates.getOrDefault(player.getUUID(), true);
 
                 if (!player.onGround() && player.getDeltaMovement().y < 0 && canDoubleJump) {
                     if (client.options.keyJump.isDown()) {
@@ -639,7 +628,7 @@ public class KQArmorItem extends ArmorItem {
                 }
 
                 if (player.onGround()) {
-                    doubleJumpStates.put(playerUUID, true);
+                    doubleJumpStates.put(player.getUUID(), true);
                 }
             }
         }

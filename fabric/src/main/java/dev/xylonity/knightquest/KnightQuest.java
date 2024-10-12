@@ -76,8 +76,6 @@ public class KnightQuest implements ModInitializer, ClientModInitializer {
     @Override
     public void onInitializeClient() {
 
-        KQArmorItem.ClientEventHandlers.registerClientEvents();
-
         ParticleFactoryRegistry.getInstance().register(KnightQuestParticles.GHOSTY_PARTICLE.get(), GhostyParticle.Provider::new);
         ParticleFactoryRegistry.getInstance().register(KnightQuestParticles.GREMLIN_PARTICLE.get(), GremlinParticle.Provider::new);
         ParticleFactoryRegistry.getInstance().register(KnightQuestParticles.SNOWFLAKE_PARTICLE.get(), SnowflakeParticle.Provider::new);
@@ -117,6 +115,9 @@ public class KnightQuest implements ModInitializer, ClientModInitializer {
         EntityRendererRegistry.register(KnightQuestEntities.NETHERMAN_CLONE, NethermanCloneRenderer::new);
         EntityRendererRegistry.register(KnightQuestEntities.NETHERMAN_TELEPORT_CHARGE, NethermanTeleportChargeRenderer::new);
         EntityRendererRegistry.register(KnightQuestEntities.SWAMPMAN_AXE, SwampmanAxeRenderer::new);
+
+        KQArmorItem.ClientEventHandlers.registerClientEvents();
+
     }
 
 }

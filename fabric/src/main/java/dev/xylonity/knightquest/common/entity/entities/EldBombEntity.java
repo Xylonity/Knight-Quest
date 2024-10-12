@@ -117,7 +117,7 @@ public class EldBombEntity extends Creeper implements GeoEntity {
                     double particleZ = this.getZ();
 
                     ClientboundLevelParticlesPacket packet = new ClientboundLevelParticlesPacket(
-                            KnightQuestParticles.POISON_PARTICLE,
+                            KnightQuestParticles.POISON_PARTICLE.get(),
                             true,
                             particleX, particleY, particleZ,
                             1.2F, 1.2F, 1.2F,
@@ -136,7 +136,7 @@ public class EldBombEntity extends Creeper implements GeoEntity {
                     double particleZ = this.getZ() + arrayZ[i];
 
                     ClientboundLevelParticlesPacket packet = new ClientboundLevelParticlesPacket(
-                            KnightQuestParticles.POISON_CLOUD_PARTICLE,
+                            KnightQuestParticles.POISON_CLOUD_PARTICLE.get(),
                             true,
                             particleX, particleY, particleZ,
                             0, 0.15F, 0,

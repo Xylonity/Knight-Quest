@@ -5,12 +5,12 @@ import dev.xylonity.knightquest.client.armor.GeoItemArmor;
 import dev.xylonity.knightquest.common.item.KQArmorItem;
 import dev.xylonity.knightquest.common.material.KQArmorMaterials;
 import dev.xylonity.knightquest.common.material.KQItemMaterials;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.ForgeSpawnEggItem;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -25,6 +25,16 @@ public class KnightQuestForgePlatform implements KnightQuestPlatform {
     @Override
     public <T extends Item> Supplier<T> registerItem(String id, Supplier<T> item) {
         return KnightQuest.ITEMS.register(id, item);
+    }
+
+    @Override
+    public <T extends SoundEvent> Supplier<T> registerSound(String id, Supplier<T> sound) {
+        return KnightQuest.SOUNDS.register(id, sound);
+    }
+
+    @Override
+    public <T extends ParticleType<?>> Supplier<T> registerParticle(String id, boolean overrideLimiter) {
+        return KnightQuest.PARTICLES.register(id, () -> (T) new SimpleParticleType(overrideLimiter));
     }
 
     @Override
@@ -58,11 +68,6 @@ public class KnightQuestForgePlatform implements KnightQuestPlatform {
     @Override
     public <T extends Item> Supplier<T> registerArmorItem(String id, KQArmorMaterials armorMaterial, ArmorItem.Type armorType, boolean containsTooltip) {
         return (Supplier<T>) KnightQuest.ITEMS.register(id, () -> new KQArmorItem(armorMaterial, armorType, new Item.Properties(), containsTooltip));
-    }
-
-    @Override
-    public <E extends Mob> Supplier<SpawnEggItem> registerSpawnEggItem(Supplier<EntityType<E>> entityType, int primaryEggColour, int secondaryEggColour, Item.Properties itemProperties) {
-        return () -> new ForgeSpawnEggItem(entityType, primaryEggColour, secondaryEggColour, itemProperties);
     }
 
     @Override

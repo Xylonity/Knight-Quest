@@ -2,15 +2,23 @@ package dev.xylonity.knightquest.registry;
 
 import dev.xylonity.knightquest.KnightQuestCommon;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Supplier;
 
 public class KnightQuestCreativeModeTabs {
 
     public static void init() { ;; }
+
+    private static final List<Supplier<Item>> platformItems = new ArrayList<>();
+
+    public static void registerPlatformItem(Supplier<Item> itemSupplier) {
+        platformItems.add(itemSupplier);
+    }
 
     public static final Supplier<CreativeModeTab> KNIGHTQUEST_TAB =
             KnightQuestCommon.COMMON_PLATFORM.registerCreativeModeTab("knightquest_tab",
@@ -41,19 +49,13 @@ public class KnightQuestCreativeModeTabs {
 
                                 //output.accept(KnightQuestItems.WATER_AXE.get());
                                 //output.accept(KnightQuestItems.STEEL_AXE.get());
-//
-                                //output.accept(KnightQuestItems.GREMLIN_EGG.get());
-                                //output.accept(KnightQuestItems.ELD_KNIGHT_EGG.get());
-                                //output.accept(KnightQuestItems.ELD_BOMB_EGG.get());
-                                //output.accept(KnightQuestItems.SAMHAIN_EGG.get());
-                                //output.accept(KnightQuestItems.SWAMPMAN_EGG.get());
-                                //output.accept(KnightQuestItems.RATMAN_EGG.get());
-                                //output.accept(KnightQuestItems.LIZZY_EGG.get());
-                                //output.accept(KnightQuestItems.BADPATCH_EGG.get());
-                                //output.accept(KnightQuestItems.GHOSTY_EGG.get());
-                                ////output.accept(KnightQuestItems.GHASTLING_EGG.get());
-                                ////output.accept(KnightQuestItems.MOMMA_LIZZY_EGG.get());
-                                //output.accept(KnightQuestItems.NETHERMAN_EGG.get());
+
+                                for (Supplier<Item> itemSupplier : platformItems) {
+                                    Item item = itemSupplier.get();
+                                    if (item != null) {
+                                        output.accept(item);
+                                    }
+                                }
 
                                 output.accept(KnightQuestItems.SQUIRE_HELMET.get());
                                 output.accept(KnightQuestItems.SQUIRE_CHESTPLATE.get());

@@ -155,7 +155,7 @@ public class GhostyEntity extends Monster implements GeoEntity {
             angle -= Math.PI * 2;
         }
 
-        ParticleOptions particleType = KnightQuestParticles.GHOSTY_PARTICLE;
+        ParticleOptions particleType = KnightQuestParticles.GHOSTY_PARTICLE.get();
         for (int i = 0; i < 1 && tickCount % 15 == 0; ++i) {
             double d0 = this.random.nextGaussian() * 0.02D;
             double d1 = this.random.nextGaussian() * 0.02D;

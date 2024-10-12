@@ -6,12 +6,13 @@ import dev.xylonity.knightquest.common.item.KQArmorItem;
 import dev.xylonity.knightquest.common.material.KQArmorMaterials;
 import dev.xylonity.knightquest.common.material.KQItemMaterials;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.minecraft.core.Registry;
+import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
@@ -28,6 +29,16 @@ public class KnightQuestFabricPlatform implements KnightQuestPlatform {
     @Override
     public <T extends Item> Supplier<T> registerItem(String id, Supplier<T> item) {
         return registerSupplier(BuiltInRegistries.ITEM, id, item);
+    }
+
+    @Override
+    public <T extends SoundEvent> Supplier<T> registerSound(String id, Supplier<T> sound) {
+        return registerSupplier(BuiltInRegistries.SOUND_EVENT, id, sound);
+    }
+
+    @Override
+    public <T extends ParticleType<?>> Supplier<T> registerParticle(String id, boolean overrideLimiter) {
+        return registerSupplier(BuiltInRegistries.PARTICLE_TYPE, id, () -> (T) FabricParticleTypes.simple());
     }
 
     @Override
@@ -61,11 +72,6 @@ public class KnightQuestFabricPlatform implements KnightQuestPlatform {
     @Override
     public <T extends Item> Supplier<T> registerArmorItem(String id, KQArmorMaterials armorMaterial, ArmorItem.Type armorType, boolean containsTooltip) {
         return (Supplier<T>) registerSupplier(BuiltInRegistries.ITEM, id, () -> new KQArmorItem(armorMaterial, armorType, new Item.Properties(), containsTooltip));
-    }
-
-    @Override
-    public <E extends Mob> Supplier<SpawnEggItem> registerSpawnEggItem(Supplier<EntityType<E>> entityType, int primaryEggColour, int secondaryEggColour, Item.Properties itemProperties) {
-        return () -> new SpawnEggItem(entityType.get(), primaryEggColour, secondaryEggColour, itemProperties);
     }
 
     @Override

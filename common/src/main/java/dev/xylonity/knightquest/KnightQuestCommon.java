@@ -3,6 +3,8 @@ package dev.xylonity.knightquest;
 import dev.xylonity.knightquest.platform.KnightQuestPlatform;
 import dev.xylonity.knightquest.registry.KnightQuestCreativeModeTabs;
 import dev.xylonity.knightquest.registry.KnightQuestItems;
+import dev.xylonity.knightquest.registry.KnightQuestParticles;
+import dev.xylonity.knightquest.registry.KnightQuestSounds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,6 +20,8 @@ public class KnightQuestCommon {
     public static void init() {
         KnightQuestItems.init();
         KnightQuestCreativeModeTabs.init();
+        KnightQuestSounds.init();
+        KnightQuestParticles.init();
     }
 
 }

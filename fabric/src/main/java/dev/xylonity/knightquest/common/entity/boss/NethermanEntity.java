@@ -383,7 +383,7 @@ public class NethermanEntity extends Monster implements GeoEntity {
             double particleX = this.getX();
             double particleY = this.getY() + 2.2;
             double particleZ = this.getZ();
-            this.level().addParticle(KnightQuestParticles.SNOWFLAKE_PARTICLE, particleX, particleY, particleZ, velocityX, velocityY, velocityZ);
+            this.level().addParticle(KnightQuestParticles.SNOWFLAKE_PARTICLE.get(), particleX, particleY, particleZ, velocityX, velocityY, velocityZ);
         }
 
         if (tickCount % 4 == 0)

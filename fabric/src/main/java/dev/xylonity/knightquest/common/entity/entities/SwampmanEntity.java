@@ -130,7 +130,7 @@ public class SwampmanEntity extends Monster implements GeoEntity, RangedAttackMo
         if (this.getHealth() < getMaxHealth() * 0.5) {
 
             if (!this.isHalfHealth && KQConfigValues.CAN_CHANGE_PHASE_SWAMPMAN) {
-                this.level().addParticle(KnightQuestParticles.BLUEBLASTWAVE, this.getX(), getY() - 0.48, getZ(), 2d, 0d, 0d);
+                this.level().addParticle(KnightQuestParticles.BLUEBLASTWAVE.get(), this.getX(), getY() - 0.48, getZ(), 2d, 0d, 0d);
                 this.level().playSound(null, this.blockPosition(), SoundEvents.EVOKER_PREPARE_SUMMON, SoundSource.HOSTILE, 1.0F, 1.0F);
                 this.isHalfHealth = true;
 

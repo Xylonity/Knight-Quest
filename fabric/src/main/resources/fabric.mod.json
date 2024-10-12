@@ -1,0 +1,39 @@
+{
+    "schemaVersion": 1,
+    "id": "knightquest",
+    "version": "${version}",
+    "name": "${mod_name}",
+    "description": "${description}",
+    "authors": [
+        "${mod_author}"
+    ],
+    "contact": {
+        "homepage": "https://fabricmc.net/",
+        "sources": "https://github.com/FabricMC/fabric-example-mod"
+    },
+    "license": "${license}",
+    "icon": "knightquest.png",
+    "environment": "*",
+    "entrypoints": {
+        "main": [
+            "dev.xylonity.knightquest.KnightQuest"
+        ],
+        "client": [
+            "dev.xylonity.knightquest.KnightQuest"
+        ]
+    },
+    "mixins": [
+        "knightquest.mixins.json",
+        "knightquest.fabric.mixins.json"
+    ],
+    "depends": {
+        "fabricloader": ">=0.14",
+        "fabric": "*",
+        "minecraft": "~${minecraft_version}",
+        "java": ">=17"
+    },
+    "suggests": {
+        "another-mod": "*"
+    }
+}
+  

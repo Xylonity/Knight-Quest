@@ -23,13 +23,16 @@ public abstract class PlayerEntityMixin {
             if (KQConfigValues.DEEPSLATESET && KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.DEEPSLATESET) && source.is(DamageTypes.FALL))
                 return (float) (damageOriginal * KQConfigValues.DEEPSLATE_FALL_DAMAGE_MULTIPLIER);
 
-            if (KQConfigValues.CREEPERSET && KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.CREEPERSET) && (source.is(DamageTypes.EXPLOSION) || source.is(DamageTypes.PLAYER_EXPLOSION))) {
+            if (KQConfigValues.CREEPERSET && KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.CREEPERSET) && (source.is(DamageTypes.EXPLOSION) || source.is(DamageTypes.PLAYER_EXPLOSION)))
                 return (float) (damageOriginal * KQConfigValues.CREEPER_EXPLOSION_DAMAGE_MULTIPLIER);
-            }
 
+            if (KQConfigValues.SQUIRESET && KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.SQUIRESET))
+                return (float) (damageOriginal * KQConfigValues.SQUIRE_DAMAGE_RECEIVED_MULTIPLIER);
+            
         }
 
         return damageOriginal;
+
     }
 
 }

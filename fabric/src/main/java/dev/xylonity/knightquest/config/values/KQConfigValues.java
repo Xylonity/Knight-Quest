@@ -22,6 +22,7 @@ public class KQConfigValues {
     public static float HEAL_ELDKNIGHT = (float) (V ? KnightQuestCommonConfigs.HEAL_ELDKNIGHT.get() : 3.0);
 
     // Drop Chance Configuration Section
+    // public static float DROP_CHANCE_SMALL_ESSENCE  = (float) (V ? KnightQuestCommonConfigs.DROP_CHANCE_SMALL_ESSENCE.get() : 0.15);
     public static float DROP_CHANCE_RATMAN_EYE  = (float) (V ? KnightQuestCommonConfigs.DROP_CHANCE_RATMAN_EYE.get() : 0.4);
     public static float DROP_CHANCE_LIZZY_SCALE  = (float) (V ? KnightQuestCommonConfigs.DROP_CHANCE_LIZZY_SCALE.get() : 0.3);
 
@@ -68,6 +69,7 @@ public class KQConfigValues {
     public static int ZOMBIESET_HEALING_TICKS = V ? KnightQuestCommonConfigs.ZOMBIESET_HEALING_TICKS.get() : 120;
     public static double DEEPSLATE_FALL_DAMAGE_MULTIPLIER = V ? KnightQuestCommonConfigs.DEEPSLATE_FALL_DAMAGE_MULTIPLIER.get() : 0.2f;
     public static double EVOKER_DARKNESS_CHANCE = V ? KnightQuestCommonConfigs.EVOKER_DARKNESS_CHANCE.get() : 0.25f;
+    public static double SQUIRE_DAMAGE_RECEIVED_MULTIPLIER = V ? KnightQuestCommonConfigs.SQUIRE_DAMAGE_RECEIVED_MULTIPLIER.get() : 0.85f;
     public static double BLAZE_FIRE_CHANCE = V ? KnightQuestCommonConfigs.BLAZE_FIRE_CHANCE.get() : 0.4f;
     public static int BLAZE_FIRE_DURATION_MIN = V ? KnightQuestCommonConfigs.BLAZE_FIRE_DURATION_MIN.get() : 2;
     public static int BLAZE_FIRE_DURATION_MAX = V ? KnightQuestCommonConfigs.BLAZE_FIRE_DURATION_MAX.get() : 8;

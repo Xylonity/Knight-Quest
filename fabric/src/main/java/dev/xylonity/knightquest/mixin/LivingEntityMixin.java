@@ -15,13 +15,11 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin {
 
-    @Shadow protected abstract void actuallyHurt(DamageSource damageSource, float damageAmount);
-
     @ModifyVariable(method = "actuallyHurt", at = @At(value = "HEAD"), ordinal = 0, argsOnly = true)
     private float modifyDamage(float damageOriginal, DamageSource source) {
 
         // Attacker: Player
-        if (source.getEntity() instanceof Player player) {
+        if (source.getEntity() != null && source.getEntity() instanceof Player player) {
 
             if (KQConfigValues.DRAGONSET && KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.DRAGONSET))
                 return (float) (damageOriginal * KQConfigValues.DRAGONSET_DAMAGE_MULTIPLIER);
@@ -29,7 +27,7 @@ public abstract class LivingEntityMixin {
         }
 
         // Victim: Player
-        if (source.getDirectEntity() instanceof Player player) {
+        if (source.getDirectEntity() != null &&  source.getDirectEntity() instanceof Player player) {
 
             if (KQConfigValues.DEEPSLATESET && KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.DEEPSLATESET) && source.is(DamageTypes.FALL))
                 return (float) (damageOriginal * KQConfigValues.DEEPSLATE_FALL_DAMAGE_MULTIPLIER);

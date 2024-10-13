@@ -356,12 +356,6 @@ public class KQArmorItem extends ArmorItem {
                             entity.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 120, 0, false, false, true));
                     }
 
-                // SQUIRESET
-                if (KQConfigValues.SQUIRESET)
-                    if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.SQUIRESET)) {
-                        player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 100, 1, false, false, false));
-                    }
-
                 // BLAZESET
                 if (KQConfigValues.BLAZESET)
                     if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.BLAZESET)) {

@@ -52,6 +52,11 @@ public class KnightQuestForgePlatform implements KnightQuestPlatform {
     }
 
     @Override
+    public <T extends Item> Supplier<T> registerAxeItem(String id, KQItemMaterials itemMaterial, float extraDamageBoost, float speedMalus) {
+        return (Supplier<T>) KnightQuest.ITEMS.register(id, () -> new AxeItem(itemMaterial, extraDamageBoost, speedMalus, new Item.Properties()));
+    }
+
+    @Override
     public <T extends Item> Supplier<T> registerSwordItem(String id, KQItemMaterials itemMaterial, float speedMalus, boolean containsTooltip) {
         if (containsTooltip)
             return (Supplier<T>) KnightQuest.ITEMS.register(id, () -> new SwordItem(itemMaterial, 4, speedMalus, new Item.Properties()) {

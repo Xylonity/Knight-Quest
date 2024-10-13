@@ -47,8 +47,8 @@ public class KnightQuestCreativeModeTabs {
                                 output.accept(KnightQuestItems.WATER_SWORD.get());
                                 output.accept(KnightQuestItems.STEEL_SWORD.get());
 
-                                //output.accept(KnightQuestItems.WATER_AXE.get());
-                                //output.accept(KnightQuestItems.STEEL_AXE.get());
+                                output.accept(KnightQuestItems.WATER_AXE.get());
+                                output.accept(KnightQuestItems.STEEL_AXE.get());
 
                                 for (Supplier<Item> itemSupplier : platformItems) {
                                     Item item = itemSupplier.get();

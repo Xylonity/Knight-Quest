@@ -32,6 +32,9 @@ public class KnightQuestItems {
     public static final Supplier<Item> WATER_SWORD = registerSwordItem("water_sword", KQItemMaterials.WATER_SWORD, -2f, false);
     public static final Supplier<Item> STEEL_SWORD = registerSwordItem("steel_sword", KQItemMaterials.STEEL_SWORD, -2f, false);
 
+    public static final Supplier<Item> WATER_AXE = registerAxeItem("water_axe", KQItemMaterials.WATER_SWORD, 4, -2f);
+    public static final Supplier<Item> STEEL_AXE = registerAxeItem("steel_axe", KQItemMaterials.STEEL_SWORD, 4, -2f);
+
     public static final Supplier<Item> APPLE_HELMET = registerGeoArmorItem("apple_helmet", KQArmorMaterials.APPLE_SET, ArmorItem.Type.HELMET, true, false);
     public static final Supplier<Item> APPLE_CHESTPLATE = registerArmorItem("apple_chestplate", KQArmorMaterials.APPLE_SET, ArmorItem.Type.CHESTPLATE, true);
     public static final Supplier<Item> APPLE_LEGGINGS = registerArmorItem("apple_leggings", KQArmorMaterials.APPLE_SET, ArmorItem.Type.LEGGINGS, true);
@@ -242,6 +245,10 @@ public class KnightQuestItems {
 
     private static <T extends Item> Supplier<T> registerSwordItem(String id, KQItemMaterials itemMaterial, float speedMalus, boolean containsTooltip) {
         return KnightQuestCommon.COMMON_PLATFORM.registerSwordItem(id, itemMaterial, speedMalus, containsTooltip);
+    }
+
+    private static <T extends Item> Supplier<T> registerAxeItem(String id, KQItemMaterials itemMaterial, float extraDamageBoost, float speedMalus) {
+        return KnightQuestCommon.COMMON_PLATFORM.registerAxeItem(id, itemMaterial, extraDamageBoost, speedMalus);
     }
 
     private static <T extends Item> Supplier<T> registerArmorItem(String id, KQArmorMaterials armorMaterial, ArmorItem.Type armorType, boolean containsTooltip) {

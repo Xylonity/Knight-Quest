@@ -21,6 +21,7 @@ public interface KnightQuestPlatform {
     <T extends ParticleType<?>> Supplier<T> registerParticle(String id, boolean overrideLimiter);
     <T extends Item> Supplier<T> registerGeoArmorItem(String id, KQArmorMaterials armorMaterial, ArmorItem.Type armorType, boolean containsTooltip, boolean containsExtraTooltip);
     <T extends Item> Supplier<T> registerSwordItem(String id, KQItemMaterials itemMaterial, float attackMalus, boolean containsTooltip);
+    <T extends Item> Supplier<T> registerAxeItem(String id, KQItemMaterials itemMaterial, float extraDamageBoost, float attackMalus);
     <T extends Item> Supplier<T> registerArmorItem(String id, KQArmorMaterials armorMaterial, ArmorItem.Type armorType, boolean containsTooltip);
     <T extends CreativeModeTab> Supplier<T> registerCreativeModeTab(String id, Supplier<T> tab);
     CreativeModeTab.Builder creativeTabBuilder();

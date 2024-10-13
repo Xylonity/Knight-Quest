@@ -70,6 +70,11 @@ public class KnightQuestFabricPlatform implements KnightQuestPlatform {
     }
 
     @Override
+    public <T extends Item> Supplier<T> registerAxeItem(String id, KQItemMaterials itemMaterial, float damageBoost, float speedMalus) {
+        return (Supplier<T>) registerSupplier(BuiltInRegistries.ITEM, id, () -> new AxeItem(itemMaterial, damageBoost, speedMalus, new Item.Properties()));
+    }
+
+    @Override
     public <T extends Item> Supplier<T> registerArmorItem(String id, KQArmorMaterials armorMaterial, ArmorItem.Type armorType, boolean containsTooltip) {
         return (Supplier<T>) registerSupplier(BuiltInRegistries.ITEM, id, () -> new KQArmorItem(armorMaterial, armorType, new Item.Properties(), containsTooltip));
     }

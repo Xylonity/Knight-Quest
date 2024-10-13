@@ -348,18 +348,6 @@ public class KQArmorItem extends ArmorItem {
 
             if (entity instanceof Player player) {
 
-                // DEEPSLATESET
-                if (KQConfigValues.DEEPSLATESET)
-                    if (source.is(DamageTypes.FALL) && KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.DEEPSLATESET)) {
-                        isProcessingDamage.set(true);
-                        try {
-                            player.hurt(source, amount * (float) KQConfigValues.DEEPSLATE_FALL_DAMAGE_MULTIPLIER);
-                            return false;
-                        } finally {
-                            isProcessingDamage.set(false);
-                        }
-                    }
-
                 // EVOKERSET
                 if (KQConfigValues.EVOKERSET)
                     if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.EVOKERSET)) {
@@ -494,19 +482,6 @@ public class KQArmorItem extends ArmorItem {
                         }
                     }
 
-                // CREEPERSET
-                if (KQConfigValues.CREEPERSET)
-                    if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.CREEPERSET)) {
-                        if (source.getEntity() != null && (source.is(DamageTypes.EXPLOSION) || source.is(DamageTypes.PLAYER_EXPLOSION))) {
-                            isProcessingDamage.set(true);
-                            try {
-                                player.hurt(source, amount * (float) KQConfigValues.CREEPER_EXPLOSION_DAMAGE_MULTIPLIER);
-                            } finally {
-                                isProcessingDamage.set(false);
-                            }
-                        }
-                    }
-
                 // POLAR
                 if (KQConfigValues.POLAR)
                     if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.POLAR)) {
@@ -539,19 +514,6 @@ public class KQArmorItem extends ArmorItem {
                             isProcessingDamage.set(false);
                         }
                     }
-
-                // DRAGONSET
-                if (KQConfigValues.DRAGONSET) {
-                    if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.DRAGONSET)) {
-                        isProcessingDamage.set(true);
-                        try {
-                            entity.hurt(source, (float) (amount * KQConfigValues.DRAGONSET_DAMAGE_MULTIPLIER));
-                            return false;
-                        } finally {
-                            isProcessingDamage.set(false);
-                        }
-                    }
-                }
 
                 // WITHERSET
                 if (KQConfigValues.WITHERSET)

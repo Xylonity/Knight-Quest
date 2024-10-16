@@ -1,0 +1,73 @@
+package dev.xylonity.knightquest.common.event;
+
+import dev.xylonity.knightquest.KnightQuest;
+import dev.xylonity.knightquest.client.entity.renderer.*;
+import dev.xylonity.knightquest.common.particle.*;
+import dev.xylonity.knightquest.common.particle.explosiveenhancement.*;
+import dev.xylonity.knightquest.common.particle.explosiveenhancement.blue.BlueBlastWaveParticle;
+import dev.xylonity.knightquest.common.particle.explosiveenhancement.blue.BlueFireballParticle;
+import dev.xylonity.knightquest.common.particle.explosiveenhancement.red.RedBlastWaveParticle;
+import dev.xylonity.knightquest.common.particle.explosiveenhancement.red.RedFireballParticle;
+import dev.xylonity.knightquest.registry.KnightQuestEntities;
+import dev.xylonity.knightquest.registry.KnightQuestParticles;
+import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
+
+@EventBusSubscriber(modid = KnightQuest.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+public class KQClientEventProviders {
+
+    @SubscribeEvent
+    public static void registerParticleFactories(final RegisterParticleProvidersEvent event) {
+        event.registerSpriteSet(KnightQuestParticles.GREMLIN_PARTICLE.get(), GremlinParticle.Provider::new);
+        event.registerSpriteSet(KnightQuestParticles.YELLOW_PARTICLE.get(), YellowParticle.Provider::new);
+        event.registerSpriteSet(KnightQuestParticles.GHOSTY_PARTICLE.get(), GhostyParticle.Provider::new);
+        event.registerSpriteSet(KnightQuestParticles.SNOWFLAKE_PARTICLE.get(), SnowflakeParticle.Provider::new);
+        event.registerSpriteSet(KnightQuestParticles.POISON_PARTICLE.get(), PoisonParticle.Provider::new);
+        event.registerSpriteSet(KnightQuestParticles.POISON_CLOUD_PARTICLE.get(), PoisonCloudParticle.Provider::new);
+
+        /*
+         * Explosive Enhancement particle registers
+         */
+
+        event.registerSpriteSet(KnightQuestParticles.BLASTWAVE.get(), BlastWaveParticle.Provider::new);
+        event.registerSpriteSet(KnightQuestParticles.FIREBALL.get(), FireballParticle.Provider::new);
+        event.registerSpriteSet(KnightQuestParticles.BLANK_FIREBALL.get(), FireballParticle.Provider::new);
+        event.registerSpriteSet(KnightQuestParticles.SMOKE.get(), SmokeParticle.Provider::new);
+        event.registerSpriteSet(KnightQuestParticles.SPARKS.get(), SparksParticle.Provider::new);
+        event.registerSpriteSet(KnightQuestParticles.BUBBLE.get(), BubbleParticle.Provider::new);
+        event.registerSpriteSet(KnightQuestParticles.SHOCKWAVE.get(), ShockwaveParticle.Provider::new);
+        event.registerSpriteSet(KnightQuestParticles.BLANK_SHOCKWAVE.get(), ShockwaveParticle.Provider::new);
+        event.registerSpriteSet(KnightQuestParticles.UNDERWATERBLASTWAVE.get(), UnderwaterBlastwaveParticle.Provider::new);
+        event.registerSpriteSet(KnightQuestParticles.UNDERWATERSPARKS.get(), UnderwaterSparksParticle.Provider::new);
+
+        event.registerSpriteSet(KnightQuestParticles.BLUEBLASTWAVE.get(), BlueBlastWaveParticle.Provider::new);
+        event.registerSpriteSet(KnightQuestParticles.BLUEFIREBALL.get(), BlueFireballParticle.Provider::new);
+
+        event.registerSpriteSet(KnightQuestParticles.REDBLASTWAVE.get(), RedBlastWaveParticle.Provider::new);
+        event.registerSpriteSet(KnightQuestParticles.REDFIREBALL.get(), RedFireballParticle.Provider::new);
+    }
+
+    @SubscribeEvent
+    public static void registerEntityRenderers(FMLClientSetupEvent event) {
+        EntityRenderers.register(KnightQuestEntities.GREMLIN.get(), GremlinRenderer::new);
+        EntityRenderers.register(KnightQuestEntities.ELDBOMB.get(), EldBombRenderer::new);
+        EntityRenderers.register(KnightQuestEntities.ELDKINGHT.get(), EldKnightRenderer::new);
+        EntityRenderers.register(KnightQuestEntities.SWAMPMAN.get(), SwampmanRenderer::new);
+        EntityRenderers.register(KnightQuestEntities.RATMAN.get(), RatmanRenderer::new);
+        EntityRenderers.register(KnightQuestEntities.SAMHAIN.get(), SamhainRenderer::new);
+        EntityRenderers.register(KnightQuestEntities.LIZZY.get(), LizzyRenderer::new);
+        EntityRenderers.register(KnightQuestEntities.BADPATCH.get(), BadPatchRenderer::new);
+        EntityRenderers.register(KnightQuestEntities.SHIELD.get(), ShieldRenderer::new);
+        EntityRenderers.register(KnightQuestEntities.MOMMA_LIZZY.get(), MommaLizzyRenderer::new);
+        EntityRenderers.register(KnightQuestEntities.GHOSTY.get(), GhostyRenderer::new);
+        EntityRenderers.register(KnightQuestEntities.NETHERMAN.get(), NethermanRenderer::new);
+        EntityRenderers.register(KnightQuestEntities.NETHERMAN_TELEPORT_CHARGE.get(), NethermanTeleportChargeRenderer::new);
+        EntityRenderers.register(KnightQuestEntities.NETHERMAN_CLONE.get(), NethermanCloneRenderer::new);
+        EntityRenderers.register(KnightQuestEntities.SWAMPMAN_AXE.get(), SwampmanAxeRenderer::new);
+    }
+
+}

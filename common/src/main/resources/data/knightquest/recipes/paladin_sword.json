@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": {
+      "item": "knightquest:filled_goblet"
+    },
+    "S": {
+      "item": "minecraft:netherite_sword"
+    },
+    "X": {
+      "item": "knightquest:ratman_eye"
+    }
+  },
+  "pattern": [
+    "X",
+    "I",
+    "S"
+  ],
+  "result": {
+    "item": "knightquest:paladin_sword"
+  },
+  "show_notification": true
+}

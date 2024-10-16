@@ -1,0 +1,11 @@
+{
+  "type": "knightlib:add_item",
+  "chance": 0.5,
+  "conditions": [
+    {
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "minecraft:entities/magma_cube"
+    }
+  ],
+  "item": "knightlib:small_essence"
+}

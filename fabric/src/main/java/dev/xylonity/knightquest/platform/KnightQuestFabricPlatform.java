@@ -1,5 +1,6 @@
 package dev.xylonity.knightquest.platform;
 
+import dev.xylonity.knightlib.compat.registry.KnightLibItems;
 import dev.xylonity.knightquest.KnightQuest;
 import dev.xylonity.knightquest.client.armor.GeoItemArmor;
 import dev.xylonity.knightquest.common.item.KQArmorItem;
@@ -82,6 +83,11 @@ public class KnightQuestFabricPlatform implements KnightQuestPlatform {
     @Override
     public <T extends CreativeModeTab> Supplier<T> registerCreativeModeTab(String id, Supplier<T> tab) {
         return registerSupplier(BuiltInRegistries.CREATIVE_MODE_TAB, id, tab);
+    }
+
+    @Override
+    public Supplier<Item> getGreatEssence() {
+        return KnightLibItems.GREAT_ESSENCE;
     }
 
     @Override

@@ -18,7 +18,7 @@ public class KQLootTableModifier {
     private static final ResourceLocation RATMAN_ID = new ResourceLocation(KnightQuest.MOD_ID, "entities/ratman");
     private static final ResourceLocation LIZZY_ID = new ResourceLocation(KnightQuest.MOD_ID, "entities/lizzy");
 
-    public static void modifyLootTables() {
+    public static void init() {
 
         LootTableEvents.MODIFY.register((resourceManager, lootManager, id, tableBuilder, source) -> {
 

@@ -1,5 +1,6 @@
 package dev.xylonity.knightquest.datagen;
 
+import dev.xylonity.knightquest.common.entity.entities.LizzyEntity;
 import dev.xylonity.knightquest.registry.KnightQuestEntities;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
@@ -12,11 +13,11 @@ import net.minecraft.world.level.levelgen.Heightmap;
 
 public class KQEntitySpawn {
 
-    public static void addEntitySpawns() {
-        BiomeModifications.addSpawn(BiomeSelectors.includeByKey(Biomes.DRIPSTONE_CAVES), MobCategory.MONSTER, KnightQuestEntities.RATMAN, 25, 1, 2);
-        BiomeModifications.addSpawn(BiomeSelectors.includeByKey(Biomes.LUSH_CAVES), MobCategory.MONSTER, KnightQuestEntities.RATMAN, 25, 1, 2);
-        BiomeModifications.addSpawn(BiomeSelectors.includeByKey(Biomes.DESERT), MobCategory.MONSTER, KnightQuestEntities.RATMAN, 25, 1, 2);
-        BiomeModifications.addSpawn(BiomeSelectors.includeByKey(Biomes.JUNGLE), MobCategory.MONSTER, KnightQuestEntities.RATMAN, 25, 1, 2);
+    public static void init() {
+        BiomeModifications.addSpawn(BiomeSelectors.includeByKey(Biomes.DRIPSTONE_CAVES), MobCategory.MONSTER, KnightQuestEntities.RATMAN, 40, 1, 2);
+        BiomeModifications.addSpawn(BiomeSelectors.includeByKey(Biomes.LUSH_CAVES), MobCategory.MONSTER, KnightQuestEntities.RATMAN, 40, 1, 2);
+        BiomeModifications.addSpawn(BiomeSelectors.includeByKey(Biomes.DESERT), MobCategory.MONSTER, KnightQuestEntities.RATMAN, 40, 1, 2);
+        BiomeModifications.addSpawn(BiomeSelectors.includeByKey(Biomes.JUNGLE), MobCategory.MONSTER, KnightQuestEntities.RATMAN, 40, 1, 2);
 
         BiomeModifications.addSpawn(BiomeSelectors.includeByKey(Biomes.SOUL_SAND_VALLEY), MobCategory.MONSTER, KnightQuestEntities.GREMLIN, 15, 1, 1);
         BiomeModifications.addSpawn(BiomeSelectors.includeByKey(Biomes.NETHER_WASTES), MobCategory.MONSTER, KnightQuestEntities.GREMLIN, 15, 1, 1);
@@ -70,7 +71,7 @@ public class KQEntitySpawn {
         SpawnPlacements.register(KnightQuestEntities.ELDKNIGHT, SpawnPlacements.Type.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
         SpawnPlacements.register(KnightQuestEntities.LIZZY, SpawnPlacements.Type.ON_GROUND,
-                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules);
+                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, LizzyEntity::checkMobSpawnRules);
         SpawnPlacements.register(KnightQuestEntities.BADPATCH, SpawnPlacements.Type.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
     }

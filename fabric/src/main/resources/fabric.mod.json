@@ -27,10 +27,12 @@
         "knightquest.fabric.mixins.json"
     ],
     "depends": {
-        "fabricloader": ">=0.14",
+        "fabricloader": ">=0.15.10",
         "fabric": "*",
         "minecraft": "~${minecraft_version}",
-        "java": ">=17"
+        "java": ">=17",
+        "knightlib": ">=1.1.0",
+        "geckolib": ">=4.4.4"
     },
     "suggests": {
         "another-mod": "*"

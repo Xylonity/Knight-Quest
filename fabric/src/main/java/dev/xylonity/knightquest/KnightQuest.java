@@ -13,6 +13,8 @@ import dev.xylonity.knightquest.common.particle.explosiveenhancement.*;
 import dev.xylonity.knightquest.common.particle.explosiveenhancement.blue.*;
 import dev.xylonity.knightquest.common.particle.explosiveenhancement.red.*;
 import dev.xylonity.knightquest.config.InitializeConfig;
+import dev.xylonity.knightquest.datagen.KQEntitySpawn;
+import dev.xylonity.knightquest.datagen.KQLootTableModifier;
 import dev.xylonity.knightquest.registry.KnightQuestCreativeModeTabs;
 import dev.xylonity.knightquest.registry.KnightQuestEntities;
 import dev.xylonity.knightquest.registry.KnightQuestParticles;
@@ -36,6 +38,8 @@ public class KnightQuest implements ModInitializer, ClientModInitializer {
     public void onInitialize() {
 
         KnightQuestEntities.init();
+        KQLootTableModifier.init();
+        KQEntitySpawn.init();
 
         if (FabricLoader.getInstance().isModLoaded("forgeconfigapiport"))
             InitializeConfig.init();

@@ -5,6 +5,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ItemLike;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +16,14 @@ public class KnightQuestCreativeModeTabs {
     public static void init() { ;; }
 
     private static final List<Supplier<Item>> platformItems = new ArrayList<>();
+    private static final List<Supplier<? extends ItemLike>> knightLibItems = new ArrayList<>();
 
     public static void registerPlatformItem(Supplier<Item> itemSupplier) {
         platformItems.add(itemSupplier);
+    }
+
+    public static void registerKnightLibItem(Supplier<? extends ItemLike> itemSupplier) {
+        knightLibItems.add(itemSupplier);
     }
 
     public static final Supplier<CreativeModeTab> KNIGHTQUEST_TAB =
@@ -28,9 +34,11 @@ public class KnightQuestCreativeModeTabs {
                             .displayItems((itemDisplayParameters, output) -> {
 
                                 // KnightLib
-                                //output.accept(KnightLibBlocks.GREAT_CHALICE.get());
-                                //output.accept(KnightLibItems.SMALL_ESSENCE.get());
-                                //output.accept(KnightLibItems.GREAT_ESSENCE.get());
+                                for (Supplier<? extends ItemLike> itemSupplier : knightLibItems) {
+                                    if (itemSupplier != null) {
+                                        output.accept(new ItemStack(itemSupplier.get().asItem()));
+                                    }
+                                }
 
                                 output.accept(KnightQuestItems.RADIANT_ESSENCE.get());
                                 output.accept(KnightQuestItems.EMPTY_GOBLET.get());

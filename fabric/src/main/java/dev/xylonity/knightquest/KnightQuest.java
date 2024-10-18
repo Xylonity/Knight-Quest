@@ -1,5 +1,7 @@
 package dev.xylonity.knightquest;
 
+import dev.xylonity.knightlib.compat.registry.KnightLibBlocks;
+import dev.xylonity.knightlib.compat.registry.KnightLibItems;
 import dev.xylonity.knightquest.client.entity.renderer.*;
 import dev.xylonity.knightquest.common.entity.boss.NethermanCloneEntity;
 import dev.xylonity.knightquest.common.entity.boss.NethermanEntity;
@@ -58,6 +60,10 @@ public class KnightQuest implements ModInitializer, ClientModInitializer {
         FabricDefaultAttributeRegistry.register(KnightQuestEntities.SHIELD, GhastlingEntity.setAttributes());
         FabricDefaultAttributeRegistry.register(KnightQuestEntities.NETHERMAN, NethermanEntity.setAttributes());
         FabricDefaultAttributeRegistry.register(KnightQuestEntities.NETHERMAN_CLONE, NethermanCloneEntity.setAttributes());
+
+        KnightQuestCreativeModeTabs.registerKnightLibItem(() -> KnightLibBlocks.GREAT_CHALICE);
+        KnightQuestCreativeModeTabs.registerKnightLibItem(KnightLibItems.SMALL_ESSENCE);
+        KnightQuestCreativeModeTabs.registerKnightLibItem(KnightLibItems.GREAT_ESSENCE);
 
         KnightQuestCreativeModeTabs.registerPlatformItem(() -> KnightQuestEntities.GREMLIN_EGG);
         KnightQuestCreativeModeTabs.registerPlatformItem(() -> KnightQuestEntities.ELD_BOMB_EGG);

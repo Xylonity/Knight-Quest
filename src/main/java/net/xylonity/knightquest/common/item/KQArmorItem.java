@@ -38,6 +38,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class KQArmorItem extends ArmorItem {
 
@@ -157,9 +158,10 @@ public class KQArmorItem extends ArmorItem {
      */
 
     private static final Map<UUID, Map<KQArmorMaterials, Boolean>> effectAppliedByArmorMap = new HashMap<>();
+    private static final Map<UUID, Map<KQArmorMaterials, Boolean>> tickingEffectAppliedByArmorMap = new ConcurrentHashMap<>();
 
     @Override
-    public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
+    public void inventoryTick(@NotNull ItemStack pStack, Level pLevel, @NotNull Entity pEntity, int pSlotId, boolean pIsSelected) {
         if(!pLevel.isClientSide() && pEntity instanceof Player player) {
 
             UUID playerUUID = player.getUUID();
@@ -360,7 +362,7 @@ public class KQArmorItem extends ArmorItem {
          * not be infinite jumps when there are more than two players present.
          */
 
-        private static final Map<UUID, Boolean> doubleJumpStates = new HashMap<>();
+        private static final Map<UUID, Boolean> doubleJumpStates = new ConcurrentHashMap<>();
 
         @SubscribeEvent
         public static void onLivingHurt(LivingHurtEvent event) {
@@ -574,14 +576,14 @@ public class KQArmorItem extends ArmorItem {
                     if (hasFullSetOn(player, KQArmorMaterials.HUSKSET) && (player.getLevel().getBiome(new BlockPos((int) player.getX(), (int) player.getY(), (int) player.getZ())).is(Biomes.DESERT)
                             || player.getLevel().getBiome(new BlockPos((int) player.getX(), (int) player.getY(), (int) player.getZ())).is(Biomes.BADLANDS)
                                 || player.getLevel().getBiome(new BlockPos((int) player.getX(), (int) player.getY(), (int) player.getZ())).is(Biomes.BEACH))) {
-                        if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(player.getUUID(), k -> new HashMap<>()).getOrDefault(KQArmorMaterials.HUSKSET, false))) {
+                        if (!Boolean.TRUE.equals(tickingEffectAppliedByArmorMap.computeIfAbsent(player.getUUID(), k -> new HashMap<>()).getOrDefault(KQArmorMaterials.HUSKSET, false))) {
                             player.addEffect(HUSK_ARMOR);
-                            effectAppliedByArmorMap.get(player.getUUID()).put(KQArmorMaterials.HUSKSET, true);
+                            tickingEffectAppliedByArmorMap.get(player.getUUID()).put(KQArmorMaterials.HUSKSET, true);
                         }
                     } else {
-                        if (Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(player.getUUID(), k -> new HashMap<>()).getOrDefault(KQArmorMaterials.HUSKSET, false))) {
+                        if (Boolean.TRUE.equals(tickingEffectAppliedByArmorMap.computeIfAbsent(player.getUUID(), k -> new HashMap<>()).getOrDefault(KQArmorMaterials.HUSKSET, false))) {
                             player.removeEffect(MobEffects.DAMAGE_RESISTANCE);
-                            effectAppliedByArmorMap.get(player.getUUID()).put(KQArmorMaterials.HUSKSET, false);
+                            tickingEffectAppliedByArmorMap.get(player.getUUID()).put(KQArmorMaterials.HUSKSET, false);
                         }
                     }
 
@@ -589,14 +591,14 @@ public class KQArmorItem extends ArmorItem {
                     if (hasFullSetOn(player, KQArmorMaterials.BAMBOOSET_BLUE) && (player.getLevel().getBiome(new BlockPos((int) player.getX(), (int) player.getY(), (int) player.getZ())).is(Biomes.JUNGLE)
                             || player.getLevel().getBiome(new BlockPos((int) player.getX(), (int) player.getY(), (int) player.getZ())).is(Biomes.BAMBOO_JUNGLE)
                                 || player.getLevel().getBiome(new BlockPos((int) player.getX(), (int) player.getY(), (int) player.getZ())).is(Biomes.SPARSE_JUNGLE))) {
-                        if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(player.getUUID(), k -> new HashMap<>()).getOrDefault(KQArmorMaterials.BAMBOOSET_BLUE, false))) {
+                        if (!Boolean.TRUE.equals(tickingEffectAppliedByArmorMap.computeIfAbsent(player.getUUID(), k -> new HashMap<>()).getOrDefault(KQArmorMaterials.BAMBOOSET_BLUE, false))) {
                             player.addEffect(BAMBOO_BLUE);
-                            effectAppliedByArmorMap.get(player.getUUID()).put(KQArmorMaterials.BAMBOOSET_BLUE, true);
+                            tickingEffectAppliedByArmorMap.get(player.getUUID()).put(KQArmorMaterials.BAMBOOSET_BLUE, true);
                         }
                     } else {
-                        if (Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(player.getUUID(), k -> new HashMap<>()).getOrDefault(KQArmorMaterials.BAMBOOSET_BLUE, false))) {
+                        if (Boolean.TRUE.equals(tickingEffectAppliedByArmorMap.computeIfAbsent(player.getUUID(), k -> new HashMap<>()).getOrDefault(KQArmorMaterials.BAMBOOSET_BLUE, false))) {
                             player.removeEffect(MobEffects.MOVEMENT_SPEED);
-                            effectAppliedByArmorMap.get(player.getUUID()).put(KQArmorMaterials.BAMBOOSET_BLUE, false);
+                            tickingEffectAppliedByArmorMap.get(player.getUUID()).put(KQArmorMaterials.BAMBOOSET_BLUE, false);
                         }
                     }
 
@@ -630,14 +632,14 @@ public class KQArmorItem extends ArmorItem {
 
                 if (KQConfigValues.SILVERFISHSET)
                     if (hasFullSetOn(player, KQArmorMaterials.SILVERFISHSET) && player.getY() < KQConfigValues.SILVERFISH_EFFECT_MAX_HEIGHT) {
-                        if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(player.getUUID(), k -> new HashMap<>()).getOrDefault(KQArmorMaterials.SILVERFISHSET, false))) {
+                        if (!Boolean.TRUE.equals(tickingEffectAppliedByArmorMap.computeIfAbsent(player.getUUID(), k -> new HashMap<>()).getOrDefault(KQArmorMaterials.SILVERFISHSET, false))) {
                             player.addEffect(SILVERFISH_ARMOR);
-                            effectAppliedByArmorMap.get(player.getUUID()).put(KQArmorMaterials.SILVERFISHSET, true);
+                            tickingEffectAppliedByArmorMap.get(player.getUUID()).put(KQArmorMaterials.SILVERFISHSET, true);
                         }
                     } else {
-                        if (Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(player.getUUID(), k -> new HashMap<>()).getOrDefault(KQArmorMaterials.SILVERFISHSET, false))) {
+                        if (Boolean.TRUE.equals(tickingEffectAppliedByArmorMap.computeIfAbsent(player.getUUID(), k -> new HashMap<>()).getOrDefault(KQArmorMaterials.SILVERFISHSET, false))) {
                             player.removeEffect(MobEffects.DIG_SPEED);
-                            effectAppliedByArmorMap.get(player.getUUID()).put(KQArmorMaterials.SILVERFISHSET, false);
+                            tickingEffectAppliedByArmorMap.get(player.getUUID()).put(KQArmorMaterials.SILVERFISHSET, false);
                         }
                     }
 

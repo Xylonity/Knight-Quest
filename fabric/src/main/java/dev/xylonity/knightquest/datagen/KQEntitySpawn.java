@@ -13,7 +13,7 @@ import net.minecraft.world.level.levelgen.Heightmap;
 
 public class KQEntitySpawn {
 
-    public static void addEntitySpawns() {
+    public static void register() {
         BiomeModifications.addSpawn(BiomeSelectors.includeByKey(Biomes.DRIPSTONE_CAVES), MobCategory.MONSTER, KnightQuestEntities.RATMAN, 25, 1, 2);
         BiomeModifications.addSpawn(BiomeSelectors.includeByKey(Biomes.LUSH_CAVES), MobCategory.MONSTER, KnightQuestEntities.RATMAN, 25, 1, 2);
         BiomeModifications.addSpawn(BiomeSelectors.includeByKey(Biomes.DESERT), MobCategory.MONSTER, KnightQuestEntities.RATMAN, 25, 1, 2);
@@ -71,7 +71,7 @@ public class KQEntitySpawn {
         SpawnPlacements.register(KnightQuestEntities.ELDKNIGHT, SpawnPlacementTypes.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
         SpawnPlacements.register(KnightQuestEntities.LIZZY, SpawnPlacementTypes.ON_GROUND,
-                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules);
+                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkMobSpawnRules);
         SpawnPlacements.register(KnightQuestEntities.BADPATCH, SpawnPlacementTypes.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
     }

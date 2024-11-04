@@ -1,5 +1,6 @@
 package dev.xylonity.knightquest.platform;
 
+import dev.xylonity.knightlib.compat.registry.KnightLibItems;
 import dev.xylonity.knightquest.KnightQuest;
 import dev.xylonity.knightquest.KnightQuestCommon;
 import dev.xylonity.knightquest.client.armor.GeoItemArmor;
@@ -28,6 +29,11 @@ public class KnightQuestForgePlatform implements KnightQuestPlatform {
     //public <T extends Item> Supplier<T> registerItem(String id, Supplier<T> item) {
     //    return KnightQuest.ITEMS.register(id, item);
     //}
+
+    @Override
+    public Supplier<Item> getGreatEssence() {
+        return KnightLibItems.GREAT_ESSENCE;
+    }
 
     @Override
     public <T extends SoundEvent> Supplier<T> registerSound(String id, Supplier<T> sound) {

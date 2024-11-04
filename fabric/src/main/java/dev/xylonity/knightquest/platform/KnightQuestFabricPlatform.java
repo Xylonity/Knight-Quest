@@ -1,24 +1,15 @@
 package dev.xylonity.knightquest.platform;
 
+import dev.xylonity.knightlib.compat.registry.KnightLibItems;
 import dev.xylonity.knightquest.KnightQuest;
-import dev.xylonity.knightquest.client.armor.GeoItemArmor;
-import dev.xylonity.knightquest.common.item.KQArmorItem;
-import dev.xylonity.knightquest.common.material.KQArmorMaterials;
-import dev.xylonity.knightquest.common.material.KQItemMaterials;
-import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.item.*;
-import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
 import java.util.function.Supplier;
 
 @SuppressWarnings("unchecked")
@@ -30,6 +21,11 @@ public class KnightQuestFabricPlatform implements KnightQuestPlatform {
     //public <T extends Item> Supplier<T> registerItem(String id, Supplier<T> item) {
     //    return registerSupplier(BuiltInRegistries.ITEM, id, item);
     //}
+
+    @Override
+    public Supplier<Item> getGreatEssence() {
+        return KnightLibItems.GREAT_ESSENCE;
+    }
 
     @Override
     public <T extends SoundEvent> Supplier<T> registerSound(String id, Supplier<T> sound) {

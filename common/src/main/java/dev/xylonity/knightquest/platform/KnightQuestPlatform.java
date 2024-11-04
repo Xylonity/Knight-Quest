@@ -17,6 +17,8 @@ public interface KnightQuestPlatform {
 
     <T extends ParticleType<?>> Supplier<T> registerParticle(String id, boolean overrideLimiter);
 
+    Supplier<Item> getGreatEssence();
+
     //<T extends Item> Supplier<T> registerItem(String id, Supplier<T> item);
     //<T extends Item> Supplier<T> registerSwordItem(String id, KQItemMaterials itemMaterial, float attackMalus, boolean containsTooltip, Item.Properties properties);
     //<T extends Item> Supplier<T> registerAxeItem(String id, KQItemMaterials itemMaterial, float extraDamageBoost, float attackMalus, Item.Properties properties);

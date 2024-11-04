@@ -12,6 +12,8 @@ import dev.xylonity.knightquest.common.particle.explosiveenhancement.*;
 import dev.xylonity.knightquest.common.particle.explosiveenhancement.blue.*;
 import dev.xylonity.knightquest.common.particle.explosiveenhancement.red.*;
 import dev.xylonity.knightquest.config.InitializeConfig;
+import dev.xylonity.knightquest.datagen.KQEntitySpawn;
+import dev.xylonity.knightquest.datagen.KQLootTableModifier;
 import dev.xylonity.knightquest.registry.KnightQuestCreativeModeTabs;
 import dev.xylonity.knightquest.registry.KnightQuestEntities;
 import dev.xylonity.knightquest.registry.KnightQuestItems;
@@ -35,7 +37,9 @@ public class KnightQuest implements ModInitializer, ClientModInitializer {
 
         KnightQuestEntities.init();
         KnightQuestCreativeModeTabs.init();
-        KnightQuestItems.register();
+        KnightQuestItems.init();
+        KQEntitySpawn.register();
+        KQLootTableModifier.register();
 
         if (FCAPChecker.isLoaded()) {
             KnightQuestCommon.LOGGER.info("[Knight Quest] The mod 'forgeconfigapiport' was detected, reading config file `knightquest.toml` for Knight Quest.");

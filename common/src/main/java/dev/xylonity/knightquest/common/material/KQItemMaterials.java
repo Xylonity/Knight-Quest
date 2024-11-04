@@ -1,6 +1,7 @@
 package dev.xylonity.knightquest.common.material;
 
 import com.google.common.base.Suppliers;
+import dev.xylonity.knightquest.KnightQuestCommon;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Items;
@@ -15,17 +16,17 @@ import java.util.function.Supplier;
 
 public enum KQItemMaterials implements Tier {
 
-    PALADIN(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 2131, 9.0F, 4F, 15, () -> Ingredient.of(Items.ICE)),
-    NAIL(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 1821, 9.0F, 2.5F, 15, () -> Ingredient.of(Items.ICE)),
-    UCHIGATANA(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 1080, 9.0F, 3F, 15, () -> Ingredient.of(Items.ICE)),
-    KUKRI(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 200, 9.0F, 0F, 14, () -> Ingredient.of(Items.ICE)),
-    KHOPESH(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 1831, 9.0F, 3.5F, 15, () -> Ingredient.of(Items.ICE)),
-    CLEAVER(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 1931, 9.0F, 3.8F, 15, () -> Ingredient.of(Items.ICE)),
-    CRIMSON_SWORD(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 1450, 9.0F, 2.5F, 14, () -> Ingredient.of(Items.ICE)),
-    WATER_SWORD(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 850, 9.0F, 2F, 14, () -> Ingredient.of(Items.ICE)),
-    STEEL_SWORD(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 300, 9.0F, 2.5F, 14, () -> Ingredient.of(Items.ICE)),
-    WATER_AXE(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 850, 9.0F, 1.5F, 14, () -> Ingredient.of(Items.ICE)),
-    STEEL_AXE(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 300, 9.0F, 1.5F, 14, () -> Ingredient.of(Items.ICE));
+    PALADIN(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 2131, 9.0F, 4F, 15, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
+    NAIL(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 1821, 9.0F, 2.5F, 15, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
+    UCHIGATANA(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 1080, 9.0F, 3F, 15, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
+    KUKRI(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 200, 9.0F, 0F, 14, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
+    KHOPESH(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 1831, 9.0F, 3.5F, 15, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
+    CLEAVER(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 1931, 9.0F, 3.8F, 15, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
+    CRIMSON_SWORD(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 1450, 9.0F, 2.5F, 14, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
+    WATER_SWORD(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 850, 9.0F, 2F, 14, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
+    STEEL_SWORD(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 300, 9.0F, 2.5F, 14, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
+    WATER_AXE(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 850, 9.0F, 1.5F, 14, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
+    STEEL_AXE(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 300, 9.0F, 1.5F, 14, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get()));
 
     private final TagKey<Block> incorrectBlocksForDrops;
     private final int uses;

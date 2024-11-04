@@ -18,11 +18,11 @@ public class KQLootTableModifier {
     private static final ResourceLocation RATMAN_ID = ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "entities/ratman");
     private static final ResourceLocation LIZZY_ID = ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "entities/lizzy");
 
-    public static void modifyLootTables() {
+    public static void register() {
 
         LootTableEvents.MODIFY.register((resourceManager, lootManager, id, tableBuilder) -> {
 
-            if (RATMAN_ID.equals(id)) {
+            if (RATMAN_ID.equals(resourceManager.location())) {
                 LootPool.Builder poolBuilder = LootPool.lootPool()
                         .setRolls(ConstantValue.exactly(1))
                         .when(LootItemRandomChanceCondition.randomChance(KQConfigValues.DROP_CHANCE_RATMAN_EYE))
@@ -32,7 +32,7 @@ public class KQLootTableModifier {
                 lootManager.pool(poolBuilder.build());
             }
 
-            if (LIZZY_ID.equals(id)) {
+            if (LIZZY_ID.equals(resourceManager.location())) {
                 LootPool.Builder poolBuilder = LootPool.lootPool()
                         .setRolls(ConstantValue.exactly(1))
                         .when(LootItemRandomChanceCondition.randomChance(KQConfigValues.DROP_CHANCE_LIZZY_SCALE))

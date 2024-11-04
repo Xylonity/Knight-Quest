@@ -23,7 +23,7 @@ public class KnightQuestItems {
         return Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, name), item);
     }
 
-    public static void register() {}
+    public static void init() {}
 
     public static final Item RADIANT_ESSENCE = registerItem("radiant_essence", new KQItem(new Item.Properties(), "radiant_essence"));
     public static final Item EMPTY_GOBLET = registerItem("empty_goblet", new KQItem(new Item.Properties(), "empty_goblet"));

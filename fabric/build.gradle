@@ -23,7 +23,7 @@ dependencies {
     }
     modApi "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:21.0.8"
     modImplementation "curse.maven:knight-lib-1105855:5783678"
-    modImplementation "software.bernie.geckolib:geckolib-fabric-${minecraft_version}:4.5.6"
+    modImplementation "software.bernie.geckolib:geckolib-fabric-${minecraft_version}:4.5.8"
     modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
 }

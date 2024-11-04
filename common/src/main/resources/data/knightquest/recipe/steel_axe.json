@@ -1,24 +1,24 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "category": "misc",
-  "key": {
-    "I": {
-      "item": "minecraft:iron_axe"
+    "type": "minecraft:crafting_shaped",
+    "category": "misc",
+    "key": {
+        "I": {
+            "item": "minecraft:iron_axe"
+        },
+        "S": {
+            "item": "minecraft:feather"
+        },
+        "X": {
+            "item": "minecraft:charcoal"
+        }
     },
-    "S": {
-      "item": "minecraft:feather"
+    "pattern": [
+        "XXX",
+        " I ",
+        " S "
+    ],
+    "result": {
+        "id": "knightquest:steel_axe"
     },
-    "X": {
-      "item": "minecraft:charcoal"
-    }
-  },
-  "pattern": [
-    "XXX",
-    " I ",
-    " S "
-  ],
-  "result": {
-    "item": "knightquest:steel_axe"
-  },
-  "show_notification": true
+    "show_notification": true
 }

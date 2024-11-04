@@ -14,10 +14,10 @@ import net.minecraft.world.level.levelgen.Heightmap;
 public class KQEntitySpawn {
 
     public static void register() {
-        BiomeModifications.addSpawn(BiomeSelectors.includeByKey(Biomes.DRIPSTONE_CAVES), MobCategory.MONSTER, KnightQuestEntities.RATMAN, 25, 1, 2);
-        BiomeModifications.addSpawn(BiomeSelectors.includeByKey(Biomes.LUSH_CAVES), MobCategory.MONSTER, KnightQuestEntities.RATMAN, 25, 1, 2);
-        BiomeModifications.addSpawn(BiomeSelectors.includeByKey(Biomes.DESERT), MobCategory.MONSTER, KnightQuestEntities.RATMAN, 25, 1, 2);
-        BiomeModifications.addSpawn(BiomeSelectors.includeByKey(Biomes.JUNGLE), MobCategory.MONSTER, KnightQuestEntities.RATMAN, 25, 1, 2);
+        BiomeModifications.addSpawn(BiomeSelectors.includeByKey(Biomes.DRIPSTONE_CAVES), MobCategory.MONSTER, KnightQuestEntities.RATMAN, 30, 1, 2);
+        BiomeModifications.addSpawn(BiomeSelectors.includeByKey(Biomes.LUSH_CAVES), MobCategory.MONSTER, KnightQuestEntities.RATMAN, 30, 1, 2);
+        BiomeModifications.addSpawn(BiomeSelectors.includeByKey(Biomes.DESERT), MobCategory.MONSTER, KnightQuestEntities.RATMAN, 30, 1, 2);
+        BiomeModifications.addSpawn(BiomeSelectors.includeByKey(Biomes.JUNGLE), MobCategory.MONSTER, KnightQuestEntities.RATMAN, 30, 1, 2);
 
         BiomeModifications.addSpawn(BiomeSelectors.includeByKey(Biomes.SOUL_SAND_VALLEY), MobCategory.MONSTER, KnightQuestEntities.GREMLIN, 15, 1, 1);
         BiomeModifications.addSpawn(BiomeSelectors.includeByKey(Biomes.NETHER_WASTES), MobCategory.MONSTER, KnightQuestEntities.GREMLIN, 15, 1, 1);

@@ -30,7 +30,9 @@
         "fabricloader": ">=${fabric_loader_version}",
         "fabric-api": "*",
         "minecraft": "~${minecraft_version}",
-        "java": ">=${java_version}"
+        "java": ">=${java_version}",
+        "knightlib": ">=1.1.0",
+        "geckolib": ">=4.5.7"
     },
     "suggests": {
         "another-mod": "*"

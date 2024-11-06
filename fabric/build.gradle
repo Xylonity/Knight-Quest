@@ -2,6 +2,7 @@ plugins {
     id 'multiloader-loader'
     id 'fabric-loom'
 }
+
 repositories {
     maven {
         name = "Fuzs Mod Resources"
@@ -15,6 +16,7 @@ repositories {
         url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
     }
 }
+
 dependencies {
     minecraft "com.mojang:minecraft:${minecraft_version}"
     mappings loom.layered {
@@ -22,7 +24,7 @@ dependencies {
         parchment("org.parchmentmc.data:parchment-${parchment_minecraft}:${parchment_version}@zip")
     }
     modApi "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:21.0.8"
-    modImplementation "curse.maven:knight-lib-1105855:5783678"
+    modImplementation "curse.maven:knight-lib-1105855:5876006"
     modImplementation "software.bernie.geckolib:geckolib-fabric-${minecraft_version}:4.5.8"
     modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"

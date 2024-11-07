@@ -103,7 +103,6 @@ public class KQArmorItem extends ArmorItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @NotNull TooltipContext context, @NotNull List<Component> tooltipComponents, @NotNull TooltipFlag tooltipFlag) {
-        System.out.println("se cumple?" + (hasTooltip && isArmorSetConfigEnabled(bonusTooltip)));
         if (hasTooltip && isArmorSetConfigEnabled(bonusTooltip))
             if (!Objects.equals(bonusTooltip, "chainmail") && !Objects.equals(bonusTooltip, "tengu")) {
                 tooltipComponents.add(Component.translatable("tooltip.item.knightquest.full_set_bonus"));

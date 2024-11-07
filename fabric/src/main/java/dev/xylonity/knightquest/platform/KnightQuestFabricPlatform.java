@@ -78,9 +78,9 @@ public class KnightQuestFabricPlatform implements KnightQuestPlatform {
     }
 
     @Override
-    public <T extends Item> Supplier<T> registerGeoArmorItem(String id, Holder<ArmorMaterial> armorMaterial, ArmorItem.Type armorType, boolean containsTooltip, boolean containsExtraTooltip) {
+    public <T extends Item> Supplier<T> registerGeoArmorItem(String id, Holder<ArmorMaterial> armorMaterial, ArmorItem.Type armorType, boolean containsTooltip, boolean containsExtraTooltip, Item.Properties properties, int durabilityAmount) {
         if (containsExtraTooltip)
-            return (Supplier<T>) registerSupplier(BuiltInRegistries.ITEM, id, () -> new GeoItemArmor(armorMaterial, armorType, new Item.Properties(), id, containsTooltip) {
+            return (Supplier<T>) registerSupplier(BuiltInRegistries.ITEM, id, () -> new GeoItemArmor(armorMaterial, armorType, properties.durability(armorType.getDurability(durabilityAmount)), id, containsTooltip) {
                 @Override
                 public void appendHoverText(@NotNull ItemStack stack, @NotNull TooltipContext context, @NotNull List<Component> tooltipComponents, @NotNull TooltipFlag tooltipFlag) {
                     tooltipComponents.add(Component.translatable(TOOLTIP_ITEM_PATH + id));
@@ -88,7 +88,7 @@ public class KnightQuestFabricPlatform implements KnightQuestPlatform {
                 }
             });
         else
-            return (Supplier<T>) registerSupplier(BuiltInRegistries.ITEM, id, () -> new GeoItemArmor(armorMaterial, armorType, new Item.Properties(), id, containsTooltip));
+            return (Supplier<T>) registerSupplier(BuiltInRegistries.ITEM, id, () -> new GeoItemArmor(armorMaterial, armorType, properties.durability(armorType.getDurability(durabilityAmount)), id, containsTooltip));
     }
 
     @Override
@@ -116,8 +116,8 @@ public class KnightQuestFabricPlatform implements KnightQuestPlatform {
     }
 
     @Override
-    public <T extends Item> Supplier<T> registerArmorItem(String id, Holder<ArmorMaterial> armorMaterial, ArmorItem.Type armorType, boolean containsTooltip) {
-        return (Supplier<T>) registerSupplier(BuiltInRegistries.ITEM, id, () -> new KQArmorItem(armorMaterial, armorType, new Item.Properties(), containsTooltip));
+    public <T extends Item> Supplier<T> registerArmorItem(String id, Holder<ArmorMaterial> armorMaterial, ArmorItem.Type armorType, boolean containsTooltip, Item.Properties properties, int durabilityAmount) {
+        return (Supplier<T>) registerSupplier(BuiltInRegistries.ITEM, id, () -> new KQArmorItem(armorMaterial, armorType, properties.durability(armorType.getDurability(durabilityAmount)), containsTooltip));
     }
 
     @Override

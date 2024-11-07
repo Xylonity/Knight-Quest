@@ -1,8 +1,7 @@
 package dev.xylonity.knightquest;
 
 import dev.xylonity.knightquest.platform.KnightQuestPlatform;
-import dev.xylonity.knightquest.registry.KnightQuestParticles;
-import dev.xylonity.knightquest.registry.KnightQuestSounds;
+import dev.xylonity.knightquest.registry.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,8 +15,11 @@ public class KnightQuestCommon {
     public static final KnightQuestPlatform COMMON_PLATFORM = ServiceLoader.load(KnightQuestPlatform.class).findFirst().orElseThrow();
 
     public static void init() {
+        KnightQuestItems.init();
         KnightQuestSounds.init();
         KnightQuestParticles.init();
+        KnightQuestCreativeModeTabs.init();
+        KnightQuestEntities.init();
     }
 
 }

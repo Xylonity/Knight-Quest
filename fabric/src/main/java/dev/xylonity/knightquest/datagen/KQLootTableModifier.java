@@ -25,8 +25,8 @@ public class KQLootTableModifier {
             if (RATMAN_ID.equals(resourceManager.location())) {
                 LootPool.Builder poolBuilder = LootPool.lootPool()
                         .setRolls(ConstantValue.exactly(1))
-                        .when(LootItemRandomChanceCondition.randomChance(KQConfigValues.DROP_CHANCE_RATMAN_EYE))
-                        .add(LootItem.lootTableItem(KnightQuestItems.RATMAN_EYE))
+                        .when(LootItemRandomChanceCondition.randomChance(KQConfigValues.DROP_CHANCE_RATMAN_EYE.getFloat()))
+                        .add(LootItem.lootTableItem(KnightQuestItems.RATMAN_EYE.get()))
                         .add(LootItem.lootTableItem(Items.CROSSBOW))
                         .apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0f, 1.0f)));
                 lootManager.pool(poolBuilder.build());
@@ -35,8 +35,8 @@ public class KQLootTableModifier {
             if (LIZZY_ID.equals(resourceManager.location())) {
                 LootPool.Builder poolBuilder = LootPool.lootPool()
                         .setRolls(ConstantValue.exactly(1))
-                        .when(LootItemRandomChanceCondition.randomChance(KQConfigValues.DROP_CHANCE_LIZZY_SCALE))
-                        .add(LootItem.lootTableItem(KnightQuestItems.LIZZY_SCALE))
+                        .when(LootItemRandomChanceCondition.randomChance(KQConfigValues.DROP_CHANCE_LIZZY_SCALE.getFloat()))
+                        .add(LootItem.lootTableItem(KnightQuestItems.LIZZY_SCALE.get()))
                         .apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0f, 2.0f)));
                 lootManager.pool(poolBuilder.build());
             }

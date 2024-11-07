@@ -20,14 +20,14 @@ public abstract class PlayerEntityMixin {
         // Victim: Player
         if ((Object) this instanceof Player player) {
 
-            if (KQConfigValues.DEEPSLATESET && KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.DEEPSLATESET) && source.is(DamageTypes.FALL))
-                return (float) (damageOriginal * KQConfigValues.DEEPSLATE_FALL_DAMAGE_MULTIPLIER);
+            if (KQConfigValues.DEEPSLATESET.getBoolean() && KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.DEEPSLATESET) && source.is(DamageTypes.FALL))
+                return damageOriginal * KQConfigValues.DEEPSLATE_FALL_DAMAGE_MULTIPLIER.getFloat();
 
-            if (KQConfigValues.CREEPERSET && KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.CREEPERSET) && (source.is(DamageTypes.EXPLOSION) || source.is(DamageTypes.PLAYER_EXPLOSION)))
-                return (float) (damageOriginal * KQConfigValues.CREEPER_EXPLOSION_DAMAGE_MULTIPLIER);
+            if (KQConfigValues.CREEPERSET.getBoolean() && KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.CREEPERSET) && (source.is(DamageTypes.EXPLOSION) || source.is(DamageTypes.PLAYER_EXPLOSION)))
+                return damageOriginal * KQConfigValues.CREEPER_EXPLOSION_DAMAGE_MULTIPLIER.getFloat();
 
-            if (KQConfigValues.SQUIRESET && KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.SQUIRESET))
-                return (float) (damageOriginal * KQConfigValues.SQUIRE_DAMAGE_RECEIVED_MULTIPLIER);
+            if (KQConfigValues.SQUIRESET.getBoolean() && KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.SQUIRESET))
+                return damageOriginal * KQConfigValues.SQUIRE_DAMAGE_RECEIVED_MULTIPLIER.getFloat();
             
         }
 

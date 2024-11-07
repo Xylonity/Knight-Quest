@@ -19,8 +19,8 @@ public abstract class LivingEntityMixin {
         // Attacker: Player
         if (source.getEntity() != null && source.getEntity() instanceof Player player) {
 
-            if (KQConfigValues.DRAGONSET && KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.DRAGONSET))
-                return (float) (damageOriginal * KQConfigValues.DRAGONSET_DAMAGE_MULTIPLIER);
+            if (KQConfigValues.DRAGONSET.getBoolean() && KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.DRAGONSET))
+                return damageOriginal * KQConfigValues.DRAGONSET_DAMAGE_MULTIPLIER.getFloat();
 
         }
 

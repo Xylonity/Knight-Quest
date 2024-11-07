@@ -5,13 +5,14 @@ import dev.xylonity.knightquest.client.entity.renderer.*;
 import dev.xylonity.knightquest.common.entity.boss.NethermanCloneEntity;
 import dev.xylonity.knightquest.common.entity.boss.NethermanEntity;
 import dev.xylonity.knightquest.common.entity.entities.*;
+import dev.xylonity.knightquest.common.event.KQArmorEvents;
 import dev.xylonity.knightquest.common.event.KQExtraEvents;
-import dev.xylonity.knightquest.common.item.KQArmorItem;
 import dev.xylonity.knightquest.common.particle.*;
 import dev.xylonity.knightquest.common.particle.explosiveenhancement.*;
 import dev.xylonity.knightquest.common.particle.explosiveenhancement.blue.*;
 import dev.xylonity.knightquest.common.particle.explosiveenhancement.red.*;
 import dev.xylonity.knightquest.config.InitializeConfig;
+import dev.xylonity.knightquest.config.KnightQuestCommonConfigs;
 import dev.xylonity.knightquest.datagen.KQEntitySpawn;
 import dev.xylonity.knightquest.datagen.KQLootTableModifier;
 import dev.xylonity.knightquest.registry.KnightQuestCreativeModeTabs;
@@ -44,28 +45,29 @@ public class KnightQuest implements ModInitializer, ClientModInitializer {
         if (FCAPChecker.isLoaded()) {
             KnightQuestCommon.LOGGER.info("[Knight Quest] The mod 'forgeconfigapiport' was detected, reading config file `knightquest.toml` for Knight Quest.");
             InitializeConfig.init();
+            KnightQuestCommonConfigs.assignValues();
         } else {
             KnightQuestCommon.LOGGER.warn("[Knight Quest] The mod 'forgeconfigapiport' is not loaded or is using a version lower than 21.0.2. Skipping configuration generation and reading for Knight Quest...");
         }
 
         UseBlockCallback.EVENT.register(new KQExtraEvents());
-        ServerTickEvents.END_SERVER_TICK.register(new KQArmorItem.OnEntityTickEvent());
-        ServerLivingEntityEvents.ALLOW_DAMAGE.register(new KQArmorItem.OnHurtPlayerHandler());
-        ServerEntityEvents.ENTITY_LOAD.register(new KQArmorItem.OnEntityJoinWorldEvent());
-        ServerLivingEntityEvents.AFTER_DEATH.register(new KQArmorItem.OnEntityDeathWorldEvent());
+        ServerTickEvents.END_SERVER_TICK.register(new KQArmorEvents.OnEntityTickEvent());
+        ServerLivingEntityEvents.ALLOW_DAMAGE.register(new KQArmorEvents.OnHurtPlayerHandler());
+        ServerEntityEvents.ENTITY_LOAD.register(new KQArmorEvents.OnEntityJoinWorldEvent());
+        ServerLivingEntityEvents.AFTER_DEATH.register(new KQArmorEvents.OnEntityDeathWorldEvent());
 
-        FabricDefaultAttributeRegistry.register(KnightQuestEntities.GREMLIN, GremlinEntity.setAttributes());
-        FabricDefaultAttributeRegistry.register(KnightQuestEntities.ELDBOMB, EldBombEntity.setAttributes());
-        FabricDefaultAttributeRegistry.register(KnightQuestEntities.SAMHAIN, SamhainEntity.setAttributes());
-        FabricDefaultAttributeRegistry.register(KnightQuestEntities.RATMAN, RatmanEntity.setAttributes());
-        FabricDefaultAttributeRegistry.register(KnightQuestEntities.SWAMPMAN, SwampmanEntity.setAttributes());
-        FabricDefaultAttributeRegistry.register(KnightQuestEntities.ELDKNIGHT, EldKnightEntity.setAttributes());
-        FabricDefaultAttributeRegistry.register(KnightQuestEntities.LIZZY, LizzyEntity.setAttributes());
-        FabricDefaultAttributeRegistry.register(KnightQuestEntities.BADPATCH, BadPatchEntity.setAttributes());
-        FabricDefaultAttributeRegistry.register(KnightQuestEntities.GHOSTY, GhostyEntity.setAttributes());
-        FabricDefaultAttributeRegistry.register(KnightQuestEntities.SHIELD, GhastlingEntity.setAttributes());
-        FabricDefaultAttributeRegistry.register(KnightQuestEntities.NETHERMAN, NethermanEntity.setAttributes());
-        FabricDefaultAttributeRegistry.register(KnightQuestEntities.NETHERMAN_CLONE, NethermanCloneEntity.setAttributes());
+        FabricDefaultAttributeRegistry.register(KnightQuestEntities.GREMLIN.get(), GremlinEntity.setAttributes());
+        FabricDefaultAttributeRegistry.register(KnightQuestEntities.ELDBOMB.get(), EldBombEntity.setAttributes());
+        FabricDefaultAttributeRegistry.register(KnightQuestEntities.SAMHAIN.get(), SamhainEntity.setAttributes());
+        FabricDefaultAttributeRegistry.register(KnightQuestEntities.RATMAN.get(), RatmanEntity.setAttributes());
+        FabricDefaultAttributeRegistry.register(KnightQuestEntities.SWAMPMAN.get(), SwampmanEntity.setAttributes());
+        FabricDefaultAttributeRegistry.register(KnightQuestEntities.ELDKNIGHT.get(), EldKnightEntity.setAttributes());
+        FabricDefaultAttributeRegistry.register(KnightQuestEntities.LIZZY.get(), LizzyEntity.setAttributes());
+        FabricDefaultAttributeRegistry.register(KnightQuestEntities.BADPATCH.get(), BadPatchEntity.setAttributes());
+        FabricDefaultAttributeRegistry.register(KnightQuestEntities.GHOSTY.get(), GhostyEntity.setAttributes());
+        FabricDefaultAttributeRegistry.register(KnightQuestEntities.SHIELD.get(), GhastlingEntity.setAttributes());
+        FabricDefaultAttributeRegistry.register(KnightQuestEntities.NETHERMAN.get(), NethermanEntity.setAttributes());
+        FabricDefaultAttributeRegistry.register(KnightQuestEntities.NETHERMAN_CLONE.get(), NethermanCloneEntity.setAttributes());
 
         KnightQuestCommon.init();
     }
@@ -98,22 +100,22 @@ public class KnightQuest implements ModInitializer, ClientModInitializer {
         ParticleFactoryRegistry.getInstance().register(KnightQuestParticles.UNDERWATERBLASTWAVE.get(), UnderwaterBlastwaveParticle.Provider::new);
         ParticleFactoryRegistry.getInstance().register(KnightQuestParticles.UNDERWATERSPARKS.get(), UnderwaterSparksParticle.Provider::new);
 
-        EntityRendererRegistry.register(KnightQuestEntities.GREMLIN, GremlinRenderer::new);
-        EntityRendererRegistry.register(KnightQuestEntities.ELDBOMB, EldBombRenderer::new);
-        EntityRendererRegistry.register(KnightQuestEntities.SAMHAIN, SamhainRenderer::new);
-        EntityRendererRegistry.register(KnightQuestEntities.RATMAN, RatmanRenderer::new);
-        EntityRendererRegistry.register(KnightQuestEntities.SWAMPMAN, SwampmanRenderer::new);
-        EntityRendererRegistry.register(KnightQuestEntities.ELDKNIGHT, EldKnightRenderer::new);
-        EntityRendererRegistry.register(KnightQuestEntities.LIZZY, LizzyRenderer::new);
-        EntityRendererRegistry.register(KnightQuestEntities.BADPATCH, BadPatchRenderer::new);
-        EntityRendererRegistry.register(KnightQuestEntities.GHOSTY, GhostyRenderer::new);
-        EntityRendererRegistry.register(KnightQuestEntities.SHIELD, ShieldRenderer::new);
-        EntityRendererRegistry.register(KnightQuestEntities.NETHERMAN, NethermanRenderer::new);
-        EntityRendererRegistry.register(KnightQuestEntities.NETHERMAN_CLONE, NethermanCloneRenderer::new);
-        EntityRendererRegistry.register(KnightQuestEntities.NETHERMAN_TELEPORT_CHARGE, NethermanTeleportChargeRenderer::new);
-        EntityRendererRegistry.register(KnightQuestEntities.SWAMPMAN_AXE, SwampmanAxeRenderer::new);
+        EntityRendererRegistry.register(KnightQuestEntities.GREMLIN.get(), GremlinRenderer::new);
+        EntityRendererRegistry.register(KnightQuestEntities.ELDBOMB.get(), EldBombRenderer::new);
+        EntityRendererRegistry.register(KnightQuestEntities.SAMHAIN.get(), SamhainRenderer::new);
+        EntityRendererRegistry.register(KnightQuestEntities.RATMAN.get(), RatmanRenderer::new);
+        EntityRendererRegistry.register(KnightQuestEntities.SWAMPMAN.get(), SwampmanRenderer::new);
+        EntityRendererRegistry.register(KnightQuestEntities.ELDKNIGHT.get(), EldKnightRenderer::new);
+        EntityRendererRegistry.register(KnightQuestEntities.LIZZY.get(), LizzyRenderer::new);
+        EntityRendererRegistry.register(KnightQuestEntities.BADPATCH.get(), BadPatchRenderer::new);
+        EntityRendererRegistry.register(KnightQuestEntities.GHOSTY.get(), GhostyRenderer::new);
+        EntityRendererRegistry.register(KnightQuestEntities.SHIELD.get(), ShieldRenderer::new);
+        EntityRendererRegistry.register(KnightQuestEntities.NETHERMAN.get(), NethermanRenderer::new);
+        EntityRendererRegistry.register(KnightQuestEntities.NETHERMAN_CLONE.get(), NethermanCloneRenderer::new);
+        EntityRendererRegistry.register(KnightQuestEntities.NETHERMAN_TELEPORT_CHARGE.get(), NethermanTeleportChargeRenderer::new);
+        EntityRendererRegistry.register(KnightQuestEntities.SWAMPMAN_AXE.get(), SwampmanAxeRenderer::new);
 
-        KQArmorItem.ClientEventHandlers.registerClientEvents();
+        KQArmorEvents.ClientEventHandlers.registerClientEvents();
 
     }
 

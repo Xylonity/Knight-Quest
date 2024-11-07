@@ -20,18 +20,18 @@ public class KQModelProvider extends FabricModelProvider {
 
     @Override
     public void generateItemModels(ItemModelGenerators itemModelGenerator) {
-        itemModelGenerator.generateFlatItem(KnightQuestItems.RATMAN_EYE, ModelTemplates.FLAT_ITEM);
-        itemModelGenerator.generateFlatItem(KnightQuestItems.LIZZY_SCALE, ModelTemplates.FLAT_ITEM);
+        itemModelGenerator.generateFlatItem(KnightQuestItems.RATMAN_EYE.get(), ModelTemplates.FLAT_ITEM);
+        itemModelGenerator.generateFlatItem(KnightQuestItems.LIZZY_SCALE.get(), ModelTemplates.FLAT_ITEM);
 
-        itemModelGenerator.generateFlatItem(KnightQuestItems.PALADIN_SWORD, ModelTemplates.FLAT_HANDHELD_ITEM);
-        itemModelGenerator.generateFlatItem(KnightQuestItems.CLEAVER, ModelTemplates.FLAT_HANDHELD_ITEM);
-        itemModelGenerator.generateFlatItem(KnightQuestItems.STEEL_SWORD, ModelTemplates.FLAT_HANDHELD_ITEM);
-        itemModelGenerator.generateFlatItem(KnightQuestItems.WATER_SWORD, ModelTemplates.FLAT_HANDHELD_ITEM);
-        itemModelGenerator.generateFlatItem(KnightQuestItems.CRIMSON_SWORD, ModelTemplates.FLAT_HANDHELD_ITEM);
-        itemModelGenerator.generateFlatItem(KnightQuestItems.KUKRI, ModelTemplates.FLAT_HANDHELD_ITEM);
-        itemModelGenerator.generateFlatItem(KnightQuestItems.KHOPESH, ModelTemplates.FLAT_HANDHELD_ITEM);
-        itemModelGenerator.generateFlatItem(KnightQuestItems.NAIL_SWORD, ModelTemplates.FLAT_HANDHELD_ITEM);
-        itemModelGenerator.generateFlatItem(KnightQuestItems.UCHIGATANA, ModelTemplates.FLAT_HANDHELD_ITEM);
+        itemModelGenerator.generateFlatItem(KnightQuestItems.PALADIN_SWORD.get(), ModelTemplates.FLAT_HANDHELD_ITEM);
+        itemModelGenerator.generateFlatItem(KnightQuestItems.CLEAVER.get(), ModelTemplates.FLAT_HANDHELD_ITEM);
+        itemModelGenerator.generateFlatItem(KnightQuestItems.STEEL_SWORD.get(), ModelTemplates.FLAT_HANDHELD_ITEM);
+        itemModelGenerator.generateFlatItem(KnightQuestItems.WATER_SWORD.get(), ModelTemplates.FLAT_HANDHELD_ITEM);
+        itemModelGenerator.generateFlatItem(KnightQuestItems.CRIMSON_SWORD.get(), ModelTemplates.FLAT_HANDHELD_ITEM);
+        itemModelGenerator.generateFlatItem(KnightQuestItems.KUKRI.get(), ModelTemplates.FLAT_HANDHELD_ITEM);
+        itemModelGenerator.generateFlatItem(KnightQuestItems.KHOPESH.get(), ModelTemplates.FLAT_HANDHELD_ITEM);
+        itemModelGenerator.generateFlatItem(KnightQuestItems.NAIL_SWORD.get(), ModelTemplates.FLAT_HANDHELD_ITEM);
+        itemModelGenerator.generateFlatItem(KnightQuestItems.UCHIGATANA.get(), ModelTemplates.FLAT_HANDHELD_ITEM);
         //itemModelGenerator.generateFlatItem(KnightQuestItems.STEEL_AXE, ModelTemplates.FLAT_HANDHELD_ITEM);
         //itemModelGenerator.generateFlatItem(KnightQuestItems.WATER_AXE, ModelTemplates.FLAT_HANDHELD_ITEM);
 

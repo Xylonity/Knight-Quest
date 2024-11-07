@@ -1,5 +1,6 @@
 package dev.xylonity.knightquest.config;
 
+import dev.xylonity.knightquest.config.values.KQConfigValues;
 import net.minecraftforge.common.ForgeConfigSpec;
 
 public class KnightQuestCommonConfigs {
@@ -9,24 +10,24 @@ public class KnightQuestCommonConfigs {
     // Eld Knight Configurations
     public static final ForgeConfigSpec.BooleanValue POISON_ELDKNIGHT;
     public static final ForgeConfigSpec.IntValue NUM_ELDBOMB_ELDKNIGHT;
-    public static final ForgeConfigSpec.DoubleValue HEAL_ELDKNIGHT;
+    public static final ForgeConfigSpec.FloatValue HEAL_ELDKNIGHT;
 
     // Drop Chance Configurations
-    // public static final ForgeConfigSpec.DoubleValue DROP_CHANCE_SMALL_ESSENCE;
-    public static final ForgeConfigSpec.DoubleValue DROP_CHANCE_RATMAN_EYE;
-    public static final ForgeConfigSpec.DoubleValue DROP_CHANCE_LIZZY_SCALE;
+    // public static final ForgeConfigSpec.FloatValue DROP_CHANCE_SMALL_ESSENCE;
+    public static final ForgeConfigSpec.FloatValue DROP_CHANCE_RATMAN_EYE;
+    public static final ForgeConfigSpec.FloatValue DROP_CHANCE_LIZZY_SCALE;
 
     // Ghosty Configurations
-    public static final ForgeConfigSpec.DoubleValue INVULNERABILITY_RADIUS_GHOSTY;
+    public static final ForgeConfigSpec.FloatValue INVULNERABILITY_RADIUS_GHOSTY;
 
     // Gremlin Configurations
     public static final ForgeConfigSpec.BooleanValue CAN_TAKE_GOLD_GREMLIN;
-    public static final ForgeConfigSpec.DoubleValue MULTIPLIER_GREMLIN_MOVEMENT_SPEED;
-    public static final ForgeConfigSpec.DoubleValue MULTIPLIER_GREMLIN_ATTACK_SPEED;
-    public static final ForgeConfigSpec.DoubleValue MULTIPLIER_GREMLIN_ATTACK_DAMAGE;
+    public static final ForgeConfigSpec.FloatValue MULTIPLIER_GREMLIN_MOVEMENT_SPEED;
+    public static final ForgeConfigSpec.FloatValue MULTIPLIER_GREMLIN_ATTACK_SPEED;
+    public static final ForgeConfigSpec.FloatValue MULTIPLIER_GREMLIN_ATTACK_DAMAGE;
 
     // Swampman Configurations
-    public static final ForgeConfigSpec.DoubleValue PHASE_2_HEALING_SWAMPMAN;
+    public static final ForgeConfigSpec.FloatValue PHASE_2_HEALING_SWAMPMAN;
     public static final ForgeConfigSpec.BooleanValue CAN_CHANGE_PHASE_SWAMPMAN;
     public static final ForgeConfigSpec.BooleanValue POISON_PHASE_2_SWAMPMAN;
 
@@ -34,36 +35,36 @@ public class KnightQuestCommonConfigs {
     public static final ForgeConfigSpec.BooleanValue CAN_SUMMON_NETHERMAN;
     public static final ForgeConfigSpec.BooleanValue SPAWN_LIGHTNING_ON_SPAWN;
     public static final ForgeConfigSpec.BooleanValue GENERATE_PARTICLES_ON_SUMMON;
-    public static final ForgeConfigSpec.DoubleValue TELEPORT_PROBABILITY;
+    public static final ForgeConfigSpec.FloatValue TELEPORT_PROBABILITY;
     public static final ForgeConfigSpec.BooleanValue RESTORE_BLOCKS_POST_DEATH;
     public static final ForgeConfigSpec.IntValue EXPERIENCE_DROP_AMOUNT;
     public static final ForgeConfigSpec.BooleanValue LIGHTNING_STRIKE_IN_PHASE_THREE;
     public static final ForgeConfigSpec.IntValue LIGHTNING_TICK_INTERVAL;
-    public static final ForgeConfigSpec.DoubleValue SNOW_PARTICLE_SPEED;
+    public static final ForgeConfigSpec.FloatValue SNOW_PARTICLE_SPEED;
     public static final ForgeConfigSpec.IntValue SNOW_PARTICLE_COUNT;
-    public static final ForgeConfigSpec.DoubleValue WINTER_STORM_RADIUS;
+    public static final ForgeConfigSpec.FloatValue WINTER_STORM_RADIUS;
     public static final ForgeConfigSpec.IntValue FROZEN_TICKS;
 
     // Armor Set Configurations
     public static final ForgeConfigSpec.BooleanValue ENABLE_BAMBOOSET_PUSH_PLAYERS;
     public static final ForgeConfigSpec.IntValue TELEPORT_RADIUS_ENDERMANSET;
-    public static final ForgeConfigSpec.DoubleValue FORZESET_DEFLECT_CHANCE;
-    public static final ForgeConfigSpec.DoubleValue FORZESET_DEFLECT_DAMAGE;
-    public static final ForgeConfigSpec.DoubleValue SILVERSET_BURN_CHANCE;
-    public static final ForgeConfigSpec.DoubleValue HOLLOWSET_HEALING_MULTIPLIER;
-    public static final ForgeConfigSpec.DoubleValue DRAGONSET_DAMAGE_MULTIPLIER;
-    public static final ForgeConfigSpec.DoubleValue WITHERSET_WITHER_CHANCE;
+    public static final ForgeConfigSpec.FloatValue FORZESET_DEFLECT_CHANCE;
+    public static final ForgeConfigSpec.FloatValue FORZESET_DEFLECT_DAMAGE;
+    public static final ForgeConfigSpec.FloatValue SILVERSET_BURN_CHANCE;
+    public static final ForgeConfigSpec.FloatValue HOLLOWSET_HEALING_MULTIPLIER;
+    public static final ForgeConfigSpec.FloatValue DRAGONSET_DAMAGE_MULTIPLIER;
+    public static final ForgeConfigSpec.FloatValue WITHERSET_WITHER_CHANCE;
     public static final ForgeConfigSpec.BooleanValue SHOULD_WARLORD_SET_EFFECT_APPLY_TO_ITSELF;
     public static final ForgeConfigSpec.IntValue WARLORD_SET_EFFECT_RADIUS;
-    public static final ForgeConfigSpec.DoubleValue ZOMBIESET_HEALING_AMOUNT;
+    public static final ForgeConfigSpec.FloatValue ZOMBIESET_HEALING_AMOUNT;
     public static final ForgeConfigSpec.IntValue ZOMBIESET_HEALING_TICKS;
-    public static final ForgeConfigSpec.DoubleValue DEEPSLATE_FALL_DAMAGE_MULTIPLIER;
-    public static final ForgeConfigSpec.DoubleValue EVOKER_DARKNESS_CHANCE;
-    public static final ForgeConfigSpec.DoubleValue SQUIRE_DAMAGE_RECEIVED_MULTIPLIER;
-    public static final ForgeConfigSpec.DoubleValue BLAZE_FIRE_CHANCE;
+    public static final ForgeConfigSpec.FloatValue DEEPSLATE_FALL_DAMAGE_MULTIPLIER;
+    public static final ForgeConfigSpec.FloatValue EVOKER_DARKNESS_CHANCE;
+    public static final ForgeConfigSpec.FloatValue SQUIRE_DAMAGE_RECEIVED_MULTIPLIER;
+    public static final ForgeConfigSpec.FloatValue BLAZE_FIRE_CHANCE;
     public static final ForgeConfigSpec.IntValue BLAZE_FIRE_DURATION_MIN;
     public static final ForgeConfigSpec.IntValue BLAZE_FIRE_DURATION_MAX;
-    public static final ForgeConfigSpec.DoubleValue CREEPER_EXPLOSION_DAMAGE_MULTIPLIER;
+    public static final ForgeConfigSpec.FloatValue CREEPER_EXPLOSION_DAMAGE_MULTIPLIER;
     public static final ForgeConfigSpec.IntValue SILVERFISH_EFFECT_MAX_HEIGHT;
     public static final ForgeConfigSpec.IntValue SKULK_MAX_LIGHT_LEVEL;
 
@@ -112,25 +113,25 @@ public class KnightQuestCommonConfigs {
         BUILDER.push("Eld Knight Configuration");
         POISON_ELDKNIGHT = BUILDER.define("Should do the poison passive attack", true);
         NUM_ELDBOMB_ELDKNIGHT = BUILDER.defineInRange("Number of Eld Bombs generated at half hp", 3, 0, 6);
-        HEAL_ELDKNIGHT = BUILDER.defineInRange("Quantity of healing each 4 seconds", 3.0, 0.0, 20.0);
+        HEAL_ELDKNIGHT = BUILDER.defineInRange("Quantity of healing each 4 seconds", 3.0f, 0.0f, 20.0f);
         BUILDER.pop();
 
         // Ghosty Configuration Section
         BUILDER.push("Ghosty Configuration");
-        INVULNERABILITY_RADIUS_GHOSTY = BUILDER.defineInRange("Ghosty invulnerability radius", 7.0, 0.0, 25.0);
+        INVULNERABILITY_RADIUS_GHOSTY = BUILDER.defineInRange("Ghosty invulnerability radius", 7.0f, 0.0f, 25.0f);
         BUILDER.pop();
 
         // Gremlin Configuration Section
         BUILDER.push("Gremlin Configuration");
         CAN_TAKE_GOLD_GREMLIN = BUILDER.define("Can take gold from a player", true);
-        MULTIPLIER_GREMLIN_MOVEMENT_SPEED = BUILDER.defineInRange("Second phase movement speed multipler", 1.1, 1.0, 10.0);
-        MULTIPLIER_GREMLIN_ATTACK_SPEED = BUILDER.defineInRange("Second phase attack speed multipler", 1.15, 1.0, 10.0);
-        MULTIPLIER_GREMLIN_ATTACK_DAMAGE = BUILDER.defineInRange("Second phase attack damage multipler", 1.2, 1.0, 10.0);
+        MULTIPLIER_GREMLIN_MOVEMENT_SPEED = BUILDER.defineInRange("Second phase movement speed multipler", 1.1f, 1.0f, 10.0f);
+        MULTIPLIER_GREMLIN_ATTACK_SPEED = BUILDER.defineInRange("Second phase attack speed multipler", 1.15f, 1.0f, 10.0f);
+        MULTIPLIER_GREMLIN_ATTACK_DAMAGE = BUILDER.defineInRange("Second phase attack damage multipler", 1.2f, 1.0f, 10.0f);
         BUILDER.pop();
 
         // Swampman Configuration Section
         BUILDER.push("Swampman Configuration");
-        PHASE_2_HEALING_SWAMPMAN = BUILDER.defineInRange("Amount of healing per second on second phase", 0.0, 0.0, 20.0);
+        PHASE_2_HEALING_SWAMPMAN = BUILDER.defineInRange("Amount of healing per second on second phase", 0.0f, 0.0f, 20.0f);
         CAN_CHANGE_PHASE_SWAMPMAN = BUILDER.define("Can change phase", true);
         POISON_PHASE_2_SWAMPMAN = BUILDER.define("Should axe throwables apply poison effect", false);
         BUILDER.pop();
@@ -140,14 +141,14 @@ public class KnightQuestCommonConfigs {
         CAN_SUMMON_NETHERMAN = BUILDER.define("Can the Netherman be summoned?", true);
         SPAWN_LIGHTNING_ON_SPAWN = BUILDER.define("Should spawn a lightning bolt when summoned?", true);
         GENERATE_PARTICLES_ON_SUMMON = BUILDER.define("Should generate particles when spawning?", true);
-        TELEPORT_PROBABILITY = BUILDER.comment("Probability of teleporting when hit").defineInRange("Teleport Probability", 0.5, 0.0, 1.0);
+        TELEPORT_PROBABILITY = BUILDER.comment("Probability of teleporting when hit").defineInRange("Teleport Probability", 0.5f, 0.0f, 1.0f);
         RESTORE_BLOCKS_POST_DEATH = BUILDER.comment("Should it restore blocks converted to lava back to their original state after dying?").define("Restore Blocks Post Death", true);
         EXPERIENCE_DROP_AMOUNT = BUILDER.comment("Amount of experience dropped upon death").defineInRange("Experience Drop Amount", 500, 0, 3000);
         LIGHTNING_STRIKE_IN_PHASE_THREE = BUILDER.comment("Should lightning strike in its third phase?").define("Lightning Strike in Phase Three", true);
         LIGHTNING_TICK_INTERVAL = BUILDER.comment("How often should a lightning bolt fall in the third phase (20 ticks = 1 second)?").defineInRange("Lightning Tick Interval", 40, 10, 200);
-        SNOW_PARTICLE_SPEED = BUILDER.defineInRange("Speed of the snow particles in the winter storm", 1.5, 1.0, 3.0);
+        SNOW_PARTICLE_SPEED = BUILDER.defineInRange("Speed of the snow particles in the winter storm", 1.5f, 1.0f, 3.0f);
         SNOW_PARTICLE_COUNT = BUILDER.defineInRange("Number of particles generated in the winter storm", 60, 10, 200);
-        WINTER_STORM_RADIUS = BUILDER.comment("Defines the radius for Netherman's Winter Storm Attack").defineInRange("Winter Storm Attack Radius", 26.0, 1.0, 30.0);
+        WINTER_STORM_RADIUS = BUILDER.comment("Defines the radius for Netherman's Winter Storm Attack").defineInRange("Winter Storm Attack Radius", 26.0f, 1.0f, 30.0f);
         FROZEN_TICKS = BUILDER.comment("Defines the speed at which players freeze during the Winter Attack").defineInRange("Frozen Ticks", 4, 0, 20);
         BUILDER.pop();
 
@@ -155,31 +156,31 @@ public class KnightQuestCommonConfigs {
         BUILDER.push("Drop Chance Configuration");
         // DROP_CHANCE_SMALL_ESSENCE = BUILDER.comment("Drop chance for small essence").defineInRange("Drop chance for small essence", 0.15, 0, 1);
         BUILDER.comment("Drop chance for small essence must be changed inside knightlib.toml");
-        DROP_CHANCE_RATMAN_EYE = BUILDER.defineInRange("Drop chance for ratman eye", 0.40, 0, 1);
-        DROP_CHANCE_LIZZY_SCALE = BUILDER.defineInRange("Drop chance for lizzy scale", 0.30, 0, 1);
+        DROP_CHANCE_RATMAN_EYE = BUILDER.defineInRange("Drop chance for ratman eye", 0.40f, 0f, 1f);
+        DROP_CHANCE_LIZZY_SCALE = BUILDER.defineInRange("Drop chance for lizzy scale", 0.30f, 0f, 1f);
         BUILDER.pop();
 
         // Armor Set Passives Configuration Section
         BUILDER.push("Armor Set Passives Configuration");
         ENABLE_BAMBOOSET_PUSH_PLAYERS = BUILDER.define("Should Bamboo Set push players?", false);
         TELEPORT_RADIUS_ENDERMANSET = BUILDER.defineInRange("Teleport radius for Enderman Set", 10, 5, 30);
-        FORZESET_DEFLECT_CHANCE = BUILDER.defineInRange("Chance for Forze Set to deflect", 0.3, 0.1, 1.0);
-        FORZESET_DEFLECT_DAMAGE = BUILDER.defineInRange("Damage multiplier for Forze Set deflection", 0.5, 0.1, 2.0);
-        SILVERSET_BURN_CHANCE = BUILDER.defineInRange("Chance for Silver Set to burn", 0.3, 0.1, 1.0);
-        HOLLOWSET_HEALING_MULTIPLIER = BUILDER.defineInRange("Healing multiplier per hit for Hollow Set (healing won't be higher than victim's health)", 0.25, 0.1, 2.0);
-        DRAGONSET_DAMAGE_MULTIPLIER = BUILDER.defineInRange("Damage multiplier for Dragon Set", 1.15, 1.0, 2.0);
-        WITHERSET_WITHER_CHANCE = BUILDER.defineInRange("Chance of applying Wither with Wither Set", 0.3, 0.1, 1.0);
+        FORZESET_DEFLECT_CHANCE = BUILDER.defineInRange("Chance for Forze Set to deflect", 0.3f, 0.1f, 1.0f);
+        FORZESET_DEFLECT_DAMAGE = BUILDER.defineInRange("Damage multiplier for Forze Set deflection", 0.5f, 0.1f, 2.0f);
+        SILVERSET_BURN_CHANCE = BUILDER.defineInRange("Chance for Silver Set to burn", 0.3f, 0.1f, 1.0f);
+        HOLLOWSET_HEALING_MULTIPLIER = BUILDER.defineInRange("Healing multiplier per hit for Hollow Set (healing won't be higher than victim's health)", 0.25f, 0.1f, 2.0f);
+        DRAGONSET_DAMAGE_MULTIPLIER = BUILDER.defineInRange("Damage multiplier for Dragon Set", 1.15f, 1.0f, 2.0f);
+        WITHERSET_WITHER_CHANCE = BUILDER.defineInRange("Chance of applying Wither with Wither Set", 0.3f, 0.1f, 1.0f);
         SHOULD_WARLORD_SET_EFFECT_APPLY_TO_ITSELF = BUILDER.define("Should Warlord Set effect apply to itself?", false);
         WARLORD_SET_EFFECT_RADIUS = BUILDER.defineInRange("Effect radius for Warlord Set", 15, 1, 40);
-        ZOMBIESET_HEALING_AMOUNT = BUILDER.defineInRange("Healing amount for Zombie Set", 1.0, 0.5, 10.0);
+        ZOMBIESET_HEALING_AMOUNT = BUILDER.defineInRange("Healing amount for Zombie Set", 1.0f, 0.5f, 10.0f);
         ZOMBIESET_HEALING_TICKS = BUILDER.defineInRange("Time in ticks for Zombie Set healing interval", 120, 1, 1000);
-        DEEPSLATE_FALL_DAMAGE_MULTIPLIER = BUILDER.defineInRange("Fall damage multiplier for Deepslate Set", 0.2, 0.0, 1.0);
-        EVOKER_DARKNESS_CHANCE = BUILDER.defineInRange("Chance to apply Darkness for Evoker Set", 0.25, 0.0, 1.0);
-        SQUIRE_DAMAGE_RECEIVED_MULTIPLIER = BUILDER.defineInRange("Damage received multiplier for Squire Set", 0.85, 0.0, 1.0);
-        BLAZE_FIRE_CHANCE = BUILDER.defineInRange("Chance to apply Fire for Blaze Set", 0.4, 0.0, 1.0);
+        DEEPSLATE_FALL_DAMAGE_MULTIPLIER = BUILDER.defineInRange("Fall damage multiplier for Deepslate Set", 0.2f, 0.0f, 1.0f);
+        EVOKER_DARKNESS_CHANCE = BUILDER.defineInRange("Chance to apply Darkness for Evoker Set", 0.25f, 0.0f, 1.0f);
+        SQUIRE_DAMAGE_RECEIVED_MULTIPLIER = BUILDER.defineInRange("Damage received multiplier for Squire Set", 0.85f, 0.0f, 1.0f);
+        BLAZE_FIRE_CHANCE = BUILDER.defineInRange("Chance to apply Fire for Blaze Set", 0.4f, 0.0f, 1.0f);
         BLAZE_FIRE_DURATION_MIN = BUILDER.defineInRange("Minimum seconds on fire for Blaze Set", 2, 1, 100);
         BLAZE_FIRE_DURATION_MAX = BUILDER.defineInRange("Maximum seconds on fire for Blaze Set", 8, 1, 200);
-        CREEPER_EXPLOSION_DAMAGE_MULTIPLIER = BUILDER.defineInRange("Explosion damage multiplier for Creeper Set", 0.1, 0.0, 1.0);
+        CREEPER_EXPLOSION_DAMAGE_MULTIPLIER = BUILDER.defineInRange("Explosion damage multiplier for Creeper Set", 0.1f, 0.0f, 1.0f);
         SILVERFISH_EFFECT_MAX_HEIGHT = BUILDER.defineInRange("Maximum height to apply effect for Silverfish Set", 50, 0, 100);
         SKULK_MAX_LIGHT_LEVEL = BUILDER.defineInRange("Maximum light level to grant effect for Skulk Set", 4, 0, 15);
         BUILDER.pop();
@@ -227,5 +228,109 @@ public class KnightQuestCommonConfigs {
 
         BUILDER.pop();
         SPEC = BUILDER.build();
+
+    }
+
+    public static void assignValues() {
+        // Eld Knight Configurations
+        KQConfigValues.POISON_ELDKNIGHT.setConfigValue(POISON_ELDKNIGHT.get());
+        KQConfigValues.NUM_ELDBOMB_ELDKNIGHT.setConfigValue(NUM_ELDBOMB_ELDKNIGHT.get());
+        KQConfigValues.HEAL_ELDKNIGHT.setConfigValue(HEAL_ELDKNIGHT.get());
+
+        // Drop Chance Configurations
+        // KQConfigValues.DROP_CHANCE_SMALL_ESSENCE.setConfigValue(DROP_CHANCE_SMALL_ESSENCE);
+        KQConfigValues.DROP_CHANCE_RATMAN_EYE.setConfigValue(DROP_CHANCE_RATMAN_EYE.get());
+        KQConfigValues.DROP_CHANCE_LIZZY_SCALE.setConfigValue(DROP_CHANCE_LIZZY_SCALE.get());
+
+        // Gremlin Configurations
+        KQConfigValues.CAN_TAKE_GOLD_GREMLIN.setConfigValue(CAN_TAKE_GOLD_GREMLIN.get());
+        KQConfigValues.MULTIPLIER_GREMLIN_MOVEMENT_SPEED.setConfigValue(MULTIPLIER_GREMLIN_MOVEMENT_SPEED.get());
+        KQConfigValues.MULTIPLIER_GREMLIN_ATTACK_SPEED.setConfigValue(MULTIPLIER_GREMLIN_ATTACK_SPEED.get());
+        KQConfigValues.MULTIPLIER_GREMLIN_ATTACK_DAMAGE.setConfigValue(MULTIPLIER_GREMLIN_ATTACK_DAMAGE.get());
+
+        // Ghosty Configurations
+        KQConfigValues.INVULNERABILITY_RADIUS_GHOSTY.setConfigValue(INVULNERABILITY_RADIUS_GHOSTY.get());
+
+        // Swampman Configurations
+        KQConfigValues.PHASE_2_HEALING_SWAMPMAN.setConfigValue(PHASE_2_HEALING_SWAMPMAN.get());
+        KQConfigValues.CAN_CHANGE_PHASE_SWAMPMAN.setConfigValue(CAN_CHANGE_PHASE_SWAMPMAN.get());
+        KQConfigValues.POISON_PHASE_2_SWAMPMAN.setConfigValue(POISON_PHASE_2_SWAMPMAN.get());
+
+        // Netherman Configurations
+        KQConfigValues.WINTER_STORM_RADIUS.setConfigValue(WINTER_STORM_RADIUS.get());
+        KQConfigValues.FROZEN_TICKS.setConfigValue(FROZEN_TICKS.get());
+        KQConfigValues.CAN_SUMMON_NETHERMAN.setConfigValue(CAN_SUMMON_NETHERMAN.get());
+        KQConfigValues.SPAWN_LIGHTNING_ON_SPAWN.setConfigValue(SPAWN_LIGHTNING_ON_SPAWN.get());
+        KQConfigValues.GENERATE_PARTICLES_ON_SUMMON.setConfigValue(GENERATE_PARTICLES_ON_SUMMON.get());
+        KQConfigValues.TELEPORT_PROBABILITY.setConfigValue(TELEPORT_PROBABILITY.get());
+        KQConfigValues.RESTORE_BLOCKS_POST_DEATH.setConfigValue(RESTORE_BLOCKS_POST_DEATH.get());
+        KQConfigValues.EXPERIENCE_DROP_AMOUNT.setConfigValue(EXPERIENCE_DROP_AMOUNT.get());
+        KQConfigValues.LIGHTNING_STRIKE_IN_PHASE_THREE.setConfigValue(LIGHTNING_STRIKE_IN_PHASE_THREE.get());
+        KQConfigValues.LIGHTNING_TICK_INTERVAL.setConfigValue(LIGHTNING_TICK_INTERVAL.get());
+        KQConfigValues.SNOW_PARTICLE_SPEED.setConfigValue(SNOW_PARTICLE_SPEED.get());
+        KQConfigValues.SNOW_PARTICLE_COUNT.setConfigValue(SNOW_PARTICLE_COUNT.get());
+
+        // Armor Passives Configurations
+        KQConfigValues.BAMBOOSET_PUSH_PLAYERS.setConfigValue(ENABLE_BAMBOOSET_PUSH_PLAYERS.get());
+        KQConfigValues.TELEPORT_RADIUS_ENDERMANSET.setConfigValue(TELEPORT_RADIUS_ENDERMANSET.get());
+        KQConfigValues.FORZESET_DEFLECT_CHANCE.setConfigValue(FORZESET_DEFLECT_CHANCE.get());
+        KQConfigValues.FORZESET_DEFLECT_DAMAGE.setConfigValue(FORZESET_DEFLECT_DAMAGE.get());
+        KQConfigValues.SILVERSET_BURN_CHANCE.setConfigValue(SILVERSET_BURN_CHANCE.get());
+        KQConfigValues.HOLLOWSET_HEALING_MULTIPLIER.setConfigValue(HOLLOWSET_HEALING_MULTIPLIER.get());
+        KQConfigValues.DRAGONSET_DAMAGE_MULTIPLIER.setConfigValue(DRAGONSET_DAMAGE_MULTIPLIER.get());
+        KQConfigValues.WITHERSET_WITHER_CHANCE.setConfigValue(WITHERSET_WITHER_CHANCE.get());
+        KQConfigValues.SHOULD_WARLORD_SET_EFFECT_APPLY_TO_ITSELF.setConfigValue(SHOULD_WARLORD_SET_EFFECT_APPLY_TO_ITSELF.get());
+        KQConfigValues.WARLORD_SET_EFFECT_RADIUS.setConfigValue(WARLORD_SET_EFFECT_RADIUS.get());
+        KQConfigValues.ZOMBIESET_HEALING_AMOUNT.setConfigValue(ZOMBIESET_HEALING_AMOUNT.get());
+        KQConfigValues.ZOMBIESET_HEALING_TICKS.setConfigValue(ZOMBIESET_HEALING_TICKS.get());
+        KQConfigValues.DEEPSLATE_FALL_DAMAGE_MULTIPLIER.setConfigValue(DEEPSLATE_FALL_DAMAGE_MULTIPLIER.get());
+        KQConfigValues.EVOKER_DARKNESS_CHANCE.setConfigValue(EVOKER_DARKNESS_CHANCE.get());
+        KQConfigValues.SQUIRE_DAMAGE_RECEIVED_MULTIPLIER.setConfigValue(SQUIRE_DAMAGE_RECEIVED_MULTIPLIER.get());
+        KQConfigValues.BLAZE_FIRE_CHANCE.setConfigValue(BLAZE_FIRE_CHANCE.get());
+        KQConfigValues.BLAZE_FIRE_DURATION_MIN.setConfigValue(BLAZE_FIRE_DURATION_MIN.get());
+        KQConfigValues.BLAZE_FIRE_DURATION_MAX.setConfigValue(BLAZE_FIRE_DURATION_MAX.get());
+        KQConfigValues.CREEPER_EXPLOSION_DAMAGE_MULTIPLIER.setConfigValue(CREEPER_EXPLOSION_DAMAGE_MULTIPLIER.get());
+        KQConfigValues.SILVERFISH_EFFECT_MAX_HEIGHT.setConfigValue(SILVERFISH_EFFECT_MAX_HEIGHT.get());
+        KQConfigValues.SKULK_MAX_LIGHT_LEVEL.setConfigValue(SKULK_MAX_LIGHT_LEVEL.get());
+
+        // Armor Passives Enabler Configurations
+        KQConfigValues.DEEPSLATESET.setConfigValue(ENABLE_DEEPSLATESET.get());
+        KQConfigValues.EVOKERSET.setConfigValue(ENABLE_EVOKERSET.get());
+        KQConfigValues.SQUIRESET.setConfigValue(ENABLE_SQUIRESET.get());
+        KQConfigValues.BLAZESET.setConfigValue(ENABLE_BLAZESET.get());
+        KQConfigValues.DRAGONSET.setConfigValue(ENABLE_DRAGONSET.get());
+        KQConfigValues.BAMBOOSET_GREEN.setConfigValue(ENABLE_BAMBOOSET_GREEN.get());
+        KQConfigValues.SHINOBI.setConfigValue(ENABLE_SHINOBI.get());
+        KQConfigValues.BAMBOOSET.setConfigValue(ENABLE_BAMBOOSET.get());
+        KQConfigValues.PATHSET.setConfigValue(ENABLE_PATHSET.get());
+        KQConfigValues.BOWSET.setConfigValue(ENABLE_BOWSET.get());
+        KQConfigValues.BATSET.setConfigValue(ENABLE_BATSET.get());
+        KQConfigValues.SHIELDSET.setConfigValue(ENABLE_SHIELDSET.get());
+        KQConfigValues.PHANTOMSET.setConfigValue(ENABLE_PHANTOMSET.get());
+        KQConfigValues.HORNSET.setConfigValue(ENABLE_HORNSET.get());
+        KQConfigValues.SEASET.setConfigValue(ENABLE_SEASET.get());
+        KQConfigValues.PIRATESET.setConfigValue(ENABLE_PIRATESET.get());
+        KQConfigValues.SPIDERSET.setConfigValue(ENABLE_SPIDERSET.get());
+        KQConfigValues.NETHERSET.setConfigValue(ENABLE_NETHERSET.get());
+        KQConfigValues.SKULK.setConfigValue(ENABLE_SKULK.get());
+        KQConfigValues.STRAWHATSET.setConfigValue(ENABLE_STRAWHATSET.get());
+        KQConfigValues.ENDERMANSET.setConfigValue(ENABLE_ENDERMANSET.get());
+        KQConfigValues.VETERANSET.setConfigValue(ENABLE_VETERANSET.get());
+        KQConfigValues.FORZESET.setConfigValue(ENABLE_FORZESET.get());
+        KQConfigValues.CREEPERSET.setConfigValue(ENABLE_CREEPERSET.get());
+        KQConfigValues.POLAR.setConfigValue(ENABLE_POLAR.get());
+        KQConfigValues.SILVERSET.setConfigValue(ENABLE_SILVERSET.get());
+        KQConfigValues.HOLLOWSET.setConfigValue(ENABLE_HOLLOWSET.get());
+        KQConfigValues.WITHERSET.setConfigValue(ENABLE_WITHERSET.get());
+        KQConfigValues.APPLE_SET.setConfigValue(ENABLE_APPLE_SET.get());
+        KQConfigValues.CONQUISTADORSET.setConfigValue(ENABLE_CONQUISTADORSET.get());
+        KQConfigValues.WITCH.setConfigValue(ENABLE_WITCH.get());
+        KQConfigValues.TENGU_HELMET.setConfigValue(ENABLE_TENGU_HELMET.get());
+        KQConfigValues.HUSKSET.setConfigValue(ENABLE_HUSKSET.get());
+        KQConfigValues.BAMBOOSET_BLUE.setConfigValue(ENABLE_BAMBOOSET_BLUE.get());
+        KQConfigValues.WARLORDSET.setConfigValue(ENABLE_WARLORDSET.get());
+        KQConfigValues.ZOMBIESET.setConfigValue(ENABLE_ZOMBIESET.get());
+        KQConfigValues.SILVERFISHSET.setConfigValue(ENABLE_SILVERFISHSET.get());
+        KQConfigValues.SKELETONSET.setConfigValue(ENABLE_SKELETONSET.get());
     }
 }

@@ -32,7 +32,7 @@ public class KQExtraEvents implements UseBlockCallback {
         if (world.getBlockState(pos).getBlock() == Blocks.JACK_O_LANTERN) {
             BlockPos belowPos = pos.below();
             if (world.getBlockState(belowPos).getBlock() == Blocks.GOLD_BLOCK) {
-                SamhainEntity samhain = new SamhainEntity(KnightQuestEntities.SAMHAIN, world);
+                SamhainEntity samhain = new SamhainEntity(KnightQuestEntities.SAMHAIN.get(), world);
                 samhain.moveTo(pos.getX() + 0.5, pos.getY() - 1, pos.getZ() + 0.5, world.getRandom().nextFloat() * 360.0F, 0.0F);
                 world.removeBlock(pos, false);
                 world.removeBlock(belowPos, false);
@@ -46,7 +46,7 @@ public class KQExtraEvents implements UseBlockCallback {
         if (world.getBlockState(pos).getBlock() == Blocks.GOLD_BLOCK) {
             BlockPos abovePos = pos.above();
             if (world.getBlockState(abovePos).getBlock() == Blocks.JACK_O_LANTERN) {
-                SamhainEntity samhain = new SamhainEntity(KnightQuestEntities.SAMHAIN, world);
+                SamhainEntity samhain = new SamhainEntity(KnightQuestEntities.SAMHAIN.get(), world);
                 samhain.moveTo(abovePos.getX() + 0.5, abovePos.getY() - 1, abovePos.getZ() + 0.5, world.getRandom().nextFloat() * 360.0F, 0.0F);
                 world.removeBlock(abovePos, false);
                 world.removeBlock(pos, false);

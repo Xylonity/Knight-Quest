@@ -102,7 +102,7 @@ public class KnightQuestFabricPlatform implements KnightQuestPlatform {
                 }
             });
         else
-            return (Supplier<T>) registerSupplier(BuiltInRegistries.ITEM, id, () -> new SwordItem(itemMaterial, new Item.Properties().attributes(SwordItem.createAttributes(itemMaterial, 4, speedMalus))));
+            return (Supplier<T>) registerSupplier(BuiltInRegistries.ITEM, id, () -> new SwordItem(itemMaterial, properties.attributes(SwordItem.createAttributes(itemMaterial, 4, speedMalus))));
     }
 
     @Override

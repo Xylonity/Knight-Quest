@@ -27,19 +27,19 @@ public class KQEventRegisters {
 
     @SubscribeEvent
     public static void registerEntityAttributes(EntityAttributeCreationEvent event) {
-        event.put(KnightQuestEntities.GREMLIN.get(), GremlinEntity.setAttributes());
-        event.put(KnightQuestEntities.ELDBOMB.get(), EldBombEntity.setAttributes());
-        event.put(KnightQuestEntities.ELDKINGHT.get(), EldKnightEntity.setAttributes());
-        event.put(KnightQuestEntities.SWAMPMAN.get(), SwampmanEntity.setAttributes());
-        event.put(KnightQuestEntities.RATMAN.get(), RatmanEntity.setAttributes());
-        event.put(KnightQuestEntities.SAMHAIN.get(), SamhainEntity.setAttributes());
-        event.put(KnightQuestEntities.LIZZY.get(), LizzyEntity.setAttributes());
-        event.put(KnightQuestEntities.BADPATCH.get(), BadPatchEntity.setAttributes());
-        event.put(KnightQuestEntities.SHIELD.get(), GhastlingEntity.setAttributes());
-        event.put(KnightQuestEntities.MOMMA_LIZZY.get(), MommaLizzyEntity.setAttributes());
-        event.put(KnightQuestEntities.GHOSTY.get(), GhostyEntity.setAttributes());
-        event.put(KnightQuestEntities.NETHERMAN.get(), NethermanEntity.setAttributes());
-        event.put(KnightQuestEntities.NETHERMAN_CLONE.get(), NethermanCloneEntity.setAttributes());
+        event.put(KnightQuestEntities.GREMLIN.get(), GremlinEntity.setAttributes().build());
+        event.put(KnightQuestEntities.ELDBOMB.get(), EldBombEntity.setAttributes().build());
+        event.put(KnightQuestEntities.ELDKNIGHT.get(), EldKnightEntity.setAttributes().build());
+        event.put(KnightQuestEntities.SWAMPMAN.get(), SwampmanEntity.setAttributes().build());
+        event.put(KnightQuestEntities.RATMAN.get(), RatmanEntity.setAttributes().build());
+        event.put(KnightQuestEntities.SAMHAIN.get(), SamhainEntity.setAttributes().build());
+        event.put(KnightQuestEntities.LIZZY.get(), LizzyEntity.setAttributes().build());
+        event.put(KnightQuestEntities.BADPATCH.get(), BadPatchEntity.setAttributes().build());
+        event.put(KnightQuestEntities.SHIELD.get(), GhastlingEntity.setAttributes().build());
+        event.put(KnightQuestEntities.MOMMA_LIZZY.get(), MommaLizzyEntity.setAttributes().build());
+        event.put(KnightQuestEntities.GHOSTY.get(), GhostyEntity.setAttributes().build());
+        event.put(KnightQuestEntities.NETHERMAN.get(), NethermanEntity.setAttributes().build());
+        event.put(KnightQuestEntities.NETHERMAN_CLONE.get(), NethermanCloneEntity.setAttributes().build());
     }
 
     /**
@@ -50,7 +50,7 @@ public class KQEventRegisters {
     public static void registerSpawnPlacements(RegisterSpawnPlacementsEvent event) {
         event.register(KnightQuestEntities.BADPATCH.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.OR);
         event.register(KnightQuestEntities.ELDBOMB.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.OR);
-        event.register(KnightQuestEntities.ELDKINGHT.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.OR);
+        event.register(KnightQuestEntities.ELDKNIGHT.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.OR);
         event.register(KnightQuestEntities.GHOSTY.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.OR);
         event.register(KnightQuestEntities.GREMLIN.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.OR);
         event.register(KnightQuestEntities.LIZZY.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules, RegisterSpawnPlacementsEvent.Operation.OR);

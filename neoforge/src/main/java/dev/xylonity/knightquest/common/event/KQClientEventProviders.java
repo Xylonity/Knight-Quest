@@ -55,7 +55,7 @@ public class KQClientEventProviders {
     public static void registerEntityRenderers(FMLClientSetupEvent event) {
         EntityRenderers.register(KnightQuestEntities.GREMLIN.get(), GremlinRenderer::new);
         EntityRenderers.register(KnightQuestEntities.ELDBOMB.get(), EldBombRenderer::new);
-        EntityRenderers.register(KnightQuestEntities.ELDKINGHT.get(), EldKnightRenderer::new);
+        EntityRenderers.register(KnightQuestEntities.ELDKNIGHT.get(), EldKnightRenderer::new);
         EntityRenderers.register(KnightQuestEntities.SWAMPMAN.get(), SwampmanRenderer::new);
         EntityRenderers.register(KnightQuestEntities.RATMAN.get(), RatmanRenderer::new);
         EntityRenderers.register(KnightQuestEntities.SAMHAIN.get(), SamhainRenderer::new);

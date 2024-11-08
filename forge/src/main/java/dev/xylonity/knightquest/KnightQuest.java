@@ -8,6 +8,7 @@ import dev.xylonity.knightquest.registry.KnightQuestItems;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -18,6 +19,7 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 
 @Mod(KnightQuest.MOD_ID)
 public class KnightQuest {
@@ -25,18 +27,21 @@ public class KnightQuest {
     public static final String MOD_ID = KnightQuestCommon.MOD_ID;
     public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister.create(Registries.PARTICLE_TYPE, KnightQuest.MOD_ID);
     public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(Registries.SOUND_EVENT, KnightQuest.MOD_ID);
+    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(Registries.ITEM, KnightQuest.MOD_ID);
+    public static final DeferredRegister<CreativeModeTab> CREATIVE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, KnightQuest.MOD_ID);
+    public static final DeferredRegister<EntityType<?>> ENTITY = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, KnightQuest.MOD_ID);
 
     public KnightQuest() {
 
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        KnightQuestEntities.ENTITY.register(modEventBus);
-        KnightQuestItems.ITEMS.register(modEventBus);
-        KnightQuestCreativeModeTabs.CREATIVE_MODE_TABS.register(modEventBus);
         KQLootModifiers.LOOT_MODIFIER_SERIALIZERS.register(modEventBus);
 
         PARTICLES.register(modEventBus);
         SOUNDS.register(modEventBus);
+        ITEMS.register(modEventBus);
+        CREATIVE_TABS.register(modEventBus);
+        ENTITY.register(modEventBus);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, KnightQuestCommonConfigs.SPEC, "knightquest.toml");
 

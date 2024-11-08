@@ -1,20 +1,24 @@
 package dev.xylonity.knightquest.platform;
 
+import dev.xylonity.knightlib.compat.registry.KnightLibBlocks;
 import dev.xylonity.knightlib.compat.registry.KnightLibItems;
+import dev.xylonity.knightlib.compat.registry.KnightLibParticles;
 import dev.xylonity.knightquest.KnightQuest;
-import dev.xylonity.knightquest.KnightQuestCommon;
 import dev.xylonity.knightquest.client.armor.GeoItemArmor;
 import dev.xylonity.knightquest.common.item.KQArmorItem;
 import dev.xylonity.knightquest.common.material.KQItemMaterials;
 import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
+import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.*;
-import net.minecraftforge.registries.RegistryObject;
+import net.minecraft.world.level.block.Block;
+import net.minecraftforge.common.ForgeSpawnEggItem;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -25,14 +29,39 @@ public class KnightQuestForgePlatform implements KnightQuestPlatform {
 
     private static final String TOOLTIP_ITEM_PATH = "tooltip.item.knightquest.";
 
-    //@Override
-    //public <T extends Item> Supplier<T> registerItem(String id, Supplier<T> item) {
-    //    return KnightQuest.ITEMS.register(id, item);
-    //}
-
     @Override
     public Supplier<Item> getGreatEssence() {
         return KnightLibItems.GREAT_ESSENCE;
+    }
+
+    @Override
+    public Supplier<Item> getSmallEssence() {
+        return KnightLibItems.SMALL_ESSENCE;
+    }
+
+    @Override
+    public Supplier<Block> getGreatChalice() {
+        return KnightLibBlocks.GREAT_CHALICE;
+    }
+
+    @Override
+    public Supplier<ParticleOptions> getStartsetParticle() {
+        return KnightLibParticles.STARSET_PARTICLE::get;
+    }
+
+    @Override
+    public CreativeModeTab.Builder creativeTabBuilder() {
+        return CreativeModeTab.builder();
+    }
+
+    @Override
+    public <T extends Item> Supplier<T> registerItem(String id, Supplier<T> item) {
+        return KnightQuest.ITEMS.register(id, item);
+    }
+
+    @Override
+    public <T extends Mob> Supplier<Item> registerSpawnEggItem(String id, Supplier<EntityType<T>> entity, int primaryEggColour, int secondaryEggColour) {
+        return registerItem(id, () -> new ForgeSpawnEggItem(entity, primaryEggColour, secondaryEggColour, new Item.Properties()));
     }
 
     @Override
@@ -45,63 +74,52 @@ public class KnightQuestForgePlatform implements KnightQuestPlatform {
         return KnightQuest.PARTICLES.register(id, () -> (T) new SimpleParticleType(overrideLimiter));
     }
 
-    //@Override
-    //public <T extends Item> Supplier<T> registerGeoArmorItem(String id, Holder<ArmorMaterial> armorMaterial, ArmorItem.Type armorType, boolean containsTooltip, boolean containsExtraTooltip) {
-    //    if (containsExtraTooltip)
-    //        return (Supplier<T>) KnightQuest.ITEMS.register(id, () -> new GeoItemArmor(armorMaterial, armorType, new Item.Properties(), id, containsTooltip) {
-    //            @Override
-    //            public void appendHoverText(@NotNull ItemStack pStack, @NotNull TooltipContext pContext, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pTooltipFlag) {
-    //                pTooltipComponents.add(Component.translatable(TOOLTIP_ITEM_PATH + id));
-    //                super.appendHoverText(pStack, pContext, pTooltipComponents, pTooltipFlag);
-    //            }
-    //        });
-    //    else
-    //        return (Supplier<T>) KnightQuest.ITEMS.register(id, () -> new GeoItemArmor(armorMaterial, armorType, new Item.Properties(), id, containsTooltip));
-    //}
+    @Override
+    public <T extends Item> Supplier<T> registerGeoArmorItem(String id, Holder<ArmorMaterial> armorMaterial, ArmorItem.Type armorType, boolean containsTooltip, boolean containsExtraTooltip, Item.Properties properties, int durabilityAmount) {
+        if (containsExtraTooltip)
+            return (Supplier<T>) KnightQuest.ITEMS.register(id, () -> new GeoItemArmor(armorMaterial, armorType, properties.durability(armorType.getDurability(durabilityAmount)), id, containsTooltip) {
+                @Override
+                public void appendHoverText(@NotNull ItemStack stack, @NotNull TooltipContext context, @NotNull List<Component> tooltipComponents, @NotNull TooltipFlag tooltipFlag) {
+                    tooltipComponents.add(Component.translatable(TOOLTIP_ITEM_PATH + id));
+                    super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
+                }
+            });
+        else
+            return (Supplier<T>) KnightQuest.ITEMS.register(id, () -> new GeoItemArmor(armorMaterial, armorType, properties.durability(armorType.getDurability(durabilityAmount)), id, containsTooltip));
+    }
 
-    //@Override
-    //public <T extends ArmorMaterial> Holder<T> registerArmorMaterial(String id, Supplier<T> armorMaterial) {
-    //    return KnightQuest.ARMOR_MATERIALS.register(id, armorMaterial).getHolder().get();
-    //}
+    @Override
+    public <T extends Item> Supplier<T> registerSwordItem(String id, KQItemMaterials itemMaterial, Item.Properties properties, float speedMalus, boolean containsTooltip) {
+        if (containsTooltip)
+            return (Supplier<T>) KnightQuest.ITEMS.register(id, () -> new SwordItem(itemMaterial, properties.attributes(SwordItem.createAttributes(itemMaterial, 4, speedMalus))) {
+                @Override
+                public void appendHoverText(@NotNull ItemStack stack, @NotNull TooltipContext context, @NotNull List<Component> tooltipComponents, @NotNull TooltipFlag tooltipFlag) {
+                    tooltipComponents.add(Component.translatable(TOOLTIP_ITEM_PATH + id));
+                    super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
+                }
+            });
+        else
+            return (Supplier<T>) KnightQuest.ITEMS.register(id, () -> new SwordItem(itemMaterial, properties.attributes(SwordItem.createAttributes(itemMaterial, 4, speedMalus))));
+    }
 
-    //@Override
-    //public Holder<ArmorMaterial> registerArmorMaterial(String id, Supplier<ArmorMaterial> material) {
-    //    var RegistryObject = KnightQuest.ARMOR_MATERIALS.register(id, material);
-    //    return () -> RegistryObject.getHolder().get();
-    //}
+    @Override
+    public <T extends Item> Supplier<T> registerAxeItem(String id, KQItemMaterials itemMaterial, Item.Properties properties, float damageBoost, float speedMalus) {
+        return (Supplier<T>) KnightQuest.ITEMS.register(id, () -> new AxeItem(itemMaterial, properties.attributes(AxeItem.createAttributes(itemMaterial, damageBoost, speedMalus))));
+    }
 
-    //@Override
-    //public <T extends Item> Supplier<T> registerAxeItem(String id, KQItemMaterials itemMaterial, float extraDamageBoost, float speedMalus, Item.Properties properties) {
-    //    return (Supplier<T>) KnightQuest.ITEMS.register(id, () -> new AxeItem(itemMaterial, properties.attributes(AxeItem.createAttributes(itemMaterial, extraDamageBoost, speedMalus))));
-    //}
+    @Override
+    public <T extends Entity> Supplier<EntityType<T>> registerEntity(String id, Supplier<EntityType<T>> entity) {
+        return KnightQuest.ENTITY.register(id, entity);
+    }
 
-    //@Override
-    //public <T extends Item> Supplier<T> registerSwordItem(String id, KQItemMaterials itemMaterial, float speedMalus, boolean containsTooltip, Item.Properties properties) {
-    //    if (containsTooltip)
-    //        return (Supplier<T>) KnightQuest.ITEMS.register(id, () -> new SwordItem(itemMaterial, properties.attributes(SwordItem.createAttributes(itemMaterial, 4, speedMalus))) {
-    //            @Override
-    //            public void appendHoverText(@NotNull ItemStack pStack, @NotNull TooltipContext pContext, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pTooltipFlag) {
-    //                pTooltipComponents.add(Component.translatable(TOOLTIP_ITEM_PATH + id));
-    //                super.appendHoverText(pStack, pContext, pTooltipComponents, pTooltipFlag);
-    //            }
-    //        });
-    //    else
-    //        return (Supplier<T>) KnightQuest.ITEMS.register(id, () -> new SwordItem(itemMaterial, properties.attributes(SwordItem.createAttributes(itemMaterial, 4, speedMalus))));
-    //}
+    @Override
+    public <T extends Item> Supplier<T> registerArmorItem(String id, Holder<ArmorMaterial> armorMaterial, ArmorItem.Type armorType, boolean containsTooltip, Item.Properties properties, int durabilityAmount) {
+        return (Supplier<T>) KnightQuest.ITEMS.register(id, () -> new KQArmorItem(armorMaterial, armorType, new Item.Properties(), containsTooltip));
+    }
 
-    //@Override
-    //public <T extends Item> Supplier<T> registerArmorItem(String id, Supplier<Holder<ArmorMaterial>> armorMaterial, ArmorItem.Type armorType, boolean containsTooltip) {
-    //    return (Supplier<T>) KnightQuest.ITEMS.register(id, () -> new KQArmorItem(armorMaterial.get(), armorType, new Item.Properties(), containsTooltip));
-    //}
-//
-    //@Override
-    //public <T extends CreativeModeTab> Supplier<T> registerCreativeModeTab(String id, Supplier<T> tab) {
-    //    return KnightQuest.CREATIVE_TABS.register(id, tab);
-    //}
-//
-    //@Override
-    //public CreativeModeTab.Builder creativeTabBuilder() {
-    //    return CreativeModeTab.builder();
-    //}
+    @Override
+    public <T extends CreativeModeTab> Supplier<T> registerCreativeModeTab(String id, Supplier<T> tab) {
+        return KnightQuest.CREATIVE_TABS.register(id, tab);
+    }
 
 }

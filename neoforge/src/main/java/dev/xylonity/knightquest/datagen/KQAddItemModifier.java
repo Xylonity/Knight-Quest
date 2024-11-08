@@ -4,6 +4,7 @@ import com.google.common.base.Suppliers;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.xylonity.knightquest.registry.KnightQuestItems;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.Item;
@@ -51,11 +52,11 @@ public class KQAddItemModifier extends LootModifier {
             }
         }
 
-        if (item == KnightQuestItems.RATMAN_EYE.get() && new Random().nextFloat() <= KQConfigValues.DROP_CHANCE_RATMAN_EYE) {
+        if (item == KnightQuestItems.RATMAN_EYE.get() && new Random().nextFloat() <= KQConfigValues.DROP_CHANCE_RATMAN_EYE.getFloat()) {
             generatedLoot.add(new ItemStack(this.item));
         }
 
-        if (item == KnightQuestItems.LIZZY_SCALE.get() && new Random().nextFloat() <= KQConfigValues.DROP_CHANCE_LIZZY_SCALE) {
+        if (item == KnightQuestItems.LIZZY_SCALE.get() && new Random().nextFloat() <= KQConfigValues.DROP_CHANCE_LIZZY_SCALE.getFloat()) {
             generatedLoot.add(new ItemStack(this.item));
         }
 

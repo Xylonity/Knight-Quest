@@ -51,4 +51,3 @@ rootProject.name = 'Knight-Quest'
 include('common')
 include('fabric')
 include('neoforge')
-include('forge')

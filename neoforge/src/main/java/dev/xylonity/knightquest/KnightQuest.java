@@ -1,5 +1,6 @@
 package dev.xylonity.knightquest;
 
+import dev.xylonity.knightquest.common.entity.entities.GremlinEntity;
 import dev.xylonity.knightquest.config.KnightQuestCommonConfigs;
 import dev.xylonity.knightquest.datagen.KQLootModifiers;
 import dev.xylonity.knightquest.registry.KnightQuestEntities;
@@ -15,6 +16,7 @@ import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
@@ -26,19 +28,21 @@ public class KnightQuest {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, KnightQuest.MOD_ID);
     public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister.create(Registries.PARTICLE_TYPE, KnightQuest.MOD_ID);
     public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(Registries.SOUND_EVENT, KnightQuest.MOD_ID);
-    //public static final DeferredRegister<ArmorMaterial> ARMOR_MATERIALS = DeferredRegister.create(Registries.ARMOR_MATERIAL, KnightQuest.MOD_ID);
+    public static final DeferredRegister<ArmorMaterial> ARMOR_MATERIALS = DeferredRegister.create(Registries.ARMOR_MATERIAL, KnightQuest.MOD_ID);
     public static final DeferredRegister<EntityType<?>> ENTITY = DeferredRegister.create(Registries.ENTITY_TYPE, KnightQuest.MOD_ID);
 
     public KnightQuest(IEventBus modEventBus, ModContainer modContainer) {
 
         KQLootModifiers.LOOT_MODIFIER_SERIALIZERS.register(modEventBus);
 
-        //ARMOR_MATERIALS.register(modEventBus);
-        ITEMS.register(modEventBus);
         CREATIVE_TABS.register(modEventBus);
         PARTICLES.register(modEventBus);
         SOUNDS.register(modEventBus);
+        ENTITY.register(modEventBus);
+        ARMOR_MATERIALS.register(modEventBus);
+        ITEMS.register(modEventBus);
 
+        modEventBus.<EntityAttributeCreationEvent>addListener(event -> KnightQuestEntities.registerEntityAttributes(event::put));
         modContainer.registerConfig(ModConfig.Type.COMMON, KnightQuestCommonConfigs.SPEC, "knightquest.toml");
 
         KnightQuestCommon.init();

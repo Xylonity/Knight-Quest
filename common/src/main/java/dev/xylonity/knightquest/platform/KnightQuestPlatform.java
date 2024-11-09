@@ -32,6 +32,8 @@ public interface KnightQuestPlatform {
     <T extends Mob> Supplier<Item> registerSpawnEggItem(String id, Supplier<EntityType<T>> entity, int primaryEggColour, int secondaryEggColour);
     <T extends CreativeModeTab> Supplier<T> registerCreativeModeTab(String id, Supplier<T> tab);
 
+    <T extends ArmorMaterial> Holder<T> registerArmorMaterial(String id, Supplier<T> armorMaterial);
+
     Supplier<Item> getGreatEssence();
     Supplier<Item> getSmallEssence();
     Supplier<Block> getGreatChalice();

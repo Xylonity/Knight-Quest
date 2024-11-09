@@ -7,8 +7,11 @@ import dev.xylonity.knightquest.common.entity.boss.NethermanTeleportChargeEntity
 import dev.xylonity.knightquest.common.entity.entities.*;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 
+import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
 public class KnightQuestEntities {
@@ -51,6 +54,26 @@ public class KnightQuestEntities {
 
     private static <X extends Entity> Supplier<EntityType<X>> register(String name, EntityType.EntityFactory<X> entity, MobCategory spawnGroup, float width, float height) {
         return KnightQuestCommon.COMMON_PLATFORM.registerEntity(name, () -> EntityType.Builder.of(entity, spawnGroup).sized(width, height).build(name));
+    }
+
+    /**
+     * Sets attributes to every entity defined in the scope.
+     */
+
+    public static void registerEntityAttributes(BiConsumer<EntityType<? extends LivingEntity>, AttributeSupplier> registrar) {
+        registrar.accept(KnightQuestEntities.GREMLIN.get(), GremlinEntity.setAttributes().build());
+        registrar.accept(KnightQuestEntities.ELDBOMB.get(), EldBombEntity.setAttributes().build());
+        registrar.accept(KnightQuestEntities.ELDKNIGHT.get(), EldKnightEntity.setAttributes().build());
+        registrar.accept(KnightQuestEntities.SWAMPMAN.get(), SwampmanEntity.setAttributes().build());
+        registrar.accept(KnightQuestEntities.RATMAN.get(), RatmanEntity.setAttributes().build());
+        registrar.accept(KnightQuestEntities.SAMHAIN.get(), SamhainEntity.setAttributes().build());
+        registrar.accept(KnightQuestEntities.LIZZY.get(), LizzyEntity.setAttributes().build());
+        registrar.accept(KnightQuestEntities.BADPATCH.get(), BadPatchEntity.setAttributes().build());
+        registrar.accept(KnightQuestEntities.SHIELD.get(), GhastlingEntity.setAttributes().build());
+        registrar.accept(KnightQuestEntities.MOMMA_LIZZY.get(), MommaLizzyEntity.setAttributes().build());
+        registrar.accept(KnightQuestEntities.GHOSTY.get(), GhostyEntity.setAttributes().build());
+        registrar.accept(KnightQuestEntities.NETHERMAN.get(), NethermanEntity.setAttributes().build());
+        registrar.accept(KnightQuestEntities.NETHERMAN_CLONE.get(), NethermanCloneEntity.setAttributes().build());
     }
 
 }

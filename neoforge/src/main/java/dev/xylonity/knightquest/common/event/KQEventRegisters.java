@@ -22,27 +22,6 @@ import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 public class KQEventRegisters {
 
     /**
-     * Sets attributes to every entity defined in the scope.
-     */
-
-    @SubscribeEvent
-    public static void registerEntityAttributes(EntityAttributeCreationEvent event) {
-        event.put(KnightQuestEntities.GREMLIN.get(), GremlinEntity.setAttributes().build());
-        event.put(KnightQuestEntities.ELDBOMB.get(), EldBombEntity.setAttributes().build());
-        event.put(KnightQuestEntities.ELDKNIGHT.get(), EldKnightEntity.setAttributes().build());
-        event.put(KnightQuestEntities.SWAMPMAN.get(), SwampmanEntity.setAttributes().build());
-        event.put(KnightQuestEntities.RATMAN.get(), RatmanEntity.setAttributes().build());
-        event.put(KnightQuestEntities.SAMHAIN.get(), SamhainEntity.setAttributes().build());
-        event.put(KnightQuestEntities.LIZZY.get(), LizzyEntity.setAttributes().build());
-        event.put(KnightQuestEntities.BADPATCH.get(), BadPatchEntity.setAttributes().build());
-        event.put(KnightQuestEntities.SHIELD.get(), GhastlingEntity.setAttributes().build());
-        event.put(KnightQuestEntities.MOMMA_LIZZY.get(), MommaLizzyEntity.setAttributes().build());
-        event.put(KnightQuestEntities.GHOSTY.get(), GhostyEntity.setAttributes().build());
-        event.put(KnightQuestEntities.NETHERMAN.get(), NethermanEntity.setAttributes().build());
-        event.put(KnightQuestEntities.NETHERMAN_CLONE.get(), NethermanCloneEntity.setAttributes().build());
-    }
-
-    /**
      * Limits spawn placement of entities.
      */
 

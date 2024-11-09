@@ -1,5 +1,6 @@
 package dev.xylonity.knightquest;
 
+import dev.xylonity.knightquest.common.material.KQArmorMaterials;
 import dev.xylonity.knightquest.platform.KnightQuestPlatform;
 import dev.xylonity.knightquest.registry.*;
 import org.slf4j.Logger;
@@ -15,6 +16,7 @@ public class KnightQuestCommon {
     public static final KnightQuestPlatform COMMON_PLATFORM = ServiceLoader.load(KnightQuestPlatform.class).findFirst().orElseThrow();
 
     public static void init() {
+        KQArmorMaterials.init();
         KnightQuestItems.init();
         KnightQuestSounds.init();
         KnightQuestParticles.init();

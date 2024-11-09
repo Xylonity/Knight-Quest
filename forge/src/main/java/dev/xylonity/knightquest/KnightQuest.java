@@ -12,6 +12,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
+import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -29,6 +30,7 @@ public class KnightQuest {
     public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(Registries.SOUND_EVENT, KnightQuest.MOD_ID);
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(Registries.ITEM, KnightQuest.MOD_ID);
     public static final DeferredRegister<CreativeModeTab> CREATIVE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, KnightQuest.MOD_ID);
+    public static final DeferredRegister<ArmorMaterial> ARMOR_MATERIALS = DeferredRegister.create(Registries.ARMOR_MATERIAL, KnightQuest.MOD_ID);
     public static final DeferredRegister<EntityType<?>> ENTITY = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, KnightQuest.MOD_ID);
 
     public KnightQuest() {
@@ -37,12 +39,14 @@ public class KnightQuest {
 
         KQLootModifiers.LOOT_MODIFIER_SERIALIZERS.register(modEventBus);
 
+        CREATIVE_TABS.register(modEventBus);
         PARTICLES.register(modEventBus);
         SOUNDS.register(modEventBus);
-        ITEMS.register(modEventBus);
-        CREATIVE_TABS.register(modEventBus);
         ENTITY.register(modEventBus);
+        ARMOR_MATERIALS.register(modEventBus);
+        ITEMS.register(modEventBus);
 
+        modEventBus.<EntityAttributeCreationEvent>addListener(event -> KnightQuestEntities.registerEntityAttributes(event::put));
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, KnightQuestCommonConfigs.SPEC, "knightquest.toml");
 
         KnightQuestCommon.init();

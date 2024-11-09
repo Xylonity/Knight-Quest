@@ -39,9 +39,9 @@ import static dev.xylonity.knightquest.common.item.KQArmorItem.effectAppliedByAr
 
 public class KQArmorEvents {
 
-    private static final MobEffectInstance HUSK_ARMOR =  new MobEffectInstance (MobEffects.DAMAGE_RESISTANCE, -1, 1, false, false, true);
-    private static final MobEffectInstance BAMBOO_BLUE =  new MobEffectInstance (MobEffects.MOVEMENT_SPEED, -1, 1, false, false, true);
-    private static final MobEffectInstance SILVERFISH_ARMOR =  new MobEffectInstance (MobEffects.DIG_SPEED, -1, 0, false, false, true);
+    private static final MobEffectInstance HUSK_ARMOR = new MobEffectInstance (MobEffects.DAMAGE_RESISTANCE, -1, 1, false, false, true);
+    private static final MobEffectInstance BAMBOO_BLUE = new MobEffectInstance (MobEffects.MOVEMENT_SPEED, -1, 1, false, false, true);
+    private static final MobEffectInstance SILVERFISH_ARMOR = new MobEffectInstance (MobEffects.DIG_SPEED, -1, 0, false, false, true);
 
     private static boolean isTeleportPositionValid(Level level, BlockPos pos) {
         return !level.getBlockState(pos.below()).isAir() && level.getBlockState(pos).isAir() && level.getBlockState(pos.above()).isAir();

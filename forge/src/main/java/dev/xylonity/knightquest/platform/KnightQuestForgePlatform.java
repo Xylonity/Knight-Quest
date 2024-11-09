@@ -122,4 +122,9 @@ public class KnightQuestForgePlatform implements KnightQuestPlatform {
         return KnightQuest.CREATIVE_TABS.register(id, tab);
     }
 
+    @Override
+    public <T extends ArmorMaterial> Holder<T> registerArmorMaterial(String id, Supplier<T> armorMaterial) {
+        return KnightQuest.ARMOR_MATERIALS.register(id, armorMaterial).getHolder().get();
+    }
+
 }

@@ -18,6 +18,8 @@ import java.util.function.Supplier;
 
 public class KQArmorMaterials {
 
+    public static void init() { ;; }
+
     public static final Holder<ArmorMaterial> APPLE_SET;
     public static final Holder<ArmorMaterial> BAMBOOSET_BLUE;
     public static final Holder<ArmorMaterial> BAMBOOSET_GREEN;
@@ -223,11 +225,7 @@ public class KQArmorMaterials {
             enummap.put(armor, pDefense.get(armor));
         }
 
-        return Registry.registerForHolder(
-                BuiltInRegistries.ARMOR_MATERIAL,
-                ResourceLocation.fromNamespaceAndPath(KnightQuestCommon.MOD_ID, pName),
-                new ArmorMaterial(enummap, pEnchantmentValue, pEquipSound, pRepairIngridient, pLayers, pToughness, pKnockbackResistance)
-        );
+        return KnightQuestCommon.COMMON_PLATFORM.registerArmorMaterial(pName, () -> new ArmorMaterial(enummap, pEnchantmentValue, pEquipSound, pRepairIngridient, pLayers, pToughness, pKnockbackResistance));
     }
 
 }

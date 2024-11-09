@@ -125,6 +125,11 @@ public class KnightQuestFabricPlatform implements KnightQuestPlatform {
         return registerSupplier(BuiltInRegistries.CREATIVE_MODE_TAB, id, tab);
     }
 
+    @Override
+    public <T extends ArmorMaterial> Holder<T> registerArmorMaterial(String id, Supplier<T> armorMaterial) {
+        return Registry.registerForHolder((Registry<T>) BuiltInRegistries.ARMOR_MATERIAL, ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, id), armorMaterial.get());
+    }
+
     private static <T, R extends Registry<? super T>> Supplier<T> registerSupplier(R registry, String id, Supplier<T> object) {
         final T registeredObject = Registry.register((Registry<T>) registry, ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, id), object.get());
 

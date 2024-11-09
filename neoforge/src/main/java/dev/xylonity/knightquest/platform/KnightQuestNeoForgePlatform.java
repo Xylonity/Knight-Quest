@@ -114,7 +114,7 @@ public class KnightQuestNeoForgePlatform implements KnightQuestPlatform {
 
     @Override
     public <T extends Item> Supplier<T> registerArmorItem(String id, Holder<ArmorMaterial> armorMaterial, ArmorItem.Type armorType, boolean containsTooltip, Item.Properties properties, int durabilityAmount) {
-        return (Supplier<T>) KnightQuest.ITEMS.register(id, () -> new KQArmorItem(armorMaterial, armorType, new Item.Properties(), containsTooltip));
+        return (Supplier<T>) KnightQuest.ITEMS.register(id, () -> new KQArmorItem(armorMaterial, armorType, properties, containsTooltip));
     }
 
     @Override

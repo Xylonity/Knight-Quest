@@ -36,9 +36,6 @@ public class KnightQuest implements ModInitializer, ClientModInitializer {
     @Override
     public void onInitialize() {
 
-        KnightQuestEntities.init();
-        KnightQuestCreativeModeTabs.init();
-        KnightQuestItems.init();
         KQEntitySpawn.register();
         KQLootTableModifier.register();
 

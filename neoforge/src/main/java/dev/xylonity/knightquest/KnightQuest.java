@@ -45,6 +45,8 @@ public class KnightQuest {
         modEventBus.<EntityAttributeCreationEvent>addListener(event -> KnightQuestEntities.registerEntityAttributes(event::put));
         modContainer.registerConfig(ModConfig.Type.COMMON, KnightQuestCommonConfigs.SPEC, "knightquest.toml");
 
+        KnightQuestCommonConfigs.assignValues();
+
         KnightQuestCommon.init();
 
     }

@@ -1,5 +1,6 @@
 package dev.xylonity.knightquest.platform;
 
+import dev.xylonity.knightlib.compat.registry.KnightLibItems;
 import dev.xylonity.knightquest.KnightQuest;
 import dev.xylonity.knightquest.client.armor.GeoItemArmor;
 import dev.xylonity.knightquest.common.item.KQArmorItem;
@@ -21,6 +22,11 @@ import java.util.function.Supplier;
 public class KnightQuestForgePlatform implements KnightQuestPlatform {
 
     private static final String TOOLTIP_ITEM_PATH = "tooltip.item.knightquest.";
+
+    @Override
+    public Supplier<Item> getGreatEssence() {
+        return KnightLibItems.GREAT_ESSENCE;
+    }
 
     @Override
     public <T extends Item> Supplier<T> registerItem(String id, Supplier<T> item) {

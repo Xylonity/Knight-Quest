@@ -17,6 +17,7 @@ public class KnightQuestItems {
     public static void init() { ;; }
 
     public static final Supplier<Item> RADIANT_ESSENCE = registerItem("radiant_essence", () -> new KnightQuestItem(new Item.Properties(), "radiant_essence"));
+    public static final Supplier<Item> CHAOTIC_ESSENCE = registerItem("chaotic_essence", () -> new KnightQuestItem(new Item.Properties(), "chaotic_essence"));
     public static final Supplier<Item> EMPTY_GOBLET = registerItem("empty_goblet", () -> new KnightQuestItem(new Item.Properties(), "empty_goblet"));
     public static final Supplier<Item> FILLED_GOBLET = registerItem("filled_goblet", () -> new KnightQuestItem(new Item.Properties(), "filled_goblet"));
     public static final Supplier<Item> RATMAN_EYE = registerItem("ratman_eye", () -> new KnightQuestItem(new Item.Properties(), "ratman_eye"));

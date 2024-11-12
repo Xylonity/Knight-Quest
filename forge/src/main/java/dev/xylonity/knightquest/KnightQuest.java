@@ -1,5 +1,7 @@
 package dev.xylonity.knightquest;
 
+import dev.xylonity.knightlib.compat.registry.KnightLibBlocks;
+import dev.xylonity.knightlib.compat.registry.KnightLibItems;
 import dev.xylonity.knightquest.config.KnightQuestCommonConfigs;
 import dev.xylonity.knightquest.datagen.KQLootModifiers;
 import dev.xylonity.knightquest.registry.KnightQuestCreativeModeTabs;
@@ -43,12 +45,10 @@ public class KnightQuest {
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, KnightQuestCommonConfigs.SPEC, "knightquest.toml");
 
-        KnightQuestCommon.init();
+        KnightQuestCreativeModeTabs.registerKnightLibItem(KnightLibBlocks.GREAT_CHALICE);
+        KnightQuestCreativeModeTabs.registerKnightLibItem(KnightLibItems.SMALL_ESSENCE);
+        KnightQuestCreativeModeTabs.registerKnightLibItem(KnightLibItems.GREAT_ESSENCE);
 
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-    }
-
-    private void setup(final FMLCommonSetupEvent event) {
         KnightQuestCreativeModeTabs.registerPlatformItem(KnightQuestEntities.GREMLIN_EGG);
         KnightQuestCreativeModeTabs.registerPlatformItem(KnightQuestEntities.ELD_BOMB_EGG);
         KnightQuestCreativeModeTabs.registerPlatformItem(KnightQuestEntities.ELD_KNIGHT_EGG);
@@ -59,6 +59,9 @@ public class KnightQuest {
         KnightQuestCreativeModeTabs.registerPlatformItem(KnightQuestEntities.BADPATCH_EGG);
         KnightQuestCreativeModeTabs.registerPlatformItem(KnightQuestEntities.GHOSTY_EGG);
         KnightQuestCreativeModeTabs.registerPlatformItem(KnightQuestEntities.NETHERMAN_EGG);
+
+        KnightQuestCommon.init();
+
     }
 
 }

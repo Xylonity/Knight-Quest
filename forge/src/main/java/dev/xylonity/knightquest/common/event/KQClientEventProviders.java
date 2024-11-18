@@ -69,6 +69,7 @@ public class KQClientEventProviders {
         EntityRenderers.register(KnightQuestEntities.NETHERMAN_TELEPORT_CHARGE.get(), NethermanTeleportChargeRenderer::new);
         EntityRenderers.register(KnightQuestEntities.NETHERMAN_CLONE.get(), NethermanCloneRenderer::new);
         EntityRenderers.register(KnightQuestEntities.SWAMPMAN_AXE.get(), SwampmanAxeRenderer::new);
+        EntityRenderers.register(KnightQuestEntities.FALLEN_KNIGHT.get(), FallenKnightRenderer::new);
     }
 
 }

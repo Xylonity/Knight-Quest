@@ -1,7 +1,6 @@
 package dev.xylonity.knightquest.registry;
 
 import dev.xylonity.knightquest.KnightQuest;
-import dev.xylonity.knightquest.KnightQuestCommon;
 import dev.xylonity.knightquest.common.entity.boss.*;
 import dev.xylonity.knightquest.common.entity.entities.*;
 import net.minecraft.resources.ResourceLocation;
@@ -10,7 +9,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.SpawnEggItem;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -23,6 +21,7 @@ public class KnightQuestEntities {
     public static final DeferredRegister<EntityType<?>> ENTITY = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, KnightQuest.MOD_ID);
 
     public static final RegistryObject<EntityType<GremlinEntity>> GREMLIN;
+    public static final RegistryObject<EntityType<FallenKnightEntity>> FALLEN_KNIGHT;
     public static final RegistryObject<EntityType<EldBombEntity>> ELDBOMB;
     public static final RegistryObject<EntityType<EldKnightEntity>> ELDKINGHT;
     public static final RegistryObject<EntityType<SwampmanEntity>> SWAMPMAN;
@@ -40,6 +39,7 @@ public class KnightQuestEntities {
 
     static {
         GREMLIN = register("gremlin", GremlinEntity::new, MobCategory.MONSTER , 1f, 1f);
+        FALLEN_KNIGHT = register("test", FallenKnightEntity::new, MobCategory.MONSTER , 1f, 1f);
         ELDBOMB = register("eldbomb", EldBombEntity::new, MobCategory.MONSTER , 1f, 1f);
         ELDKINGHT = register("eldknight", EldKnightEntity::new, MobCategory.MONSTER , 1f, 2.6f);
         SAMHAIN = register("samhain", SamhainEntity::new, MobCategory.MONSTER , 1f, 1.5f);

@@ -40,6 +40,7 @@ public class KQEventRegisters {
         event.put(KnightQuestEntities.GHOSTY.get(), GhostyEntity.setAttributes());
         event.put(KnightQuestEntities.NETHERMAN.get(), NethermanEntity.setAttributes());
         event.put(KnightQuestEntities.NETHERMAN_CLONE.get(), NethermanCloneEntity.setAttributes());
+        event.put(KnightQuestEntities.FALLEN_KNIGHT.get(), FallenKnightEntity.setAttributes());
     }
 
     /**

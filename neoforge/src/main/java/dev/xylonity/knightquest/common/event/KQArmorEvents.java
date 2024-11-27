@@ -322,7 +322,7 @@ public class KQArmorEvents {
 
                 if (KQConfigValues.WARLORDSET.getBoolean())
                     if (hasFullSetOn(player, KQArmorMaterials.WARLORDSET)) {
-                        for (Entity entity : player.level().getEntitiesOfClass(Player.class, player.getBoundingBox().inflate(KQConfigValues.WARLORD_SET_EFFECT_RADIUS.getInt()))) {
+                        for (Entity entity : player.level().getEntitiesOfClass(Player.class, player.getBoundingBox().inflate(KQConfigValues.WARLORD_SET_EFFECT_RADIUS.getFloat()))) {
                             if (KQConfigValues.SHOULD_WARLORD_SET_EFFECT_APPLY_TO_ITSELF.getBoolean()) {
                                 if (entity instanceof Player nearbyPlayer) {
                                     nearbyPlayer.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 100, 0, false, false, true));

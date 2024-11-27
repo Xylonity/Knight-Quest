@@ -55,7 +55,7 @@ public class KnightQuestCommonConfigs {
     public static final ForgeConfigSpec.FloatValue DRAGONSET_DAMAGE_MULTIPLIER;
     public static final ForgeConfigSpec.FloatValue WITHERSET_WITHER_CHANCE;
     public static final ForgeConfigSpec.BooleanValue SHOULD_WARLORD_SET_EFFECT_APPLY_TO_ITSELF;
-    public static final ForgeConfigSpec.IntValue WARLORD_SET_EFFECT_RADIUS;
+    public static final ForgeConfigSpec.FloatValue WARLORD_SET_EFFECT_RADIUS;
     public static final ForgeConfigSpec.FloatValue ZOMBIESET_HEALING_AMOUNT;
     public static final ForgeConfigSpec.IntValue ZOMBIESET_HEALING_TICKS;
     public static final ForgeConfigSpec.FloatValue DEEPSLATE_FALL_DAMAGE_MULTIPLIER;
@@ -171,7 +171,7 @@ public class KnightQuestCommonConfigs {
         DRAGONSET_DAMAGE_MULTIPLIER = BUILDER.defineInRange("Damage multiplier for Dragon Set", 1.15f, 1.0f, 2.0f);
         WITHERSET_WITHER_CHANCE = BUILDER.defineInRange("Chance of applying Wither with Wither Set", 0.3f, 0.1f, 1.0f);
         SHOULD_WARLORD_SET_EFFECT_APPLY_TO_ITSELF = BUILDER.define("Should Warlord Set effect apply to itself?", false);
-        WARLORD_SET_EFFECT_RADIUS = BUILDER.defineInRange("Effect radius for Warlord Set", 15, 1, 40);
+        WARLORD_SET_EFFECT_RADIUS = BUILDER.defineInRange("Effect radius for Warlord Set", 15.0f, 1.0f, 40.0f);
         ZOMBIESET_HEALING_AMOUNT = BUILDER.defineInRange("Healing amount for Zombie Set", 1.0f, 0.5f, 10.0f);
         ZOMBIESET_HEALING_TICKS = BUILDER.defineInRange("Time in ticks for Zombie Set healing interval", 120, 1, 1000);
         DEEPSLATE_FALL_DAMAGE_MULTIPLIER = BUILDER.defineInRange("Fall damage multiplier for Deepslate Set", 0.2f, 0.0f, 1.0f);

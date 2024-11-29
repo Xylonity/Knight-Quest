@@ -13,17 +13,62 @@ import software.bernie.geckolib.model.data.EntityModelData;
 
 public class NethermanModel extends GeoModel<NethermanEntity> {
 
+    private final String TEXTURE_PATH = "textures/entity/";
+
     @Override
     public ResourceLocation getModelResource(NethermanEntity animatable) {
-        return new ResourceLocation(KnightQuest.MOD_ID, "geo/netherman.geo.json");
+
+        String path = switch (animatable.getPhase()) {
+            case 1 -> "geo/netherman_fire.geo.json";
+            case 2 -> animatable.getCounterSwitchPhase2() == 130
+                    ? "geo/netherman_ice.geo.json"
+                    : "geo/netherman_fire.geo.json";
+            default -> "geo/netherman_magic.geo.json";
+        };
+
+        return new ResourceLocation(KnightQuest.MOD_ID, path);
     }
 
     @Override
     public ResourceLocation getTextureResource(NethermanEntity animatable) {
+
+        // The mcmeta spritesheet solution could potentially desync the animation, so this is needed
+        if (animatable.getPhase() == 2 && animatable.getCounterSwitchPhase2() < 130) {
+            String path = switch (animatable.getCounterSwitchPhase2()) {
+                default -> {
+                    if (animatable.getCounterSwitchPhase2() < 50) {
+                        yield TEXTURE_PATH + "netherman_fire.png";
+                    } else if (animatable.getCounterSwitchPhase2() < 60) {
+                        yield TEXTURE_PATH + "animated/netherman_switch_phase2_0.png";
+                    } else if (animatable.getCounterSwitchPhase2() < 70) {
+                        yield TEXTURE_PATH + "animated/netherman_switch_phase2_1.png";
+                    } else if (animatable.getCounterSwitchPhase2() < 80) {
+                        yield TEXTURE_PATH + "animated/netherman_switch_phase2_2.png";
+                    } else if (animatable.getCounterSwitchPhase2() < 90) {
+                        yield TEXTURE_PATH + "animated/netherman_switch_phase2_3.png";
+                    } else if (animatable.getCounterSwitchPhase2() < 100) {
+                        yield TEXTURE_PATH + "animated/netherman_switch_phase2_4.png";
+                    } else if (animatable.getCounterSwitchPhase2() < 110) {
+                        yield TEXTURE_PATH + "animated/netherman_switch_phase2_5.png";
+                    } else if (animatable.getCounterSwitchPhase2() < 120) {
+                        yield TEXTURE_PATH + "animated/netherman_switch_phase2_6.png";
+                    } else if (animatable.getCounterSwitchPhase2() < 130) {
+                        yield TEXTURE_PATH + "netherman_ice.png";
+                    } else {
+                        yield TEXTURE_PATH + "netherman_fire.png";
+                    }
+                }
+            };
+
+            return new ResourceLocation(KnightQuest.MOD_ID, path);
+        }
+
         String path = switch (animatable.getPhase()) {
-            case 1 -> "textures/entity/netherman_fire.png";
-            case 2 -> "textures/entity/netherman_ice.png";
-            default -> "textures/entity/netherman_magic.png";
+            case 1 -> TEXTURE_PATH + "netherman_fire.png";
+            case 2 -> animatable.getCounterSwitchPhase2() == 130
+                    ? TEXTURE_PATH + "netherman_ice.png"
+                    : TEXTURE_PATH + "netherman_fire.png";
+            default -> TEXTURE_PATH + "netherman_magic.png";
         };
 
         return new ResourceLocation(KnightQuest.MOD_ID, path);
@@ -31,7 +76,12 @@ public class NethermanModel extends GeoModel<NethermanEntity> {
 
     @Override
     public ResourceLocation getAnimationResource(NethermanEntity animatable) {
-        return new ResourceLocation(KnightQuest.MOD_ID, "animations/netherman.animation.json");
+
+        if (animatable.getCounterSwitchPhase2() == 130 && animatable.getPhase() == 2) {
+            return new ResourceLocation(KnightQuest.MOD_ID, "animations/netherman_ice.animation.json");
+        }
+
+        return new ResourceLocation(KnightQuest.MOD_ID, "animations/netherman_fire.animation.json");
     }
 
     @Override

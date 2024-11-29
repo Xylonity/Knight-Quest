@@ -7,7 +7,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.pathfinder.Path;
-import software.bernie.geckolib.core.animation.AnimationController;
 
 import java.util.EnumSet;
 
@@ -119,7 +118,6 @@ public class NethermanAttackGoal extends Goal {
      */
     public void tick() {
         LivingEntity livingentity = this.mob.getTarget();
-        if (this.mob.getPhaseController().getAnimationState().equals(AnimationController.State.STOPPED)) {
             if (livingentity != null) {
                 this.mob.getLookControl().setLookAt(livingentity, 30.0F, 30.0F);
                 double d0 = this.mob.getPerceivedTargetDistanceSquareForMeleeAttack(livingentity);
@@ -157,7 +155,6 @@ public class NethermanAttackGoal extends Goal {
                 this.ticksUntilNextAttack = Math.max(this.ticksUntilNextAttack - 1, 0);
                 this.checkAndPerformAttack(livingentity, d0);
             }
-        }
     }
 
     protected void checkAndPerformAttack(LivingEntity pEnemy, double pDistToEnemySqr) {

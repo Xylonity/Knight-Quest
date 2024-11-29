@@ -6,9 +6,9 @@
 				"identifier": "geometry.unknown",
 				"texture_width": 128,
 				"texture_height": 128,
-				"visible_bounds_width": 3,
-				"visible_bounds_height": 5.5,
-				"visible_bounds_offset": [0, 2.25, 0]
+				"visible_bounds_width": 7,
+				"visible_bounds_height": 6.5,
+				"visible_bounds_offset": [0, 2.75, 0]
 			},
 			"bones": [
 				{
@@ -54,6 +54,15 @@
 					]
 				},
 				{
+					"name": "IceArm",
+					"parent": "Body",
+					"pivot": [4.35989, 34.94509, 0],
+					"rotation": [0, 0, -20],
+					"cubes": [
+						{"origin": [3.63816, 11.83807, -2], "size": [4, 24, 4], "uv": [26, 94], "mirror": true}
+					]
+				},
+				{
 					"name": "LeftArm",
 					"parent": "Body",
 					"pivot": [5, 34, 0],
@@ -85,9 +94,25 @@
 				{
 					"name": "bone",
 					"parent": "Body",
-					"pivot": [0, 34, 5],
+					"pivot": [0, 40.5, 6],
 					"cubes": [
-						{"origin": [-11, 29, 6], "size": [22, 23, 0], "uv": [63, 97]}
+						{"origin": [-11, 29, 6], "size": [22, 23, 0], "uv": [81, 2]}
+					]
+				},
+				{
+					"name": "bone3",
+					"parent": "Body",
+					"pivot": [5, 40.5, 6],
+					"cubes": [
+						{"origin": [-6, 29, 6], "size": [22, 23, 0], "uv": [63, 97]}
+					]
+				},
+				{
+					"name": "bone2",
+					"parent": "Body",
+					"pivot": [-5, 40.5, 6],
+					"cubes": [
+						{"origin": [-16, 29, 6], "size": [22, 23, 0], "uv": [59, 68]}
 					]
 				}
 			]

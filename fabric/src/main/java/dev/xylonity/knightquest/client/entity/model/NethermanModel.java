@@ -14,7 +14,7 @@ public class NethermanModel extends GeoModel<NethermanEntity> {
 
     @Override
     public ResourceLocation getModelResource(NethermanEntity animatable) {
-        return new ResourceLocation(KnightQuest.MOD_ID, "geo/netherman.geo.json");
+        return new ResourceLocation(KnightQuest.MOD_ID, "geo/netherman_fire.geo.json");
     }
 
     @Override
@@ -30,7 +30,7 @@ public class NethermanModel extends GeoModel<NethermanEntity> {
 
     @Override
     public ResourceLocation getAnimationResource(NethermanEntity animatable) {
-        return new ResourceLocation(KnightQuest.MOD_ID, "animations/netherman.animation.json");
+        return new ResourceLocation(KnightQuest.MOD_ID, "animations/netherman_fire.animation.json");
     }
 
     @Override

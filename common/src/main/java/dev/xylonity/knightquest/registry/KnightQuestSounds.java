@@ -10,9 +10,9 @@ public class KnightQuestSounds {
 
     public static void init() { ;; }
 
-    public static final Supplier<?> NETHERMAN_BOSS_MUSIC = registerSound("netherman_boss_music", () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(KnightQuestCommon.MOD_ID, "netherman_boss_music")));
+    public static final Supplier<SoundEvent> THE_ARCHITECT_OF_CHAOS = registerSound("the_architect_of_chaos", () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(KnightQuestCommon.MOD_ID, "the_architect_of_chaos")));
 
-    private static <T extends SoundEvent> Supplier<?> registerSound(String id, Supplier<T> sound) {
+    private static <T extends SoundEvent> Supplier<T> registerSound(String id, Supplier<T> sound) {
         return KnightQuestCommon.COMMON_PLATFORM.registerSound(id, sound);
     }
 

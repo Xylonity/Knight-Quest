@@ -1,6 +1,7 @@
 package dev.xylonity.knightquest.common.entity.boss.ai;
 
 import dev.xylonity.knightquest.common.entity.boss.NethermanEntity;
+import dev.xylonity.knightquest.registry.KnightQuestParticles;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
@@ -16,11 +17,11 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
 
 
-public class NethermanFlameGoal extends Goal {
+public class NethermanIceGoal extends Goal {
     private final NethermanEntity netherman;
     public int chargeTime;
 
-    public NethermanFlameGoal(NethermanEntity netherman) {
+    public NethermanIceGoal(NethermanEntity netherman) {
         this.netherman = netherman;
     }
 
@@ -30,20 +31,12 @@ public class NethermanFlameGoal extends Goal {
      */
 
     public boolean canUse() {
-        return this.netherman.getTarget() != null && this.netherman.getPhase() == 1;
+        return this.netherman.getTarget() != null && this.netherman.getPhase() == 2;
     }
-
-    /**
-     * Execute a one shot task or start executing a continuous task
-     */
 
     public void start() {
         this.chargeTime = 200;
     }
-
-    /**
-     * Reset the task's internal state. Called when this task is interrupted by another one
-     */
 
     public void stop() {
         this.chargeTime = 0;
@@ -52,10 +45,6 @@ public class NethermanFlameGoal extends Goal {
     public boolean requiresUpdateEveryTick() {
         return true;
     }
-
-    /**
-     * Keep ticking a continuous task that has already been started
-     */
 
     public void tick() {
         LivingEntity livingentity = this.netherman.getTarget();
@@ -77,7 +66,7 @@ public class NethermanFlameGoal extends Goal {
                 }
 
                 if (this.chargeTime == 20 && !this.netherman.isSilent()) {
-                    level.playSound(null, this.netherman.getOnPos(), SoundEvents.FIREWORK_ROCKET_TWINKLE, SoundSource.BLOCKS, 1f, 1f);
+                    level.playSound(null, this.netherman.getOnPos(), SoundEvents.POWDER_SNOW_BREAK, SoundSource.BLOCKS, 1f, 1f);
                 }
 
                 if (this.chargeTime == 10) {
@@ -98,7 +87,7 @@ public class NethermanFlameGoal extends Goal {
                                 double vz = look.z * speed;
 
                                 serverPlayer.connection.send(new ClientboundLevelParticlesPacket(
-                                        ParticleTypes.FLAME,
+                                        KnightQuestParticles.SNOWFLAKE_PARTICLE.get(),
                                         true,
                                         x, y, z,
                                         (float) vx, (float) vy + 1f, (float) vz,
@@ -110,7 +99,7 @@ public class NethermanFlameGoal extends Goal {
                     }
 
                     if (!this.netherman.isSilent()) {
-                        level.playSound(null, this.netherman.getOnPos(), SoundEvents.FIRECHARGE_USE, SoundSource.BLOCKS, 1f, 1f);
+                        level.playSound(null, this.netherman.getOnPos(), SoundEvents.SNOW_GOLEM_AMBIENT, SoundSource.BLOCKS, 1f, 1f);
                     }
 
                 }
@@ -131,7 +120,7 @@ public class NethermanFlameGoal extends Goal {
                                 double vz = look.z * speed;
 
                                 serverPlayer.connection.send(new ClientboundLevelParticlesPacket(
-                                        ParticleTypes.FLAME,
+                                        KnightQuestParticles.SNOWFLAKE_PARTICLE.get(),
                                         true,
                                         x, y, z,
                                         (float) vx, (float) vy, (float) vz,
@@ -142,7 +131,7 @@ public class NethermanFlameGoal extends Goal {
                         }
                     }
 
-                    this.netherman.getTarget().setRemainingFireTicks(this.netherman.getTarget().getRandom().nextInt(3, 7) * 20);
+                    this.netherman.getTarget().setTicksFrozen(this.netherman.getTarget().getRandom().nextInt(3, 7) * 20);
                 }
 
                 if (this.chargeTime == 0) {

@@ -1,6 +1,10 @@
 package dev.xylonity.knightquest.common.entity.boss;
 
 import dev.xylonity.knightquest.common.api.explosiveenhancement.ExplosiveConfig;
+import dev.xylonity.knightquest.registry.KnightQuestParticles;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
@@ -14,6 +18,7 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.*;
@@ -31,21 +36,12 @@ public class NethermanCloneEntity extends Monster implements GeoEntity {
 
     public static AttributeSupplier setAttributes() {
         return Monster.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 0.5F)
+                .add(Attributes.MAX_HEALTH, 0.1F)
                 .add(Attributes.ATTACK_DAMAGE, 8f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
                 .add(Attributes.MOVEMENT_SPEED, 0.80f)
                 .add(Attributes.FOLLOW_RANGE, 35.0)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 5.0).build();
-    }
-
-    @Override
-    public boolean hurt(DamageSource pSource, float pAmount) {
-        if (pSource.is(DamageTypes.EXPLOSION) || pSource.is(DamageTypes.PLAYER_EXPLOSION)) {
-            return false;
-        }
-
-        return super.hurt(pSource, pAmount);
     }
 
     @Override
@@ -57,35 +53,45 @@ public class NethermanCloneEntity extends Monster implements GeoEntity {
     }
 
     @Override
-    public void tick() {
-        super.tick();
+    public void die(DamageSource pDamageSource) {
+        super.die(pDamageSource);
 
-        if (isDeadOrDying()) {
-            if (shouldExplode) {
-                if (level().isClientSide) {
-                    this.createCustomExplosionParticles();
+        for (Player player : this.level().players()) {
+            if (player instanceof ServerPlayer serverPlayer) {
+                for (int u = 0; u < 30; ++u) {
+                    double speed = 0.5 + this.getRandom().nextDouble() * 0.2;
+                    double x = this.getX() + (this.getRandom().nextDouble() - 0.5) * 0.2;
+                    double y = this.getY() + this.getEyeHeight() + (this.getRandom().nextDouble() - 0.5) * 0.2;
+                    double z = this.getZ() + (this.getRandom().nextDouble() - 0.5) * 0.2;
+
+                    Vec3 look = this.getLookAngle();
+                    double vx = look.x * speed;
+                    double vy = look.y * speed;
+                    double vz = look.z * speed;
+
+                    serverPlayer.connection.send(new ClientboundLevelParticlesPacket(
+                            ParticleTypes.SNOWFLAKE,
+                            true,
+                            x, y, z,
+                            (float) vx, (float) vy, (float) vz,
+                            0.2f,
+                            2
+                    ));
                 }
-                explode();
-                shouldExplode = !shouldExplode;
             }
-            shouldDieNextTick++;
         }
 
-        if (shouldDieNextTick == 2) {
+    }
+
+    @Override
+    protected void tickDeath() {
+        ++this.deathTime;
+
+        if (this.deathTime >= 1 && !this.level().isClientSide() && !this.isRemoved()) {
+            this.level().broadcastEntityEvent(this, (byte)60);
             this.remove(RemovalReason.KILLED);
         }
 
-    }
-
-    private void createCustomExplosionParticles() {
-        ExplosiveConfig.spawnParticles(level(), getX(), getY() + 1.2, getZ(), 2, false, false, 1);
-    }
-
-    private void explode() {
-        if (!this.level().isClientSide) {
-            this.level().explode(this, damageSources().generic(), null, this.getX(), this.getY(), this.getZ(), 2F, false, Level.ExplosionInteraction.NONE, false);
-            level().playSound(null, getOnPos(), SoundEvents.DRAGON_FIREBALL_EXPLODE, SoundSource.BLOCKS, 1f, 1f);
-        }
     }
 
     @Override

@@ -4,6 +4,7 @@ import dev.xylonity.knightquest.KnightQuestCommon;
 import dev.xylonity.knightquest.common.material.KQArmorMaterials;
 import dev.xylonity.knightquest.common.material.KQItemMaterials;
 import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
@@ -22,6 +23,8 @@ public class KnightQuestItems {
     public static final Supplier<Item> FILLED_GOBLET = registerItem("filled_goblet", () -> new KnightQuestItem(new Item.Properties(), "filled_goblet"));
     public static final Supplier<Item> RATMAN_EYE = registerItem("ratman_eye", () -> new KnightQuestItem(new Item.Properties(), "ratman_eye"));
     public static final Supplier<Item> LIZZY_SCALE = registerItem("lizzy_scale", () -> new KnightQuestItem(new Item.Properties(), "lizzy_scale"));
+
+    public static final Supplier<Item> THE_ARCHITECT_OF_CHAOS_DISC = registerMusicDisc("the_architect_of_chaos_disc", 6, KnightQuestSounds.THE_ARCHITECT_OF_CHAOS, new Item.Properties().stacksTo(1), 3620);
 
     public static final Supplier<Item> PALADIN_SWORD = registerSwordItem("paladin_sword", KQItemMaterials.PALADIN, -2.8f, true);
     public static final Supplier<Item> NAIL_SWORD = registerSwordItem("nail_glaive", KQItemMaterials.NAIL, -2.6f, false);
@@ -242,6 +245,10 @@ public class KnightQuestItems {
     
     private static <T extends Item> Supplier<T> registerItem(String id, Supplier<T> item) {
         return KnightQuestCommon.COMMON_PLATFORM.registerItem(id, item);
+    }
+
+    private static <T extends Item> Supplier<T> registerMusicDisc(String id, int signal, Supplier<SoundEvent> soundEvent, Item.Properties properties, int length) {
+        return KnightQuestCommon.COMMON_PLATFORM.registerMusicDisc(id, signal, soundEvent, properties, length);
     }
 
     private static <T extends Item> Supplier<T> registerSwordItem(String id, KQItemMaterials itemMaterial, float speedMalus, boolean containsTooltip) {

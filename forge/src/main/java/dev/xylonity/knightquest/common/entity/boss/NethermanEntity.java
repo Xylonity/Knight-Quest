@@ -53,16 +53,20 @@ public class NethermanEntity extends Monster implements GeoEntity {
     private final RawAnimation WALKANIM = RawAnimation.begin().thenPlay("walk");
     private final RawAnimation IDLEANIM = RawAnimation.begin().thenPlay("idle");
     private final RawAnimation SPECIALATTACKANIM = RawAnimation.begin().thenPlay("attack_special");
+    private final RawAnimation SPECIALATTACK2ANIM = RawAnimation.begin().thenPlay("attack_special2"); // Only present in phase 2
     private final RawAnimation PHASE_SWITCH_2 = RawAnimation.begin().thenPlay("phase2");
 
     private static final EntityDataAccessor<Boolean> SUMMON = SynchedEntityData.defineId(NethermanEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> NOMOVEMENT = SynchedEntityData.defineId(NethermanEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> INVULNERABLE = SynchedEntityData.defineId(NethermanEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> IS_DOING_FLAME_ATTACK = SynchedEntityData.defineId(NethermanEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> IS_DOING_SPECIAL_ATTACK2 = SynchedEntityData.defineId(NethermanEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> SHOULD_SEARCH_TARGET = SynchedEntityData.defineId(NethermanEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> PHASE = SynchedEntityData.defineId(NethermanEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> REVERT_FLAME_ATTACK = SynchedEntityData.defineId(NethermanEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> COUNTER_SWITCH_PHASE_2 = SynchedEntityData.defineId(NethermanEntity.class, EntityDataSerializers.INT);
+
+    private boolean hasBeenSwitchedToPhase2 = false;
 
     public NethermanEntity(EntityType<? extends Monster> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -75,7 +79,7 @@ public class NethermanEntity extends Monster implements GeoEntity {
 
     public static AttributeSupplier setAttributes() {
         return Monster.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 350.0D)
+                .add(Attributes.MAX_HEALTH, 100D)
                 .add(Attributes.ATTACK_DAMAGE, 8.0f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
                 .add(Attributes.MOVEMENT_SPEED, 0.70f)
@@ -93,7 +97,8 @@ public class NethermanEntity extends Monster implements GeoEntity {
         this.goalSelector.addGoal(3, new NethermanFlameGoal(this));
 
         // Phase 2
-        this.goalSelector.addGoal(2, new SpawnNethermanClonesGoal(this));
+        //this.goalSelector.addGoal(2, new SpawnNethermanClonesGoal(this));
+        this.goalSelector.addGoal(4, new NethermanIceGoal(this));
 
         // Phase 3
         this.goalSelector.addGoal(2, new MagicProjectileAttackGoal(this));
@@ -169,15 +174,24 @@ public class NethermanEntity extends Monster implements GeoEntity {
         this.entityData.set(COUNTER_SWITCH_PHASE_2, counterSwitchPhase2);
     }
 
+    public boolean getIsDoingSpecialAttack2() {
+        return this.entityData.get(IS_DOING_SPECIAL_ATTACK2);
+    }
+
+    public void setIsDoingSpecialAttack2(boolean isDoingSpecialAttack) {
+        this.entityData.set(IS_DOING_SPECIAL_ATTACK2, isDoingSpecialAttack);
+    }
+
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(PHASE, 1);
         this.entityData.define(INVULNERABLE, true);
         this.entityData.define(SUMMON, true);
-        this.entityData.define(NOMOVEMENT, false);
+        this.entityData.define(NOMOVEMENT, true);
         this.entityData.define(SHOULD_SEARCH_TARGET, false);
         this.entityData.define(IS_DOING_FLAME_ATTACK, false);
+        this.entityData.define(IS_DOING_SPECIAL_ATTACK2, false);
         this.entityData.define(REVERT_FLAME_ATTACK, 0);
         this.entityData.define(COUNTER_SWITCH_PHASE_2, 0);
     }
@@ -217,7 +231,7 @@ public class NethermanEntity extends Monster implements GeoEntity {
         }
 
         // Switch to second phase
-        if (getHealth() < getMaxHealth() * 0.9 && getPhase() != 2) {
+        if (getHealth() < getMaxHealth() * 0.66 && getPhase() != 2) {
             setPhase(2);
             setNoMovement(true);
             setShouldSearchTarget(false);
@@ -231,16 +245,17 @@ public class NethermanEntity extends Monster implements GeoEntity {
         }
 
         // Restore atts after switching to second phase
-        if (getCounterSwitchPhase2() >= 130) {
+        if (getCounterSwitchPhase2() == 130 && !hasBeenSwitchedToPhase2) {
             setShouldSearchTarget(true);
             setNoMovement(false);
             setInvulnerability(false);
+            hasBeenSwitchedToPhase2 = true;
         }
 
     }
 
     /**
-     * Restores the blocks converted into lava saved within then `changedBlocks` hashMap.
+     * Restores the blocks converted into lava saved within the `changedBlocks` hashMap.
      */
 
     private void restoreBlocks() {
@@ -313,9 +328,8 @@ public class NethermanEntity extends Monster implements GeoEntity {
             boolean bl3 = this.randomTeleport(x, y, z, true);
             if (bl3) {
                 this.level().gameEvent(GameEvent.TELEPORT, vec3, GameEvent.Context.of(this));
-                    this.level().playSound(null, this.xo, this.yo, this.zo, SoundEvents.ENDERMAN_TELEPORT, this.getSoundSource(), 1.0F, 1.0F);
-                    this.playSound(SoundEvents.ENDERMAN_TELEPORT, 1.0F, 1.0F);
-
+                this.level().playSound(null, this.xo, this.yo, this.zo, SoundEvents.ENDERMAN_TELEPORT, this.getSoundSource(), 1.0F, 1.0F);
+                this.playSound(SoundEvents.ENDERMAN_TELEPORT, 1.0F, 1.0F);
             }
 
             return bl3;
@@ -354,10 +368,12 @@ public class NethermanEntity extends Monster implements GeoEntity {
     public void readAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
 
-        setIsSummoning(pCompound.getBoolean("shouldPlaySummonAnimation"));
-        setInvulnerability(pCompound.getBoolean("isInvulnerable"));
-        setNoMovement(pCompound.getBoolean("isNoMovement"));
         this.tickCount = pCompound.getInt("tickCount");
+        this.setIsSummoning(pCompound.getBoolean("shouldPlaySummonAnimation"));
+        this.setInvulnerability(pCompound.getBoolean("isInvulnerable"));
+        this.setNoMovement(pCompound.getBoolean("isNoMovement"));
+        this.setCounterSwitchPhase2(pCompound.getInt("counterSwitchPhase2"));
+        this.setPhase(pCompound.getInt("phase"));
 
         if (this.hasCustomName()) {
             this.bossInfo.setName(this.getDisplayName());
@@ -369,10 +385,12 @@ public class NethermanEntity extends Monster implements GeoEntity {
     public void addAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.addAdditionalSaveData(pCompound);
 
+        pCompound.putInt("tickCount", this.tickCount);
         pCompound.putBoolean("shouldPlaySummonAnimation", this.getIsSummoning());
         pCompound.putBoolean("isInvulnerable", this.getInvulnerability());
         pCompound.putBoolean("isNoMovement", this.getNoMovement());
-        pCompound.putInt("tickCount", this.tickCount);
+        pCompound.putInt("counterSwitchPhase2", this.getCounterSwitchPhase2());
+        pCompound.putInt("phase", this.getPhase());
 
     }
 

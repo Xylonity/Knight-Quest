@@ -26,7 +26,7 @@ public class NethermanLavaTeleportGoal extends Goal {
     }
 
     public boolean canUse() {
-        return this.netherman.getTarget() != null;
+        return this.netherman.getTarget() != null && this.netherman.getPhase() == 1;
     }
 
     public void start() {
@@ -120,7 +120,7 @@ public class NethermanLavaTeleportGoal extends Goal {
 
     public void tick() {
         LivingEntity livingentity = this.netherman.getTarget();
-        if (livingentity != null && this.netherman.getPhase() == 1 && this.netherman.getHealth() >= this.netherman.getMaxHealth() * 0.7) {
+        if (livingentity != null) {
 
             if (livingentity.distanceToSqr(this.netherman) < 4096.0D && this.netherman.hasLineOfSight(livingentity)) {
 

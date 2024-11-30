@@ -24,6 +24,7 @@ public interface KnightQuestPlatform {
     <T extends Item> Supplier<T> registerAxeItem(String id, KQItemMaterials itemMaterial, float extraDamageBoost, float attackMalus);
     <T extends Item> Supplier<T> registerArmorItem(String id, KQArmorMaterials armorMaterial, ArmorItem.Type armorType, boolean containsTooltip);
     <T extends CreativeModeTab> Supplier<T> registerCreativeModeTab(String id, Supplier<T> tab);
+    <T extends Item> Supplier<T> registerMusicDisc(String id, int signal, Supplier<SoundEvent> soundEvent, Item.Properties properties, int length);
 
     Supplier<Item> getGreatEssence();
 

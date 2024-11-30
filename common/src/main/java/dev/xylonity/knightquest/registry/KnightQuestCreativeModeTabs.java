@@ -46,6 +46,8 @@ public class KnightQuestCreativeModeTabs {
                                 output.accept(KnightQuestItems.FILLED_GOBLET.get());
                                 output.accept(KnightQuestItems.RATMAN_EYE.get());
                                 output.accept(KnightQuestItems.LIZZY_SCALE.get());
+                                output.accept(KnightQuestItems.THE_ARCHITECT_OF_CHAOS_DISC.get());
+
                                 output.accept(KnightQuestItems.PALADIN_SWORD.get());
                                 output.accept(KnightQuestItems.NAIL_SWORD.get());
                                 output.accept(KnightQuestItems.UCHIGATANA.get());

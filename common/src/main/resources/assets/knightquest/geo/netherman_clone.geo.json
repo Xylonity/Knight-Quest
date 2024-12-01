@@ -1,0 +1,85 @@
+{
+	"format_version": "1.12.0",
+	"minecraft:geometry": [
+		{
+			"description": {
+				"identifier": "geometry.unknown",
+				"texture_width": 128,
+				"texture_height": 128,
+				"visible_bounds_width": 7,
+				"visible_bounds_height": 6.5,
+				"visible_bounds_offset": [0, 2.75, 0]
+			},
+			"bones": [
+				{
+					"name": "main",
+					"pivot": [0, 0, 0]
+				},
+				{
+					"name": "LeftLeg",
+					"parent": "main",
+					"pivot": [1.9, 21, 0],
+					"cubes": [
+						{"origin": [0.9, 0, -1], "size": [3, 21, 2], "uv": [40, 47], "mirror": true}
+					]
+				},
+				{
+					"name": "RightLeg",
+					"parent": "main",
+					"pivot": [-1.9, 21, 0],
+					"cubes": [
+						{"origin": [-3.9, 0, -1], "size": [3, 21, 2], "uv": [40, 47]}
+					]
+				},
+				{
+					"name": "Body",
+					"parent": "main",
+					"pivot": [0, 21, 0]
+				},
+				{
+					"name": "head",
+					"parent": "Body",
+					"pivot": [0, 36, 0],
+					"cubes": [
+						{"origin": [-4, 36, -4], "size": [8, 8, 8], "uv": [0, 0]},
+						{"origin": [6, 42, -1.5], "size": [2, 3, 3], "uv": [48, 6], "mirror": true},
+						{"origin": [-8, 39, -1.5], "size": [4, 3, 3], "uv": [48, 0]},
+						{"origin": [-8, 42, -1.5], "size": [2, 3, 3], "uv": [48, 6]},
+						{"origin": [4, 39, -1.5], "size": [4, 3, 3], "uv": [48, 0], "mirror": true}
+					]
+				},
+				{
+					"name": "LeftArm",
+					"parent": "Body",
+					"pivot": [5, 34, 0],
+					"rotation": [0, 0, -5],
+					"cubes": [
+						{"origin": [4, 12, -2], "size": [4, 24, 4], "uv": [0, 32], "mirror": true}
+					]
+				},
+				{
+					"name": "RightArm",
+					"parent": "Body",
+					"pivot": [-5, 34, 0],
+					"rotation": [0, 0, 5],
+					"cubes": [
+						{"origin": [-8, 12, -2], "size": [4, 24, 4], "uv": [0, 32]}
+					]
+				},
+				{
+					"name": "bipedBody",
+					"parent": "Body",
+					"pivot": [0, 21, 0],
+					"cubes": [
+						{"origin": [-4, 21, -2], "size": [8, 15, 4], "uv": [16, 32]}
+					]
+				},
+				{
+					"name": "bone",
+					"parent": "Body",
+					"pivot": [0, 40.5, 6]
+				}
+			]
+		}
+	]
+}

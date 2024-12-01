@@ -31,7 +31,7 @@ public class NethermanIceGoal extends Goal {
      */
 
     public boolean canUse() {
-        return this.netherman.getTarget() != null && this.netherman.getPhase() == 2;
+        return this.netherman.getTarget() != null && this.netherman.getPhase() == 2 && this.netherman.getCounterSwitchPhase2() == 130;
     }
 
     public void start() {
@@ -87,7 +87,7 @@ public class NethermanIceGoal extends Goal {
                                 double vz = look.z * speed;
 
                                 serverPlayer.connection.send(new ClientboundLevelParticlesPacket(
-                                        KnightQuestParticles.SNOWFLAKE_PARTICLE.get(),
+                                        ParticleTypes.SNOWFLAKE,
                                         true,
                                         x, y, z,
                                         (float) vx, (float) vy + 1f, (float) vz,
@@ -120,7 +120,7 @@ public class NethermanIceGoal extends Goal {
                                 double vz = look.z * speed;
 
                                 serverPlayer.connection.send(new ClientboundLevelParticlesPacket(
-                                        KnightQuestParticles.SNOWFLAKE_PARTICLE.get(),
+                                        ParticleTypes.SNOWFLAKE,
                                         true,
                                         x, y, z,
                                         (float) vx, (float) vy, (float) vz,

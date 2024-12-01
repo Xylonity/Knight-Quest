@@ -3,6 +3,7 @@ package dev.xylonity.knightquest.common.entity.boss;
 import dev.xylonity.knightquest.common.ai.navigator.GroundNavigator;
 import dev.xylonity.knightquest.common.entity.boss.ai.*;
 import dev.xylonity.knightquest.config.values.KQConfigValues;
+import dev.xylonity.knightquest.registry.KnightQuestItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -27,6 +28,7 @@ import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
@@ -55,6 +57,7 @@ public class NethermanEntity extends Monster implements GeoEntity {
     private final RawAnimation SPECIALATTACKANIM = RawAnimation.begin().thenPlay("attack_special");
     private final RawAnimation SPECIALATTACK2ANIM = RawAnimation.begin().thenPlay("attack_special2"); // Only present in phase 2
     private final RawAnimation PHASE_SWITCH_2 = RawAnimation.begin().thenPlay("phase2");
+    private final RawAnimation PHASE_SWITCH_3 = RawAnimation.begin().thenPlay("phase3");
 
     private static final EntityDataAccessor<Boolean> SUMMON = SynchedEntityData.defineId(NethermanEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> NOMOVEMENT = SynchedEntityData.defineId(NethermanEntity.class, EntityDataSerializers.BOOLEAN);
@@ -64,9 +67,12 @@ public class NethermanEntity extends Monster implements GeoEntity {
     private static final EntityDataAccessor<Boolean> SHOULD_SEARCH_TARGET = SynchedEntityData.defineId(NethermanEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> PHASE = SynchedEntityData.defineId(NethermanEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> REVERT_FLAME_ATTACK = SynchedEntityData.defineId(NethermanEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> REVERT_SPECIAL_ATTACK2 = SynchedEntityData.defineId(NethermanEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> COUNTER_SWITCH_PHASE_2 = SynchedEntityData.defineId(NethermanEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> COUNTER_SWITCH_PHASE_3 = SynchedEntityData.defineId(NethermanEntity.class, EntityDataSerializers.INT);
 
     private boolean hasBeenSwitchedToPhase2 = false;
+    private boolean hasBeenSwitchedToPhase3 = false;
 
     public NethermanEntity(EntityType<? extends Monster> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -80,10 +86,10 @@ public class NethermanEntity extends Monster implements GeoEntity {
     public static AttributeSupplier setAttributes() {
         return Monster.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 100D)
-                .add(Attributes.ATTACK_DAMAGE, 8.0f)
-                .add(Attributes.ATTACK_SPEED, 1.0f)
-                .add(Attributes.MOVEMENT_SPEED, 0.70f)
-                .add(Attributes.FOLLOW_RANGE, 35.0)
+                .add(Attributes.ATTACK_DAMAGE, 16.0f)
+                .add(Attributes.ATTACK_SPEED, 1.2f)
+                .add(Attributes.MOVEMENT_SPEED, 0.8f)
+                .add(Attributes.FOLLOW_RANGE, 50.0)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 5.0).build();
     }
 
@@ -97,8 +103,8 @@ public class NethermanEntity extends Monster implements GeoEntity {
         this.goalSelector.addGoal(3, new NethermanFlameGoal(this));
 
         // Phase 2
-        //this.goalSelector.addGoal(2, new SpawnNethermanClonesGoal(this));
-        this.goalSelector.addGoal(4, new NethermanIceGoal(this));
+        this.goalSelector.addGoal(2, new NethermanClonesGoal(this));
+        this.goalSelector.addGoal(3, new NethermanIceGoal(this));
 
         // Phase 3
         this.goalSelector.addGoal(2, new MagicProjectileAttackGoal(this));
@@ -166,12 +172,28 @@ public class NethermanEntity extends Monster implements GeoEntity {
         this.entityData.set(REVERT_FLAME_ATTACK, revertFlameAttack);
     }
 
+    public int getRevertSpecialAttack2() {
+        return this.entityData.get(REVERT_SPECIAL_ATTACK2);
+    }
+
+    public void setRevertSpecialAttack2(int revertSpecialAttack) {
+        this.entityData.set(REVERT_SPECIAL_ATTACK2, revertSpecialAttack);
+    }
+
     public int getCounterSwitchPhase2() {
         return this.entityData.get(COUNTER_SWITCH_PHASE_2);
     }
 
     public void setCounterSwitchPhase2(int counterSwitchPhase2) {
         this.entityData.set(COUNTER_SWITCH_PHASE_2, counterSwitchPhase2);
+    }
+
+    public int getCounterSwitchPhase3() {
+        return this.entityData.get(COUNTER_SWITCH_PHASE_3);
+    }
+
+    public void setCounterSwitchPhase3(int counterSwitchPhase3) {
+        this.entityData.set(COUNTER_SWITCH_PHASE_3, counterSwitchPhase3);
     }
 
     public boolean getIsDoingSpecialAttack2() {
@@ -193,7 +215,9 @@ public class NethermanEntity extends Monster implements GeoEntity {
         this.entityData.define(IS_DOING_FLAME_ATTACK, false);
         this.entityData.define(IS_DOING_SPECIAL_ATTACK2, false);
         this.entityData.define(REVERT_FLAME_ATTACK, 0);
+        this.entityData.define(REVERT_SPECIAL_ATTACK2, 0);
         this.entityData.define(COUNTER_SWITCH_PHASE_2, 0);
+        this.entityData.define(COUNTER_SWITCH_PHASE_3, 0);
     }
 
     @Override
@@ -220,18 +244,31 @@ public class NethermanEntity extends Monster implements GeoEntity {
             this.setDeltaMovement(Vec3.ZERO);
         }
 
-        // Reverts the movement in case the FlameGoal losses target while ticking
-        if (getNoMovement() && getIsDoingFlameAttack()) {
-            setRevertFlameAttack(getRevertFlameAttack() + 1);
-            if (getRevertFlameAttack() == 30) {
-                this.setNoMovement(false);
-                this.setIsDoingFlameAttack(false);
-                this.setRevertFlameAttack(0);
+        // Reverts the movement in case the SpecialAttack1 or 2 losses target while ticking
+        if (getNoMovement()) {
+
+            if (getIsDoingFlameAttack()) {
+                setRevertFlameAttack(getRevertFlameAttack() + 1);
+                if (getRevertFlameAttack() == 30) {
+                    this.setNoMovement(false);
+                    this.setIsDoingFlameAttack(false);
+                    this.setRevertFlameAttack(0);
+                }
             }
+
+            if (getIsDoingSpecialAttack2()) {
+                setRevertSpecialAttack2(getRevertSpecialAttack2() + 1);
+                if (getRevertSpecialAttack2() == 30) {
+                    this.setNoMovement(false);
+                    this.setIsDoingSpecialAttack2(false);
+                    this.setRevertSpecialAttack2(0);
+                }
+            }
+
         }
 
         // Switch to second phase
-        if (getHealth() < getMaxHealth() * 0.66 && getPhase() != 2) {
+        if (getHealth() < getMaxHealth() * 0.66 && getPhase() != 2 && getPhase() != 3) {
             setPhase(2);
             setNoMovement(true);
             setShouldSearchTarget(false);
@@ -252,6 +289,34 @@ public class NethermanEntity extends Monster implements GeoEntity {
             hasBeenSwitchedToPhase2 = true;
         }
 
+        // Switch to third phase
+        if (getHealth() < getMaxHealth() * 0.33 && getPhase() != 3) {
+            setPhase(3);
+            setNoMovement(true);
+            setShouldSearchTarget(false);
+            setTarget(null);
+            setInvulnerability(true);
+        }
+
+        // Counter of the third phase animation
+        if (getPhase() == 3 && getCounterSwitchPhase3() < 160) {
+            setCounterSwitchPhase3(getCounterSwitchPhase3() + 1);
+        }
+
+        // Restore atts after switching to third phase
+        if (getCounterSwitchPhase3() == 160 && !hasBeenSwitchedToPhase3) {
+            setShouldSearchTarget(true);
+            setNoMovement(false);
+            setInvulnerability(false);
+            hasBeenSwitchedToPhase3 = true;
+        }
+
+    }
+
+    @Override
+    protected void dropCustomDeathLoot(DamageSource pSource, int pLooting, boolean pRecentlyHit) {
+        super.dropCustomDeathLoot(pSource, pLooting, pRecentlyHit);
+        this.spawnAtLocation(new ItemStack(KnightQuestItems.CHAOTIC_ESSENCE.get(), 1));
     }
 
     /**
@@ -373,6 +438,7 @@ public class NethermanEntity extends Monster implements GeoEntity {
         this.setInvulnerability(pCompound.getBoolean("isInvulnerable"));
         this.setNoMovement(pCompound.getBoolean("isNoMovement"));
         this.setCounterSwitchPhase2(pCompound.getInt("counterSwitchPhase2"));
+        this.setCounterSwitchPhase3(pCompound.getInt("counterSwitchPhase3"));
         this.setPhase(pCompound.getInt("phase"));
 
         if (this.hasCustomName()) {
@@ -390,6 +456,7 @@ public class NethermanEntity extends Monster implements GeoEntity {
         pCompound.putBoolean("isInvulnerable", this.getInvulnerability());
         pCompound.putBoolean("isNoMovement", this.getNoMovement());
         pCompound.putInt("counterSwitchPhase2", this.getCounterSwitchPhase2());
+        pCompound.putInt("counterSwitchPhase3", this.getCounterSwitchPhase3());
         pCompound.putInt("phase", this.getPhase());
 
     }
@@ -412,7 +479,6 @@ public class NethermanEntity extends Monster implements GeoEntity {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "coreController", this::corePredicate));
         controllers.add(new AnimationController<>(this, "movementController", this::movementPredicate));
         controllers.add(new AnimationController<>(this, "attackController", this::attackPredicate));
     }
@@ -421,8 +487,12 @@ public class NethermanEntity extends Monster implements GeoEntity {
 
         if (getIsSummoning()) {
             event.getController().setAnimation(SUMMONANIM);
+        } else if (getCounterSwitchPhase3() < 160 && getPhase() == 3) {
+            event.getController().setAnimation(PHASE_SWITCH_3);
         } else if (getCounterSwitchPhase2() < 130 && getPhase() == 2) {
             event.getController().setAnimation(PHASE_SWITCH_2);
+        } else if (getIsDoingSpecialAttack2()) {
+            event.getController().setAnimation(SPECIALATTACK2ANIM);
         } else if (getIsDoingFlameAttack()) {
             event.getController().setAnimation(SPECIALATTACKANIM);
         } else if (event.isMoving()) {
@@ -433,26 +503,6 @@ public class NethermanEntity extends Monster implements GeoEntity {
 
         return PlayState.CONTINUE;
 
-    }
-
-    private <E extends GeoAnimatable> PlayState corePredicate(AnimationState<E> event) {
-
-        //if (getSummon()) {
-        //    event.getController().setAnimation(SUMMONANIM);
-        //}
-//
-        //else if (getNoMovement()) {
-        //    event.getController().forceAnimationReset();
-        //    event.getController().setAnimation(SPECIALATTACKANIM);
-        //}
-
-        //else if (event.isMoving()) {
-        //    event.getController().setAnimation(WALKANIM);
-        //} else {
-        //    event.getController().setAnimation(IDLEANIM);
-        //}
-
-        return PlayState.CONTINUE;
     }
 
     private PlayState attackPredicate(AnimationState<?> event) {

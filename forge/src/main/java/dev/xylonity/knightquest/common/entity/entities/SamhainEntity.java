@@ -40,6 +40,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.function.Supplier;
 
 public class SamhainEntity extends TamableAnimal implements GeoEntity, RangedAttackMob {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);

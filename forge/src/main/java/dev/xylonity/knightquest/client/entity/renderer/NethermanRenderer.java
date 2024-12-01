@@ -28,6 +28,9 @@ public class NethermanRenderer extends GeoEntityRenderer<NethermanEntity> {
     @Override
     public @NotNull ResourceLocation getTextureLocation(@NotNull NethermanEntity animatable) {
 
+        if (animatable.isDeadOrDying())
+            return new ResourceLocation(KnightQuest.MOD_ID, TEXTURE_PATH + "netherman_magic.png");
+
         // The mcmeta spritesheet solution could potentially desync the animation, so this is needed
         if (animatable.getPhase() == 2 && animatable.getCounterSwitchPhase2() < 130) {
             String path = switch (animatable.getCounterSwitchPhase2()) {

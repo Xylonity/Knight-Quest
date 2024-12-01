@@ -18,6 +18,9 @@ public class NethermanModel extends GeoModel<NethermanEntity> {
     @Override
     public ResourceLocation getModelResource(NethermanEntity animatable) {
 
+        if (animatable.isDeadOrDying())
+            return new ResourceLocation(KnightQuest.MOD_ID, "geo/netherman_magic.geo.json");
+
         String path = switch (animatable.getPhase()) {
             case 1 -> "geo/netherman_fire.geo.json";
             case 2 -> animatable.getCounterSwitchPhase2() == 130
@@ -33,6 +36,9 @@ public class NethermanModel extends GeoModel<NethermanEntity> {
 
     @Override
     public ResourceLocation getTextureResource(NethermanEntity animatable) {
+
+        if (animatable.isDeadOrDying())
+            return new ResourceLocation(KnightQuest.MOD_ID, TEXTURE_PATH + "netherman_magic.png");
 
         // The mcmeta spritesheet solution could potentially desync the animation, so this is needed
         if (animatable.getPhase() == 2 && animatable.getCounterSwitchPhase2() < 130) {
@@ -110,6 +116,9 @@ public class NethermanModel extends GeoModel<NethermanEntity> {
 
     @Override
     public ResourceLocation getAnimationResource(NethermanEntity animatable) {
+
+        if (animatable.isDeadOrDying())
+            return new ResourceLocation(KnightQuest.MOD_ID, "animations/netherman_magic.animation.json");
 
         if (animatable.getCounterSwitchPhase2() == 130 && animatable.getPhase() == 2
                 || (animatable.getCounterSwitchPhase3() != 160) && animatable.getPhase() == 3) {

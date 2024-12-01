@@ -51,6 +51,7 @@ public class NethermanEntity extends Monster implements GeoEntity {
     private final ServerBossEvent bossInfo = (ServerBossEvent)(new ServerBossEvent(this.getDisplayName(), BossEvent.BossBarColor.RED, BossEvent.BossBarOverlay.PROGRESS)).setDarkenScreen(true);
     private final Map<BlockPos, BlockState> changedBlocks = new HashMap<>();
 
+    private final RawAnimation DEATH = RawAnimation.begin().thenPlay("death");
     private final RawAnimation SUMMONANIM = RawAnimation.begin().thenPlay("summon");
     private final RawAnimation WALKANIM = RawAnimation.begin().thenPlay("walk");
     private final RawAnimation IDLEANIM = RawAnimation.begin().thenPlay("idle");
@@ -316,7 +317,7 @@ public class NethermanEntity extends Monster implements GeoEntity {
     @Override
     protected void dropCustomDeathLoot(DamageSource pSource, int pLooting, boolean pRecentlyHit) {
         super.dropCustomDeathLoot(pSource, pLooting, pRecentlyHit);
-        this.spawnAtLocation(new ItemStack(KnightQuestItems.CHAOTIC_ESSENCE.get(), 1));
+        this.spawnAtLocation(new ItemStack(KnightQuestItems.CHAOTIC_ESSENCE.get()));
     }
 
     /**
@@ -417,13 +418,13 @@ public class NethermanEntity extends Monster implements GeoEntity {
         ++this.deathTime;
 
         if (this.level() instanceof ServerLevel) {
-            if (this.deathTime > 0 && this.deathTime % 5 == 0) {
+            if (this.deathTime > 0 && this.deathTime % 10 == 0) {
                 int award = net.minecraftforge.event.ForgeEventFactory.getExperienceDrop(this, this.lastHurtByPlayer, Mth.floor((float) KQConfigValues.EXPERIENCE_DROP_AMOUNT * 0.08F));
-                ExperienceOrb.award((ServerLevel) this.level(), this.position(), award);
+                ExperienceOrb.award((ServerLevel) this.level(), new Vec3(position().x, position().y + 2.5, position().z), award);
             }
         }
 
-        if (this.deathTime >= 40 && !this.level().isClientSide() && !this.isRemoved()) {
+        if (this.deathTime >= 80 && !this.level().isClientSide() && !this.isRemoved()) {
             this.level().broadcastEntityEvent(this, (byte)60);
             this.remove(RemovalReason.KILLED);
         }
@@ -485,7 +486,9 @@ public class NethermanEntity extends Monster implements GeoEntity {
 
     private <E extends GeoAnimatable> PlayState movementPredicate(AnimationState<E> event) {
 
-        if (getIsSummoning()) {
+        if (isDeadOrDying()) {
+            event.getController().setAnimation(DEATH);
+        } else if (getIsSummoning()) {
             event.getController().setAnimation(SUMMONANIM);
         } else if (getCounterSwitchPhase3() < 160 && getPhase() == 3) {
             event.getController().setAnimation(PHASE_SWITCH_3);

@@ -1,0 +1,112 @@
+package dev.xylonity.knightquest.common.item;
+
+import dev.xylonity.knightlib.compat.block.ChaliceBlock;
+import dev.xylonity.knightlib.compat.registry.KnightLibBlocks;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.SwordItem;
+import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
+
+public abstract class KQWeaponItem extends SwordItem {
+
+    public KQWeaponItem(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties) {
+        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties);
+    }
+
+    /**
+    Set the chalice state back to 1 once a successful interaction.
+     */
+    @Override
+    public @NotNull InteractionResult useOn(@NotNull UseOnContext ctx) {
+        Level level = ctx.getLevel();
+        BlockPos pos = ctx.getClickedPos();
+        BlockState blockState = level.getBlockState(pos);
+        ItemStack stack = ctx.getItemInHand();
+        CompoundTag tag = stack.getOrCreateTag();
+
+        if (!level.isClientSide && blockState.is(KnightLibBlocks.GREAT_CHALICE.get()) && blockState.getValue(ChaliceBlock.fill).equals(10)) {
+            if (!tag.getBoolean("Activated")) {
+                level.setBlock(pos, blockState.setValue(ChaliceBlock.fill, 1), 3);
+                tag.putBoolean("Activated", true);
+                return InteractionResult.SUCCESS;
+            } else {
+                return InteractionResult.FAIL;
+            }
+        }
+
+        return InteractionResult.PASS;
+    }
+
+    @Override
+    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand hand) {
+        ItemStack stack = player.getItemInHand(hand);
+        BlockHitResult blockHit = getPlayerPOVHitResult(level, player, ClipContext.Fluid.NONE);
+
+       if (blockHit.getType() == HitResult.Type.BLOCK) {
+           BlockState blockState = level.getBlockState(blockHit.getBlockPos());
+           if (blockState.is(KnightLibBlocks.GREAT_CHALICE.get()) && blockState.getValue(ChaliceBlock.fill).equals(10)) {
+               return InteractionResultHolder.fail(stack);
+           }
+       }
+
+        CompoundTag tag = stack.getOrCreateTag();
+        if (!tag.getBoolean("Activated")) {
+            return InteractionResultHolder.fail(stack);
+        }
+
+        long currentTime = level.getGameTime();
+        long lastUsed = tag.getLong("LastUsed");
+        int cooldownTicks = getCooldownTicks();
+
+        if (currentTime - lastUsed >= cooldownTicks) {
+
+            interaction(level, player, hand);
+
+            if (!level.isClientSide) {
+                tag.putLong("LastUsed", currentTime);
+                player.getCooldowns().addCooldown(this, cooldownTicks);
+            }
+
+            return InteractionResultHolder.sidedSuccess(stack, level.isClientSide);
+        }
+
+        return InteractionResultHolder.fail(stack);
+
+    }
+
+    @Override
+    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
+        pTooltipComponents.add(Component.translatable("tooltip.weapon.knightquest." + getName()));
+
+        boolean isActivated = pStack.getOrCreateTag().getBoolean("Activated");
+
+        if (!isActivated) pTooltipComponents.add(Component.translatable("tooltip.weapon.knightquest.disabled_abilities"));
+        pTooltipComponents.add(Component.translatable("tooltip.weapon.knightquest." + getName() + ".passive"));
+        pTooltipComponents.add(Component.translatable("tooltip.weapon.knightquest." + getName() + ".active"));
+        if (!isActivated) pTooltipComponents.add(Component.translatable("tooltip.weapon.knightquest.use_chalice"));
+
+        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+    }
+
+    abstract public void interaction(Level level, Player player, InteractionHand hand);
+    abstract public int getCooldownTicks();
+    abstract public String getName();
+
+}

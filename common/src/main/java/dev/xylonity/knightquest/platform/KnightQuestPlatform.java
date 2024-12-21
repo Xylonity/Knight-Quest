@@ -27,6 +27,7 @@ public interface KnightQuestPlatform {
     <T extends Item> Supplier<T> registerMusicDisc(String id, int signal, Supplier<SoundEvent> soundEvent, Item.Properties properties, int length);
 
     Supplier<Item> getGreatEssence();
+    Supplier<Item> getPaladinSword();
 
     CreativeModeTab.Builder creativeTabBuilder();
 

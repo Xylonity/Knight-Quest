@@ -6,6 +6,7 @@ import dev.xylonity.knightquest.config.KnightQuestCommonConfigs;
 import dev.xylonity.knightquest.datagen.KQLootModifiers;
 import dev.xylonity.knightquest.registry.KnightQuestCreativeModeTabs;
 import dev.xylonity.knightquest.registry.KnightQuestEntities;
+import dev.xylonity.knightquest.registry.KnightQuestWeapons;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.sounds.SoundEvent;
@@ -59,6 +60,13 @@ public class KnightQuest {
         KnightQuestCreativeModeTabs.registerPlatformItem(KnightQuestEntities.BADPATCH_EGG);
         KnightQuestCreativeModeTabs.registerPlatformItem(KnightQuestEntities.GHOSTY_EGG);
         KnightQuestCreativeModeTabs.registerPlatformItem(KnightQuestEntities.NETHERMAN_EGG);
+
+        KnightQuestCreativeModeTabs.registerPlatformItem(KnightQuestWeapons.PALADIN_SWORD);
+        KnightQuestCreativeModeTabs.registerPlatformItem(KnightQuestWeapons.KHOPESH);
+        KnightQuestCreativeModeTabs.registerPlatformItem(KnightQuestWeapons.CLEAVER);
+        KnightQuestCreativeModeTabs.registerPlatformItem(KnightQuestWeapons.KUKRI);
+        KnightQuestCreativeModeTabs.registerPlatformItem(KnightQuestWeapons.UCHIGATANA);
+        KnightQuestCreativeModeTabs.registerPlatformItem(KnightQuestWeapons.NAIL_SWORD);
 
         KnightQuestCommon.init();
 

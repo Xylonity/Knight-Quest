@@ -26,18 +26,11 @@ public class KnightQuestItems {
 
     public static final Supplier<Item> THE_ARCHITECT_OF_CHAOS_DISC = registerMusicDisc("the_architect_of_chaos_disc", 6, KnightQuestSounds.THE_ARCHITECT_OF_CHAOS, new Item.Properties().stacksTo(1), 3620);
 
-    public static final Supplier<Item> PALADIN_SWORD = registerSwordItem("paladin_sword", KQItemMaterials.PALADIN, -2.8f, true);
-    public static final Supplier<Item> NAIL_SWORD = registerSwordItem("nail_glaive", KQItemMaterials.NAIL, -2.6f, false);
-    public static final Supplier<Item> UCHIGATANA = registerSwordItem("uchigatana_katana", KQItemMaterials.UCHIGATANA, -2.2f, false);
-    public static final Supplier<Item> KUKRI = registerSwordItem("kukri_dagger", KQItemMaterials.KUKRI, -1f, false);
-    public static final Supplier<Item> KHOPESH = registerSwordItem("khopesh_claymore", KQItemMaterials.KHOPESH, -2.2f, false);
-    public static final Supplier<Item> CLEAVER = registerSwordItem("cleaver_heavy_axe", KQItemMaterials.CLEAVER, -3f, false);
-    public static final Supplier<Item> CRIMSON_SWORD = registerSwordItem("crimson_sword", KQItemMaterials.CRIMSON_SWORD, -2f, false);
-    public static final Supplier<Item> WATER_SWORD = registerSwordItem("water_sword", KQItemMaterials.WATER_SWORD, -2f, false);
-    public static final Supplier<Item> STEEL_SWORD = registerSwordItem("steel_sword", KQItemMaterials.STEEL_SWORD, -2f, false);
+    public static final Supplier<Item> WATER_SWORD = registerSwordItem("water_sword", KQItemMaterials.WATER_SWORD, false);
+    public static final Supplier<Item> STEEL_SWORD = registerSwordItem("steel_sword", KQItemMaterials.STEEL_SWORD, false);
 
-    public static final Supplier<Item> WATER_AXE = registerAxeItem("water_axe", KQItemMaterials.WATER_SWORD, 4, -2f);
-    public static final Supplier<Item> STEEL_AXE = registerAxeItem("steel_axe", KQItemMaterials.STEEL_SWORD, 4, -2f);
+    public static final Supplier<Item> WATER_AXE = registerAxeItem("water_axe", KQItemMaterials.WATER_SWORD);
+    public static final Supplier<Item> STEEL_AXE = registerAxeItem("steel_axe", KQItemMaterials.STEEL_SWORD);
 
     public static final Supplier<Item> APPLE_HELMET = registerGeoArmorItem("apple_helmet", KQArmorMaterials.APPLE_SET, ArmorItem.Type.HELMET, true, false);
     public static final Supplier<Item> APPLE_CHESTPLATE = registerArmorItem("apple_chestplate", KQArmorMaterials.APPLE_SET, ArmorItem.Type.CHESTPLATE, true);
@@ -251,12 +244,12 @@ public class KnightQuestItems {
         return KnightQuestCommon.COMMON_PLATFORM.registerMusicDisc(id, signal, soundEvent, properties, length);
     }
 
-    private static <T extends Item> Supplier<T> registerSwordItem(String id, KQItemMaterials itemMaterial, float speedMalus, boolean containsTooltip) {
-        return KnightQuestCommon.COMMON_PLATFORM.registerSwordItem(id, itemMaterial, speedMalus, containsTooltip);
+    private static <T extends Item> Supplier<T> registerSwordItem(String id, KQItemMaterials itemMaterial, boolean containsTooltip) {
+        return KnightQuestCommon.COMMON_PLATFORM.registerSwordItem(id, itemMaterial, (float) -2.0, containsTooltip);
     }
 
-    private static <T extends Item> Supplier<T> registerAxeItem(String id, KQItemMaterials itemMaterial, float extraDamageBoost, float speedMalus) {
-        return KnightQuestCommon.COMMON_PLATFORM.registerAxeItem(id, itemMaterial, extraDamageBoost, speedMalus);
+    private static <T extends Item> Supplier<T> registerAxeItem(String id, KQItemMaterials itemMaterial) {
+        return KnightQuestCommon.COMMON_PLATFORM.registerAxeItem(id, itemMaterial, (float) 4, (float) -2.0);
     }
 
     private static <T extends Item> Supplier<T> registerArmorItem(String id, KQArmorMaterials armorMaterial, ArmorItem.Type armorType, boolean containsTooltip) {

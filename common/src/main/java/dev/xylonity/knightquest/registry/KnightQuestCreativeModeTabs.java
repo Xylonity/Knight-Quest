@@ -16,10 +16,15 @@ public class KnightQuestCreativeModeTabs {
     public static void init() { ;; }
 
     private static final List<Supplier<Item>> platformItems = new ArrayList<>();
+    private static final List<Supplier<Item>> weaponItems = new ArrayList<>();
     private static final List<Supplier<? extends ItemLike>> knightLibItems = new ArrayList<>();
 
     public static void registerPlatformItem(Supplier<Item> itemSupplier) {
         platformItems.add(itemSupplier);
+    }
+
+    public static void registerWeaponItem(Supplier<Item> itemSupplier) {
+        weaponItems.add(itemSupplier);
     }
 
     public static void registerKnightLibItem(Supplier<? extends ItemLike> itemSupplier) {
@@ -29,7 +34,7 @@ public class KnightQuestCreativeModeTabs {
     public static final Supplier<CreativeModeTab> KNIGHTQUEST_TAB =
             KnightQuestCommon.COMMON_PLATFORM.registerCreativeModeTab("knightquest_tab",
                     () -> KnightQuestCommon.COMMON_PLATFORM.creativeTabBuilder()
-                            .icon(() -> new ItemStack(KnightQuestItems.PALADIN_SWORD.get()))
+                            .icon(() -> new ItemStack(KnightQuestCommon.COMMON_PLATFORM.getPaladinSword().get()))
                             .title(Component.translatable("itemgroup.knightquest"))
                             .displayItems((itemDisplayParameters, output) -> {
 
@@ -48,13 +53,13 @@ public class KnightQuestCreativeModeTabs {
                                 output.accept(KnightQuestItems.LIZZY_SCALE.get());
                                 output.accept(KnightQuestItems.THE_ARCHITECT_OF_CHAOS_DISC.get());
 
-                                output.accept(KnightQuestItems.PALADIN_SWORD.get());
-                                output.accept(KnightQuestItems.NAIL_SWORD.get());
-                                output.accept(KnightQuestItems.UCHIGATANA.get());
-                                output.accept(KnightQuestItems.KUKRI.get());
-                                output.accept(KnightQuestItems.KHOPESH.get());
-                                output.accept(KnightQuestItems.CLEAVER.get());
-                                output.accept(KnightQuestItems.CRIMSON_SWORD.get());
+                                for (Supplier<Item> itemSupplier : weaponItems) {
+                                    Item item = itemSupplier.get();
+                                    if (item != null) {
+                                        output.accept(item);
+                                    }
+                                }
+
                                 output.accept(KnightQuestItems.WATER_SWORD.get());
                                 output.accept(KnightQuestItems.STEEL_SWORD.get());
 

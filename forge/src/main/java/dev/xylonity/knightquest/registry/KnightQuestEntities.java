@@ -39,7 +39,7 @@ public class KnightQuestEntities {
 
     static {
         GREMLIN = register("gremlin", GremlinEntity::new, MobCategory.MONSTER , 1f, 1f);
-        FALLEN_KNIGHT = register("test", FallenKnightEntity::new, MobCategory.MONSTER , 1f, 1f);
+        FALLEN_KNIGHT = register("fallen_knight", FallenKnightEntity::new, MobCategory.MONSTER , 1f, 1f);
         ELDBOMB = register("eldbomb", EldBombEntity::new, MobCategory.MONSTER , 1f, 1f);
         ELDKINGHT = register("eldknight", EldKnightEntity::new, MobCategory.MONSTER , 1f, 2.6f);
         SAMHAIN = register("samhain", SamhainEntity::new, MobCategory.MONSTER , 1f, 1.5f);

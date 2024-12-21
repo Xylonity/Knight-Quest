@@ -223,10 +223,11 @@ public class GremlinEntity extends Monster implements GeoEntity {
         if (KQConfigValues.CAN_TAKE_GOLD_GREMLIN) {
 
             ItemStack itemstack = pPlayer.getItemInHand(pHand);
-            Item desiredItem = Items.GOLD_INGOT;
+            Item goldIngot = Items.GOLD_INGOT;
             Item item = itemstack.getItem();
 
-            if (item.equals(desiredItem)) {
+            if (item.equals(goldIngot)) {
+                pPlayer.getUseItem().shrink(1);
                 this.setTarget(null);
                 this.getBrain().eraseMemory(MemoryModuleType.ATTACK_TARGET);
                 this.getBrain().eraseMemory(MemoryModuleType.NEAREST_VISIBLE_PLAYER);

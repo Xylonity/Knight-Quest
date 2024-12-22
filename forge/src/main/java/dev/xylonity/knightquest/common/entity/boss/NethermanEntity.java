@@ -436,12 +436,33 @@ public class NethermanEntity extends Monster implements GeoEntity {
         super.readAdditionalSaveData(pCompound);
 
         this.tickCount = pCompound.getInt("tickCount");
-        this.setIsSummoning(pCompound.getBoolean("shouldPlaySummonAnimation"));
-        this.setInvulnerability(pCompound.getBoolean("isInvulnerable"));
-        this.setNoMovement(pCompound.getBoolean("isNoMovement"));
+
+        if (!pCompound.contains("shouldPlaySummonAnimation")) {
+            this.setIsSummoning(true);
+        } else {
+            this.setIsSummoning(pCompound.getBoolean("shouldPlaySummonAnimation"));
+        }
+
+        if (!pCompound.contains("isInvulnerable")) {
+            this.setInvulnerability(true);
+        } else {
+            this.setInvulnerability(pCompound.getBoolean("isInvulnerable"));
+        }
+
+        if (!pCompound.contains("isNoMovement")) {
+            this.setNoMovement(true);
+        } else {
+            this.setNoMovement(pCompound.getBoolean("isNoMovement"));
+        }
+
         this.setCounterSwitchPhase2(pCompound.getInt("counterSwitchPhase2"));
         this.setCounterSwitchPhase3(pCompound.getInt("counterSwitchPhase3"));
-        this.setPhase(pCompound.getInt("phase"));
+
+        if (!pCompound.contains("phase")) {
+            this.setPhase(1);
+        } else {
+            this.setIsSummoning(pCompound.getBoolean("phase"));
+        }
 
         if (this.hasCustomName()) {
             this.bossInfo.setName(this.getDisplayName());

@@ -50,6 +50,7 @@ public class KnightQuestCommonConfigs {
     // Armor Set Configurations
     public static final ForgeConfigSpec.BooleanValue ENABLE_BAMBOOSET_PUSH_PLAYERS;
     public static final ForgeConfigSpec.IntValue TELEPORT_RADIUS_ENDERMANSET;
+    public static final ForgeConfigSpec.DoubleValue CHANCE_ENDERMANSET;
     public static final ForgeConfigSpec.DoubleValue FORZESET_DEFLECT_CHANCE;
     public static final ForgeConfigSpec.DoubleValue FORZESET_DEFLECT_DAMAGE;
     public static final ForgeConfigSpec.DoubleValue SILVERSET_BURN_CHANCE;
@@ -171,6 +172,7 @@ public class KnightQuestCommonConfigs {
         // Armor Set Passives Configuration Section
         BUILDER.push("Armor Set Passives Configuration");
         ENABLE_BAMBOOSET_PUSH_PLAYERS = BUILDER.define("Should Bamboo Set push players?", false);
+        CHANCE_ENDERMANSET = BUILDER.defineInRange("Teleport chance for Enderman Set", 0.4, 0.1, 1.0);
         TELEPORT_RADIUS_ENDERMANSET = BUILDER.defineInRange("Teleport radius for Enderman Set", 10, 5, 30);
         FORZESET_DEFLECT_CHANCE = BUILDER.defineInRange("Chance for Forze Set to deflect", 0.3, 0.1, 1.0);
         FORZESET_DEFLECT_DAMAGE = BUILDER.defineInRange("Damage multiplier for Forze Set deflection", 0.5, 0.1, 2.0);
@@ -180,7 +182,7 @@ public class KnightQuestCommonConfigs {
         WITHERSET_WITHER_CHANCE = BUILDER.defineInRange("Chance of applying Wither with Wither Set", 0.3, 0.1, 1.0);
         SHOULD_WARLORD_SET_EFFECT_APPLY_TO_ITSELF = BUILDER.define("Should Warlord Set effect apply to itself?", false);
         WARLORD_SET_EFFECT_RADIUS = BUILDER.defineInRange("Effect radius for Warlord Set", 15, 1, 40);
-        ZOMBIESET_HEALING_AMOUNT = BUILDER.defineInRange("Healing amount for Zombie Set", 1.0, 0.5, 10.0);
+        ZOMBIESET_HEALING_AMOUNT = BUILDER.defineInRange("Healing amount for Zombie Set", 1.0, 1.0, 10.0);
         ZOMBIESET_HEALING_TICKS = BUILDER.defineInRange("Time in ticks for Zombie Set healing interval", 120, 1, 1000);
         DEEPSLATE_FALL_DAMAGE_MULTIPLIER = BUILDER.defineInRange("Fall damage multiplier for Deepslate Set", 0.2, 0.0, 1.0);
         EVOKER_DARKNESS_CHANCE = BUILDER.defineInRange("Chance to apply Darkness for Evoker Set", 0.25, 0.0, 1.0);

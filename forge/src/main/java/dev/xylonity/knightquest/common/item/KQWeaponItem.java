@@ -2,6 +2,7 @@ package dev.xylonity.knightquest.common.item;
 
 import dev.xylonity.knightlib.compat.block.ChaliceBlock;
 import dev.xylonity.knightlib.compat.registry.KnightLibBlocks;
+import dev.xylonity.knightquest.config.values.KQConfigValues;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -98,7 +99,7 @@ public abstract class KQWeaponItem extends SwordItem {
         boolean isActivated = pStack.getOrCreateTag().getBoolean("Activated");
 
         if (!isActivated) pTooltipComponents.add(Component.translatable("tooltip.weapon.knightquest.disabled_abilities"));
-        pTooltipComponents.add(Component.translatable("tooltip.weapon.knightquest." + getName() + ".passive"));
+        pTooltipComponents.add(Component.translatable("tooltip.weapon.knightquest." + getName() + ".passive", KQConfigValues.BLAZE_FIRE_DURATION_MAX, 100));
         pTooltipComponents.add(Component.translatable("tooltip.weapon.knightquest." + getName() + ".active"));
         if (!isActivated) pTooltipComponents.add(Component.translatable("tooltip.weapon.knightquest.use_chalice"));
 

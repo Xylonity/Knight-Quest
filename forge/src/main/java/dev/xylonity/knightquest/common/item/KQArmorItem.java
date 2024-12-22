@@ -156,7 +156,21 @@ public class KQArmorItem extends ArmorItem {
                     pTooltipComponents.add(Component.translatable("tooltip.item.knightquest.full_set_bonus"));
                 }
 
-                pTooltipComponents.add(Component.translatable("tooltip.item.knightquest." + bonusTooltip + "_helmet.bonus"));
+                pTooltipComponents.add(Component.translatable("tooltip.item.knightquest." + bonusTooltip + "_helmet.bonus",
+                        "§7§o-" + (int) Math.floor(KQConfigValues.EVOKER_DARKNESS_CHANCE * 100) + "%",
+                        "§7§o-" + (int) Math.floor(KQConfigValues.BLAZE_FIRE_CHANCE * 100) + "%",
+                        "§7§o-" + ((int) KQConfigValues.DRAGONSET_DAMAGE_MULTIPLIER * 100 - 100) + "%",
+                        "§7§o" + KQConfigValues.SKULK_MAX_LIGHT_LEVEL,
+                        "§7§o-" + (int) Math.floor(KQConfigValues.CHANCE_ENDERMANSET * 100) + "%",
+                        "§7§o" + KQConfigValues.TELEPORT_RADIUS_ENDERMANSET,
+                        "§7§o-" + (int) Math.floor(KQConfigValues.FORZESET_DEFLECT_CHANCE * 100) + "%",
+                        "§7§o" + (100 - KQConfigValues.CREEPER_EXPLOSION_DAMAGE_MULTIPLIER * 100) + "%",
+                        "§7§o-" + (int) Math.floor(KQConfigValues.SILVERSET_BURN_CHANCE * 100) + "%",
+                        "§7§o" + (int) Math.floor(KQConfigValues.HOLLOWSET_HEALING_MULTIPLIER * 100) + "%",
+                        "§7§o-" + (int) Math.floor(KQConfigValues.WITHERSET_WITHER_CHANCE * 100) + "%",
+                        "§7§o" + Math.floor(KQConfigValues.ZOMBIESET_HEALING_AMOUNT),
+                        "§7§o" + KQConfigValues.ZOMBIESET_HEALING_TICKS / 20,
+                        "§7§o" + KQConfigValues.SILVERFISH_EFFECT_MAX_HEIGHT));
             } else if (Objects.equals(bonusTooltip, "tengu")) {
                 pTooltipComponents.add(Component.translatable("tooltip.item.knightquest.full_helmet_bonus"));
                 pTooltipComponents.add(Component.translatable("tooltip.item.knightquest." + bonusTooltip + "_helmet.bonus"));
@@ -450,7 +464,7 @@ public class KQArmorItem extends ArmorItem {
                     if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.ENDERMANSET) && event.getSource().getEntity() != null) {
 
                         Random random = new Random();
-                        if (random.nextFloat() < 0.4) {
+                        if (random.nextFloat() < KQConfigValues.CHANCE_ENDERMANSET) {
                             int radius = KQConfigValues.TELEPORT_RADIUS_ENDERMANSET;
                             BlockPos playerPos = player.blockPosition();
                             List<BlockPos> validPositions = new ArrayList<>();

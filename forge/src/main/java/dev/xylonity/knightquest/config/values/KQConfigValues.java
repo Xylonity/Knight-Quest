@@ -60,6 +60,7 @@ public class KQConfigValues {
     // Armor Passives Configuration Section
     public static boolean BAMBOOSET_PUSH_PLAYERS = V ? KnightQuestCommonConfigs.ENABLE_BAMBOOSET_PUSH_PLAYERS.get() : false;
     public static int TELEPORT_RADIUS_ENDERMANSET = V ? KnightQuestCommonConfigs.TELEPORT_RADIUS_ENDERMANSET.get() : 10;
+    public static double CHANCE_ENDERMANSET = V ? KnightQuestCommonConfigs.CHANCE_ENDERMANSET.get() : 0.4;
     public static double FORZESET_DEFLECT_CHANCE = V ? KnightQuestCommonConfigs.FORZESET_DEFLECT_CHANCE.get() : 0.3;
     public static double FORZESET_DEFLECT_DAMAGE = V ? KnightQuestCommonConfigs.FORZESET_DEFLECT_DAMAGE.get() : 0.5;
     public static double SILVERSET_BURN_CHANCE = V ? KnightQuestCommonConfigs.SILVERSET_BURN_CHANCE.get() : 0.3;

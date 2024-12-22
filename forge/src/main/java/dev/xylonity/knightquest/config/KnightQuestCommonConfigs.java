@@ -6,6 +6,9 @@ public class KnightQuestCommonConfigs {
     public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
     public static final ForgeConfigSpec SPEC;
 
+    // General Configurations
+    public static final ForgeConfigSpec.IntValue REQUIRED_ARMOR_PIECES;
+
     // Eld Knight Configurations
     public static final ForgeConfigSpec.BooleanValue POISON_ELDKNIGHT;
     public static final ForgeConfigSpec.IntValue NUM_ELDBOMB_ELDKNIGHT;
@@ -108,6 +111,12 @@ public class KnightQuestCommonConfigs {
     public static final ForgeConfigSpec.BooleanValue ENABLE_SKELETONSET;
 
     static {
+        // General configuration
+        BUILDER.push("General Configuration");
+        BUILDER.comment("The amount of armor pieces required to apply a set effect, which means that if this value is set to 1, you can equip 4 different armors pieces and receive the passive effects of each set.");
+        REQUIRED_ARMOR_PIECES = BUILDER.defineInRange("Required armor pieces to apply a full-set bonus effect", 4, 1, 4);
+        BUILDER.pop();
+
         // Eld Knight Configuration Section
         BUILDER.push("Eld Knight Configuration");
         POISON_ELDKNIGHT = BUILDER.define("Should do the poison passive attack", true);

@@ -16,6 +16,9 @@ public class KQConfigValues {
     static Path CONFIG_PATH = FMLPaths.CONFIGDIR.get().resolve("knightquest.toml");
     private static final boolean V = Files.exists(CONFIG_PATH);
 
+    // General Configuration Section
+    public static int REQUIRED_ARMOR_PIECES = V ? KnightQuestCommonConfigs.REQUIRED_ARMOR_PIECES.get() : 4;
+
     // Eld Knight Configuration Section
     public static boolean POISON_ELDKNIGHT = V ? KnightQuestCommonConfigs.POISON_ELDKNIGHT.get() : true;
     public static int NUM_ELDBOMB_ELDKNIGHT = V ? KnightQuestCommonConfigs.NUM_ELDBOMB_ELDKNIGHT.get() : 3;

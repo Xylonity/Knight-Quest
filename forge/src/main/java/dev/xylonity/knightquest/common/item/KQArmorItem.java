@@ -4,6 +4,7 @@ import dev.xylonity.knightquest.KnightQuest;
 import dev.xylonity.knightquest.common.material.KQArmorMaterials;
 import dev.xylonity.knightquest.config.values.KQConfigValues;
 import dev.xylonity.knightquest.registry.KnightQuestItems;
+import dev.xylonity.knightquest.registry.KnightQuestWeapons;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -149,7 +150,12 @@ public class KQArmorItem extends ArmorItem {
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         if (hasTooltip && isArmorSetConfigEnabled(bonusTooltip))
             if (!Objects.equals(bonusTooltip, "chainmail") && !Objects.equals(bonusTooltip, "tengu")) {
-                pTooltipComponents.add(Component.translatable("tooltip.item.knightquest.full_set_bonus"));
+                if (KQConfigValues.REQUIRED_ARMOR_PIECES < 4) {
+                    pTooltipComponents.add(Component.translatable("tooltip.item.knightquest.set_bonus"));
+                } else {
+                    pTooltipComponents.add(Component.translatable("tooltip.item.knightquest.full_set_bonus"));
+                }
+
                 pTooltipComponents.add(Component.translatable("tooltip.item.knightquest." + bonusTooltip + "_helmet.bonus"));
             } else if (Objects.equals(bonusTooltip, "tengu")) {
                 pTooltipComponents.add(Component.translatable("tooltip.item.knightquest.full_helmet_bonus"));
@@ -351,55 +357,61 @@ public class KQArmorItem extends ArmorItem {
         @SubscribeEvent
         public static void onLivingHurt(LivingHurtEvent event) {
 
+            if (event.getSource().getEntity() instanceof LivingEntity livingEntity) {
+                if (livingEntity.getMainHandItem().getItem() == KnightQuestWeapons.KUKRI.get()) {
+                    event.getEntity().setTicksFrozen(event.getEntity().getTicksFrozen() + 100);
+                }
+            }
+
             // Victim: Player (Source ~-> Attacker)
 
             if (event.getEntity() instanceof Player player) {
 
                 if (KQConfigValues.DEEPSLATESET)
-                    if (event.getSource().is(DamageTypes.FALL) && KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.DEEPSLATESET)) {
+                    if (event.getSource().is(DamageTypes.FALL) && KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.DEEPSLATESET)) {
                         float originalDamage = event.getAmount();
                         float reducedDamage = (float) (originalDamage * KQConfigValues.DEEPSLATE_FALL_DAMAGE_MULTIPLIER);
                         event.setAmount(reducedDamage);
                     }
 
                 if (KQConfigValues.EVOKERSET)
-                    if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.EVOKERSET)) {
+                    if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.EVOKERSET)) {
                         Random random = new Random();
                         if (event.getSource().getEntity() != null && event.getSource().getEntity() instanceof LivingEntity entity && random.nextFloat() < (float) KQConfigValues.EVOKER_DARKNESS_CHANCE)
                             entity.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 120, 0, false, false, true));
                     }
 
                 if (KQConfigValues.SQUIRESET)
-                    if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.SQUIRESET)) {
+                    if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.SQUIRESET)) {
                         event.setAmount((float) (event.getAmount() * KQConfigValues.SQUIRE_DAMAGE_RECEIVED_MULTIPLIER));
                     }
 
                 if (KQConfigValues.BLAZESET)
-                    if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.BLAZESET)) {
+                    if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.BLAZESET)) {
                         Random random = new Random();
                         if (event.getSource().getEntity() != null && random.nextFloat() < (float) KQConfigValues.BLAZE_FIRE_CHANCE)
                             event.getSource().getEntity().setSecondsOnFire(random.nextInt(KQConfigValues.BLAZE_FIRE_DURATION_MIN, KQConfigValues.BLAZE_FIRE_DURATION_MAX));
                     }
 
                 if (KQConfigValues.DRAGONSET)
-                    if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.DRAGONSET))
+                    if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.DRAGONSET))
                         if (event.getSource().is(DamageTypes.DRAGON_BREATH))
                             event.setAmount(0);
 
                 if (KQConfigValues.BAMBOOSET_GREEN)
-                    if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.BAMBOOSET_GREEN))
+                    if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.BAMBOOSET_GREEN))
                         if (player.hasEffect(MobEffects.POISON) && (event.getSource().is(DamageTypes.MAGIC) || event.getSource().is(DamageTypes.INDIRECT_MAGIC))) {
                             event.setAmount(0);
                             player.removeEffect(MobEffects.POISON);
                         }
 
                 if (KQConfigValues.SHINOBI)
-                    if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.SHINOBI) && event.getSource().getEntity() != null) {
+                    if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.SHINOBI) && event.getSource().getEntity() != null) {
                         player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 120, 1, false, false, true));
                     }
 
                 if (KQConfigValues.BAMBOOSET)
-                    if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.BAMBOOSET) && event.getSource().is(DamageTypes.FALL)) {
+                    if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.BAMBOOSET) && event.getSource().is(DamageTypes.FALL)) {
 
                         ServerPlayer serverPlayer = (ServerPlayer) player;
 
@@ -435,7 +447,7 @@ public class KQArmorItem extends ArmorItem {
                     }
 
                 if (KQConfigValues.ENDERMANSET)
-                    if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.ENDERMANSET) && event.getSource().getEntity() != null) {
+                    if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.ENDERMANSET) && event.getSource().getEntity() != null) {
 
                         Random random = new Random();
                         if (random.nextFloat() < 0.4) {
@@ -467,26 +479,26 @@ public class KQArmorItem extends ArmorItem {
                     }
 
                 if (KQConfigValues.VETERANSET)
-                    if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.VETERANSET) && player.getHealth() < player.getMaxHealth() * 0.5) {
+                    if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.VETERANSET) && player.getHealth() < player.getMaxHealth() * 0.5) {
                         player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 200, 0, false, false, true));
                         player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 200, 1, false, false, true));
                     }
 
                 if (KQConfigValues.FORZESET)
-                    if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.FORZESET)) {
+                    if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.FORZESET)) {
                         Random random = new Random();
                         if (event.getSource().getEntity() != null && random.nextFloat() < KQConfigValues.FORZESET_DEFLECT_CHANCE)
                             event.getSource().getEntity().hurt(event.getSource(), event.getAmount() * (float) KQConfigValues.FORZESET_DEFLECT_DAMAGE);
                     }
 
                 if (KQConfigValues.CREEPERSET)
-                    if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.CREEPERSET)) {
+                    if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.CREEPERSET)) {
                         if (event.getSource().getEntity() != null && (event.getSource().is(DamageTypes.EXPLOSION) || event.getSource().is(DamageTypes.PLAYER_EXPLOSION)))
                             event.setAmount((float) (event.getAmount() * KQConfigValues.CREEPER_EXPLOSION_DAMAGE_MULTIPLIER));
                     }
 
                 if (KQConfigValues.POLAR)
-                    if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.POLAR)) {
+                    if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.POLAR)) {
                         if (event.getSource().getEntity() != null && (event.getSource().is(DamageTypes.FREEZE)))
                             event.setAmount(0);
                     }
@@ -498,7 +510,7 @@ public class KQArmorItem extends ArmorItem {
             if (event.getSource().getEntity() instanceof Player player && event.getEntity() != null) {
 
                 if (KQConfigValues.SILVERSET)
-                    if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.SILVERSET) && player.level().isNight()) {
+                    if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.SILVERSET) && player.level().isNight()) {
                         Random random = new Random();
                         if (random.nextFloat() < KQConfigValues.SILVERSET_BURN_CHANCE) {
                             event.getEntity().setSecondsOnFire(random.nextInt(2, 8));
@@ -506,15 +518,15 @@ public class KQArmorItem extends ArmorItem {
                     }
 
                 if (KQConfigValues.HOLLOWSET)
-                    if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.HOLLOWSET))
+                    if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.HOLLOWSET))
                         player.heal(Math.min((float) (event.getAmount() * KQConfigValues.HOLLOWSET_HEALING_MULTIPLIER), event.getEntity().getHealth()));
 
                 if (KQConfigValues.DRAGONSET)
-                    if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.DRAGONSET))
+                    if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.DRAGONSET))
                         event.setAmount((float) (event.getAmount() * KQConfigValues.DRAGONSET_DAMAGE_MULTIPLIER));
 
                 if (KQConfigValues.WITHERSET)
-                    if (event.getSource().is(DamageTypes.ARROW) && KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.WITHERSET)) {
+                    if (event.getSource().is(DamageTypes.ARROW) && KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.WITHERSET)) {
                         Random random = new Random();
                         if (event.getSource().getEntity() != null && random.nextFloat() < KQConfigValues.WITHERSET_WITHER_CHANCE)
                             event.getEntity().addEffect(new MobEffectInstance(MobEffects.WITHER, 120, 0, false, false, false));
@@ -526,7 +538,7 @@ public class KQArmorItem extends ArmorItem {
         public static void onLivingUpdate(LivingEntityUseItemEvent.Finish event) {
             if (event.getEntity() instanceof Player player)
                 if (KQConfigValues.APPLE_SET)
-                    if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.APPLE_SET))
+                    if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.APPLE_SET))
                         if (event.getItem().getItem().equals(Items.GOLDEN_APPLE)) {
                             player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 200, 1, false, true, true));
                             player.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, 4800, 1, false, true, true));
@@ -538,12 +550,12 @@ public class KQArmorItem extends ArmorItem {
         public static void onLivingDead(LivingDeathEvent event) {
             if (event.getEntity() != null && event.getSource().getEntity() instanceof Player player) {
                 if (KQConfigValues.CONQUISTADORSET)
-                    if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.CONQUISTADORSET)) {
+                    if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.CONQUISTADORSET)) {
                         player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 200, 1, false, true, true));
                     }
 
                 if (KQConfigValues.WITCH)
-                    if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.WITCH)) {
+                    if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.WITCH)) {
                         player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 80, 0, false, true, true));
                     }
             }
@@ -597,7 +609,7 @@ public class KQArmorItem extends ArmorItem {
                     }
 
                 if (KQConfigValues.WARLORDSET)
-                    if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.WARLORDSET)) {
+                    if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.WARLORDSET)) {
                         for (Entity entity : player.level().getEntitiesOfClass(Player.class, player.getBoundingBox().inflate(KQConfigValues.WARLORD_SET_EFFECT_RADIUS))) {
                             if (KQConfigValues.SHOULD_WARLORD_SET_EFFECT_APPLY_TO_ITSELF) {
                                 if (entity instanceof Player nearbyPlayer) {
@@ -613,7 +625,7 @@ public class KQArmorItem extends ArmorItem {
 
                 if (KQConfigValues.ZOMBIESET)
                     if (!player.level().isClientSide) {
-                        if (KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.ZOMBIESET) && player.level().isNight()) {
+                        if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.ZOMBIESET) && player.level().isNight()) {
                             if (player.tickCount % KQConfigValues.ZOMBIESET_HEALING_TICKS == 0) {
                                 player.heal((float) KQConfigValues.ZOMBIESET_HEALING_AMOUNT);
                             }
@@ -644,7 +656,7 @@ public class KQArmorItem extends ArmorItem {
         public static void onArrowHit(EntityJoinLevelEvent event) {
             if (event.getEntity() instanceof AbstractArrow arrow) {
                 if (KQConfigValues.SKELETONSET)
-                    if (arrow.getOwner() instanceof Player player && KQFullSetChecker.hasFullSuitOfArmorOn(player, KQArmorMaterials.SKELETONSET)) {
+                    if (arrow.getOwner() instanceof Player player && KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.SKELETONSET)) {
                         arrow.setPierceLevel((byte) 5);
                     }
             }

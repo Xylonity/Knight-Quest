@@ -11,6 +11,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
@@ -77,9 +78,12 @@ public class NethermanLavaTeleportGoal extends Goal {
 
             BlockPos targetPos = new BlockPos((int) x, (int) y, (int) z);
             if (isValidTeleportPosition(targetPos)) {
-                BlockPos blockBelow = targetPos.below();
-                this.netherman.saveBlockState(blockBelow);
-                this.netherman.level().setBlock(blockBelow, Blocks.LAVA.defaultBlockState(), 3);
+
+                if (this.netherman.level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
+                    BlockPos blockBelow = targetPos.below();
+                    this.netherman.saveBlockState(blockBelow);
+                    this.netherman.level().setBlock(blockBelow, Blocks.LAVA.defaultBlockState(), 3);
+                }
 
                 for (Player player : this.netherman.level().players()) {
                     if (player instanceof ServerPlayer serverPlayer) {

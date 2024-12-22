@@ -29,6 +29,7 @@ import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
@@ -56,7 +57,7 @@ public class NethermanEntity extends Monster implements GeoEntity {
     private final RawAnimation WALKANIM = RawAnimation.begin().thenPlay("walk");
     private final RawAnimation IDLEANIM = RawAnimation.begin().thenPlay("idle");
     private final RawAnimation SPECIALATTACKANIM = RawAnimation.begin().thenPlay("attack_special");
-    private final RawAnimation SPECIALATTACK2ANIM = RawAnimation.begin().thenPlay("attack_special2"); // Only present in phase 2
+    private final RawAnimation SPECIALATTACK2ANIM = RawAnimation.begin().thenPlay("attack_special2");
     private final RawAnimation PHASE_SWITCH_2 = RawAnimation.begin().thenPlay("phase2");
     private final RawAnimation PHASE_SWITCH_3 = RawAnimation.begin().thenPlay("phase3");
 
@@ -334,7 +335,7 @@ public class NethermanEntity extends Monster implements GeoEntity {
     @Override
     public void die(@NotNull DamageSource pDamageSource) {
         super.die(pDamageSource);
-        if (KQConfigValues.RESTORE_BLOCKS_POST_DEATH)
+        if (KQConfigValues.RESTORE_BLOCKS_POST_DEATH && this.level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING))
             restoreBlocks();
     }
 
@@ -459,7 +460,6 @@ public class NethermanEntity extends Monster implements GeoEntity {
         pCompound.putInt("counterSwitchPhase2", this.getCounterSwitchPhase2());
         pCompound.putInt("counterSwitchPhase3", this.getCounterSwitchPhase3());
         pCompound.putInt("phase", this.getPhase());
-
     }
 
     @Override

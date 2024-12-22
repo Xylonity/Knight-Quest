@@ -50,12 +50,12 @@ public class KnightQuest {
         KnightQuestCreativeModeTabs.registerKnightLibItem(KnightLibItems.SMALL_ESSENCE);
         KnightQuestCreativeModeTabs.registerKnightLibItem(KnightLibItems.GREAT_ESSENCE);
 
-        KnightQuestCreativeModeTabs.registerPlatformItem(KnightQuestWeapons.PALADIN_SWORD);
-        KnightQuestCreativeModeTabs.registerPlatformItem(KnightQuestWeapons.KHOPESH);
-        KnightQuestCreativeModeTabs.registerPlatformItem(KnightQuestWeapons.CLEAVER);
-        KnightQuestCreativeModeTabs.registerPlatformItem(KnightQuestWeapons.KUKRI);
-        KnightQuestCreativeModeTabs.registerPlatformItem(KnightQuestWeapons.UCHIGATANA);
-        KnightQuestCreativeModeTabs.registerPlatformItem(KnightQuestWeapons.NAIL_SWORD);
+        KnightQuestCreativeModeTabs.registerWeaponItem(KnightQuestWeapons.PALADIN_SWORD);
+        KnightQuestCreativeModeTabs.registerWeaponItem(KnightQuestWeapons.KHOPESH);
+        KnightQuestCreativeModeTabs.registerWeaponItem(KnightQuestWeapons.CLEAVER);
+        KnightQuestCreativeModeTabs.registerWeaponItem(KnightQuestWeapons.KUKRI);
+        KnightQuestCreativeModeTabs.registerWeaponItem(KnightQuestWeapons.UCHIGATANA);
+        KnightQuestCreativeModeTabs.registerWeaponItem(KnightQuestWeapons.NAIL_SWORD);
 
         KnightQuestCreativeModeTabs.registerPlatformItem(KnightQuestEntities.GREMLIN_EGG);
         KnightQuestCreativeModeTabs.registerPlatformItem(KnightQuestEntities.ELD_BOMB_EGG);

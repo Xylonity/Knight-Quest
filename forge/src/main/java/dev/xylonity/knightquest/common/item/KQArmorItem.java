@@ -159,7 +159,7 @@ public class KQArmorItem extends ArmorItem {
                 pTooltipComponents.add(Component.translatable("tooltip.item.knightquest." + bonusTooltip + "_helmet.bonus",
                         "§7§o-" + (int) Math.floor(KQConfigValues.EVOKER_DARKNESS_CHANCE * 100) + "%",
                         "§7§o-" + (int) Math.floor(KQConfigValues.BLAZE_FIRE_CHANCE * 100) + "%",
-                        "§7§o-" + ((int) KQConfigValues.DRAGONSET_DAMAGE_MULTIPLIER * 100 - 100) + "%",
+                        "§7§o-" + ((int) Math.floor(KQConfigValues.DRAGONSET_DAMAGE_MULTIPLIER * 100 - 100)) + "%",
                         "§7§o" + KQConfigValues.SKULK_MAX_LIGHT_LEVEL,
                         "§7§o-" + (int) Math.floor(KQConfigValues.CHANCE_ENDERMANSET * 100) + "%",
                         "§7§o" + KQConfigValues.TELEPORT_RADIUS_ENDERMANSET,

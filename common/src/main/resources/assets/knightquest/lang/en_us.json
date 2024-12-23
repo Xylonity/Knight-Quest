@@ -285,20 +285,20 @@
   "tooltip.weapon.knightquest.use_chalice": "§9ℹ Interact with a Great Chalice filled with chaotic essence to activate!",
 
   "tooltip.weapon.knightquest.paladin.active": "§6⚔ Active ability:§f Grants invulnerability for %2$d seconds",
-  "tooltip.weapon.knightquest.paladin.passive": "§e⚡ Passive ability:§f Regenerates %4$dHP each %5$d second/s until %6$d%% HP",
+  "tooltip.weapon.knightquest.paladin.passive": "§e⚡ Passive ability:§f Regenerates %4$dHP each %5$d second(s) until reaching %6$d%% HP",
 
-  "tooltip.weapon.knightquest.cleaver.active": "§6⚔ Active ability:§f Enter a rage state, gaining resistance and extra damage for %5$d seconds",
-  "tooltip.weapon.knightquest.cleaver.passive": "§e⚡ Passive ability:§f Increases %7$d%% of the damage against enemies above %8$d%% health",
+  "tooltip.weapon.knightquest.cleaver.active": "§6⚔ Active ability:§f Enter a rage state, gaining resistance and extra damage for %5$d second(s)",
+  "tooltip.weapon.knightquest.cleaver.passive": "§e⚡ Passive ability:§f Increases damage by %7$d%% against enemies with more than %8$d%% health",
 
-  "tooltip.weapon.knightquest.nail.active": "§6⚔ Active ability:§f Performs a fast dash forward",
+  "tooltip.weapon.knightquest.nail.active": "§6⚔ Active ability:§f Perform a fast dash forward",
   "tooltip.weapon.knightquest.nail.passive": "§e⚡ Passive ability:§f Can double jump in mid-air",
 
-  "tooltip.weapon.knightquest.khopesh.active": "§6⚔ Active ability:§f Reflects incoming attacks for %4$d seconds",
-  "tooltip.weapon.knightquest.khopesh.passive": "§e⚡ Passive ability:§f %3$d%% chance to burn opponent on hit",
+  "tooltip.weapon.knightquest.khopesh.active": "§6⚔ Active ability:§f Reflects incoming attacks for %4$d second(s)",
+  "tooltip.weapon.knightquest.khopesh.passive": "§e⚡ Passive ability:§f %3$d%% chance to burn the opponent on hit",
 
-  "tooltip.weapon.knightquest.kukri.active": "§6⚔ Active ability:§f Increases movement speed for %1$d seconds",
-  "tooltip.weapon.knightquest.kukri.passive": "§e⚡ Passive ability:§f Quick consecutive attacks freeze the target",
+  "tooltip.weapon.knightquest.kukri.active": "§6⚔ Active ability:§f Increases movement speed for %1$d second(s)",
+  "tooltip.weapon.knightquest.kukri.passive": "§e⚡ Passive ability:§f Consecutive quick attacks freeze the target",
 
-  "tooltip.weapon.knightquest.uchigatana.active": "§6⚔ Active ability:§f The next attack will inflict darkness and %3$d%% extra damage",
-  "tooltip.weapon.knightquest.uchigatana.passive": "§e⚡ Passive ability:§f %1$d%% extra damage if the opponent's HP is below %2$d%%HP"
+  "tooltip.weapon.knightquest.uchigatana.active": "§6⚔ Active ability:§f The next attack will inflict darkness and deals %3$d%% extra damage",
+  "tooltip.weapon.knightquest.uchigatana.passive": "§e⚡ Passive ability:§f Deals %1$d%% extra damage if the opponent's HP is below %2$d%%"
 }

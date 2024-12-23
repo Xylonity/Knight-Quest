@@ -1,0 +1,11 @@
+{
+  "type": "knightquest:add_item",
+  "chance": 0.5,
+  "conditions": [
+    {
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "knightquest:entities/ratman"
+    }
+  ],
+  "item": "knightquest:ratman_eye"
+}

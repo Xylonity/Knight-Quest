@@ -99,6 +99,7 @@ public class NethermanEntity extends Monster implements GeoEntity {
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new NethermanAttackGoal(this, 0.5f, true));
+        //this.goalSelector.addGoal(3, new NethermanPlayerTeleportGoal(this));
 
         // Phase 1
         this.goalSelector.addGoal(2, new NethermanLavaTeleportGoal(this));
@@ -316,9 +317,10 @@ public class NethermanEntity extends Monster implements GeoEntity {
     }
 
     @Override
-    protected void dropCustomDeathLoot(DamageSource pSource, int pLooting, boolean pRecentlyHit) {
+    protected void dropCustomDeathLoot(@NotNull DamageSource pSource, int pLooting, boolean pRecentlyHit) {
         super.dropCustomDeathLoot(pSource, pLooting, pRecentlyHit);
         this.spawnAtLocation(new ItemStack(KnightQuestItems.CHAOTIC_ESSENCE.get()));
+        if (this.getRandom().nextFloat() < 0.25) this.spawnAtLocation(new ItemStack(KnightQuestItems.THE_ARCHITECT_OF_CHAOS_DISC.get()));
     }
 
     /**
@@ -362,7 +364,7 @@ public class NethermanEntity extends Monster implements GeoEntity {
 
             boolean isDamaged = super.hurt(pSource, pAmount);
 
-            //teleport();
+            teleport();
 
             return isDamaged;
 
@@ -461,7 +463,7 @@ public class NethermanEntity extends Monster implements GeoEntity {
         if (!pCompound.contains("phase")) {
             this.setPhase(1);
         } else {
-            this.setIsSummoning(pCompound.getBoolean("phase"));
+            this.setPhase(pCompound.getInt("phase"));
         }
 
         if (this.hasCustomName()) {

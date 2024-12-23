@@ -1,16 +1,14 @@
 package dev.xylonity.knightquest.common.item.weapons;
 
 import dev.xylonity.knightquest.common.item.KQWeaponItem;
-import dev.xylonity.knightquest.common.material.KQItemMaterials;
+import dev.xylonity.knightquest.config.values.KQConfigValues;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,12 +35,17 @@ public class NailWeapon extends KQWeaponItem {
 
     @Override
     public int getCooldownTicks() {
-        return 0;
+        return KQConfigValues.COOLDOWN_NAIL;
     }
 
     @Override
     public String getName() {
         return "nail";
+    }
+
+    @Override
+    protected boolean isEnabled() {
+        return KQConfigValues.NAIL;
     }
 
     private static void handleClientSideDoubleJump(Player player) {
@@ -52,19 +55,33 @@ public class NailWeapon extends KQWeaponItem {
             if (player.level().isClientSide) {
                 doubleJumpStates.put(player.getUUID(), false);
 
-                double dashSpeed = 1.5;
+                double dashSpeed = KQConfigValues.DASH_POWER_NAIL;
 
                 player.setDeltaMovement(player.getLookAngle().scale(dashSpeed));
             }
 
             if (!player.level().isClientSide && player.level() instanceof ServerLevel level) {
-                for (int i = 0; i < 360; i += 30) {
-                    double angleRadians = Math.toRadians(i);
+                Vec3 playerPos = player.position().add(0, 1.0, 0);
+                Vec3 dashDirection = player.getLookAngle().scale(0.5);
 
-                    double particleX = player.getX() + 0.4 * Math.cos(angleRadians);
-                    double particleZ = player.getZ() + 0.4 * Math.sin(angleRadians);
+                for (int i = 0; i < 20; i++) {
+                    double randomOffsetX = (Math.random() - 0.5) * 0.3;
+                    double randomOffsetY = (Math.random() - 0.5) * 0.1;
+                    double randomOffsetZ = (Math.random() - 0.5) * 0.3;
 
-                    level.sendParticles(ParticleTypes.CLOUD, particleX, player.getY(), particleZ, 1, 0d, 0.35d, 0d, 0d);
+                    Vec3 particlePos = playerPos.add(randomOffsetX, randomOffsetY, randomOffsetZ);
+
+                    level.sendParticles(
+                            ParticleTypes.CLOUD,
+                            particlePos.x,
+                            particlePos.y,
+                            particlePos.z,
+                            1,
+                            dashDirection.x,
+                            dashDirection.y,
+                            dashDirection.z,
+                            0.1
+                    );
                 }
             }
         }

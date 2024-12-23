@@ -1,6 +1,7 @@
 package dev.xylonity.knightquest.common.item;
 
 import dev.xylonity.knightquest.KnightQuest;
+import dev.xylonity.knightquest.common.item.weapons.*;
 import dev.xylonity.knightquest.common.material.KQArmorMaterials;
 import dev.xylonity.knightquest.config.values.KQConfigValues;
 import dev.xylonity.knightquest.registry.KnightQuestItems;
@@ -371,9 +372,51 @@ public class KQArmorItem extends ArmorItem {
         @SubscribeEvent
         public static void onLivingHurt(LivingHurtEvent event) {
 
+            // Kukri
             if (event.getSource().getEntity() instanceof LivingEntity livingEntity) {
-                if (livingEntity.getMainHandItem().getItem() == KnightQuestWeapons.KUKRI.get()) {
-                    event.getEntity().setTicksFrozen(event.getEntity().getTicksFrozen() + 100);
+                if (livingEntity.getMainHandItem().getItem() == KnightQuestWeapons.KUKRI.get() && KQConfigValues.KUKRI) {
+                    event.getEntity().setTicksFrozen(event.getEntity().getTicksFrozen() + KQConfigValues.FREEZE_TICKS_KUKRI);
+                }
+            }
+
+            if (event.getSource().getEntity() instanceof Player player && event.getEntity() != null) {
+
+                ItemStack stack = player.getMainHandItem();
+
+                // Uchigatana
+                if (stack.getItem() instanceof UchigatanaWeapon && KQConfigValues.UCHIGATANA) {
+                    if (stack.getOrCreateTag().getBoolean("ShouldDoActiveAttack")) {
+                        stack.getOrCreateTag().putBoolean("ShouldDoActiveAttack", false);
+                        event.setAmount((float) (event.getAmount() + event.getAmount() * KQConfigValues.EXTRA_DAMAGE_UCHIGATANA));
+                        event.getEntity().addEffect(new MobEffectInstance(MobEffects.DARKNESS, 80, 1, false, false));
+                    }
+                    if (event.getEntity().getHealth() < KQConfigValues.ENEMY_HEALTH_PASSIVE_UCHIGATANA * event.getEntity().getMaxHealth()) {
+                        event.setAmount((float) (event.getAmount() + event.getAmount() * KQConfigValues.EXTRA_DAMAGE_PASSIVE_UCHIGATANA));
+                    }
+                }
+
+                // Cleaver
+                if (stack.getItem() instanceof CleaverWeapon && KQConfigValues.CLEAVER) {
+                    if (event.getEntity().getHealth() > KQConfigValues.ENEMY_HEALTH_PASSIVE_CLEAVER * event.getEntity().getMaxHealth()) {
+                        event.setAmount((float) (event.getAmount() + event.getAmount() * KQConfigValues.EXTRA_DAMAGE_PASSIVE_CLEAVER));
+                    }
+                }
+            }
+
+            // Khopesh
+            if (event.getEntity() instanceof Player player) {
+                ItemStack stack = player.getMainHandItem();
+                if (stack.getItem() instanceof KhopeshWeapon && event.getSource().getEntity() != null && KQConfigValues.KHOPESH) {
+                    if (player.level().getGameTime() - stack.getOrCreateTag().getLong("KhopeshActive") < KQConfigValues.REFLECTION_TIME_KHOPESH) {
+                        event.getSource().getEntity().hurt(event.getSource(), event.getAmount() * 0.5F);
+                    }
+                }
+            }
+
+            // Khopesh
+            if (event.getSource().getEntity() instanceof LivingEntity livingEntity) {
+                if (livingEntity.getMainHandItem().getItem() == KnightQuestWeapons.KHOPESH.get() && KQConfigValues.KHOPESH && livingEntity.getRandom().nextFloat() <= KQConfigValues.CHANCE_BURN_KHOPESH) {
+                    event.getEntity().setSecondsOnFire(livingEntity.getRandom().nextInt(7) + 1);
                 }
             }
 
@@ -580,8 +623,9 @@ public class KQArmorItem extends ArmorItem {
             if (event.getEntity() instanceof Player player) {
 
                 ItemStack helmet = player.getInventory().getArmor(3);
-                if (KQConfigValues.TENGU_HELMET)
-                   if (helmet.getItem().equals(KnightQuestItems.TENGU_HELMET.get())) {
+                ItemStack nail = player.getMainHandItem();
+                if (KQConfigValues.TENGU_HELMET || KQConfigValues.NAIL)
+                   if (helmet.getItem().equals(KnightQuestItems.TENGU_HELMET.get()) || (nail.getItem() instanceof NailWeapon && nail.getOrCreateTag().getBoolean("Activated"))) {
                        boolean canDoubleJump = doubleJumpStates.getOrDefault(player.getUUID(), true);
 
                        if (!player.onGround() && player.getDeltaMovement().y < 0 && canDoubleJump) {

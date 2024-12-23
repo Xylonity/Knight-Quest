@@ -55,7 +55,7 @@ public class KnightQuest {
         KnightQuestCreativeModeTabs.registerWeaponItem(KnightQuestWeapons.CLEAVER);
         KnightQuestCreativeModeTabs.registerWeaponItem(KnightQuestWeapons.KUKRI);
         KnightQuestCreativeModeTabs.registerWeaponItem(KnightQuestWeapons.UCHIGATANA);
-        KnightQuestCreativeModeTabs.registerWeaponItem(KnightQuestWeapons.NAIL_SWORD);
+        KnightQuestCreativeModeTabs.registerWeaponItem(KnightQuestWeapons.NAIL);
 
         KnightQuestCreativeModeTabs.registerPlatformItem(KnightQuestEntities.GREMLIN_EGG);
         KnightQuestCreativeModeTabs.registerPlatformItem(KnightQuestEntities.ELD_BOMB_EGG);

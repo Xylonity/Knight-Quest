@@ -1,6 +1,7 @@
 package dev.xylonity.knightquest.common.item.weapons;
 
 import dev.xylonity.knightquest.common.item.KQWeaponItem;
+import dev.xylonity.knightquest.config.values.KQConfigValues;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Tier;
@@ -14,16 +15,21 @@ public class KhopeshWeapon extends KQWeaponItem {
 
     @Override
     public void interaction(Level level, Player player, InteractionHand hand) {
-
+        player.getItemInHand(hand).getOrCreateTag().putLong("KhopeshActive", level.getGameTime());
     }
 
     @Override
     public int getCooldownTicks() {
-        return 0;
+        return KQConfigValues.COOLDOWN_KHOPESH;
     }
 
     @Override
     public String getName() {
         return "khopesh";
+    }
+
+    @Override
+    protected boolean isEnabled() {
+        return KQConfigValues.KHOPESH;
     }
 }

@@ -43,15 +43,14 @@ public abstract class KQWeaponItem extends SwordItem {
         ItemStack stack = ctx.getItemInHand();
         CompoundTag tag = stack.getOrCreateTag();
 
-        //if (!level.isClientSide && blockState.is(KnightLibBlocks.GREAT_CHALICE.get()) && blockState.getValue(ChaliceBlock.fill).equals(10) && isEnabled()) {
-            if (!level.isClientSide && blockState.is(Blocks.GOLD_BLOCK))
-                if (!tag.getBoolean("Activated")) {
-                    tag.putBoolean("Activated", true);
-                    return InteractionResult.SUCCESS;
-                } else {
-                    return InteractionResult.FAIL;
-                }
-        //}
+        if (!level.isClientSide && blockState.is(KnightLibBlocks.GREAT_CHALICE.get()) && blockState.getValue(ChaliceBlock.fill).equals(10) && isEnabled()) {
+            if (!tag.getBoolean("Activated")) {
+                tag.putBoolean("Activated", true);
+                return InteractionResult.SUCCESS;
+            } else {
+                return InteractionResult.FAIL;
+            }
+        }
 
         return InteractionResult.PASS;
     }

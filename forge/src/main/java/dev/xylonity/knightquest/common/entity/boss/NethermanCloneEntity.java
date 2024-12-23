@@ -45,13 +45,12 @@ public class NethermanCloneEntity extends Monster implements GeoEntity {
                 .add(Attributes.ATTACK_DAMAGE, 8f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
                 .add(Attributes.MOVEMENT_SPEED, 1f)
-                .add(Attributes.FOLLOW_RANGE, 40.0)
+                .add(Attributes.FOLLOW_RANGE, 100.0)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 5.0).build();
     }
 
     @Override
     protected void registerGoals() {
-
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 0.4f, false));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));

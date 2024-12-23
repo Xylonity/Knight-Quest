@@ -34,7 +34,7 @@ public class KnightQuestEntities {
     public static final RegistryObject<EntityType<GhostyEntity>> GHOSTY;
     public static final RegistryObject<EntityType<NethermanEntity>> NETHERMAN;
     public static final RegistryObject<EntityType<NethermanCloneEntity>> NETHERMAN_CLONE;
-    public static final RegistryObject<EntityType<NethermanTeleportChargeEntity>> NETHERMAN_TELEPORT_CHARGE;
+    public static final RegistryObject<EntityType<NethermanProjectileChargeEntity>> NETHERMAN_PROJECTILE_CHARGE;
     public static final RegistryObject<EntityType<SwampmanAxeEntity>> SWAMPMAN_AXE;
 
     static {
@@ -52,7 +52,7 @@ public class KnightQuestEntities {
         GHOSTY = register("ghosty", GhostyEntity::new, MobCategory.MONSTER, 1f, 1f);
         NETHERMAN = register("netherman", NethermanEntity::new, MobCategory.MONSTER, 0.8f, 2.8f);
         NETHERMAN_CLONE = register("netherman_clone", NethermanCloneEntity::new, MobCategory.MONSTER, 0.8f, 2.8f);
-        NETHERMAN_TELEPORT_CHARGE = register("netherman_teleport_charge", NethermanTeleportChargeEntity::new, MobCategory.MISC, 0.5f, 0.5f);
+        NETHERMAN_PROJECTILE_CHARGE = register("netherman_projectile_charge", NethermanProjectileChargeEntity::new, MobCategory.MISC, 0.5f, 0.5f);
         SWAMPMAN_AXE = register("swampman_axe", SwampmanAxeEntity::new, MobCategory.MISC, 0.3f, 1f);
     }
 

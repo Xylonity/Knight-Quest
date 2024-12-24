@@ -63,6 +63,7 @@ public class KnightQuest implements ModInitializer, ClientModInitializer {
         FabricDefaultAttributeRegistry.register(KnightQuestEntities.SHIELD, GhastlingEntity.setAttributes());
         FabricDefaultAttributeRegistry.register(KnightQuestEntities.NETHERMAN, NethermanEntity.setAttributes());
         FabricDefaultAttributeRegistry.register(KnightQuestEntities.NETHERMAN_CLONE, NethermanCloneEntity.setAttributes());
+        FabricDefaultAttributeRegistry.register(KnightQuestEntities.FALLEN_KNIGHT, FallenKnightEntity.setAttributes());
 
         KnightQuestCreativeModeTabs.registerKnightLibItem(() -> KnightLibBlocks.GREAT_CHALICE);
         KnightQuestCreativeModeTabs.registerKnightLibItem(KnightLibItems.SMALL_ESSENCE);

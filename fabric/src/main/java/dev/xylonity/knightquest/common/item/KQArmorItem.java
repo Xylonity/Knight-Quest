@@ -1,8 +1,12 @@
 package dev.xylonity.knightquest.common.item;
 
+import dev.xylonity.knightquest.common.item.weapons.CleaverWeapon;
+import dev.xylonity.knightquest.common.item.weapons.KhopeshWeapon;
+import dev.xylonity.knightquest.common.item.weapons.UchigatanaWeapon;
 import dev.xylonity.knightquest.common.material.KQArmorMaterials;
 import dev.xylonity.knightquest.config.values.KQConfigValues;
 import dev.xylonity.knightquest.registry.KnightQuestItems;
+import dev.xylonity.knightquest.registry.KnightQuestWeapons;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -126,16 +130,36 @@ public class KQArmorItem extends ArmorItem {
      */
 
     @Override
-    public void appendHoverText(@NotNull ItemStack stack, @Nullable Level world, @NotNull List<Component> tooltip, @NotNull TooltipFlag context) {
+    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         if (hasTooltip && isArmorSetConfigEnabled(bonusTooltip))
             if (!Objects.equals(bonusTooltip, "chainmail") && !Objects.equals(bonusTooltip, "tengu")) {
-                tooltip.add(Component.translatable("tooltip.item.knightquest.full_set_bonus"));
-                tooltip.add(Component.translatable("tooltip.item.knightquest." + bonusTooltip + "_helmet.bonus"));
+                if (KQConfigValues.REQUIRED_ARMOR_PIECES < 4) {
+                    pTooltipComponents.add(Component.translatable("tooltip.item.knightquest.set_bonus"));
+                } else {
+                    pTooltipComponents.add(Component.translatable("tooltip.item.knightquest.full_set_bonus"));
+                }
+
+                pTooltipComponents.add(Component.translatable("tooltip.item.knightquest." + bonusTooltip + "_helmet.bonus",
+                        "§7§o-" + (int) Math.floor(KQConfigValues.EVOKER_DARKNESS_CHANCE * 100) + "%",
+                        "§7§o-" + (int) Math.floor(KQConfigValues.BLAZE_FIRE_CHANCE * 100) + "%",
+                        "§7§o-" + ((int) Math.floor(KQConfigValues.DRAGONSET_DAMAGE_MULTIPLIER * 100 - 100)) + "%",
+                        "§7§o" + KQConfigValues.SKULK_MAX_LIGHT_LEVEL,
+                        "§7§o-" + (int) Math.floor(KQConfigValues.CHANCE_ENDERMANSET * 100) + "%",
+                        "§7§o" + KQConfigValues.TELEPORT_RADIUS_ENDERMANSET,
+                        "§7§o-" + (int) Math.floor(KQConfigValues.FORZESET_DEFLECT_CHANCE * 100) + "%",
+                        "§7§o" + (100 - KQConfigValues.CREEPER_EXPLOSION_DAMAGE_MULTIPLIER * 100) + "%",
+                        "§7§o-" + (int) Math.floor(KQConfigValues.SILVERSET_BURN_CHANCE * 100) + "%",
+                        "§7§o" + (int) Math.floor(KQConfigValues.HOLLOWSET_HEALING_MULTIPLIER * 100) + "%",
+                        "§7§o-" + (int) Math.floor(KQConfigValues.WITHERSET_WITHER_CHANCE * 100) + "%",
+                        "§7§o" + Math.floor(KQConfigValues.ZOMBIESET_HEALING_AMOUNT),
+                        "§7§o" + KQConfigValues.ZOMBIESET_HEALING_TICKS / 20,
+                        "§7§o" + KQConfigValues.SILVERFISH_EFFECT_MAX_HEIGHT));
             } else if (Objects.equals(bonusTooltip, "tengu")) {
-                tooltip.add(Component.translatable("tooltip.item.knightquest.full_helmet_bonus"));
-                tooltip.add(Component.translatable("tooltip.item.knightquest." + bonusTooltip + "_helmet.bonus"));
+                pTooltipComponents.add(Component.translatable("tooltip.item.knightquest.full_helmet_bonus"));
+                pTooltipComponents.add(Component.translatable("tooltip.item.knightquest." + bonusTooltip + "_helmet.bonus"));
             }
-        super.appendHoverText(stack, world, tooltip, context);
+
+        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 
     /**
@@ -344,6 +368,20 @@ public class KQArmorItem extends ArmorItem {
                 return true;
             }
 
+            // Kukri
+            if (source.getEntity() instanceof LivingEntity livingEntity) {
+                if (livingEntity.getMainHandItem().getItem() == KnightQuestWeapons.KUKRI && KQConfigValues.KUKRI) {
+                    entity.setTicksFrozen(entity.getTicksFrozen() + KQConfigValues.FREEZE_TICKS_KUKRI);
+                }
+            }
+
+            // Khopesh
+            if (source.getEntity() instanceof LivingEntity livingEntity) {
+                if (livingEntity.getMainHandItem().getItem() == KnightQuestWeapons.KHOPESH && KQConfigValues.KHOPESH && livingEntity.getRandom().nextFloat() <= KQConfigValues.CHANCE_BURN_KHOPESH) {
+                    entity.setSecondsOnFire(livingEntity.getRandom().nextInt(7) + 1);
+                }
+            }
+
             // Victim: Player (Source ~-> Attacker)
 
             if (entity instanceof Player player) {
@@ -426,7 +464,7 @@ public class KQArmorItem extends ArmorItem {
                     if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.ENDERMANSET) && source.getEntity() != null) {
 
                         RandomSource random = entity.level().getRandom();
-                        if (random.nextFloat() < 0.3) {
+                        if (random.nextFloat() < KQConfigValues.CHANCE_ENDERMANSET) {
                             int radius = KQConfigValues.TELEPORT_RADIUS_ENDERMANSET;
                             BlockPos playerPos = player.blockPosition();
                             List<BlockPos> validPositions = new ArrayList<>();
@@ -573,7 +611,8 @@ public class KQArmorItem extends ArmorItem {
             LocalPlayer player = client.player;
             if (player == null) return;
 
-            if (KQConfigValues.TENGU_HELMET && player.getInventory().getArmor(3).getItem() == KnightQuestItems.TENGU_HELMET.get()) {
+            if (KQConfigValues.TENGU_HELMET && player.getInventory().getArmor(3).getItem() == KnightQuestItems.TENGU_HELMET.get()
+                || (KQConfigValues.NAIL && player.getMainHandItem().getItem() == KnightQuestWeapons.NAIL)) {
 
                 boolean canDoubleJump = doubleJumpStates.getOrDefault(player.getUUID(), true);
 

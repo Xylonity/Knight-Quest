@@ -1,6 +1,8 @@
 package dev.xylonity.knightquest.common.entity.boss.ai;
 
 import dev.xylonity.knightquest.common.entity.boss.NethermanEntity;
+import dev.xylonity.knightquest.common.entity.boss.NethermanProjectileChargeEntity;
+import dev.xylonity.knightquest.registry.KnightQuestEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
@@ -11,23 +13,22 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
-public class NethermanLavaTeleportGoal extends Goal {
+public class NethermanProjectileChargesGoal extends Goal {
     private final NethermanEntity netherman;
     public int chargeTime;
 
-    public NethermanLavaTeleportGoal(NethermanEntity netherman) {
+    public NethermanProjectileChargesGoal(NethermanEntity netherman) {
         this.netherman = netherman;
     }
 
     public boolean canUse() {
-        return this.netherman.getTarget() != null && this.netherman.getPhase() == 1;
+        return this.netherman.getTarget() != null && this.netherman.getPhase() == 3 && this.netherman.getCounterSwitchPhase3() == 160;
     }
 
     public void start() {
@@ -79,12 +80,12 @@ public class NethermanLavaTeleportGoal extends Goal {
             BlockPos targetPos = new BlockPos((int) x, (int) y, (int) z);
             if (isValidTeleportPosition(targetPos)) {
 
-                if (this.netherman.level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
-                    BlockPos blockBelow = targetPos.below();
-                    this.netherman.saveBlockState(blockBelow);
-                    this.netherman.level().setBlock(blockBelow, Blocks.LAVA.defaultBlockState(), 3);
+                BlockPos blockPos = targetPos.above(this.netherman.getRandom().nextInt(1, 10));
+                NethermanProjectileChargeEntity entity = KnightQuestEntities.NETHERMAN_PROJECTILE_CHARGE.create(this.netherman.level());
+                if (entity != null) {
+                    entity.moveTo(blockPos, 0, 0);
+                    this.netherman.level().addFreshEntity(entity);
                 }
-
                 for (Player player : this.netherman.level().players()) {
                     if (player instanceof ServerPlayer serverPlayer) {
                         for (int u = 0; u < 20; ++u) {
@@ -100,7 +101,7 @@ public class NethermanLavaTeleportGoal extends Goal {
                             double vz = look.z * speed;
 
                             serverPlayer.connection.send(new ClientboundLevelParticlesPacket(
-                                    ParticleTypes.FLAME,
+                                    ParticleTypes.SMOKE,
                                     true,
                                     ux, uy, uz,
                                     (float) vx, (float) vy, (float) vz,

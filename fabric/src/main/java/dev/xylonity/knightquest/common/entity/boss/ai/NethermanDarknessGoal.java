@@ -8,6 +8,8 @@ import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.player.Player;
@@ -16,17 +18,16 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
 
-
-public class NethermanFlameGoal extends Goal {
+public class NethermanDarknessGoal extends Goal {
     private final NethermanEntity netherman;
     public int chargeTime;
 
-    public NethermanFlameGoal(NethermanEntity netherman) {
+    public NethermanDarknessGoal(NethermanEntity netherman) {
         this.netherman = netherman;
     }
 
     public boolean canUse() {
-        return this.netherman.getTarget() != null && this.netherman.getPhase() == 1;
+        return this.netherman.getTarget() != null && this.netherman.getPhase() == 3 && this.netherman.getCounterSwitchPhase3() == 160;
     }
 
     public void start() {
@@ -57,7 +58,7 @@ public class NethermanFlameGoal extends Goal {
 
                 if (chargeTime == 30) {
                     netherman.setNoMovement(true);
-                    netherman.setIsDoingFlameAttack(true);
+                    netherman.setIsDoingSpecialAttack3(true);
                 }
 
                 if (this.chargeTime == 20 && !this.netherman.isSilent()) {
@@ -82,7 +83,7 @@ public class NethermanFlameGoal extends Goal {
                                 double vz = look.z * speed;
 
                                 serverPlayer.connection.send(new ClientboundLevelParticlesPacket(
-                                        ParticleTypes.FLAME,
+                                        ParticleTypes.SMOKE,
                                         true,
                                         x, y, z,
                                         (float) vx, (float) vy + 1f, (float) vz,
@@ -115,7 +116,7 @@ public class NethermanFlameGoal extends Goal {
                                 double vz = look.z * speed;
 
                                 serverPlayer.connection.send(new ClientboundLevelParticlesPacket(
-                                        ParticleTypes.FLAME,
+                                        ParticleTypes.SMOKE,
                                         true,
                                         x, y, z,
                                         (float) vx, (float) vy, (float) vz,
@@ -124,9 +125,10 @@ public class NethermanFlameGoal extends Goal {
                                 ));
                             }
                         }
-                    }
 
-                    this.netherman.getTarget().setRemainingFireTicks(this.netherman.getTarget().getRandom().nextInt(KQConfigValues.FIRE_ATTACK_MIN_TIME, KQConfigValues.FIRE_ATTACK_MAX_TIME) * 20);
+                        player.addEffect(new MobEffectInstance(MobEffects.DARKNESS, this.netherman.getRandom().nextInt(KQConfigValues.DARKNESS_ATTACK_MIN_TIME, KQConfigValues.DARKNESS_ATTACK_MAX_TIME) * 20, 0, false, false));
+
+                    }
                 }
 
                 if (this.chargeTime == 0) {

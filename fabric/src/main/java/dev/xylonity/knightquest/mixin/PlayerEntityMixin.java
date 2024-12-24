@@ -1,11 +1,17 @@
 package dev.xylonity.knightquest.mixin;
 
 import dev.xylonity.knightquest.common.item.KQFullSetChecker;
+import dev.xylonity.knightquest.common.item.weapons.CleaverWeapon;
+import dev.xylonity.knightquest.common.item.weapons.KhopeshWeapon;
+import dev.xylonity.knightquest.common.item.weapons.UchigatanaWeapon;
 import dev.xylonity.knightquest.common.material.KQArmorMaterials;
 import dev.xylonity.knightquest.config.values.KQConfigValues;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
@@ -28,7 +34,15 @@ public abstract class PlayerEntityMixin {
 
             if (KQConfigValues.SQUIRESET && KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.SQUIRESET))
                 return (float) (damageOriginal * KQConfigValues.SQUIRE_DAMAGE_RECEIVED_MULTIPLIER);
-            
+
+            // Khopesh
+            ItemStack stack = player.getMainHandItem();
+            if (stack.getItem() instanceof KhopeshWeapon && source.getEntity() != null && KQConfigValues.KHOPESH) {
+                if (player.level().getGameTime() - stack.getOrCreateTag().getLong("KhopeshActive") < KQConfigValues.REFLECTION_TIME_KHOPESH) {
+                    source.getEntity().hurt(source, damageOriginal * 0.5F);
+                }
+            }
+
         }
 
         return damageOriginal;

@@ -6,6 +6,7 @@ import dev.xylonity.knightquest.client.armor.GeoItemArmor;
 import dev.xylonity.knightquest.common.item.KQArmorItem;
 import dev.xylonity.knightquest.common.material.KQArmorMaterials;
 import dev.xylonity.knightquest.common.material.KQItemMaterials;
+import dev.xylonity.knightquest.registry.KnightQuestWeapons;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.minecraft.core.Registry;
@@ -86,8 +87,18 @@ public class KnightQuestFabricPlatform implements KnightQuestPlatform {
     }
 
     @Override
+    public <T extends Item> Supplier<T> registerMusicDisc(String id, int signal, Supplier<SoundEvent> soundEvent, Item.Properties properties, int length) {
+        return (Supplier<T>) registerSupplier(BuiltInRegistries.ITEM, id, () -> new RecordItem(signal, soundEvent.get(), properties, length));
+    }
+
+    @Override
     public Supplier<Item> getGreatEssence() {
         return KnightLibItems.GREAT_ESSENCE;
+    }
+
+    @Override
+    public Supplier<Item> getPaladinSword() {
+        return () -> KnightQuestWeapons.PALADIN_SWORD;
     }
 
     @Override

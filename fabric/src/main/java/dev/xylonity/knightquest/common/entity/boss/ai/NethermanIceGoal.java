@@ -17,16 +17,21 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
 
 
-public class NethermanFlameGoal extends Goal {
+public class NethermanIceGoal extends Goal {
     private final NethermanEntity netherman;
     public int chargeTime;
 
-    public NethermanFlameGoal(NethermanEntity netherman) {
+    public NethermanIceGoal(NethermanEntity netherman) {
         this.netherman = netherman;
     }
 
+    /**
+     * Returns whether execution should begin. You can also read and cache any state necessary for execution in this
+     * method as well.
+     */
+
     public boolean canUse() {
-        return this.netherman.getTarget() != null && this.netherman.getPhase() == 1;
+        return this.netherman.getTarget() != null && this.netherman.getPhase() == 2 && this.netherman.getCounterSwitchPhase2() == 130;
     }
 
     public void start() {
@@ -61,7 +66,7 @@ public class NethermanFlameGoal extends Goal {
                 }
 
                 if (this.chargeTime == 20 && !this.netherman.isSilent()) {
-                    level.playSound(null, this.netherman.getOnPos(), SoundEvents.FIREWORK_ROCKET_TWINKLE, SoundSource.BLOCKS, 1f, 1f);
+                    level.playSound(null, this.netherman.getOnPos(), SoundEvents.POWDER_SNOW_BREAK, SoundSource.BLOCKS, 1f, 1f);
                 }
 
                 if (this.chargeTime == 10) {
@@ -82,7 +87,7 @@ public class NethermanFlameGoal extends Goal {
                                 double vz = look.z * speed;
 
                                 serverPlayer.connection.send(new ClientboundLevelParticlesPacket(
-                                        ParticleTypes.FLAME,
+                                        ParticleTypes.SNOWFLAKE,
                                         true,
                                         x, y, z,
                                         (float) vx, (float) vy + 1f, (float) vz,
@@ -94,7 +99,7 @@ public class NethermanFlameGoal extends Goal {
                     }
 
                     if (!this.netherman.isSilent()) {
-                        level.playSound(null, this.netherman.getOnPos(), SoundEvents.FIRECHARGE_USE, SoundSource.BLOCKS, 1f, 1f);
+                        level.playSound(null, this.netherman.getOnPos(), SoundEvents.SNOW_GOLEM_AMBIENT, SoundSource.BLOCKS, 1f, 1f);
                     }
 
                 }
@@ -115,7 +120,7 @@ public class NethermanFlameGoal extends Goal {
                                 double vz = look.z * speed;
 
                                 serverPlayer.connection.send(new ClientboundLevelParticlesPacket(
-                                        ParticleTypes.FLAME,
+                                        ParticleTypes.SNOWFLAKE,
                                         true,
                                         x, y, z,
                                         (float) vx, (float) vy, (float) vz,
@@ -126,7 +131,7 @@ public class NethermanFlameGoal extends Goal {
                         }
                     }
 
-                    this.netherman.getTarget().setRemainingFireTicks(this.netherman.getTarget().getRandom().nextInt(KQConfigValues.FIRE_ATTACK_MIN_TIME, KQConfigValues.FIRE_ATTACK_MAX_TIME) * 20);
+                    this.netherman.getTarget().setTicksFrozen(this.netherman.getTarget().getTicksFrozen() + KQConfigValues.ICE_ATTACK_FREEZE_TICKS);
                 }
 
                 if (this.chargeTime == 0) {

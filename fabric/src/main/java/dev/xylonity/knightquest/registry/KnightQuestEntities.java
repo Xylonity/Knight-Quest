@@ -23,6 +23,7 @@ public class KnightQuestEntities {
     public static final EntityType<GremlinEntity> GREMLIN;
     public static final EntityType<EldBombEntity> ELDBOMB;
     public static final EntityType<SamhainEntity> SAMHAIN;
+    public static final EntityType<FallenKnightEntity> FALLEN_KNIGHT;
     public static final EntityType<RatmanEntity> RATMAN;
     public static final EntityType<SwampmanEntity> SWAMPMAN;
     public static final EntityType<EldKnightEntity> ELDKNIGHT;
@@ -32,13 +33,14 @@ public class KnightQuestEntities {
     public static final EntityType<GhastlingEntity> SHIELD;
     public static final EntityType<NethermanEntity> NETHERMAN;
     public static final EntityType<NethermanCloneEntity> NETHERMAN_CLONE;
-    public static final EntityType<NethermanTeleportChargeEntity> NETHERMAN_TELEPORT_CHARGE;
+    public static final EntityType<NethermanProjectileChargeEntity> NETHERMAN_PROJECTILE_CHARGE;
     public static final EntityType<SwampmanAxeEntity> SWAMPMAN_AXE;
 
     static {
         GREMLIN = register("gremlin", GremlinEntity::new, MobCategory.MONSTER , 1f, 1f);
         ELDBOMB = register("eldbomb", EldBombEntity::new, MobCategory.MONSTER , 1f, 1f);
         ELDKNIGHT = register("eldknight", EldKnightEntity::new, MobCategory.MONSTER , 1f, 2.6f);
+        FALLEN_KNIGHT = register("falle_knight", FallenKnightEntity::new, MobCategory.MONSTER , 0.8f, 2f);
         SAMHAIN = register("samhain", SamhainEntity::new, MobCategory.MONSTER , 1f, 1.5f);
         SWAMPMAN = register("swampman", SwampmanEntity::new, MobCategory.MONSTER , 1f, 2f);
         RATMAN = register("ratman", RatmanEntity::new, MobCategory.MONSTER , 1f, 1f);
@@ -48,7 +50,7 @@ public class KnightQuestEntities {
         GHOSTY = register("ghosty", GhostyEntity::new, MobCategory.MONSTER, 1f, 1f);
         NETHERMAN = register("netherman", NethermanEntity::new, MobCategory.MONSTER, 0.8f, 2.8f);
         NETHERMAN_CLONE = register("netherman_clone", NethermanCloneEntity::new, MobCategory.MONSTER, 0.8f, 2.8f);
-        NETHERMAN_TELEPORT_CHARGE = register("netherman_teleport_charge", NethermanTeleportChargeEntity::new, MobCategory.MISC, 0.5f, 0.5f);
+        NETHERMAN_PROJECTILE_CHARGE = register("netherman_projectile_charge", NethermanProjectileChargeEntity::new, MobCategory.MISC, 0.5f, 0.5f);
         SWAMPMAN_AXE = register("swampman_axe", SwampmanAxeEntity::new, MobCategory.MISC, 0.3f, 1f);
     }
 

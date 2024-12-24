@@ -17,9 +17,9 @@ public enum KQItemMaterials implements Tier {
     CLEAVER(4, 2031, 0.5f, 12f, 15, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
 
     WATER_SWORD(4, 850, 0.5f, 1.8f, 15, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
-    STEEL_SWORD(4, 300, 0.5f, 2.3f, 15, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
+    STEEL_SWORD(4, 300, 0.5f, 1.5f, 15, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
     WATER_AXE(4, 850, 6.0f, 1.3f, 15, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
-    STEEL_AXE(4, 300, 6.5f, 1.5f, 15, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get()));
+    STEEL_AXE(4, 300, 6.5f, 4f, 15, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get()));
 
     private final int miningLevel;
     private final int itemDurability;

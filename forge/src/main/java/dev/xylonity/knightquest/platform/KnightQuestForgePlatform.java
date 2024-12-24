@@ -65,7 +65,7 @@ public class KnightQuestForgePlatform implements KnightQuestPlatform {
 
     @Override
     public <T extends Item> Supplier<T> registerAxeItem(String id, KQItemMaterials itemMaterial, float extraDamageBoost, float speedMalus) {
-        return (Supplier<T>) KnightQuest.ITEMS.register(id, () -> new AxeItem(itemMaterial, extraDamageBoost, speedMalus, new Item.Properties()));
+        return (Supplier<T>) KnightQuest.ITEMS.register(id, () -> new AxeItem(itemMaterial, extraDamageBoost, -3f, new Item.Properties()));
     }
 
     @Override
@@ -79,7 +79,7 @@ public class KnightQuestForgePlatform implements KnightQuestPlatform {
                 }
             });
         else
-            return (Supplier<T>) KnightQuest.ITEMS.register(id, () -> new SwordItem(itemMaterial, 4, speedMalus, new Item.Properties()));
+            return (Supplier<T>) KnightQuest.ITEMS.register(id, () -> new SwordItem(itemMaterial, 4, -2.4f, new Item.Properties()));
     }
 
     @Override

@@ -30,7 +30,7 @@ public class KnightQuestItems {
     public static final Supplier<Item> STEEL_SWORD = registerSwordItem("steel_sword", KQItemMaterials.STEEL_SWORD, false);
 
     public static final Supplier<Item> WATER_AXE = registerAxeItem("water_axe", KQItemMaterials.WATER_SWORD);
-    public static final Supplier<Item> STEEL_AXE = registerAxeItem("steel_axe", KQItemMaterials.STEEL_SWORD);
+    public static final Supplier<Item> STEEL_AXE = registerAxeItem("steel_axe", KQItemMaterials.STEEL_AXE);
 
     public static final Supplier<Item> APPLE_HELMET = registerGeoArmorItem("apple_helmet", KQArmorMaterials.APPLE_SET, ArmorItem.Type.HELMET, true, false);
     public static final Supplier<Item> APPLE_CHESTPLATE = registerArmorItem("apple_chestplate", KQArmorMaterials.APPLE_SET, ArmorItem.Type.CHESTPLATE, true);
@@ -245,7 +245,7 @@ public class KnightQuestItems {
     }
 
     private static <T extends Item> Supplier<T> registerSwordItem(String id, KQItemMaterials itemMaterial, boolean containsTooltip) {
-        return KnightQuestCommon.COMMON_PLATFORM.registerSwordItem(id, itemMaterial, (float) -2.0, containsTooltip);
+        return KnightQuestCommon.COMMON_PLATFORM.registerSwordItem(id, itemMaterial, (float) -1.0, containsTooltip);
     }
 
     private static <T extends Item> Supplier<T> registerAxeItem(String id, KQItemMaterials itemMaterial) {

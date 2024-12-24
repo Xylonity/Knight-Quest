@@ -205,7 +205,7 @@ public class KnightQuestCommonConfigs {
 
         // Netherman Configuration Section
         BUILDER.push("Netherman Configuration");
-        NETHERMAN_HEALTH = BUILDER.defineInRange("How much health should the Netherman spawn with?", 400.0, 100.0, 2000.0);
+        NETHERMAN_HEALTH = BUILDER.defineInRange("How much health should the Netherman spawn with?", 450.0, 100.0, 2000.0);
         NETHERMAN_DAMAGE = BUILDER.defineInRange("Amount of damage dealt per normal hit", 16.0, 6.0, 50.0);
         TELEPORT_ON_HIT = BUILDER.define("Should the Netherman teleport when hit?", true);
         BUILDER.comment("Random number between the interval stated below");

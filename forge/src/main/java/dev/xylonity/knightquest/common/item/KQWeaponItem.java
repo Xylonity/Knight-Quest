@@ -61,7 +61,7 @@ public abstract class KQWeaponItem extends SwordItem {
 
        if (blockHit.getType() == HitResult.Type.BLOCK) {
            BlockState blockState = level.getBlockState(blockHit.getBlockPos());
-           if (blockState.is(KnightLibBlocks.GREAT_CHALICE.get()) && blockState.getValue(ChaliceBlock.fill).equals(10)) {
+           if (blockState.is(KnightLibBlocks.GREAT_CHALICE.get()) && (blockState.getValue(ChaliceBlock.fill).equals(10) || blockState.getValue(ChaliceBlock.fill).equals(1))) {
                return InteractionResultHolder.fail(stack);
            }
        }

@@ -90,11 +90,11 @@ public class NethermanEntity extends Monster implements GeoEntity {
 
     public static AttributeSupplier setAttributes() {
         return Monster.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 100D)
-                .add(Attributes.ATTACK_DAMAGE, 16.0f)
+                .add(Attributes.MAX_HEALTH, 350D)
+                .add(Attributes.ATTACK_DAMAGE, 10.5f)
                 .add(Attributes.ATTACK_SPEED, 1.2f)
                 .add(Attributes.MOVEMENT_SPEED, 0.8f)
-                .add(Attributes.FOLLOW_RANGE, 50.0)
+                .add(Attributes.FOLLOW_RANGE, 75.0)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 5.0).build();
     }
 

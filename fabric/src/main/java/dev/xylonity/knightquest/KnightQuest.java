@@ -101,6 +101,7 @@ public class KnightQuest implements ModInitializer, ClientModInitializer {
 
         EntityRendererRegistry.register(KnightQuestEntities.GREMLIN, GremlinRenderer::new);
         EntityRendererRegistry.register(KnightQuestEntities.ELDBOMB, EldBombRenderer::new);
+        EntityRendererRegistry.register(KnightQuestEntities.FALLEN_KNIGHT, FallenKnightRenderer::new);
         EntityRendererRegistry.register(KnightQuestEntities.SAMHAIN, SamhainRenderer::new);
         EntityRendererRegistry.register(KnightQuestEntities.RATMAN, RatmanRenderer::new);
         EntityRendererRegistry.register(KnightQuestEntities.SWAMPMAN, SwampmanRenderer::new);

@@ -12,7 +12,7 @@ public enum KQItemMaterials implements Tier {
     PALADIN(4, 2350, 0.5f, 10f, 15, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
     NAIL(4, 2120, 0.5f, 9f, 15, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
     UCHIGATANA(4, 2031, 0.5f, 8f, 15, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
-    KUKRI(4, 400, 0.5f, 4.5f, 15, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
+    KUKRI(4, 400, 0.5f, 4f, 15, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
     KHOPESH(4, 2120, 0.5f, 9f, 15, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
     CLEAVER(4, 2031, 0.5f, 12f, 15, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
 

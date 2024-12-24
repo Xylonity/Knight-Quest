@@ -9,28 +9,17 @@ import java.util.function.Supplier;
 
 public enum KQItemMaterials implements Tier {
 
-    PALADIN(4, 2131, 0.5f, 3.3f, 15,
-            () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
-    NAIL(4, 1821, 0.5f, 2.2f, 15,
-            () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
-    UCHIGATANA(4, 1080, 0.5f, 2.8f, 15,
-            () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
-    KUKRI(4, 200, 0.5f, 1f, 15,
-            () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
-    KHOPESH(4, 1831, 0.5f, 3.1f, 15,
-            () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
-    CLEAVER(4, 1831, 0.5f, 3f, 15,
-            () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
-    CRIMSON_SWORD(4, 1450, 0.5f, 2.3f, 15,
-            () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
-    WATER_SWORD(4, 850, 0.5f, 1.8f, 15,
-            () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
-    STEEL_SWORD(4, 300, 0.5f, 2.3f, 15,
-            () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
-    WATER_AXE(4, 850, 6.0f, 1.3f, 15,
-            () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
-    STEEL_AXE(4, 300, 6.5f, 1.5f, 15,
-            () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get()));
+    PALADIN(4, 2350, 0.5f, 10f, 15, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
+    NAIL(4, 2120, 0.5f, 9f, 15, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
+    UCHIGATANA(4, 2031, 0.5f, 8f, 15, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
+    KUKRI(4, 400, 0.5f, 4.5f, 15, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
+    KHOPESH(4, 2120, 0.5f, 9f, 15, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
+    CLEAVER(4, 2031, 0.5f, 12f, 15, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
+
+    WATER_SWORD(4, 850, 0.5f, 1.8f, 15, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
+    STEEL_SWORD(4, 300, 0.5f, 2.3f, 15, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
+    WATER_AXE(4, 850, 6.0f, 1.3f, 15, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
+    STEEL_AXE(4, 300, 6.5f, 1.5f, 15, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get()));
 
     private final int miningLevel;
     private final int itemDurability;

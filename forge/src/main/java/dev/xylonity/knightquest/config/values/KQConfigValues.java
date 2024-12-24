@@ -44,6 +44,8 @@ public class KQConfigValues {
     public static boolean POISON_PHASE_2_SWAMPMAN = V ? KnightQuestCommonConfigs.POISON_PHASE_2_SWAMPMAN.get() : true;
 
     // Netherman Configuration Section
+    public static double NETHERMAN_HEALTH = V ? KnightQuestCommonConfigs.NETHERMAN_HEALTH.get() : 400.0;
+    public static double NETHERMAN_DAMAGE = V ? KnightQuestCommonConfigs.NETHERMAN_DAMAGE.get() : 16.0;
     public static boolean TELEPORT_ON_HIT = V ? KnightQuestCommonConfigs.TELEPORT_ON_HIT.get() : true;
     public static int FIRE_ATTACK_MIN_TIME = V ? KnightQuestCommonConfigs.FIRE_ATTACK_MIN_TIME.get() : 3;
     public static int FIRE_ATTACK_MAX_TIME = V ? KnightQuestCommonConfigs.FIRE_ATTACK_MAX_TIME.get() : 7;

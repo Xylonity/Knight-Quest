@@ -1,5 +1,7 @@
 package dev.xylonity.knightquest.common.entity.entities;
 
+import dev.xylonity.knightquest.registry.KnightQuestItems;
+import dev.xylonity.knightquest.registry.KnightQuestWeapons;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvent;
@@ -34,7 +36,6 @@ public class FallenKnightEntity extends Monster implements GeoEntity {
 
     public FallenKnightEntity(EntityType<? extends Monster> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
-        this.setCanPickUpLoot(true);
     }
 
     @Override
@@ -47,7 +48,7 @@ public class FallenKnightEntity extends Monster implements GeoEntity {
 
     public static AttributeSupplier setAttributes() {
         return Monster.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 40.0D)
+                .add(Attributes.MAX_HEALTH, 35.0D)
                 .add(Attributes.ATTACK_DAMAGE, 0.5f)
                 .add(Attributes.ATTACK_SPEED, 2.0f)
                 .add(Attributes.MOVEMENT_SPEED, 0.5f).build();
@@ -83,6 +84,20 @@ public class FallenKnightEntity extends Monster implements GeoEntity {
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
         this.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(Items.SHIELD));
+        this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(KnightQuestWeapons.PALADIN_SWORD.get()));
+
+        Item[] helmets = {KnightQuestItems.VETERAN_HELMET.get(), KnightQuestItems.APPLE_HELMET.get(), KnightQuestItems.HORN_HELMET.get(), KnightQuestItems.ZOMBIE_HELMET2.get()};
+        Item[] chestplates = {KnightQuestItems.VETERAN_CHESTPLATE.get(), KnightQuestItems.APPLE_CHESTPLATE.get(), KnightQuestItems.HORN_CHESTPLATE.get(), KnightQuestItems.ZOMBIE_CHESTPLATE.get()};
+        Item[] leggings = {KnightQuestItems.VETERAN_LEGGINGS.get(), KnightQuestItems.APPLE_LEGGINGS.get(), KnightQuestItems.HORN_LEGGINGS.get(), KnightQuestItems.ZOMBIE_LEGGINGS.get()};
+        Item[] boots = {KnightQuestItems.VETERAN_BOOTS.get(), KnightQuestItems.APPLE_BOOTS.get(), KnightQuestItems.HORN_BOOTS.get(), KnightQuestItems.ZOMBIE_BOOTS.get()};
+
+        int index = this.random.nextInt(helmets.length);
+
+        this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(helmets[index]));
+        this.setItemSlot(EquipmentSlot.CHEST, new ItemStack(chestplates[index]));
+        this.setItemSlot(EquipmentSlot.LEGS, new ItemStack(leggings[index]));
+        this.setItemSlot(EquipmentSlot.FEET, new ItemStack(boots[index]));
+
         return super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
     }
 

@@ -39,7 +39,7 @@ public class KnightQuestEntities {
 
     static {
         GREMLIN = register("gremlin", GremlinEntity::new, MobCategory.MONSTER , 1f, 1f);
-        FALLEN_KNIGHT = register("fallen_knight", FallenKnightEntity::new, MobCategory.MONSTER , 1f, 1f);
+        FALLEN_KNIGHT = register("fallen_knight", FallenKnightEntity::new, MobCategory.MONSTER , 0.8f, 2f);
         ELDBOMB = register("eldbomb", EldBombEntity::new, MobCategory.MONSTER , 1f, 1f);
         ELDKINGHT = register("eldknight", EldKnightEntity::new, MobCategory.MONSTER , 1f, 2.6f);
         SAMHAIN = register("samhain", SamhainEntity::new, MobCategory.MONSTER , 1f, 1.5f);
@@ -74,6 +74,6 @@ public class KnightQuestEntities {
     public static final RegistryObject<Item> BADPATCH_EGG = registerSpawnEggItem("bad_patch_spawn_egg", KnightQuestEntities.BADPATCH, 0xec160b, 0xeff1f8);
     public static final RegistryObject<Item> GHOSTY_EGG = registerSpawnEggItem("ghosty_spawn_egg", KnightQuestEntities.GHOSTY, 0x2cb87e, 0xfbe105);
     public static final RegistryObject<Item> NETHERMAN_EGG = registerSpawnEggItem("netherman_spawn_egg", KnightQuestEntities.NETHERMAN, 0xebedec, 0xc3c3c3);
-    public static final RegistryObject<Item> MOMMA_LIZZY_EGG = registerSpawnEggItem("momma_lizzy_spawn_egg", KnightQuestEntities.MOMMA_LIZZY, 0x0babf2, 0x9f5b14);
+    public static final RegistryObject<Item> FALLEN_KNIGHT_EGG = registerSpawnEggItem("fallen_knight_spawn_egg", KnightQuestEntities.FALLEN_KNIGHT, 0xc5c5c5, 0x5783f9);
 
 }

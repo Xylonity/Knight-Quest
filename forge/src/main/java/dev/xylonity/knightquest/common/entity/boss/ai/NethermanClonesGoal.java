@@ -2,6 +2,7 @@ package dev.xylonity.knightquest.common.entity.boss.ai;
 
 import dev.xylonity.knightquest.common.entity.boss.NethermanCloneEntity;
 import dev.xylonity.knightquest.common.entity.boss.NethermanEntity;
+import dev.xylonity.knightquest.config.values.KQConfigValues;
 import dev.xylonity.knightquest.registry.KnightQuestEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -69,7 +70,7 @@ public class NethermanClonesGoal extends Goal {
 
                     this.netherman.level().playSound(null, this.netherman.blockPosition(), SoundEvents.EVOKER_PREPARE_SUMMON, SoundSource.BLOCKS, 1f, 1f);
 
-                    for (int i = 0; i < 4; i++) {
+                    for (int i = 0; i < KQConfigValues.MAX_NETHERMAN_CLONES; i++) {
                         double angle = this.netherman.getRandom().nextDouble() * 2 * Math.PI;
                         double distance = this.netherman.getRandom().nextDouble() * 30;
 
@@ -80,31 +81,34 @@ public class NethermanClonesGoal extends Goal {
                         Vec3 safeSpawnPos = findNearestSafePosition(spawnPos, this.netherman.level());
 
                         NethermanCloneEntity nethermanClone = KnightQuestEntities.NETHERMAN_CLONE.get().create(this.netherman.level());
-                        assert nethermanClone != null;
-                        nethermanClone.moveTo(safeSpawnPos.x, safeSpawnPos.y, safeSpawnPos.z);
 
-                        this.netherman.level().addFreshEntity(nethermanClone);
+                        if (nethermanClone != null) {
+                            nethermanClone.moveTo(safeSpawnPos.x, safeSpawnPos.y, safeSpawnPos.z);
 
-                        for (Player player : this.netherman.level().players()) {
-                            if (player instanceof ServerPlayer serverPlayer) {
-                                for(int u = 0; u < 20; ++u) {
-                                    serverPlayer.connection.send(new ClientboundLevelParticlesPacket(
-                                            ParticleTypes.SNOWFLAKE,
-                                            true,
-                                            nethermanClone.getRandomX(0.5D),
-                                            nethermanClone.getRandomY() - 0.25D,
-                                            nethermanClone.getRandomZ(0.5D),
-                                            (float) ((nethermanClone.getRandom().nextDouble() - 0.5D) * 2.0D),
-                                            (float) -nethermanClone.getRandom().nextDouble(),
-                                            0.2f,
-                                            0.0f,
-                                            2
-                                    ));
+                            this.netherman.level().addFreshEntity(nethermanClone);
+
+                            for (Player player : this.netherman.level().players()) {
+                                if (player instanceof ServerPlayer serverPlayer) {
+                                    for(int u = 0; u < 20; ++u) {
+                                        serverPlayer.connection.send(new ClientboundLevelParticlesPacket(
+                                                ParticleTypes.SNOWFLAKE,
+                                                true,
+                                                nethermanClone.getRandomX(0.5D),
+                                                nethermanClone.getRandomY() - 0.25D,
+                                                nethermanClone.getRandomZ(0.5D),
+                                                (float) ((nethermanClone.getRandom().nextDouble() - 0.5D) * 2.0D),
+                                                (float) -nethermanClone.getRandom().nextDouble(),
+                                                0.2f,
+                                                0.0f,
+                                                2
+                                        ));
+                                    }
                                 }
                             }
-                        }
 
                         this.netherman.level().playSound(null, nethermanClone.blockPosition(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.BLOCKS, 1f, 1f);
+
+                        }
                     }
 
                 }

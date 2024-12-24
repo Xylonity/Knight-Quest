@@ -350,7 +350,7 @@ public class NethermanEntity extends Monster implements GeoEntity {
     protected void dropCustomDeathLoot(@NotNull DamageSource pSource, int pLooting, boolean pRecentlyHit) {
         super.dropCustomDeathLoot(pSource, pLooting, pRecentlyHit);
         this.spawnAtLocation(new ItemStack(KnightQuestItems.CHAOTIC_ESSENCE.get()));
-        if (this.getRandom().nextFloat() < 0.25) this.spawnAtLocation(new ItemStack(KnightQuestItems.THE_ARCHITECT_OF_CHAOS_DISC.get()));
+        if (this.getRandom().nextFloat() < 0.1) this.spawnAtLocation(new ItemStack(KnightQuestItems.THE_ARCHITECT_OF_CHAOS_DISC.get()));
     }
 
     /**
@@ -394,7 +394,7 @@ public class NethermanEntity extends Monster implements GeoEntity {
 
             boolean isDamaged = super.hurt(pSource, pAmount);
 
-            teleport();
+            if (KQConfigValues.TELEPORT_ON_HIT) teleport();
 
             return isDamaged;
 

@@ -1,6 +1,7 @@
 package dev.xylonity.knightquest.common.entity.boss.ai;
 
 import dev.xylonity.knightquest.common.entity.boss.NethermanEntity;
+import dev.xylonity.knightquest.config.values.KQConfigValues;
 import dev.xylonity.knightquest.registry.KnightQuestParticles;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -131,7 +132,7 @@ public class NethermanIceGoal extends Goal {
                         }
                     }
 
-                    this.netherman.getTarget().setTicksFrozen(this.netherman.getTarget().getRandom().nextInt(3, 7) * 20);
+                    this.netherman.getTarget().setTicksFrozen(this.netherman.getTarget().getTicksFrozen() + KQConfigValues.ICE_ATTACK_FREEZE_TICKS);
                 }
 
                 if (this.chargeTime == 0) {

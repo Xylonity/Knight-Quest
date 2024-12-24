@@ -44,18 +44,17 @@ public class KQConfigValues {
     public static boolean POISON_PHASE_2_SWAMPMAN = V ? KnightQuestCommonConfigs.POISON_PHASE_2_SWAMPMAN.get() : true;
 
     // Netherman Configuration Section
-    public static double WINTER_STORM_RADIUS = V ? KnightQuestCommonConfigs.WINTER_STORM_RADIUS.get() : 50.0;
-    public static int FROZEN_TICKS = V ? KnightQuestCommonConfigs.FROZEN_TICKS.get() : 4;
-    public static boolean CAN_SUMMON_NETHERMAN = V ? KnightQuestCommonConfigs.CAN_SUMMON_NETHERMAN.get() : true;
-    public static boolean SPAWN_LIGHTNING_ON_SPAWN = V ? KnightQuestCommonConfigs.SPAWN_LIGHTNING_ON_SPAWN.get() : true;
-    public static boolean GENERATE_PARTICLES_ON_SUMMON = V ? KnightQuestCommonConfigs.GENERATE_PARTICLES_ON_SUMMON.get() : true;
-    public static double TELEPORT_PROBABILITY = V ? KnightQuestCommonConfigs.TELEPORT_PROBABILITY.get() : 0.5;
+    public static boolean TELEPORT_ON_HIT = V ? KnightQuestCommonConfigs.TELEPORT_ON_HIT.get() : true;
+    public static int FIRE_ATTACK_MIN_TIME = V ? KnightQuestCommonConfigs.FIRE_ATTACK_MIN_TIME.get() : 3;
+    public static int FIRE_ATTACK_MAX_TIME = V ? KnightQuestCommonConfigs.FIRE_ATTACK_MAX_TIME.get() : 7;
+    public static int MAX_NETHERMAN_CLONES = V ? KnightQuestCommonConfigs.MAX_NETHERMAN_CLONES.get() : 4;
+    public static int ICE_ATTACK_FREEZE_TICKS = V ? KnightQuestCommonConfigs.ICE_ATTACK_FREEZE_TICKS.get() : 300;
+    public static int DARKNESS_ATTACK_MIN_TIME = V ? KnightQuestCommonConfigs.DARKNESS_ATTACK_MIN_TIME.get() : 3;
+    public static int DARKNESS_ATTACK_MAX_TIME = V ? KnightQuestCommonConfigs.DARKNESS_ATTACK_MAX_TIME.get() : 7;
+    public static int CLONE_EXPLOSION_FREEZE_TICKS = V ? KnightQuestCommonConfigs.CLONE_EXPLOSION_FREEZE_TICKS.get() : 200;
+    public static double NETHERMAN_PROJECTILE_EXPLOSION_RADIUS = V ? KnightQuestCommonConfigs.NETHERMAN_PROJECTILE_EXPLOSION_RADIUS.get() : 3.0;
     public static boolean RESTORE_BLOCKS_POST_DEATH = V ? KnightQuestCommonConfigs.RESTORE_BLOCKS_POST_DEATH.get() : true;
     public static int EXPERIENCE_DROP_AMOUNT = V ? KnightQuestCommonConfigs.EXPERIENCE_DROP_AMOUNT.get() : 500;
-    public static boolean LIGHTNING_STRIKE_IN_PHASE_THREE = V ? KnightQuestCommonConfigs.LIGHTNING_STRIKE_IN_PHASE_THREE.get() : true;
-    public static int LIGHTNING_TICK_INTERVAL = V ? KnightQuestCommonConfigs.LIGHTNING_TICK_INTERVAL.get() : 40;
-    public static double SNOW_PARTICLE_SPEED = V ? KnightQuestCommonConfigs.SNOW_PARTICLE_SPEED.get() : 1.5;
-    public static int SNOW_PARTICLE_COUNT = V ? KnightQuestCommonConfigs.SNOW_PARTICLE_COUNT.get() : 60;
 
     // Armor Passives Configuration Section
     public static boolean BAMBOOSET_PUSH_PLAYERS = V ? KnightQuestCommonConfigs.ENABLE_BAMBOOSET_PUSH_PLAYERS.get() : false;

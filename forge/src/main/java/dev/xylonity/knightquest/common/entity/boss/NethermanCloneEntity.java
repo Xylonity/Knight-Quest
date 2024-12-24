@@ -3,6 +3,7 @@ package dev.xylonity.knightquest.common.entity.boss;
 import dev.xylonity.knightquest.common.ai.navigator.GroundNavigator;
 import dev.xylonity.knightquest.common.item.KQFullSetChecker;
 import dev.xylonity.knightquest.common.material.KQArmorMaterials;
+import dev.xylonity.knightquest.config.values.KQConfigValues;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
 import net.minecraft.server.level.ServerPlayer;
@@ -85,7 +86,7 @@ public class NethermanCloneEntity extends Monster implements GeoEntity {
             }
 
             if (this.distanceTo(player) <= 3 && !KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.POLAR)) {
-                player.setTicksFrozen(player.getTicksFrozen() + 200);
+                player.setTicksFrozen(player.getTicksFrozen() + KQConfigValues.CLONE_EXPLOSION_FREEZE_TICKS);
             }
 
         }

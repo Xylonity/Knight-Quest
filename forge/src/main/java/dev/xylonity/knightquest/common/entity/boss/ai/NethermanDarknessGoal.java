@@ -1,6 +1,7 @@
 package dev.xylonity.knightquest.common.entity.boss.ai;
 
 import dev.xylonity.knightquest.common.entity.boss.NethermanEntity;
+import dev.xylonity.knightquest.config.values.KQConfigValues;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
@@ -125,7 +126,7 @@ public class NethermanDarknessGoal extends Goal {
                             }
                         }
 
-                        player.addEffect(new MobEffectInstance(MobEffects.DARKNESS, this.netherman.getRandom().nextInt(4, 10) * 20, 0, false, false));
+                        player.addEffect(new MobEffectInstance(MobEffects.DARKNESS, this.netherman.getRandom().nextInt(KQConfigValues.DARKNESS_ATTACK_MIN_TIME, KQConfigValues.DARKNESS_ATTACK_MAX_TIME) * 20, 0, false, false));
 
                     }
                 }

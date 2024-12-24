@@ -1,5 +1,6 @@
 package dev.xylonity.knightquest.common.entity.boss;
 
+import dev.xylonity.knightquest.config.values.KQConfigValues;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
@@ -39,7 +40,7 @@ public class NethermanProjectileChargeEntity extends AbstractNethermanProjectile
     }
 
     private void explode() {
-        this.level().explode(this, this.getX(), this.getY(), this.getZ(), 3.0F, Level.ExplosionInteraction.NONE);
+        this.level().explode(this, this.getX(), this.getY(), this.getZ(), (float) KQConfigValues.NETHERMAN_PROJECTILE_EXPLOSION_RADIUS, Level.ExplosionInteraction.NONE);
         this.discard();
     }
 

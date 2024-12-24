@@ -1,6 +1,7 @@
 package dev.xylonity.knightquest.common.entity.boss.ai;
 
 import dev.xylonity.knightquest.common.entity.boss.NethermanEntity;
+import dev.xylonity.knightquest.config.values.KQConfigValues;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
@@ -24,26 +25,13 @@ public class NethermanFlameGoal extends Goal {
         this.netherman = netherman;
     }
 
-    /**
-     * Returns whether execution should begin. You can also read and cache any state necessary for execution in this
-     * method as well.
-     */
-
     public boolean canUse() {
         return this.netherman.getTarget() != null && this.netherman.getPhase() == 1;
     }
 
-    /**
-     * Execute a one shot task or start executing a continuous task
-     */
-
     public void start() {
         this.chargeTime = 200;
     }
-
-    /**
-     * Reset the task's internal state. Called when this task is interrupted by another one
-     */
 
     public void stop() {
         this.chargeTime = 0;
@@ -52,10 +40,6 @@ public class NethermanFlameGoal extends Goal {
     public boolean requiresUpdateEveryTick() {
         return true;
     }
-
-    /**
-     * Keep ticking a continuous task that has already been started
-     */
 
     public void tick() {
         LivingEntity livingentity = this.netherman.getTarget();
@@ -142,7 +126,7 @@ public class NethermanFlameGoal extends Goal {
                         }
                     }
 
-                    this.netherman.getTarget().setRemainingFireTicks(this.netherman.getTarget().getRandom().nextInt(3, 7) * 20);
+                    this.netherman.getTarget().setRemainingFireTicks(this.netherman.getTarget().getRandom().nextInt(KQConfigValues.FIRE_ATTACK_MIN_TIME, KQConfigValues.FIRE_ATTACK_MAX_TIME) * 20);
                 }
 
                 if (this.chargeTime == 0) {

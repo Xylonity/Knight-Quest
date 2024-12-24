@@ -128,21 +128,21 @@ public class KQConfigValues {
     public static boolean PALADIN = V ? KnightQuestCommonConfigs.ENABLE_PALADIN.get() : true;
     public static boolean UCHIGATANA = V ? KnightQuestCommonConfigs.ENABLE_UCHIGATANA.get() : true;
 
-    public static int COOLDOWN_CLEAVER = V ? KnightQuestCommonConfigs.COOLDOWN_CLEAVER.get() : 100;
-    public static int COOLDOWN_KHOPESH = V ? KnightQuestCommonConfigs.COOLDOWN_KHOPESH.get() : 100;
-    public static int COOLDOWN_KUKRI = V ? KnightQuestCommonConfigs.COOLDOWN_KUKRI.get() : 100;
+    public static int COOLDOWN_CLEAVER = V ? KnightQuestCommonConfigs.COOLDOWN_CLEAVER.get() : 1800;
+    public static int COOLDOWN_KHOPESH = V ? KnightQuestCommonConfigs.COOLDOWN_KHOPESH.get() : 500;
+    public static int COOLDOWN_KUKRI = V ? KnightQuestCommonConfigs.COOLDOWN_KUKRI.get() : 300;
     public static int COOLDOWN_NAIL = V ? KnightQuestCommonConfigs.COOLDOWN_NAIL.get() : 100;
-    public static int COOLDOWN_PALADIN = V ? KnightQuestCommonConfigs.COOLDOWN_PALADIN.get() : 100;
-    public static int COOLDOWN_UCHIGATANA = V ? KnightQuestCommonConfigs.COOLDOWN_UCHIGATANA.get() : 100;
+    public static int COOLDOWN_PALADIN = V ? KnightQuestCommonConfigs.COOLDOWN_PALADIN.get() : 500;
+    public static int COOLDOWN_UCHIGATANA = V ? KnightQuestCommonConfigs.COOLDOWN_UCHIGATANA.get() : 400;
 
-    public static int SPEED_TICKS_KUKRI = V ? KnightQuestCommonConfigs.SPEED_TICKS_KUKRI.get() : 60;
+    public static int SPEED_TICKS_KUKRI = V ? KnightQuestCommonConfigs.SPEED_TICKS_KUKRI.get() : 120;
     public static int FREEZE_TICKS_KUKRI = V ? KnightQuestCommonConfigs.FREEZE_TICKS_KUKRI.get() : 125;
-    public static int INV_TICKS_PALADIN = V ? KnightQuestCommonConfigs.INV_TICKS_PALADIN.get() : 60;
+    public static int INV_TICKS_PALADIN = V ? KnightQuestCommonConfigs.INV_TICKS_PALADIN.get() : 100;
     public static double DASH_POWER_NAIL = V ? KnightQuestCommonConfigs.DASH_POWER_NAIL.get() : 1.5;
     public static double EXTRA_DAMAGE_UCHIGATANA = V ? KnightQuestCommonConfigs.EXTRA_DAMAGE_UCHIGATANA.get() : 0.6;
     public static double EXTRA_DAMAGE_PASSIVE_UCHIGATANA = V ? KnightQuestCommonConfigs.EXTRA_DAMAGE_PASSIVE_UCHIGATANA.get() : 0.2;
     public static double ENEMY_HEALTH_PASSIVE_UCHIGATANA = V ? KnightQuestCommonConfigs.ENEMY_HEALTH_PASSIVE_UCHIGATANA.get() : 0.5;
-    public static int REFLECTION_TIME_KHOPESH = V ? KnightQuestCommonConfigs.REFLECTION_TIME_KHOPESH.get() : 60;
+    public static int REFLECTION_TIME_KHOPESH = V ? KnightQuestCommonConfigs.REFLECTION_TIME_KHOPESH.get() : 160;
     public static double CHANCE_BURN_KHOPESH = V ? KnightQuestCommonConfigs.CHANCE_BURN_KHOPESH.get() : 0.15;
     public static double REGEN_MAX_PALADIN = V ? KnightQuestCommonConfigs.REGEN_MAX_PALADIN.get() : 0.50;
     public static int REGEN_TICKS_PALADIN = V ? KnightQuestCommonConfigs.REGEN_TICKS_PALADIN.get() : 30;

@@ -14,11 +14,13 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 public class NethermanProjectileChargeEntity extends AbstractNethermanProjectile implements GeoEntity {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private int explosionTimer;
+    private boolean shouldGoDown;
 
     public NethermanProjectileChargeEntity(EntityType<? extends AbstractNethermanProjectile> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         this.setNoGravity(true);
         this.explosionTimer = this.random.nextInt(100) + 20;
+        if (!level().isClientSide) this.shouldGoDown = this.random.nextBoolean();
     }
 
     @Override
@@ -31,6 +33,8 @@ public class NethermanProjectileChargeEntity extends AbstractNethermanProjectile
                 this.explode();
             }
         }
+
+        if (shouldGoDown && !level().isClientSide) this.setDeltaMovement(this.getDeltaMovement().add(0.0, -0.05, 0.0));
     }
 
     @Override

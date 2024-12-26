@@ -1,5 +1,6 @@
 {
+  "replace": false,
   "values": [
-    "knightquest:the_architect_of_chaos_disc"
+    "knightquest:music_disc_the_architect_of_chaos"
   ]
 }

@@ -150,23 +150,18 @@ public class FallenKnightEntity extends Monster implements GeoEntity {
     }
 
     @Override
-    protected @NotNull SoundEvent getSwimSound() {
-        return SoundEvents.AXOLOTL_SWIM;
-    }
-
-    @Override
     protected SoundEvent getDeathSound() {
-        return SoundEvents.ALLAY_DEATH;
+        return SoundEvents.ZOMBIE_DEATH;
     }
 
     @Override
     protected SoundEvent getHurtSound(@NotNull DamageSource pDamageSource) {
-        return SoundEvents.ALLAY_HURT;
+        return SoundEvents.ZOMBIE_HURT;
     }
 
     @Override
     protected void playStepSound(@NotNull BlockPos pPos, @NotNull BlockState pState) {
-        this.playSound(SoundEvents.WOLF_STEP, 0.15F, 1.0F);
+        this.playSound(SoundEvents.ZOMBIE_STEP, 0.15F, 1.0F);
     }
 
 }

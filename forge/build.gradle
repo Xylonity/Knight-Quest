@@ -76,7 +76,7 @@ dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     compileOnly project(":common")
 
-    implementation fg.deobf("curse.maven:knight-lib-1105855:5745889")
+    implementation fg.deobf("curse.maven:knight-lib-1105855:6020359")
 
     implementation fg.deobf("software.bernie.geckolib:geckolib-forge-${minecraft_version}:4.4.7")
 

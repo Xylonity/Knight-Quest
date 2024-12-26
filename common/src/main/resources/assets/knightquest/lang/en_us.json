@@ -11,7 +11,7 @@
   "item.knightquest.filled_goblet": "Filled Goblet",
   "item.knightquest.ratman_eye": "Ratman eye",
   "item.knightquest.lizzy_scale": "Lizzy scale",
-  "item.knightquest.the_architect_of_chaos_disc": "The Architect of Chaos Music Disc",
+  "item.knightquest.music_disc_the_architect_of_chaos": "The Architect of Chaos Music Disc",
   "item.knightquest.paladin_sword": "Paladin Sword",
   "item.knightquest.nail_glaive": "Nail",
   "item.knightquest.uchigatana_katana": "Uchigatana",
@@ -35,6 +35,7 @@
   "item.knightquest.ghastling_spawn_egg": "Ghastling Spawn Egg",
   "item.knightquest.ghosty_spawn_egg": "Ghosty Spawn Egg",
   "item.knightquest.netherman_spawn_egg": "Netherman Spawn Egg",
+  "item.knightquest.fallen_knight_spawn_egg": "Fallen Knight Spawn Egg",
 
   "item.knightquest.apple_helmet": "Apple Helmet",
   "item.knightquest.apple_chestplate": "Apple Chestplate",
@@ -211,7 +212,7 @@
   "tooltip.item.knightquest.small_essence": "§8§oCombine four to make great essence!",
   "tooltip.item.knightquest.radiant_essence": "§8§oOffer to a filled Great Chalice to summon the ancient boss.",
   "tooltip.item.knightquest.chaotic_essence": "§8§oOffer to a filled Great Chalice to activate a weapon's abilities.",
-  "item.knightquest.the_architect_of_chaos_disc.desc": "Makai Symphony - Goddess of Fate",
+  "item.knightquest.music_disc_the_architect_of_chaos.desc": "Makai Symphony - Goddess of Fate",
   "tooltip.item.knightquest.filled_goblet": "§8§oUse it to craft powerful armor!",
   "tooltip.item.knightquest.empty_goblet": "§8§oA goblet used to gather essence from a Great Chalice.",
   "tooltip.item.knightquest.great_chalice": "§8§oOffer the chalice great essence.",
@@ -273,6 +274,7 @@
   "entity.knightquest.ghastling": "Ghastling",
   "entity.knightquest.ghosty": "Ghosty",
   "entity.knightquest.momma_lizzy": "Momma Lizzy",
+  "entity.knightquest.fallen_knight": "Fallen Knight",
 
   "tooltip.weapon.knightquest.paladin": "§8§oRadiates the justice and valor of a lost paladin...",
   "tooltip.weapon.knightquest.cleaver": "§8§oStrikes with the fury of a thousand warriors.",

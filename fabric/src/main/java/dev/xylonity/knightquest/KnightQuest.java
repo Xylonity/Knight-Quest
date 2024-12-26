@@ -82,6 +82,7 @@ public class KnightQuest implements ModInitializer, ClientModInitializer {
         KnightQuestCreativeModeTabs.registerPlatformItem(() -> KnightQuestEntities.RATMAN_EGG);
         KnightQuestCreativeModeTabs.registerPlatformItem(() -> KnightQuestEntities.SAMHAIN_EGG);
         KnightQuestCreativeModeTabs.registerPlatformItem(() -> KnightQuestEntities.SWAMPMAN_EGG);
+        KnightQuestCreativeModeTabs.registerPlatformItem(() -> KnightQuestEntities.FALLEN_KNIGHT_EGG);
         KnightQuestCreativeModeTabs.registerPlatformItem(() -> KnightQuestEntities.LIZZY_EGG);
         KnightQuestCreativeModeTabs.registerPlatformItem(() -> KnightQuestEntities.BADPATCH_EGG);
         KnightQuestCreativeModeTabs.registerPlatformItem(() -> KnightQuestEntities.GHOSTY_EGG);

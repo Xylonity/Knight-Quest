@@ -89,8 +89,11 @@ public class FallenKnightEntity extends Monster implements GeoEntity {
 
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
+        Item[] weapon = {KnightQuestWeapons.CLEAVER, KnightQuestWeapons.KHOPESH, KnightQuestWeapons.PALADIN_SWORD};
+        int indexWeapons = this.random.nextInt(weapon.length);
+
         this.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(Items.SHIELD));
-        this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(KnightQuestWeapons.PALADIN_SWORD));
+        this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(weapon[indexWeapons]));
 
         Item[] helmets = {KnightQuestItems.VETERAN_HELMET.get(), KnightQuestItems.APPLE_HELMET.get(), KnightQuestItems.HORN_HELMET.get(), KnightQuestItems.ZOMBIE_HELMET2.get()};
         Item[] chestplates = {KnightQuestItems.VETERAN_CHESTPLATE.get(), KnightQuestItems.APPLE_CHESTPLATE.get(), KnightQuestItems.HORN_CHESTPLATE.get(), KnightQuestItems.ZOMBIE_CHESTPLATE.get()};

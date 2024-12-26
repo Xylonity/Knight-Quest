@@ -48,7 +48,7 @@ public class GroundNavigator extends GroundPathNavigation {
         Vec3 base = entityPos.subtract(this.mob.getBbWidth() * 0.5F, 0.0F, this.mob.getBbWidth() * 0.5F);
 
         if (this.attemptShortcut(this.path, entityPos, lastNodeIndex, base)) {
-            if (this.hasReached(this.path, 0.8F) ||
+            if (this.hasReached(this.path, 0.6F) ||
                     (this.isAtElevationChange(this.path) && this.hasReached(this.path, this.mob.getBbWidth() * 0.5F))) {
                 this.path.advance();
             }

@@ -104,6 +104,7 @@ public class NethermanEntity extends Monster implements GeoEntity {
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new NethermanAttackGoal(this, 0.5f, true));
+        this.goalSelector.addGoal(4, new NethermanTeleport2PlayerGoal(this));
 
         // Phase 1
         this.goalSelector.addGoal(2, new NethermanLavaTeleportGoal(this));
@@ -495,6 +496,12 @@ public class NethermanEntity extends Monster implements GeoEntity {
             this.setIsSummoning(pCompound.getBoolean("shouldPlaySummonAnimation"));
         }
 
+        if (!pCompound.contains("shouldSearchTarget")) {
+            this.setShouldSearchTarget(false);
+        } else {
+            this.setShouldSearchTarget(pCompound.getBoolean("shouldSearchTarget"));
+        }
+
         if (!pCompound.contains("isInvulnerable")) {
             this.setInvulnerability(true);
         } else {
@@ -528,6 +535,7 @@ public class NethermanEntity extends Monster implements GeoEntity {
 
         pCompound.putInt("tickCount", this.tickCount);
         pCompound.putBoolean("shouldPlaySummonAnimation", this.getIsSummoning());
+        pCompound.putBoolean("shouldSearchTarget", this.getShouldSearchTarget());
         pCompound.putBoolean("isInvulnerable", this.getInvulnerability());
         pCompound.putBoolean("isNoMovement", this.getNoMovement());
         pCompound.putInt("counterSwitchPhase2", this.getCounterSwitchPhase2());

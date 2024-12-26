@@ -59,7 +59,7 @@ public class BonusPathFinder extends PathFinder {
         }
 
         private static List<Node> copyNodes(Path original) {
-            return NodeSmoother.copyAndSmooth(original);
+            return IntStream.range(0, original.getNodeCount()).mapToObj(original::getNode).collect(Collectors.collectingAndThen(Collectors.toList(), ImmutableList::copyOf));
         }
     }
 }

@@ -56,7 +56,7 @@ neoForge {
         }
     }
     dependencies {
-        implementation "curse.maven:knight-lib-1105855:5795637"
+        implementation "curse.maven:knight-lib-1105855:6031765"
         implementation "software.bernie.geckolib:geckolib-neoforge-1.21.1:4.6.5"
     }
 }

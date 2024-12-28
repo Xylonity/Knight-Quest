@@ -1,6 +1,7 @@
 package dev.xylonity.knightquest.common.event;
 
 import dev.xylonity.knightquest.common.item.KQFullSetChecker;
+import dev.xylonity.knightquest.common.item.weapons.PaladinWeapon;
 import dev.xylonity.knightquest.common.material.KQArmorMaterials;
 import dev.xylonity.knightquest.config.values.KQConfigValues;
 import dev.xylonity.knightquest.registry.KnightQuestItems;
@@ -352,6 +353,14 @@ public class KQArmorEvents {
         public void onEndTick(MinecraftServer server) {
 
             for (ServerPlayer player : server.getPlayerList().getPlayers()) {
+
+                CustomData customData = player.getMainHandItem().getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
+                CompoundTag dataTag = customData.copyTag();
+
+                if (player.getMainHandItem().getItem() instanceof PaladinWeapon && KQConfigValues.PALADIN.get()) {
+                    if (player.tickCount % KQConfigValues.REGEN_TICKS_PALADIN.get() == 0 && player.getHealth() < player.getMaxHealth() * KQConfigValues.REGEN_MAX_PALADIN.get().floatValue() && dataTag.getBoolean("Activated"))
+                        player.heal(KQConfigValues.REGEN_HP_PALADIN.get().floatValue());
+                }
 
                 if (KQConfigValues.HUSKSET.get())
                     if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.HUSKSET) && (player.level().getBiome(player.blockPosition()).is(Biomes.DESERT)

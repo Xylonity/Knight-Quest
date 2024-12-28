@@ -1,10 +1,7 @@
 package dev.xylonity.knightquest.common.event;
 
 import dev.xylonity.knightquest.KnightQuest;
-import dev.xylonity.knightquest.common.item.weapons.CleaverWeapon;
-import dev.xylonity.knightquest.common.item.weapons.KhopeshWeapon;
-import dev.xylonity.knightquest.common.item.weapons.NailWeapon;
-import dev.xylonity.knightquest.common.item.weapons.UchigatanaWeapon;
+import dev.xylonity.knightquest.common.item.weapons.*;
 import dev.xylonity.knightquest.registry.KnightQuestWeapons;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -89,6 +86,8 @@ public class KQArmorEvents {
 
                     if (dataTag.getBoolean("ShouldDoActiveAttack")) {
                         dataTag.putBoolean("ShouldDoActiveAttack", false);
+                        stack.set(DataComponents.CUSTOM_DATA, CustomData.of(dataTag));
+
                         event.setAmount(event.getAmount() + event.getAmount() * KQConfigValues.EXTRA_DAMAGE_UCHIGATANA.get().floatValue());
                         event.getEntity().addEffect(new MobEffectInstance(MobEffects.DARKNESS, 80, 1, false, false));
                     }
@@ -337,14 +336,19 @@ public class KQArmorEvents {
         public static void onLivingTick(EntityTickEvent.Post event) {
             if (event.getEntity() instanceof Player player) {
                 ItemStack helmet = player.getInventory().getArmor(3);
-                ItemStack nail = player.getMainHandItem();
+                ItemStack stack = player.getMainHandItem();
+
+                CustomData customData = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
+                CompoundTag dataTag = customData.copyTag();
+
+                if (stack.getItem() instanceof PaladinWeapon && KQConfigValues.PALADIN.get()) {
+                    if (player.tickCount % KQConfigValues.REGEN_TICKS_PALADIN.get() == 0 && player.getHealth() < player.getMaxHealth() * KQConfigValues.REGEN_MAX_PALADIN.get().floatValue() && dataTag.getBoolean("Activated"))
+                        player.heal(KQConfigValues.REGEN_HP_PALADIN.get().floatValue());
+                }
 
                 if (KQConfigValues.TENGU_HELMET.get() || KQConfigValues.NAIL.get()) {
 
-                    CustomData customData = nail.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
-                    CompoundTag dataTag = customData.copyTag();
-
-                    if (helmet.getItem().equals(KnightQuestItems.TENGU_HELMET.get()) || (nail.getItem() instanceof NailWeapon && dataTag.getBoolean("Activated"))) {
+                    if (helmet.getItem().equals(KnightQuestItems.TENGU_HELMET.get()) || (stack.getItem() instanceof NailWeapon && dataTag.getBoolean("Activated"))) {
                         boolean canDoubleJump = doubleJumpStates.getOrDefault(player.getUUID(), true);
 
                         if (!player.onGround() && player.getDeltaMovement().y < 0 && canDoubleJump)

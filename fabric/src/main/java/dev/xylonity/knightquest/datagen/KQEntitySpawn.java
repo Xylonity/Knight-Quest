@@ -43,6 +43,10 @@ public class KQEntitySpawn {
         BiomeModifications.addSpawn(BiomeSelectors.includeByKey(Biomes.SNOWY_SLOPES), MobCategory.MONSTER, KnightQuestEntities.ELDKNIGHT.get(), 20, 1, 1);
         BiomeModifications.addSpawn(BiomeSelectors.includeByKey(Biomes.SNOWY_TAIGA), MobCategory.MONSTER, KnightQuestEntities.ELDKNIGHT.get(), 20, 1, 1);
 
+        BiomeModifications.addSpawn(BiomeSelectors.includeByKey(Biomes.FOREST), MobCategory.MONSTER, KnightQuestEntities.FALLEN_KNIGHT.get(), 2, 1, 1);
+        BiomeModifications.addSpawn(BiomeSelectors.includeByKey(Biomes.TAIGA), MobCategory.MONSTER, KnightQuestEntities.FALLEN_KNIGHT.get(), 2, 1, 1);
+        BiomeModifications.addSpawn(BiomeSelectors.includeByKey(Biomes.DESERT), MobCategory.MONSTER, KnightQuestEntities.FALLEN_KNIGHT.get(), 2, 1, 1);
+
         BiomeModifications.addSpawn(BiomeSelectors.includeByKey(Biomes.FOREST), MobCategory.CREATURE, KnightQuestEntities.LIZZY.get(), 6, 1, 2);
         BiomeModifications.addSpawn(BiomeSelectors.includeByKey(Biomes.BIRCH_FOREST), MobCategory.CREATURE, KnightQuestEntities.LIZZY.get(), 5, 1, 2);
         BiomeModifications.addSpawn(BiomeSelectors.includeByKey(Biomes.TAIGA), MobCategory.CREATURE, KnightQuestEntities.LIZZY.get(), 5, 1, 2);
@@ -73,6 +77,8 @@ public class KQEntitySpawn {
         SpawnPlacements.register(KnightQuestEntities.LIZZY.get(), SpawnPlacementTypes.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkMobSpawnRules);
         SpawnPlacements.register(KnightQuestEntities.BADPATCH.get(), SpawnPlacementTypes.ON_GROUND,
+                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
+        SpawnPlacements.register(KnightQuestEntities.FALLEN_KNIGHT.get(), SpawnPlacementTypes.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
     }
 

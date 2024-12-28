@@ -133,13 +133,13 @@ public class EldKnightEntity extends Monster implements GeoEntity {
 
         if (summoned && counter > 80) {
 
-            if (KQConfigValues.POISON_ELDKNIGHT.getBoolean()) {
+            if (KQConfigValues.POISON_ELDKNIGHT.get()) {
                 summonParticle();
                 poisonNearbyPlayers();
             }
 
             if (this.getHealth() < this.getMaxHealth() * 0.75) {
-                this.heal(KQConfigValues.HEAL_ELDKNIGHT.getFloat());
+                this.heal(KQConfigValues.HEAL_ELDKNIGHT.get().floatValue());
             }
 
             counter = 0;
@@ -167,10 +167,10 @@ public class EldKnightEntity extends Monster implements GeoEntity {
 
     private void summonMinions() {
         double distance = 3.0;
-        double angle = KQConfigValues.HEAL_ELDKNIGHT.getFloat() != 0 ? Math.toRadians((double) 360 / KQConfigValues.NUM_ELDBOMB_ELDKNIGHT.getInt()) : Math.toRadians(120);
+        double angle = KQConfigValues.HEAL_ELDKNIGHT.get().floatValue() != 0 ? Math.toRadians((double) 360 / KQConfigValues.NUM_ELDBOMB_ELDKNIGHT.get()) : Math.toRadians(120);
         boolean punch = false;
 
-        for (int i = 0; i < KQConfigValues.NUM_ELDBOMB_ELDKNIGHT.getInt(); i++) {
+        for (int i = 0; i < KQConfigValues.NUM_ELDBOMB_ELDKNIGHT.get(); i++) {
             double xOffset = distance * Math.cos(angle * i);
             double zOffset = distance * Math.sin(angle * i);
             EldBombEntity entity = KnightQuestEntities.ELDBOMB.get().create(serverWorld);

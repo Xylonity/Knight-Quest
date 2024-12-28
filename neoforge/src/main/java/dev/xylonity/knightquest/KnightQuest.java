@@ -1,9 +1,10 @@
 package dev.xylonity.knightquest;
 
-import dev.xylonity.knightquest.common.entity.entities.GremlinEntity;
 import dev.xylonity.knightquest.config.KnightQuestCommonConfigs;
 import dev.xylonity.knightquest.datagen.KQLootModifiers;
+import dev.xylonity.knightquest.registry.KnightQuestCreativeModeTabs;
 import dev.xylonity.knightquest.registry.KnightQuestEntities;
+import dev.xylonity.knightquest.registry.KnightQuestWeapons;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.sounds.SoundEvent;
@@ -15,10 +16,8 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
 @Mod(KnightQuest.MOD_ID)
 public class KnightQuest {
@@ -45,7 +44,14 @@ public class KnightQuest {
         modEventBus.<EntityAttributeCreationEvent>addListener(event -> KnightQuestEntities.registerEntityAttributes(event::put));
         modContainer.registerConfig(ModConfig.Type.COMMON, KnightQuestCommonConfigs.SPEC, "knightquest.toml");
 
-        KnightQuestCommonConfigs.assignValues();
+        //KnightQuestCommonConfigs.assignValues();
+
+        KnightQuestCreativeModeTabs.registerWeaponItem(KnightQuestWeapons.PALADIN_SWORD);
+        KnightQuestCreativeModeTabs.registerWeaponItem(KnightQuestWeapons.KHOPESH);
+        KnightQuestCreativeModeTabs.registerWeaponItem(KnightQuestWeapons.CLEAVER);
+        KnightQuestCreativeModeTabs.registerWeaponItem(KnightQuestWeapons.KUKRI);
+        KnightQuestCreativeModeTabs.registerWeaponItem(KnightQuestWeapons.UCHIGATANA);
+        KnightQuestCreativeModeTabs.registerWeaponItem(KnightQuestWeapons.NAIL);
 
         KnightQuestCommon.init();
 

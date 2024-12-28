@@ -3,18 +3,27 @@ package dev.xylonity.knightquest.registry;
 import dev.xylonity.knightquest.KnightQuestCommon;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Supplier;
 
 public class KnightQuestCreativeModeTabs {
 
     public static void init() { ;; }
 
+    private static final List<Supplier<Item>> weaponItems = new ArrayList<>();
+
+    public static void registerWeaponItem(Supplier<Item> itemSupplier) {
+        weaponItems.add(itemSupplier);
+    }
+
     public static final Supplier<CreativeModeTab> KNIGHTQUEST_TAB = KnightQuestCommon.COMMON_PLATFORM.registerCreativeModeTab("knightquest",
             () -> KnightQuestCommon.COMMON_PLATFORM.creativeTabBuilder()
                     .title(Component.translatable("itemgroup.knightquest"))
-                    .icon(() -> new ItemStack(KnightQuestItems.PALADIN_SWORD.get()))
+                    .icon(() -> new ItemStack(KnightQuestCommon.COMMON_PLATFORM.getPaladinSword().get()))
                     .displayItems((displayContext, entries) -> {
 
                         // Knight Lib
@@ -24,23 +33,20 @@ public class KnightQuestCreativeModeTabs {
 
                         // Knight Quest
                         entries.accept(KnightQuestItems.RADIANT_ESSENCE.get());
+                        entries.accept(KnightQuestItems.CHAOTIC_ESSENCE.get());
                         entries.accept(KnightQuestItems.EMPTY_GOBLET.get());
                         entries.accept(KnightQuestItems.FILLED_GOBLET.get());
-
                         entries.accept(KnightQuestItems.RATMAN_EYE.get());
                         entries.accept(KnightQuestItems.LIZZY_SCALE.get());
 
-                        entries.accept(KnightQuestItems.STEEL_AXE.get());
-                        entries.accept(KnightQuestItems.WATER_AXE.get());
+                        for (Supplier<Item> itemSupplier : weaponItems) {
+                            Item item = itemSupplier.get();
+                            if (item != null) {
+                                entries.accept(item);
+                            }
+                        }
 
-                        entries.accept(KnightQuestItems.PALADIN_SWORD.get());
-                        entries.accept(KnightQuestItems.NAIL_SWORD.get());
-                        entries.accept(KnightQuestItems.UCHIGATANA.get());
-                        entries.accept(KnightQuestItems.KUKRI.get());
-                        entries.accept(KnightQuestItems.KHOPESH.get());
-                        entries.accept(KnightQuestItems.CLEAVER.get());
-                        entries.accept(KnightQuestItems.CRIMSON_SWORD.get());
-                        entries.accept(KnightQuestItems.WATER_SWORD.get());
+                        entries.accept(KnightQuestItems.STEEL_AXE.get());
                         entries.accept(KnightQuestItems.STEEL_SWORD.get());
 
                         entries.accept(KnightQuestItems.GREMLIN_EGG.get());

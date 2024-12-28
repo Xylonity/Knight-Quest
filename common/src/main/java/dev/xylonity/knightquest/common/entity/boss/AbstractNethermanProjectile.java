@@ -11,7 +11,6 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.level.Level;
@@ -28,25 +27,6 @@ public class AbstractNethermanProjectile extends Projectile {
         super(pEntityType, pLevel);
     }
 
-    public AbstractNethermanProjectile(EntityType<? extends AbstractNethermanProjectile> pEntityType, double pX, double pY, double pZ, double pOffsetX, double pOffsetY, double pOffsetZ, Level pLevel) {
-        this(pEntityType, pLevel);
-        this.moveTo(pX, pY, pZ, this.getYRot(), this.getXRot());
-        this.reapplyPosition();
-        double d0 = Math.sqrt(pOffsetX * pOffsetX + pOffsetY * pOffsetY + pOffsetZ * pOffsetZ);
-        if (d0 != 0.0D) {
-            this.xPower = pOffsetX / d0 * 0.1D;
-            this.yPower = pOffsetY / d0 * 0.1D;
-            this.zPower = pOffsetZ / d0 * 0.1D;
-        }
-
-    }
-
-    public AbstractNethermanProjectile(EntityType<? extends AbstractNethermanProjectile> pEntityType, LivingEntity pShooter, double pOffsetX, double pOffsetY, double pOffsetZ, Level pLevel) {
-        this(pEntityType, pShooter.getX(), pShooter.getY(), pShooter.getZ(), pOffsetX, pOffsetY, pOffsetZ, pLevel);
-        this.setOwner(pShooter);
-        this.setRot(pShooter.getYRot(), pShooter.getXRot());
-    }
-
     /**
      * Checks if the entity is in range to render.
      */
@@ -58,7 +38,9 @@ public class AbstractNethermanProjectile extends Projectile {
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) { }
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+
+    }
 
     /**
      * Called to update the entity's position/logic.

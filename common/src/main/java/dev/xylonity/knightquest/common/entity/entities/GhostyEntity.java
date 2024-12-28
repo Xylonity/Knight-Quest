@@ -102,7 +102,7 @@ public class GhostyEntity extends Monster implements GeoEntity {
             }
         }
 
-        List<Monster> nearbyMonsters = serverWorld.getEntitiesOfClass(Monster.class, this.getBoundingBox().inflate(KQConfigValues.INVULNERABILITY_RADIUS_GHOSTY.getFloat()));
+        List<Monster> nearbyMonsters = serverWorld.getEntitiesOfClass(Monster.class, this.getBoundingBox().inflate(KQConfigValues.INVULNERABILITY_RADIUS_GHOSTY.get().floatValue()));
         for (Monster monster : nearbyMonsters) {
             monster.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 1, 4, false, false, false));
             if (!(monster instanceof GhostyEntity))

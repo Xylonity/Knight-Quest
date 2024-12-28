@@ -7,6 +7,7 @@ import dev.xylonity.knightquest.KnightQuest;
 import dev.xylonity.knightquest.client.armor.GeoItemArmor;
 import dev.xylonity.knightquest.common.item.KQArmorItem;
 import dev.xylonity.knightquest.common.material.KQItemMaterials;
+import dev.xylonity.knightquest.registry.KnightQuestWeapons;
 import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
@@ -47,6 +48,11 @@ public class KnightQuestNeoForgePlatform implements KnightQuestPlatform {
     @Override
     public Supplier<ParticleOptions> getStartsetParticle() {
         return KnightLibParticles.STARSET_PARTICLE::get;
+    }
+
+    @Override
+    public Supplier<Item> getPaladinSword() {
+        return KnightQuestWeapons.PALADIN_SWORD;
     }
 
     @Override
@@ -120,6 +126,11 @@ public class KnightQuestNeoForgePlatform implements KnightQuestPlatform {
     @Override
     public <T extends CreativeModeTab> Supplier<T> registerCreativeModeTab(String id, Supplier<T> tab) {
         return KnightQuest.CREATIVE_TABS.register(id, tab);
+    }
+
+    @Override
+    public <T extends Item> Supplier<T> registerMusicDisc(String id, int signal, Supplier<SoundEvent> soundEvent, Item.Properties properties, int length) {
+        return null;
     }
 
     @Override

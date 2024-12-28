@@ -14,17 +14,18 @@ public class NethermanCloneModel extends GeoModel<NethermanCloneEntity> {
 
     @Override
     public ResourceLocation getModelResource(NethermanCloneEntity animatable) {
-        return ResourceLocation.fromNamespaceAndPath(KnightQuestCommon.MOD_ID, "geo/netherman.geo.json");
+        return ResourceLocation.fromNamespaceAndPath(KnightQuestCommon.MOD_ID, "geo/netherman_clone.geo.json");
     }
 
     @Override
     public ResourceLocation getTextureResource(NethermanCloneEntity animatable) {
+
         return ResourceLocation.fromNamespaceAndPath(KnightQuestCommon.MOD_ID, "textures/entity/netherman_clone.png");
     }
 
     @Override
     public ResourceLocation getAnimationResource(NethermanCloneEntity animatable) {
-        return ResourceLocation.fromNamespaceAndPath(KnightQuestCommon.MOD_ID, "animations/netherman.animation.json");
+        return ResourceLocation.fromNamespaceAndPath(KnightQuestCommon.MOD_ID, "animations/netherman_clone.animation.json");
     }
 
     @Override

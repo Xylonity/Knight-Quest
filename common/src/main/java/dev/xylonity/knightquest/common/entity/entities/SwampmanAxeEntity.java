@@ -98,7 +98,7 @@ public class SwampmanAxeEntity extends AbstractSwampmanAxeEntity implements GeoE
     protected void onHitEntity(EntityHitResult pResult) {
         super.onHitEntity(pResult);
         Entity entity = pResult.getEntity();
-        if (entity instanceof LivingEntity livingEntity && KQConfigValues.POISON_PHASE_2_SWAMPMAN.getBoolean()) {
+        if (entity instanceof LivingEntity livingEntity && KQConfigValues.POISON_PHASE_2_SWAMPMAN.get()) {
             livingEntity.addEffect(new MobEffectInstance(MobEffects.POISON, 100, 0, true, true, true));
         }
     }

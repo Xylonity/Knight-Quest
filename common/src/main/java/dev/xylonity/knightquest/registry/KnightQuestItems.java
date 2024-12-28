@@ -3,9 +3,9 @@ package dev.xylonity.knightquest.registry;
 import dev.xylonity.knightquest.KnightQuestCommon;
 import dev.xylonity.knightquest.common.material.KQArmorMaterials;
 import dev.xylonity.knightquest.common.material.KQItemMaterials;
-import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.*;
@@ -19,22 +19,15 @@ public class KnightQuestItems {
     public static void init() { ;; }
 
     public static final Supplier<Item> RADIANT_ESSENCE = registerItem("radiant_essence", () -> new KnightQuestItem(new Item.Properties(), "radiant_essence"));
+    public static final Supplier<Item> CHAOTIC_ESSENCE = registerItem("chaotic_essence", () -> new KnightQuestItem(new Item.Properties(), "chaotic_essence"));
     public static final Supplier<Item> EMPTY_GOBLET = registerItem("empty_goblet", () -> new KnightQuestItem(new Item.Properties(), "empty_goblet"));
     public static final Supplier<Item> FILLED_GOBLET = registerItem("filled_goblet", () -> new KnightQuestItem(new Item.Properties(), "filled_goblet"));
     public static final Supplier<Item> RATMAN_EYE = registerItem("ratman_eye", () -> new KnightQuestItem(new Item.Properties(), "ratman_eye"));
     public static final Supplier<Item> LIZZY_SCALE = registerItem("lizzy_scale", () -> new KnightQuestItem(new Item.Properties(), "lizzy_scale"));
 
-    public static final Supplier<Item> PALADIN_SWORD = registerSwordItem("paladin_sword", KQItemMaterials.PALADIN, new Item.Properties(), -2.8f, true);
-    public static final Supplier<Item> NAIL_SWORD = registerSwordItem("nail_glaive", KQItemMaterials.NAIL, new Item.Properties(), -2.6f, false);
-    public static final Supplier<Item> UCHIGATANA = registerSwordItem("uchigatana_katana", KQItemMaterials.UCHIGATANA, new Item.Properties(), -2.2f, false);
-    public static final Supplier<Item> KUKRI = registerSwordItem("kukri_dagger", KQItemMaterials.KUKRI, new Item.Properties(),-1f, false);
-    public static final Supplier<Item> KHOPESH = registerSwordItem("khopesh_claymore", KQItemMaterials.KHOPESH, new Item.Properties(), -2.2f, false);
-    public static final Supplier<Item> CLEAVER = registerSwordItem("cleaver_heavy_axe", KQItemMaterials.CLEAVER, new Item.Properties(), -3f, false);
-    public static final Supplier<Item> CRIMSON_SWORD = registerSwordItem("crimson_sword", KQItemMaterials.CRIMSON_SWORD, new Item.Properties(), -2f, false);
-    public static final Supplier<Item> WATER_SWORD = registerSwordItem("water_sword", KQItemMaterials.WATER_SWORD, new Item.Properties(), -2f, false);
-    public static final Supplier<Item> STEEL_SWORD = registerSwordItem("steel_sword", KQItemMaterials.STEEL_SWORD, new Item.Properties(), -2f, false);
+    public static final Supplier<Item> THE_ARCHITECT_OF_CHAOS_DISC = registerMusicDisc("music_disc_the_architect_of_chaos", 6, KnightQuestSounds.THE_ARCHITECT_OF_CHAOS, new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant(), 3540);
 
-    public static final Supplier<Item> WATER_AXE = registerAxeItem("water_axe", KQItemMaterials.WATER_SWORD, new Item.Properties(), 4, -2f);
+    public static final Supplier<Item> STEEL_SWORD = registerSwordItem("steel_sword", KQItemMaterials.STEEL_SWORD, new Item.Properties(), -2f, false);
     public static final Supplier<Item> STEEL_AXE = registerAxeItem("steel_axe", KQItemMaterials.STEEL_SWORD, new Item.Properties(), 4, -2f);
 
     public static final Supplier<Item> APPLE_HELMET = registerGeoArmorItem("apple_helmet", KQArmorMaterials.APPLE_SET, ArmorItem.Type.HELMET, true, false, new Item.Properties(), 35);
@@ -259,6 +252,10 @@ public class KnightQuestItems {
 
     private static <T extends Mob> Supplier<Item> registerSpawnEggItem(String id, Supplier<EntityType<T>> entityType, int primaryEggColour, int secondaryEggColour) {
         return KnightQuestCommon.COMMON_PLATFORM.registerSpawnEggItem(id, entityType, primaryEggColour, secondaryEggColour);
+    }
+
+    private static <T extends Item> Supplier<T> registerMusicDisc(String id, int signal, Supplier<SoundEvent> soundEvent, Item.Properties properties, int length) {
+        return KnightQuestCommon.COMMON_PLATFORM.registerMusicDisc(id, signal, soundEvent, properties, length);
     }
 
     private static <T extends Item> Supplier<T> registerSwordItem(String id, KQItemMaterials itemMaterial, Item.Properties properties, float speedMalus, boolean containsTooltip) {

@@ -7,6 +7,7 @@ import dev.xylonity.knightquest.KnightQuest;
 import dev.xylonity.knightquest.client.armor.GeoItemArmor;
 import dev.xylonity.knightquest.common.item.KQArmorItem;
 import dev.xylonity.knightquest.common.material.KQItemMaterials;
+import dev.xylonity.knightquest.registry.KnightQuestWeapons;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.minecraft.core.Holder;
@@ -50,6 +51,11 @@ public class KnightQuestFabricPlatform implements KnightQuestPlatform {
     @Override
     public Supplier<ParticleOptions> getStartsetParticle() {
         return () -> KnightLibParticles.STARSET_PARTICLE;
+    }
+
+    @Override
+    public Supplier<Item> getPaladinSword() {
+        return () -> KnightQuestWeapons.PALADIN_SWORD;
     }
 
     @Override
@@ -123,6 +129,11 @@ public class KnightQuestFabricPlatform implements KnightQuestPlatform {
     @Override
     public <T extends CreativeModeTab> Supplier<T> registerCreativeModeTab(String id, Supplier<T> tab) {
         return registerSupplier(BuiltInRegistries.CREATIVE_MODE_TAB, id, tab);
+    }
+
+    @Override
+    public <T extends Item> Supplier<T> registerMusicDisc(String id, int signal, Supplier<SoundEvent> soundEvent, Item.Properties properties, int length) {
+        return null;
     }
 
     @Override

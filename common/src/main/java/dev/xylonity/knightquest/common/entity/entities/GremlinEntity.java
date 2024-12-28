@@ -92,9 +92,9 @@ public class GremlinEntity extends Monster implements GeoEntity {
     }
 
     private void updateAttributes() {
-        Objects.requireNonNull(getAttribute(Attributes.ATTACK_DAMAGE)).setBaseValue(getAttributeValue(Attributes.ATTACK_DAMAGE) * KQConfigValues.MULTIPLIER_GREMLIN_ATTACK_DAMAGE.getFloat());
-        Objects.requireNonNull(getAttribute(Attributes.MOVEMENT_SPEED)).setBaseValue(getAttributeValue(Attributes.MOVEMENT_SPEED) * KQConfigValues.MULTIPLIER_GREMLIN_MOVEMENT_SPEED.getFloat());
-        Objects.requireNonNull(getAttribute(Attributes.ATTACK_SPEED)).setBaseValue(getAttributeValue(Attributes.ATTACK_SPEED) * KQConfigValues.MULTIPLIER_GREMLIN_ATTACK_SPEED.getFloat());
+        Objects.requireNonNull(getAttribute(Attributes.ATTACK_DAMAGE)).setBaseValue(getAttributeValue(Attributes.ATTACK_DAMAGE) * KQConfigValues.MULTIPLIER_GREMLIN_ATTACK_DAMAGE.get().floatValue());
+        Objects.requireNonNull(getAttribute(Attributes.MOVEMENT_SPEED)).setBaseValue(getAttributeValue(Attributes.MOVEMENT_SPEED) * KQConfigValues.MULTIPLIER_GREMLIN_MOVEMENT_SPEED.get().floatValue());
+        Objects.requireNonNull(getAttribute(Attributes.ATTACK_SPEED)).setBaseValue(getAttributeValue(Attributes.ATTACK_SPEED) * KQConfigValues.MULTIPLIER_GREMLIN_ATTACK_SPEED.get().floatValue());
     }
 
     @Override
@@ -218,7 +218,7 @@ public class GremlinEntity extends Monster implements GeoEntity {
     @Override
     protected @NotNull InteractionResult mobInteract(@NotNull Player pPlayer, @NotNull InteractionHand pHand) {
 
-        if (KQConfigValues.CAN_TAKE_GOLD_GREMLIN.getBoolean()) {
+        if (KQConfigValues.CAN_TAKE_GOLD_GREMLIN.get()) {
 
             ItemStack itemstack = pPlayer.getItemInHand(pHand);
             Item desiredItem = Items.GOLD_INGOT;

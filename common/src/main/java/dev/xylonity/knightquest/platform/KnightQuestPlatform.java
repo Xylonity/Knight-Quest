@@ -28,6 +28,7 @@ public interface KnightQuestPlatform {
     <T extends Entity> Supplier<EntityType<T>> registerEntity(String id, Supplier<EntityType<T>> entity);
     <T extends Mob> Supplier<Item> registerSpawnEggItem(String id, Supplier<EntityType<T>> entity, int primaryEggColour, int secondaryEggColour);
     <T extends CreativeModeTab> Supplier<T> registerCreativeModeTab(String id, Supplier<T> tab);
+    <T extends Item> Supplier<T> registerMusicDisc(String id, int signal, Supplier<SoundEvent> soundEvent, Item.Properties properties, int length);
 
     <T extends ArmorMaterial> Holder<T> registerArmorMaterial(String id, Supplier<T> armorMaterial);
 
@@ -35,6 +36,7 @@ public interface KnightQuestPlatform {
     Supplier<Item> getSmallEssence();
     Supplier<Block> getGreatChalice();
     Supplier<ParticleOptions> getStartsetParticle();
+    Supplier<Item> getPaladinSword();
 
     CreativeModeTab.Builder creativeTabBuilder();
 

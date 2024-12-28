@@ -1,16 +1,13 @@
 package dev.xylonity.knightquest.common.entity.boss;
 
-import dev.xylonity.knightquest.common.api.explosiveenhancement.ExplosiveConfig;
-import dev.xylonity.knightquest.common.api.util.ParticleGenerator;
-import dev.xylonity.knightquest.common.api.util.TeleportValidator;
+import dev.xylonity.knightquest.common.ai.navigator.GroundNavigator;
 import dev.xylonity.knightquest.common.entity.boss.ai.*;
 import dev.xylonity.knightquest.config.values.KQConfigValues;
-import dev.xylonity.knightquest.registry.KnightQuestParticles;
+import dev.xylonity.knightquest.registry.KnightQuestItems;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -19,65 +16,86 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.BossEvent;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.ExperienceOrb;
-import net.minecraft.world.entity.LightningBolt;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.*;
+import software.bernie.geckolib.animation.AnimationState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class NethermanEntity extends Monster implements GeoEntity {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
-    private final ServerBossEvent bossInfo = (ServerBossEvent)(new ServerBossEvent(Objects.requireNonNull(this.getDisplayName()), BossEvent.BossBarColor.RED, BossEvent.BossBarOverlay.PROGRESS)).setDarkenScreen(true);
-    private static final EntityDataAccessor<Byte> PHASE = SynchedEntityData.defineId(NethermanEntity.class, EntityDataSerializers.BYTE);
-    private static final EntityDataAccessor<Boolean> DATA_IS_CHARGING = SynchedEntityData.defineId(NethermanEntity.class, EntityDataSerializers.BOOLEAN);
+    private final ServerBossEvent bossInfo = (ServerBossEvent)(new ServerBossEvent(this.getDisplayName(), BossEvent.BossBarColor.RED, BossEvent.BossBarOverlay.PROGRESS)).setDarkenScreen(true);
+    private final Map<BlockPos, BlockState> changedBlocks = new HashMap<>();
+
+    private final RawAnimation DEATH = RawAnimation.begin().thenPlay("death");
+    private final RawAnimation SUMMONANIM = RawAnimation.begin().thenPlay("summon");
+    private final RawAnimation WALKANIM = RawAnimation.begin().thenPlay("walk");
+    private final RawAnimation IDLEANIM = RawAnimation.begin().thenPlay("idle");
+    private final RawAnimation SPECIALATTACKANIM = RawAnimation.begin().thenPlay("attack_special");
+    private final RawAnimation SPECIALATTACK2ANIM = RawAnimation.begin().thenPlay("attack_special2");
+    private final RawAnimation SPECIALATTACK3ANIM = RawAnimation.begin().thenPlay("attack_special3");
+    private final RawAnimation PHASE_SWITCH_2 = RawAnimation.begin().thenPlay("phase2");
+    private final RawAnimation PHASE_SWITCH_3 = RawAnimation.begin().thenPlay("phase3");
+
+    private static final EntityDataAccessor<Boolean> SUMMON = SynchedEntityData.defineId(NethermanEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> NOMOVEMENT = SynchedEntityData.defineId(NethermanEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> INVULNERABLE = SynchedEntityData.defineId(NethermanEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> IS_ATTACKING = SynchedEntityData.defineId(NethermanEntity.class, EntityDataSerializers.BOOLEAN);
-    private final Map<BlockPos, BlockState> changedBlocks = new HashMap<>();    // Restores the previous blocks after they are switched with lava
-    private int explosionPower = 1;
-    private int tickCounterFirstPhaseSwitch = 0;
-    private int tickCounterSecondPhaseSwitch = 0;
-    private boolean hasChangedPhase = false;
-    private boolean hasChangedSecondPhase = false;
-    private boolean specialAttack = false;
-    private int specialAttackCounter = 0;
-    private boolean noMovement = false;
-    private boolean weatherChanged = false;
-    private boolean weatherReverted = false;
+    private static final EntityDataAccessor<Boolean> IS_DOING_FLAME_ATTACK = SynchedEntityData.defineId(NethermanEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> IS_DOING_SPECIAL_ATTACK2 = SynchedEntityData.defineId(NethermanEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> IS_DOING_SPECIAL_ATTACK3 = SynchedEntityData.defineId(NethermanEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> SHOULD_SEARCH_TARGET = SynchedEntityData.defineId(NethermanEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> PHASE = SynchedEntityData.defineId(NethermanEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> REVERT_FLAME_ATTACK = SynchedEntityData.defineId(NethermanEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> REVERT_SPECIAL_ATTACK2 = SynchedEntityData.defineId(NethermanEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> REVERT_SPECIAL_ATTACK3 = SynchedEntityData.defineId(NethermanEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> COUNTER_SWITCH_PHASE_2 = SynchedEntityData.defineId(NethermanEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> COUNTER_SWITCH_PHASE_3 = SynchedEntityData.defineId(NethermanEntity.class, EntityDataSerializers.INT);
+
+    private boolean hasBeenSwitchedToPhase2 = false;
+    private boolean hasBeenSwitchedToPhase3 = false;
 
     public NethermanEntity(EntityType<? extends Monster> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
 
+    @Override
+    protected @NotNull PathNavigation createNavigation(@NotNull Level pLevel) {
+        return new GroundNavigator(this, pLevel);
+    }
+
     public static AttributeSupplier.Builder setAttributes() {
         return Monster.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 350.0D)
-                .add(Attributes.ATTACK_DAMAGE, 8.0f)
-                .add(Attributes.ATTACK_SPEED, 1.0f)
-                .add(Attributes.MOVEMENT_SPEED, 0.70f)
-                .add(Attributes.FOLLOW_RANGE, 35.0)
+                .add(Attributes.MAX_HEALTH, 450D)
+                .add(Attributes.ATTACK_DAMAGE, 16.0f)
+                .add(Attributes.ATTACK_SPEED, 1.2f)
+                .add(Attributes.MOVEMENT_SPEED, 0.8f)
+                .add(Attributes.FOLLOW_RANGE, 75.0)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 5.0);
     }
 
@@ -85,232 +103,278 @@ public class NethermanEntity extends Monster implements GeoEntity {
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new NethermanAttackGoal(this, 0.5f, true));
+        this.goalSelector.addGoal(4, new NethermanTeleport2PlayerGoal(this));
 
         // Phase 1
         this.goalSelector.addGoal(2, new NethermanLavaTeleportGoal(this));
         this.goalSelector.addGoal(3, new NethermanFlameGoal(this));
 
         // Phase 2
-        this.goalSelector.addGoal(2, new SpawnNethermanClonesGoal(this));
+        this.goalSelector.addGoal(2, new NethermanClonesGoal(this));
+        this.goalSelector.addGoal(3, new NethermanIceGoal(this));
 
         // Phase 3
-        this.goalSelector.addGoal(2, new MagicProjectileAttackGoal(this));
+        this.goalSelector.addGoal(2, new NethermanProjectileChargesGoal(this));
+        this.goalSelector.addGoal(3, new NethermanDarknessGoal(this));
 
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
+        this.targetSelector.addGoal(1, new NethermanNearestAttackableTargetGoal<>(this, Player.class, true));
+    }
+
+    @Nullable
+    @Override
+    public SpawnGroupData finalizeSpawn(@NotNull ServerLevelAccessor pLevel, @NotNull DifficultyInstance pDifficulty, @NotNull MobSpawnType pSpawnType, @Nullable SpawnGroupData pSpawnGroupData) {
+
+        var maxHealth = this.getAttribute(Attributes.MAX_HEALTH);
+        if (maxHealth != null) {
+            maxHealth.setBaseValue(KQConfigValues.NETHERMAN_HEALTH.get());
+            this.setHealth(KQConfigValues.NETHERMAN_HEALTH.get().floatValue());
+        }
+
+        var attackDamageAttribute = this.getAttribute(Attributes.ATTACK_DAMAGE);
+        if (attackDamageAttribute != null) {
+            attackDamageAttribute.setBaseValue(KQConfigValues.NETHERMAN_DAMAGE.get());
+        }
+
+        return super.finalizeSpawn(pLevel, pDifficulty, pSpawnType, pSpawnGroupData);
     }
 
     /**
      * Getters and setters for synched entity data.
      */
 
-    public boolean getInvulnerability() { return this.entityData.get(INVULNERABLE); }
-    public void setInvulnerability(boolean invulnerability) { this.entityData.set(INVULNERABLE, invulnerability); }
-    public int getPhase() { return this.entityData.get(PHASE); }
-    public void setPhase(int phase) { this.entityData.set(PHASE, (byte) phase); }
-    public void setCharging(boolean pCharging) { this.entityData.set(DATA_IS_CHARGING, pCharging); }
-    public boolean getIsAttacking() { return this.entityData.get(IS_ATTACKING); }
-    public void setIsAttacking(boolean attacking) { this.entityData.set(IS_ATTACKING, attacking); }
+    public boolean getInvulnerability() {
+        return this.entityData.get(INVULNERABLE);
+    }
 
-    /**
-     * Main logic of the Netherman, handles each phase. The counters may appear to be equal to "random" numbers,
-     * but they actually represent the elapsed ticks from the start of each animation.
-     */
+    public void setInvulnerability(boolean invulnerability) {
+        this.entityData.set(INVULNERABLE, invulnerability);
+    }
+
+    public int getPhase() {
+        return this.entityData.get(PHASE);
+    }
+
+    public void setPhase(int phase) {
+        this.entityData.set(PHASE, phase);
+    }
+
+    public boolean getIsSummoning() {
+        return this.entityData.get(SUMMON);
+    }
+
+    public void setIsSummoning(boolean summon) {
+        this.entityData.set(SUMMON, summon);
+    }
+
+    public boolean getNoMovement() {
+        return this.entityData.get(NOMOVEMENT);
+    }
+
+    public void setNoMovement(boolean noMovement) {
+        this.entityData.set(NOMOVEMENT, noMovement);
+    }
+
+    public boolean getShouldSearchTarget() {
+        return this.entityData.get(SHOULD_SEARCH_TARGET);
+    }
+
+    public void setShouldSearchTarget(boolean shouldSearchTarget) {
+        this.entityData.set(SHOULD_SEARCH_TARGET, shouldSearchTarget);
+    }
+
+    public boolean getIsDoingFlameAttack() {
+        return this.entityData.get(IS_DOING_FLAME_ATTACK);
+    }
+
+    public void setIsDoingFlameAttack(boolean isDoingFlameAttack) {
+        this.entityData.set(IS_DOING_FLAME_ATTACK, isDoingFlameAttack);
+    }
+
+    public int getRevertFlameAttack() {
+        return this.entityData.get(REVERT_FLAME_ATTACK);
+    }
+
+    public void setRevertFlameAttack(int revertFlameAttack) {
+        this.entityData.set(REVERT_FLAME_ATTACK, revertFlameAttack);
+    }
+
+    public int getRevertSpecialAttack2() {
+        return this.entityData.get(REVERT_SPECIAL_ATTACK2);
+    }
+
+    public void setRevertSpecialAttack2(int revertSpecialAttack) {
+        this.entityData.set(REVERT_SPECIAL_ATTACK2, revertSpecialAttack);
+    }
+
+    public int getCounterSwitchPhase2() {
+        return this.entityData.get(COUNTER_SWITCH_PHASE_2);
+    }
+
+    public void setCounterSwitchPhase2(int counterSwitchPhase2) {
+        this.entityData.set(COUNTER_SWITCH_PHASE_2, counterSwitchPhase2);
+    }
+
+    public int getCounterSwitchPhase3() {
+        return this.entityData.get(COUNTER_SWITCH_PHASE_3);
+    }
+
+    public void setCounterSwitchPhase3(int counterSwitchPhase3) {
+        this.entityData.set(COUNTER_SWITCH_PHASE_3, counterSwitchPhase3);
+    }
+
+    public boolean getIsDoingSpecialAttack2() {
+        return this.entityData.get(IS_DOING_SPECIAL_ATTACK2);
+    }
+
+    public void setIsDoingSpecialAttack2(boolean isDoingSpecialAttack) {
+        this.entityData.set(IS_DOING_SPECIAL_ATTACK2, isDoingSpecialAttack);
+    }
+
+    public boolean getIsDoingSpecialAttack3() {
+        return this.entityData.get(IS_DOING_SPECIAL_ATTACK3);
+    }
+
+    public void setIsDoingSpecialAttack3(boolean isDoingSpecialAttack) {
+        this.entityData.set(IS_DOING_SPECIAL_ATTACK3, isDoingSpecialAttack);
+    }
+
+    public int getRevertSpecialAttack3() {
+        return this.entityData.get(REVERT_SPECIAL_ATTACK3);
+    }
+
+    public void setRevertSpecialAttack3(int revertSpecialAttack) {
+        this.entityData.set(REVERT_SPECIAL_ATTACK3, revertSpecialAttack);
+    }
+
+    @Override
+    protected void defineSynchedData(SynchedEntityData.@NotNull Builder pBuilder) {
+        super.defineSynchedData(pBuilder);
+        pBuilder.define(PHASE, 1);
+        pBuilder.define(INVULNERABLE, true);
+        pBuilder.define(SUMMON, true);
+        pBuilder.define(NOMOVEMENT, true);
+        pBuilder.define(SHOULD_SEARCH_TARGET, false);
+        pBuilder.define(IS_DOING_FLAME_ATTACK, false);
+        pBuilder.define(IS_DOING_SPECIAL_ATTACK2, false);
+        pBuilder.define(IS_DOING_SPECIAL_ATTACK3, false);
+        pBuilder.define(REVERT_FLAME_ATTACK, 0);
+        pBuilder.define(REVERT_SPECIAL_ATTACK2, 0);
+        pBuilder.define(REVERT_SPECIAL_ATTACK3, 0);
+        pBuilder.define(COUNTER_SWITCH_PHASE_2, 0);
+        pBuilder.define(COUNTER_SWITCH_PHASE_3, 0);
+    }
 
     @Override
     public void tick() {
         super.tick();
 
-        if (isOnFire() && this.getPhase() == 1) {
+        // Summon animation ending
+        if (!this.level().isClientSide() && tickCount == 100) {
+            setIsSummoning(false);
+            setNoMovement(false);
+            setInvulnerability(false);
+            setShouldSearchTarget(true);
+        }
+
+        // Syncs the health bar with the actual health
+        this.bossInfo.setProgress(this.getHealth() / this.getMaxHealth());
+
+        if (this.isOnFire()) {
             this.extinguishFire();
         }
 
-        float progress = this.getHealth() / this.getMaxHealth();
-        this.bossInfo.setProgress(progress);
-
-        if (getPhase() == 3 && tickCount % KQConfigValues.LIGHTNING_TICK_INTERVAL.getInt() == 0 && KQConfigValues.LIGHTNING_STRIKE_IN_PHASE_THREE.getBoolean()) {
-            summonLightning();
-        }
-
-        if (noMovement) {
+        if (getNoMovement()) {
             this.getNavigation().stop();
             this.setDeltaMovement(Vec3.ZERO);
         }
 
-        if (tickCount == 1) {
-            if (KQConfigValues.GENERATE_PARTICLES_ON_SUMMON.getBoolean())
-                ExplosiveConfig.spawnParticles(level(), getX(), getY() + 0.5, getZ(), 4, false, false, 0);
+        // Reverts the movement in case the SpecialAttack1 or 2 losses target while ticking
+        if (getNoMovement()) {
 
-            level().playSound(null, blockPosition(), SoundEvents.DRAGON_FIREBALL_EXPLODE, SoundSource.BLOCKS, 1f, 1f);
-        }
-
-        if (this.getHealth() < this.getMaxHealth() * 0.66F && getPhase() == 1) {
-            tickCounterFirstPhaseSwitch++;
-            if (!hasChangedPhase) {
-                setNoMovement(true);
-
-                hasChangedPhase = !hasChangedPhase;
-            }
-
-            if (tickCounterFirstPhaseSwitch == 0)
-                ExplosiveConfig.spawnParticles(level(), getX(), getY(), getZ(), 3, false, false, 1);
-
-            if (tickCounterFirstPhaseSwitch < 195) {
-                winterStormAttack();
-            } else {
-                setNoMovement(false);
-
-                level().playSound(null, blockPosition(), SoundEvents.DRAGON_FIREBALL_EXPLODE, SoundSource.BLOCKS, 1f, 1f);
-                ExplosiveConfig.spawnParticles(level(), getX(), getY(), getZ(), 4, false, false, 1);
-
-                setPhase(2);
-            }
-        }
-
-        if (this.getHealth() < this.getMaxHealth() * 0.33F) {
-            tickCounterSecondPhaseSwitch++;
-            if (!hasChangedSecondPhase) {
-
-                setInvulnerability(true);
-                setNoMovement(true);
-
-                hasChangedSecondPhase = !hasChangedSecondPhase;
-
-                if (!weatherChanged && this.level() instanceof ServerLevel serverLevel) {
-                    if (!serverLevel.isThundering()) {
-                        serverLevel.setWeatherParameters(0, 24000, true, true);
-                        weatherChanged = !weatherChanged;
-                    }
+            if (getIsDoingFlameAttack()) {
+                setRevertFlameAttack(getRevertFlameAttack() + 1);
+                if (getRevertFlameAttack() == 30) {
+                    this.setNoMovement(false);
+                    this.setIsDoingFlameAttack(false);
+                    this.setRevertFlameAttack(0);
                 }
-
             }
+
+            if (getIsDoingSpecialAttack2()) {
+                setRevertSpecialAttack2(getRevertSpecialAttack2() + 1);
+                if (getRevertSpecialAttack2() == 30) {
+                    this.setNoMovement(false);
+                    this.setIsDoingSpecialAttack2(false);
+                    this.setRevertSpecialAttack2(0);
+                }
+            }
+
+            if (getIsDoingSpecialAttack3()) {
+                setRevertSpecialAttack3(getRevertSpecialAttack3() + 1);
+                if (getRevertSpecialAttack3() == 30) {
+                    this.setNoMovement(false);
+                    this.setIsDoingSpecialAttack3(false);
+                    this.setRevertSpecialAttack3(0);
+                }
+            }
+
         }
 
-        if (tickCounterSecondPhaseSwitch == 85) {
-            ExplosiveConfig.spawnParticles(level(), getX(), getY() + 3.5, getZ(), 4, false, false, 2);
+        // Switch to second phase
+        if (getHealth() < getMaxHealth() * 0.66 && getPhase() != 2 && getPhase() != 3) {
+            setPhase(2);
+            setNoMovement(true);
+            setShouldSearchTarget(false);
+            setTarget(null);
+            setInvulnerability(true);
+        }
 
-            setPhase(3);
+        // Counter of the second phase animation
+        if (getPhase() == 2 && getCounterSwitchPhase2() < 130) {
+            setCounterSwitchPhase2(getCounterSwitchPhase2() + 1);
+        }
 
-            level().playSound(null, blockPosition(), SoundEvents.DRAGON_FIREBALL_EXPLODE, SoundSource.BLOCKS, 1f, 1f);
-        } else if (tickCounterSecondPhaseSwitch == 145) {
+        // Restore atts after switching to second phase
+        if (getCounterSwitchPhase2() == 130 && !hasBeenSwitchedToPhase2) {
+            setShouldSearchTarget(true);
             setNoMovement(false);
             setInvulnerability(false);
+            hasBeenSwitchedToPhase2 = true;
         }
 
-        if (specialAttack) {
-
-            if (specialAttackCounter == 20) {
-
-                level().playLocalSound(blockPosition(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.BLOCKS, 1f, 1f, false);
-
-                ParticleGenerator.specialAttackParticles(this, 80, 0.3, 2.0, 0.0, ParticleTypes.CLOUD);
-
-                Vec3 vec3 = this.position().add(0.0D, 1.6F, 0.0D);
-                Vec3 vec31 = this.getEyePosition().subtract(vec3);
-                Vec3 vec32 = vec31.normalize();
-
-                for (int i = 1; i < Mth.floor(vec31.length()) + 7; ++i) {
-                    Vec3 vec33 = vec3.add(vec32.scale(i));
-                    level().addParticle(ParticleTypes.PORTAL, vec33.x, vec33.y - 2, vec33.z, 1, 0.0D, 0.0D);
-                }
-
-            }
-
-            if (specialAttackCounter == 34) {
-
-                level().playLocalSound(blockPosition(), SoundEvents.WARDEN_SONIC_BOOM, SoundSource.BLOCKS, 1f, 1f, false);
-
-                ParticleGenerator.specialAttackParticles(this, 20, 0.05, 2.0, 0.005, ParticleTypes.CAMPFIRE_COSY_SMOKE);
-
-                specialAttack = !specialAttack;
-                specialAttackCounter = 0;
-
-                level().getEntitiesOfClass(Player.class, this.getBoundingBox().inflate(5)).forEach(player -> {
-                    Vec3 direction = player.position().subtract(this.position()).normalize().scale(1.5);
-                    player.push(direction.x, direction.y + 0.5, direction.z);
-                });
-
-                setInvulnerability(false);
-
-            }
-
-            specialAttackCounter++;
+        // Switch to third phase
+        if (getHealth() < getMaxHealth() * 0.33 && getPhase() != 3) {
+            setPhase(3);
+            setNoMovement(true);
+            setShouldSearchTarget(false);
+            setTarget(null);
+            setInvulnerability(true);
         }
 
-    }
-
-    /**
-     * Attempts 50 times to teleport the Netherman, checking if a position is favourable or not.
-     */
-
-    private void teleportAroundTarget() {
-        BlockPos bestPos = null;
-        Entity target = this.getTarget();
-        RandomSource random = this.getRandom();
-
-        for (int attempt = 0; attempt < 50 && target != null; attempt++) {
-            double angle = random.nextDouble() * 2 * Math.PI;
-            double distance = 5 + random.nextDouble() * 15;
-            double x = target.getX() + Math.cos(angle) * distance;
-            double z = target.getZ() + Math.sin(angle) * distance;
-            double y = target.getY() + (random.nextDouble() - 0.5) * 2;
-
-            BlockPos targetPos = new BlockPos((int) x, (int) y, (int) z);
-            if (TeleportValidator.isValidTeleportPosition(this, targetPos)) {
-                for (Player player : this.level().players()) {
-                    if (player instanceof ServerPlayer serverPlayer) {
-                        for (int u = 0; u < 20; ++u) {
-                            serverPlayer.connection.send(new ClientboundLevelParticlesPacket(
-                                    ParticleTypes.PORTAL,
-                                    true,
-                                    this.getRandomX(0.5D),
-                                    this.getRandomY() - 0.25D,
-                                    this.getRandomZ(0.5D),
-                                    (float) ((this.random.nextDouble() - 0.5D) * 2.0D),
-                                    (float) -this.random.nextDouble(),
-                                    0.2f,
-                                    0.0f,
-                                    1
-                            ));
-                        }
-                    }
-                }
-
-                this.level().playSound(null, this.blockPosition(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.BLOCKS, 1f, 1f);
-                this.teleportTo(x, y, z);
-                this.level().playSound(null, blockPosition(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.BLOCKS, 1f, 1f);
-                return;
-
-            } else if (bestPos == null || TeleportValidator.isBetterPosition(this, targetPos, bestPos)) {
-                bestPos = targetPos;
-            }
+        // Counter of the third phase animation
+        if (getPhase() == 3 && getCounterSwitchPhase3() < 160) {
+            setCounterSwitchPhase3(getCounterSwitchPhase3() + 1);
         }
+
+        // Restore atts after switching to third phase
+        if (getCounterSwitchPhase3() == 160 && !hasBeenSwitchedToPhase3) {
+            setShouldSearchTarget(true);
+            setNoMovement(false);
+            setInvulnerability(false);
+            hasBeenSwitchedToPhase3 = true;
+        }
+
     }
 
     @Override
-    public boolean hurt(@NotNull DamageSource pSource, float pAmount) {
-        if (getInvulnerability()
-                || ((pSource.is(DamageTypes.ON_FIRE) || pSource.is(DamageTypes.IN_FIRE) || pSource.is(DamageTypes.LAVA)) && this.getPhase() == 1)
-                || (pSource.is(DamageTypes.LIGHTNING_BOLT) && this.getPhase() == 3)
-                || ((pSource.is(DamageTypes.EXPLOSION) || pSource.is(DamageTypes.PLAYER_EXPLOSION)))
-                || (tickCount < 40))
-            return false;
-        else {
-
-            boolean isDamaged = super.hurt(pSource, pAmount);
-
-            // Prevents teleporting when the incoming source kills the Netherman
-
-            if (isDamaged && pAmount < this.getHealth() && getRandom().nextFloat() <= KQConfigValues.TELEPORT_PROBABILITY.getFloat()) {
-                teleportAroundTarget();
-            }
-
-            return isDamaged;
-
-        }
+    protected void dropCustomDeathLoot(ServerLevel pLevel, DamageSource pDamageSource, boolean pRecentlyHit) {
+        super.dropCustomDeathLoot(pLevel, pDamageSource, pRecentlyHit);
+        this.spawnAtLocation(new ItemStack(KnightQuestItems.CHAOTIC_ESSENCE.get()));
+        if (this.getRandom().nextFloat() < 0.1) this.spawnAtLocation(new ItemStack(KnightQuestItems.THE_ARCHITECT_OF_CHAOS_DISC.get()));
     }
 
     /**
-     * Restores the blocks converted into lava saved within then `changedBlocks` hashMap.
+     * Restores the blocks converted into lava saved within the `changedBlocks` hashMap.
      */
 
     private void restoreBlocks() {
@@ -323,12 +387,12 @@ public class NethermanEntity extends Monster implements GeoEntity {
     @Override
     public void die(@NotNull DamageSource pDamageSource) {
         super.die(pDamageSource);
-        if (KQConfigValues.RESTORE_BLOCKS_POST_DEATH.getBoolean())
+        if (KQConfigValues.RESTORE_BLOCKS_POST_DEATH.get() && this.level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING))
             restoreBlocks();
     }
 
     /**
-     * Saves every block state per `NethermanLavaTeleportGoal` executed.
+     * Saves every permuted block state per `NethermanLavaTeleportGoal` executed.
      */
 
     public void saveBlockState(BlockPos pos) {
@@ -338,86 +402,64 @@ public class NethermanEntity extends Monster implements GeoEntity {
         }
     }
 
-    public int getExplosionPower() {
-        return explosionPower;
+    @Override
+    public boolean hurt(@NotNull DamageSource pSource, float pAmount) {
+        if (getInvulnerability()
+                || ((pSource.is(DamageTypes.ON_FIRE) || pSource.is(DamageTypes.IN_FIRE) || pSource.is(DamageTypes.LAVA)) && this.getPhase() == 1)
+                    || (pSource.is(DamageTypes.LIGHTNING_BOLT) && this.getPhase() == 3)
+                        || ((pSource.is(DamageTypes.EXPLOSION) || pSource.is(DamageTypes.PLAYER_EXPLOSION)))
+                            || (tickCount < 40))
+            return false;
+        else {
+
+            boolean isDamaged = super.hurt(pSource, pAmount);
+
+            if (KQConfigValues.TELEPORT_ON_HIT.get()) teleport();
+
+            return isDamaged;
+
+        }
     }
 
-    public AnimationController<?> getPhaseController() {
-        return this.cache.getManagerForId(this.getId()).getAnimationControllers().get("phasecontroller");
+    protected boolean teleport() {
+        if (!this.level().isClientSide() && this.isAlive()) {
+            double d = this.getX() + (this.random.nextDouble() - 0.5) * 40.0;
+            double e = this.getY() + (double)(this.random.nextInt(64) - 32);
+            double f = this.getZ() + (this.random.nextDouble() - 0.5) * 40.0;
+            return this.teleport(d, e, f);
+        } else {
+            return false;
+        }
     }
 
-    /**
-     * Performs a "snowy" attack generating a bunch of particles. Also, freezes players in the line of sight of the Netherman.
-     */
+    private boolean teleport(double x, double y, double z) {
+        BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos(x, y, z);
 
-    private void winterStormAttack() {
-
-        double range = KQConfigValues.WINTER_STORM_RADIUS.getFloat();
-        AABB area = new AABB(this.getX() - range, this.getY() - range, this.getZ() - range, this.getX() + range, this.getY() + range, this.getZ() + range);
-        List<Player> players = this.level().getEntitiesOfClass(Player.class, area);
-
-        for (Player player : players) {
-            if (this.hasLineOfSight(player))
-                player.setTicksFrozen(player.getTicksFrozen() + KQConfigValues.FROZEN_TICKS.getInt());
+        while(mutableBlockPos.getY() > this.level().getMinBuildHeight() && !this.level().getBlockState(mutableBlockPos).blocksMotion()) {
+            mutableBlockPos.move(Direction.DOWN);
         }
 
-        int particleCount = KQConfigValues.SNOW_PARTICLE_COUNT.getInt();
-        double particleSpeed = KQConfigValues.SNOW_PARTICLE_SPEED.getFloat();
-        double time = this.tickCount / 20.0;
+        BlockState blockState = this.level().getBlockState(mutableBlockPos);
+        boolean bl = blockState.blocksMotion();
+        boolean bl2 = blockState.getFluidState().is(FluidTags.WATER);
+        if (bl && !bl2) {
+            Vec3 vec3 = this.position();
+            boolean bl3 = this.randomTeleport(x, y, z, true);
+            if (bl3) {
+                this.level().gameEvent(GameEvent.TELEPORT, vec3, GameEvent.Context.of(this));
+                this.level().playSound(null, this.xo, this.yo, this.zo, SoundEvents.ENDERMAN_TELEPORT, this.getSoundSource(), 1.0F, 1.0F);
+                this.playSound(SoundEvents.ENDERMAN_TELEPORT, 1.0F, 1.0F);
+            }
 
-        for (int i = 0; i < particleCount; i++) {
-            double offset = i * 0.1;
-
-            double angle = 2 * Math.PI * i / particleCount + time;
-
-            double velocityX = particleSpeed * Math.cos(angle + offset);
-            double velocityZ = particleSpeed * Math.sin(angle + offset);
-            double velocityY = 0.5 * Math.sin(2 * Math.PI * i / particleCount + time);
-
-            double particleX = this.getX();
-            double particleY = this.getY() + 2.2;
-            double particleZ = this.getZ();
-            this.level().addParticle(KnightQuestParticles.SNOWFLAKE_PARTICLE.get(), particleX, particleY, particleZ, velocityX, velocityY, velocityZ);
+            return bl3;
+        } else {
+            return false;
         }
-
-        if (tickCount % 4 == 0)
-            level().playLocalSound(blockPosition(), SoundEvents.WARDEN_ATTACK_IMPACT, SoundSource.BLOCKS, 1f, 1f, false);
-    }
-
-    /**
-     * Prevents the entity from moving per tick.
-     */
-
-    public void setNoMovement(boolean noMovement) {
-        this.noMovement = noMovement;
     }
 
     @Override
     protected SoundEvent getDeathSound() {
         return SoundEvents.WARDEN_DEATH;
-    }
-
-    /**
-     * Generates a lighting that won't land on the Netherman itself but in a random position.
-     */
-
-    private void summonLightning() {
-        Random random = new Random();
-        double offsetX, offsetZ;
-        BlockPos lightningPos;
-
-        do {
-            offsetX = (random.nextDouble() - 0.5) * 2 * 20;
-            offsetZ = (random.nextDouble() - 0.5) * 2 * 20;
-            lightningPos = this.blockPosition().offset((int) offsetX, 0, (int) offsetZ);
-        } while (lightningPos.closerThan(this.blockPosition(), 2));
-
-        if (this.level() instanceof ServerLevel serverLevel) {
-            LightningBolt lightningBolt = EntityType.LIGHTNING_BOLT.create(serverLevel);
-            assert lightningBolt != null;
-            lightningBolt.moveTo(lightningPos.getX(), lightningPos.getY(), lightningPos.getZ());
-            serverLevel.addFreshEntity(lightningBolt);
-        }
     }
 
     /**
@@ -428,94 +470,119 @@ public class NethermanEntity extends Monster implements GeoEntity {
     protected void tickDeath() {
         ++this.deathTime;
 
-        if (!weatherReverted && this.level() instanceof ServerLevel serverLevel) {
-            serverLevel.setWeatherParameters(0, 0, false, false);
-            weatherReverted = !weatherReverted;
-        }
-
         if (this.level() instanceof ServerLevel) {
-            if (this.deathTime > 0 && this.deathTime % 5 == 0) {
-                ExperienceOrb.award((ServerLevel) this.level(), this.position(), Mth.floor((float) KQConfigValues.EXPERIENCE_DROP_AMOUNT.getInt() * 0.08F));
-
+            if (this.deathTime > 0 && this.deathTime % 10 == 0) {
+                ExperienceOrb.award((ServerLevel) this.level(), this.position(), Mth.floor((float) KQConfigValues.EXPERIENCE_DROP_AMOUNT.get() * 0.08F));
             }
         }
 
-        if (this.deathTime >= 40 && !this.level().isClientSide() && !this.isRemoved()) {
+        if (this.deathTime >= 80 && !this.level().isClientSide() && !this.isRemoved()) {
             this.level().broadcastEntityEvent(this, (byte)60);
             this.remove(RemovalReason.KILLED);
         }
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
-        super.defineSynchedData(pBuilder);
-        pBuilder.define(PHASE, (byte) 1);
-        pBuilder.define(DATA_IS_CHARGING, false);
-        pBuilder.define(INVULNERABLE, false);
-        pBuilder.define(IS_ATTACKING, false);
+    public void readAdditionalSaveData(@NotNull CompoundTag pCompound) {
+        super.readAdditionalSaveData(pCompound);
+
+        this.tickCount = pCompound.getInt("tickCount");
+
+        if (!pCompound.contains("shouldPlaySummonAnimation")) {
+            this.setIsSummoning(true);
+        } else {
+            this.setIsSummoning(pCompound.getBoolean("shouldPlaySummonAnimation"));
+        }
+
+        if (!pCompound.contains("shouldSearchTarget")) {
+            this.setShouldSearchTarget(false);
+        } else {
+            this.setShouldSearchTarget(pCompound.getBoolean("shouldSearchTarget"));
+        }
+
+        if (!pCompound.contains("isInvulnerable")) {
+            this.setInvulnerability(true);
+        } else {
+            this.setInvulnerability(pCompound.getBoolean("isInvulnerable"));
+        }
+
+        if (!pCompound.contains("isNoMovement")) {
+            this.setNoMovement(true);
+        } else {
+            this.setNoMovement(pCompound.getBoolean("isNoMovement"));
+        }
+
+        this.setCounterSwitchPhase2(pCompound.getInt("counterSwitchPhase2"));
+        this.setCounterSwitchPhase3(pCompound.getInt("counterSwitchPhase3"));
+
+        if (!pCompound.contains("phase")) {
+            this.setPhase(1);
+        } else {
+            this.setPhase(pCompound.getInt("phase"));
+        }
+
+        if (this.hasCustomName()) {
+            this.bossInfo.setName(this.getDisplayName());
+        }
+
     }
 
     @Override
-    public void readAdditionalSaveData(@NotNull CompoundTag pCompound) {
-        super.readAdditionalSaveData(pCompound);
-        if (this.hasCustomName()) {
-            this.bossInfo.setName(Objects.requireNonNull(this.getDisplayName()));
-        }
+    public void addAdditionalSaveData(@NotNull CompoundTag pCompound) {
+        super.addAdditionalSaveData(pCompound);
 
-        if (pCompound.contains("ExplosionPower", 99)) {
-            this.explosionPower = pCompound.getByte("ExplosionPower");
-        }
+        pCompound.putInt("tickCount", this.tickCount);
+        pCompound.putBoolean("shouldPlaySummonAnimation", this.getIsSummoning());
+        pCompound.putBoolean("shouldSearchTarget", this.getShouldSearchTarget());
+        pCompound.putBoolean("isInvulnerable", this.getInvulnerability());
+        pCompound.putBoolean("isNoMovement", this.getNoMovement());
+        pCompound.putInt("counterSwitchPhase2", this.getCounterSwitchPhase2());
+        pCompound.putInt("counterSwitchPhase3", this.getCounterSwitchPhase3());
+        pCompound.putInt("phase", this.getPhase());
+    }
+
+    @Override
+    public void setCustomName(@Nullable Component pName) {
+        super.setCustomName(pName);
+        this.bossInfo.setName(this.getDisplayName());
+    }
+
+    public void startSeenByPlayer(@NotNull ServerPlayer pPlayer) {
+        super.startSeenByPlayer(pPlayer);
+        this.bossInfo.addPlayer(pPlayer);
+    }
+
+    public void stopSeenByPlayer(@NotNull ServerPlayer pPlayer) {
+        super.stopSeenByPlayer(pPlayer);
+        this.bossInfo.removePlayer(pPlayer);
     }
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "controller", 0, this::predicate));
-        controllers.add(new AnimationController<>(this, "attackcontroller", 0, this::attackPredicate));
-        controllers.add(new AnimationController<>(this, "phasecontroller", 0, this::secondPhasePredicate));
-        controllers.add(new AnimationController<>(this, "rotationcontroller", 0, this::rotationPredicate));
-        controllers.add(new AnimationController<>(this, "deadcontroller", 0, this::deadPredicate));
+        controllers.add(new AnimationController<>(this, "movementController", this::movementPredicate));
+        controllers.add(new AnimationController<>(this, "attackController", this::attackPredicate));
     }
 
-    private PlayState deadPredicate(AnimationState<?> event) {
+    private <E extends GeoAnimatable> PlayState movementPredicate(AnimationState<E> event) {
 
-        if (this.isDeadOrDying()) {
-            event.getController().setAnimation(RawAnimation.begin().then("dead", Animation.LoopType.PLAY_ONCE));
-        }
-
-        return PlayState.CONTINUE;
-
-    }
-
-    private PlayState rotationPredicate(AnimationState<?> event) {
-
-        if (this.getHealth() < this.getMaxHealth() * 0.66F && !hasChangedPhase) {
-            event.getController().forceAnimationReset();
-            event.getController().setAnimation(RawAnimation.begin().then("rotation", Animation.LoopType.PLAY_ONCE));
-        }
-
-        return PlayState.CONTINUE;
-
-    }
-
-    private PlayState secondPhasePredicate(AnimationState<?> event) {
-
-        if (this.getHealth() < this.getMaxHealth() * 0.33F && !hasChangedSecondPhase) {
-            event.getController().setAnimation(RawAnimation.begin().then("phase_switch", Animation.LoopType.PLAY_ONCE));
-        }
-
-        return PlayState.CONTINUE;
-
-    }
-
-    private PlayState predicate(AnimationState<?> event) {
-
-        if (getIsAttacking() && (getHealth() > getMaxHealth() * 0.70 || (getHealth() < getMaxHealth() * 0.60 && getHealth() > getMaxHealth() * 0.45) || getHealth() < getMaxHealth() * 0.30)) {
-            event.getController().setAnimation(RawAnimation.begin().then("teleport_charge", Animation.LoopType.PLAY_ONCE));
-        }
-        else if (event.isMoving()) {
-            event.getController().setAnimation(RawAnimation.begin().then("walk", Animation.LoopType.LOOP));
+        if (isDeadOrDying()) {
+            event.getController().setAnimation(DEATH);
+        } else if (getIsSummoning()) {
+            event.getController().setAnimation(SUMMONANIM);
+        } else if (getCounterSwitchPhase3() < 160 && getPhase() == 3) {
+            event.getController().setAnimation(PHASE_SWITCH_3);
+        } else if (getCounterSwitchPhase2() < 130 && getPhase() == 2) {
+            event.getController().setAnimation(PHASE_SWITCH_2);
+        } else if (getIsDoingSpecialAttack3()) {
+            event.getController().setAnimation(SPECIALATTACK3ANIM);
+        } else if (getIsDoingSpecialAttack2()) {
+            event.getController().setAnimation(SPECIALATTACK2ANIM);
+        } else if (getIsDoingFlameAttack()) {
+            event.getController().setAnimation(SPECIALATTACKANIM);
+        } else if (event.isMoving()) {
+            event.getController().setAnimation(WALKANIM);
         } else {
-            event.getController().setAnimation(RawAnimation.begin().then("idle", Animation.LoopType.LOOP));
+            event.getController().setAnimation(IDLEANIM);
         }
 
         return PlayState.CONTINUE;
@@ -527,20 +594,13 @@ public class NethermanEntity extends Monster implements GeoEntity {
         if (this.swinging && event.getController().getAnimationState().equals(AnimationController.State.STOPPED)) {
             event.getController().forceAnimationReset();
 
-            // Lower probability for the special attack
-
             String attackPattern = switch (random.nextInt(11)) {
-                case 0, 1, 2 -> "attack";
                 case 3, 4, 5 -> "attack2";
                 case 6, 7, 8 -> "attack3";
-                default -> "specialAttack";
+                default -> "attack";
             };
 
-            if (attackPattern.equals("specialAttack") && getPhase() != 3 && (getHealth() > getMaxHealth() * 0.70 || (getHealth() < getMaxHealth() * 0.60 && getHealth() > getMaxHealth() * 0.4))) {
-                specialAttack = true;
-                event.getController().setAnimation(RawAnimation.begin().then("attack_teleport1", Animation.LoopType.PLAY_ONCE).then("attack_teleport2", Animation.LoopType.PLAY_ONCE));
-            } else
-                event.getController().setAnimation(RawAnimation.begin().then(attackPattern, Animation.LoopType.PLAY_ONCE));
+            event.getController().setAnimation(RawAnimation.begin().thenPlay(attackPattern));
 
             this.swinging = false;
         }
@@ -551,22 +611,6 @@ public class NethermanEntity extends Monster implements GeoEntity {
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
         return cache;
-    }
-
-    @Override
-    public void setCustomName(@Nullable Component pName) {
-        super.setCustomName(pName);
-        this.bossInfo.setName(Objects.requireNonNull(this.getDisplayName()));
-    }
-
-    public void startSeenByPlayer(@NotNull ServerPlayer pPlayer) {
-        super.startSeenByPlayer(pPlayer);
-        this.bossInfo.addPlayer(pPlayer);
-    }
-
-    public void stopSeenByPlayer(@NotNull ServerPlayer pPlayer) {
-        super.stopSeenByPlayer(pPlayer);
-        this.bossInfo.removePlayer(pPlayer);
     }
 
 }

@@ -37,44 +37,44 @@ public class KQArmorItem extends ArmorItem {
      */
 
     public enum ArmorSet {
-        DEEPSLATE(KQConfigValues.DEEPSLATESET.getBoolean()),
-        EVOKER(KQConfigValues.EVOKERSET.getBoolean()),
-        SQUIRE(KQConfigValues.SQUIRESET.getBoolean()),
-        BLAZE(KQConfigValues.BLAZESET.getBoolean()),
-        DRAGON(KQConfigValues.DRAGONSET.getBoolean()),
-        BAMBOO_GREEN(KQConfigValues.BAMBOOSET_GREEN.getBoolean()),
-        SHINOBI(KQConfigValues.SHINOBI.getBoolean()),
-        BAMBOO(KQConfigValues.BAMBOOSET.getBoolean()),
-        PATH(KQConfigValues.PATHSET.getBoolean()),
-        BOW(KQConfigValues.BOWSET.getBoolean()),
-        BAT(KQConfigValues.BATSET.getBoolean()),
-        SHIELD(KQConfigValues.SHIELDSET.getBoolean()),
-        PHANTOM(KQConfigValues.PHANTOMSET.getBoolean()),
-        HORN(KQConfigValues.HORNSET.getBoolean()),
-        SEA(KQConfigValues.SEASET.getBoolean()),
-        PIRATE(KQConfigValues.PIRATESET.getBoolean()),
-        SPIDER(KQConfigValues.SPIDERSET.getBoolean()),
-        NETHER(KQConfigValues.NETHERSET.getBoolean()),
-        SKULK(KQConfigValues.SKULK.getBoolean()),
-        STRAWHAT(KQConfigValues.STRAWHATSET.getBoolean()),
-        ENDERMAN(KQConfigValues.ENDERMANSET.getBoolean()),
-        VETERAN(KQConfigValues.VETERANSET.getBoolean()),
-        FORZE(KQConfigValues.FORZESET.getBoolean()),
-        CREEPER(KQConfigValues.CREEPERSET.getBoolean()),
-        POLAR(KQConfigValues.POLAR.getBoolean()),
-        SILVER(KQConfigValues.SILVERSET.getBoolean()),
-        HOLLOW(KQConfigValues.HOLLOWSET.getBoolean()),
-        WITHER(KQConfigValues.WITHERSET.getBoolean()),
-        APPLE(KQConfigValues.APPLE_SET.getBoolean()),
-        CONQUISTADOR(KQConfigValues.CONQUISTADORSET.getBoolean()),
-        WITCH(KQConfigValues.WITCH.getBoolean()),
-        TENGU(KQConfigValues.TENGU_HELMET.getBoolean()),
-        HUSK(KQConfigValues.HUSKSET.getBoolean()),
-        BAMBOO_BLUE(KQConfigValues.BAMBOOSET_BLUE.getBoolean()),
-        WARLORD(KQConfigValues.WARLORDSET.getBoolean()),
-        ZOMBIE(KQConfigValues.ZOMBIESET.getBoolean()),
-        SILVERFISH(KQConfigValues.SILVERFISHSET.getBoolean()),
-        SKELETON(KQConfigValues.SKELETONSET.getBoolean());
+        DEEPSLATE(KQConfigValues.DEEPSLATESET.get()),
+        EVOKER(KQConfigValues.EVOKERSET.get()),
+        SQUIRE(KQConfigValues.SQUIRESET.get()),
+        BLAZE(KQConfigValues.BLAZESET.get()),
+        DRAGON(KQConfigValues.DRAGONSET.get()),
+        BAMBOO_GREEN(KQConfigValues.BAMBOOSET_GREEN.get()),
+        SHINOBI(KQConfigValues.SHINOBI.get()),
+        BAMBOO(KQConfigValues.BAMBOOSET.get()),
+        PATH(KQConfigValues.PATHSET.get()),
+        BOW(KQConfigValues.BOWSET.get()),
+        BAT(KQConfigValues.BATSET.get()),
+        SHIELD(KQConfigValues.SHIELDSET.get()),
+        PHANTOM(KQConfigValues.PHANTOMSET.get()),
+        HORN(KQConfigValues.HORNSET.get()),
+        SEA(KQConfigValues.SEASET.get()),
+        PIRATE(KQConfigValues.PIRATESET.get()),
+        SPIDER(KQConfigValues.SPIDERSET.get()),
+        NETHER(KQConfigValues.NETHERSET.get()),
+        SKULK(KQConfigValues.SKULK.get()),
+        STRAWHAT(KQConfigValues.STRAWHATSET.get()),
+        ENDERMAN(KQConfigValues.ENDERMANSET.get()),
+        VETERAN(KQConfigValues.VETERANSET.get()),
+        FORZE(KQConfigValues.FORZESET.get()),
+        CREEPER(KQConfigValues.CREEPERSET.get()),
+        POLAR(KQConfigValues.POLAR.get()),
+        SILVER(KQConfigValues.SILVERSET.get()),
+        HOLLOW(KQConfigValues.HOLLOWSET.get()),
+        WITHER(KQConfigValues.WITHERSET.get()),
+        APPLE(KQConfigValues.APPLE_SET.get()),
+        CONQUISTADOR(KQConfigValues.CONQUISTADORSET.get()),
+        WITCH(KQConfigValues.WITCH.get()),
+        TENGU(KQConfigValues.TENGU_HELMET.get()),
+        HUSK(KQConfigValues.HUSKSET.get()),
+        BAMBOO_BLUE(KQConfigValues.BAMBOOSET_BLUE.get()),
+        WARLORD(KQConfigValues.WARLORDSET.get()),
+        ZOMBIE(KQConfigValues.ZOMBIESET.get()),
+        SILVERFISH(KQConfigValues.SILVERFISHSET.get()),
+        SKELETON(KQConfigValues.SKELETONSET.get());
 
         private final Boolean configValue;
 
@@ -141,7 +141,7 @@ public class KQArmorItem extends ArmorItem {
 
             UUID playerUUID = player.getUUID();
 
-            if (KQConfigValues.PATHSET.getBoolean())
+            if (KQConfigValues.PATHSET.get())
                 if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.PATHSET) && level.isDay()) {
                     if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new HashMap<>()).getOrDefault(KQArmorMaterials.PATHSET, false))) {
                         player.addEffect(PATH_ARMOR);
@@ -154,7 +154,7 @@ public class KQArmorItem extends ArmorItem {
                     }
                 }
 
-            if (KQConfigValues.BOWSET.getBoolean())
+            if (KQConfigValues.BOWSET.get())
                 if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.BOWSET) && player.getMainHandItem().getItem() instanceof ProjectileWeaponItem) {
                     if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new HashMap<>()).getOrDefault(KQArmorMaterials.BOWSET, false))) {
                         player.addEffect(BOW_ARMOR);
@@ -167,7 +167,7 @@ public class KQArmorItem extends ArmorItem {
                     }
                 }
 
-            if (KQConfigValues.BATSET.getBoolean())
+            if (KQConfigValues.BATSET.get())
                 if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.BATSET) && level.isNight()) {
                     if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new HashMap<>()).getOrDefault(KQArmorMaterials.BATSET, false))) {
                         player.addEffect(BAT_ARMOR);
@@ -180,7 +180,7 @@ public class KQArmorItem extends ArmorItem {
                     }
                 }
 
-            if (KQConfigValues.SHIELDSET.getBoolean())
+            if (KQConfigValues.SHIELDSET.get())
                 if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.SHIELDSET)) {
                     if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new HashMap<>()).getOrDefault(KQArmorMaterials.SHIELDSET, false))) {
                         player.addEffect(SHIELD_ARMOR);
@@ -193,7 +193,7 @@ public class KQArmorItem extends ArmorItem {
                     }
                 }
 
-            if (KQConfigValues.PHANTOMSET.getBoolean())
+            if (KQConfigValues.PHANTOMSET.get())
                 if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.PHANTOMSET) && level.isNight()) {
                     if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new HashMap<>()).getOrDefault(KQArmorMaterials.PHANTOMSET, false))) {
                         player.addEffect(PHANTOM_ARMOR);
@@ -206,7 +206,7 @@ public class KQArmorItem extends ArmorItem {
                     }
                 }
 
-            if (KQConfigValues.HORNSET.getBoolean())
+            if (KQConfigValues.HORNSET.get())
                 if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.HORNSET) && player.getLastAttacker() != null) {
                     if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new HashMap<>()).getOrDefault(KQArmorMaterials.HORNSET, false))) {
                         player.addEffect(HORN_ARMOR);
@@ -219,7 +219,7 @@ public class KQArmorItem extends ArmorItem {
                     }
                 }
 
-            if (KQConfigValues.SEASET.getBoolean())
+            if (KQConfigValues.SEASET.get())
                 if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.SEASET) && player.isUnderWater()) {
                     if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new HashMap<>()).getOrDefault(KQArmorMaterials.SEASET, false))) {
                         player.addEffect(SEA_ARMOR);
@@ -232,7 +232,7 @@ public class KQArmorItem extends ArmorItem {
                     }
                 }
 
-            if (KQConfigValues.PIRATESET.getBoolean())
+            if (KQConfigValues.PIRATESET.get())
                 if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.PIRATESET)) {
                     if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new HashMap<>()).getOrDefault(KQArmorMaterials.PIRATESET, false))) {
                         player.addEffect(PIRATE_ARMOR);
@@ -245,7 +245,7 @@ public class KQArmorItem extends ArmorItem {
                     }
                 }
 
-            if (KQConfigValues.SPIDERSET.getBoolean())
+            if (KQConfigValues.SPIDERSET.get())
                 if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.SPIDERSET) && player.isShiftKeyDown()) {
                     if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new HashMap<>()).getOrDefault(KQArmorMaterials.SPIDERSET, false))) {
                         player.addEffect(SPIDER_ARMOR);
@@ -258,7 +258,7 @@ public class KQArmorItem extends ArmorItem {
                     }
                 }
 
-            if (KQConfigValues.NETHERSET.getBoolean())
+            if (KQConfigValues.NETHERSET.get())
                 if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.NETHERSET)) {
                     if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new HashMap<>()).getOrDefault(KQArmorMaterials.NETHERSET, false))) {
                         player.addEffect(NETHER_ARMOR);
@@ -271,8 +271,8 @@ public class KQArmorItem extends ArmorItem {
                     }
                 }
 
-            if (KQConfigValues.SKULK.getBoolean())
-                if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.SKULK) && player.level().getMaxLocalRawBrightness(player.blockPosition()) <= KQConfigValues.SKULK_MAX_LIGHT_LEVEL.getInt()) {
+            if (KQConfigValues.SKULK.get())
+                if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.SKULK) && player.level().getMaxLocalRawBrightness(player.blockPosition()) <= KQConfigValues.SKULK_MAX_LIGHT_LEVEL.get()) {
                     if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new HashMap<>()).getOrDefault(KQArmorMaterials.SKULK, false))) {
                         player.addEffect(SKULK_ARMOR);
                         effectAppliedByArmorMap.get(playerUUID).put(KQArmorMaterials.SKULK, true);
@@ -284,7 +284,7 @@ public class KQArmorItem extends ArmorItem {
                     }
                 }
 
-            if (KQConfigValues.STRAWHATSET.getBoolean())
+            if (KQConfigValues.STRAWHATSET.get())
                 if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.STRAWHATSET) && player.isUnderWater()) {
                     if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new HashMap<>()).getOrDefault(KQArmorMaterials.STRAWHATSET, false))) {
                         player.addEffect(STRAWHAT_ARMOR);

@@ -8,15 +8,14 @@ import dev.xylonity.knightquest.common.entity.entities.*;
 import dev.xylonity.knightquest.common.event.KQArmorEvents;
 import dev.xylonity.knightquest.common.event.KQExtraEvents;
 import dev.xylonity.knightquest.common.particle.*;
-import dev.xylonity.knightquest.common.particle.explosiveenhancement.*;
-import dev.xylonity.knightquest.common.particle.explosiveenhancement.blue.*;
-import dev.xylonity.knightquest.common.particle.explosiveenhancement.red.*;
 import dev.xylonity.knightquest.config.InitializeConfig;
 import dev.xylonity.knightquest.config.KnightQuestCommonConfigs;
 import dev.xylonity.knightquest.datagen.KQEntitySpawn;
 import dev.xylonity.knightquest.datagen.KQLootTableModifier;
+import dev.xylonity.knightquest.registry.KnightQuestCreativeModeTabs;
 import dev.xylonity.knightquest.registry.KnightQuestEntities;
 import dev.xylonity.knightquest.registry.KnightQuestParticles;
+import dev.xylonity.knightquest.registry.KnightQuestWeapons;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
@@ -36,6 +35,7 @@ public class KnightQuest implements ModInitializer, ClientModInitializer {
 
         KQEntitySpawn.register();
         KQLootTableModifier.register();
+        KnightQuestWeapons.init();
 
         if (FCAPChecker.isLoaded()) {
             KnightQuestCommon.LOGGER.info("[Knight Quest] The mod 'forgeconfigapiport' was detected, reading config file `knightquest.toml` for Knight Quest.");
@@ -50,6 +50,13 @@ public class KnightQuest implements ModInitializer, ClientModInitializer {
         ServerLivingEntityEvents.ALLOW_DAMAGE.register(new KQArmorEvents.OnHurtPlayerHandler());
         ServerEntityEvents.ENTITY_LOAD.register(new KQArmorEvents.OnEntityJoinWorldEvent());
         ServerLivingEntityEvents.AFTER_DEATH.register(new KQArmorEvents.OnEntityDeathWorldEvent());
+
+        KnightQuestCreativeModeTabs.registerWeaponItem(() -> KnightQuestWeapons.PALADIN_SWORD);
+        KnightQuestCreativeModeTabs.registerWeaponItem(() -> KnightQuestWeapons.KHOPESH);
+        KnightQuestCreativeModeTabs.registerWeaponItem(() -> KnightQuestWeapons.CLEAVER);
+        KnightQuestCreativeModeTabs.registerWeaponItem(() -> KnightQuestWeapons.KUKRI);
+        KnightQuestCreativeModeTabs.registerWeaponItem(() -> KnightQuestWeapons.UCHIGATANA);
+        KnightQuestCreativeModeTabs.registerWeaponItem(() -> KnightQuestWeapons.NAIL);
 
         FabricDefaultAttributeRegistry.register(KnightQuestEntities.GREMLIN.get(), GremlinEntity.setAttributes());
         FabricDefaultAttributeRegistry.register(KnightQuestEntities.ELDBOMB.get(), EldBombEntity.setAttributes());
@@ -76,25 +83,6 @@ public class KnightQuest implements ModInitializer, ClientModInitializer {
         ParticleFactoryRegistry.getInstance().register(KnightQuestParticles.POISON_CLOUD_PARTICLE.get(), PoisonCloudParticle.Provider::new);
         ParticleFactoryRegistry.getInstance().register(KnightQuestParticles.POISON_PARTICLE.get(), PoisonParticle.Provider::new);
 
-        ParticleFactoryRegistry.getInstance().register(KnightQuestParticles.BLASTWAVE.get(), BlastWaveParticle.Provider::new);
-
-        ParticleFactoryRegistry.getInstance().register(KnightQuestParticles.BLUEBLASTWAVE.get(), BlueBlastWaveParticle.Provider::new);
-        ParticleFactoryRegistry.getInstance().register(KnightQuestParticles.REDBLASTWAVE.get(), RedBlastWaveParticle.Provider::new);
-
-        ParticleFactoryRegistry.getInstance().register(KnightQuestParticles.FIREBALL.get(), FireballParticle.Provider::new);
-
-        ParticleFactoryRegistry.getInstance().register(KnightQuestParticles.REDFIREBALL.get(), RedFireballParticle.Provider::new);
-        ParticleFactoryRegistry.getInstance().register(KnightQuestParticles.BLUEFIREBALL.get(), BlueFireballParticle.Provider::new);
-
-        ParticleFactoryRegistry.getInstance().register(KnightQuestParticles.BLANK_FIREBALL.get(), FireballParticle.Provider::new);
-        ParticleFactoryRegistry.getInstance().register(KnightQuestParticles.SMOKE.get(), SmokeParticle.Provider::new);
-        ParticleFactoryRegistry.getInstance().register(KnightQuestParticles.SPARKS.get(), SparksParticle.Provider::new);
-        ParticleFactoryRegistry.getInstance().register(KnightQuestParticles.BUBBLE.get(), BubbleParticle.Provider::new);
-        ParticleFactoryRegistry.getInstance().register(KnightQuestParticles.SHOCKWAVE.get(), ShockwaveParticle.Provider::new);
-        ParticleFactoryRegistry.getInstance().register(KnightQuestParticles.BLANK_SHOCKWAVE.get(), ShockwaveParticle.Provider::new);
-        ParticleFactoryRegistry.getInstance().register(KnightQuestParticles.UNDERWATERBLASTWAVE.get(), UnderwaterBlastwaveParticle.Provider::new);
-        ParticleFactoryRegistry.getInstance().register(KnightQuestParticles.UNDERWATERSPARKS.get(), UnderwaterSparksParticle.Provider::new);
-
         EntityRendererRegistry.register(KnightQuestEntities.GREMLIN.get(), GremlinRenderer::new);
         EntityRendererRegistry.register(KnightQuestEntities.ELDBOMB.get(), EldBombRenderer::new);
         EntityRendererRegistry.register(KnightQuestEntities.SAMHAIN.get(), SamhainRenderer::new);
@@ -107,7 +95,7 @@ public class KnightQuest implements ModInitializer, ClientModInitializer {
         EntityRendererRegistry.register(KnightQuestEntities.SHIELD.get(), ShieldRenderer::new);
         EntityRendererRegistry.register(KnightQuestEntities.NETHERMAN.get(), NethermanRenderer::new);
         EntityRendererRegistry.register(KnightQuestEntities.NETHERMAN_CLONE.get(), NethermanCloneRenderer::new);
-        EntityRendererRegistry.register(KnightQuestEntities.NETHERMAN_TELEPORT_CHARGE.get(), NethermanTeleportChargeRenderer::new);
+        EntityRendererRegistry.register(KnightQuestEntities.NETHERMAN_PROJECTILE_CHARGE.get(), NethermanProjectileChargeRenderer::new);
         EntityRendererRegistry.register(KnightQuestEntities.SWAMPMAN_AXE.get(), SwampmanAxeRenderer::new);
 
         KQArmorEvents.ClientEventHandlers.registerClientEvents();

@@ -52,11 +52,11 @@ public class KQAddItemModifier extends LootModifier {
             }
         }
 
-        if (item == KnightQuestItems.RATMAN_EYE.get() && new Random().nextFloat() <= KQConfigValues.DROP_CHANCE_RATMAN_EYE.getFloat()) {
+        if (item == KnightQuestItems.RATMAN_EYE.get() && new Random().nextFloat() <= KQConfigValues.DROP_CHANCE_RATMAN_EYE.get().floatValue()) {
             generatedLoot.add(new ItemStack(this.item));
         }
 
-        if (item == KnightQuestItems.LIZZY_SCALE.get() && new Random().nextFloat() <= KQConfigValues.DROP_CHANCE_LIZZY_SCALE.getFloat()) {
+        if (item == KnightQuestItems.LIZZY_SCALE.get() && new Random().nextFloat() <= KQConfigValues.DROP_CHANCE_LIZZY_SCALE.get().floatValue()) {
             generatedLoot.add(new ItemStack(this.item));
         }
 

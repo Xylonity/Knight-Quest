@@ -35,6 +35,13 @@ public class NethermanCloneRenderer extends GeoEntityRenderer<NethermanCloneEnti
     }
 
     @Override
+    protected void applyRotations(NethermanCloneEntity animatable, PoseStack poseStack, float ageInTicks, float rotationYaw, float partialTick, float nativeScale) {
+        rotationYaw += (float)(Math.sin(3 * animatable.getRandom().nextInt(-100, 100)) * 2.5);
+
+        super.applyRotations(animatable, poseStack, ageInTicks, rotationYaw, partialTick, nativeScale);
+    }
+
+    @Override
     public void render(@NotNull NethermanCloneEntity entity, float entityYaw, float partialTick, PoseStack poseStack,
                        @NotNull MultiBufferSource bufferSource, int packedLight) {
 

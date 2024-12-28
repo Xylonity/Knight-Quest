@@ -3,7 +3,7 @@ package dev.xylonity.knightquest.registry;
 import dev.xylonity.knightquest.KnightQuestCommon;
 import dev.xylonity.knightquest.common.entity.boss.NethermanCloneEntity;
 import dev.xylonity.knightquest.common.entity.boss.NethermanEntity;
-import dev.xylonity.knightquest.common.entity.boss.NethermanTeleportChargeEntity;
+import dev.xylonity.knightquest.common.entity.boss.NethermanProjectileChargeEntity;
 import dev.xylonity.knightquest.common.entity.entities.*;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -31,7 +31,7 @@ public class KnightQuestEntities {
     public static final Supplier<EntityType<GhostyEntity>> GHOSTY;
     public static final Supplier<EntityType<NethermanEntity>> NETHERMAN;
     public static final Supplier<EntityType<NethermanCloneEntity>> NETHERMAN_CLONE;
-    public static final Supplier<EntityType<NethermanTeleportChargeEntity>> NETHERMAN_TELEPORT_CHARGE;
+    public static final Supplier<EntityType<NethermanProjectileChargeEntity>> NETHERMAN_PROJECTILE_CHARGE;
     public static final Supplier<EntityType<SwampmanAxeEntity>> SWAMPMAN_AXE;
 
     static {
@@ -48,7 +48,7 @@ public class KnightQuestEntities {
         GHOSTY = register("ghosty", GhostyEntity::new, MobCategory.MONSTER, 1f, 1f);
         NETHERMAN = register("netherman", NethermanEntity::new, MobCategory.MONSTER, 0.8f, 2.8f);
         NETHERMAN_CLONE = register("netherman_clone", NethermanCloneEntity::new, MobCategory.MONSTER, 0.8f, 2.8f);
-        NETHERMAN_TELEPORT_CHARGE = register("netherman_teleport_charge", NethermanTeleportChargeEntity::new, MobCategory.MISC, 0.5f, 0.5f);
+        NETHERMAN_PROJECTILE_CHARGE = register("netherman_projectile_charge", NethermanProjectileChargeEntity::new, MobCategory.MISC, 0.5f, 0.5f);
         SWAMPMAN_AXE = register("swampman_axe", SwampmanAxeEntity::new, MobCategory.MISC, 0.3f, 1f);
     }
 

@@ -33,10 +33,6 @@ public class NethermanAttackGoal extends Goal {
         this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
     }
 
-    /**
-     * Returns whether execution should begin. You can also read and cache any state necessary for execution in this
-     * method as well.
-     */
     public boolean canUse() {
         long i = this.mob.level().getGameTime();
         if (i - this.lastCanUseCheck < 20L) {
@@ -49,28 +45,12 @@ public class NethermanAttackGoal extends Goal {
             } else if (!livingentity.isAlive()) {
                 return false;
             } else {
-                if (canPenalize) {
-                    if (--this.ticksUntilNextPathRecalculation <= 0) {
-                        this.path = this.mob.getNavigation().createPath(livingentity, 0);
-                        this.ticksUntilNextPathRecalculation = 4 + this.mob.getRandom().nextInt(7);
-                        return this.path != null;
-                    } else {
-                        return true;
-                    }
-                }
                 this.path = this.mob.getNavigation().createPath(livingentity, 0);
-                if (this.path != null) {
-                    return true;
-                } else {
-                    return this.getAttackReachSqr(livingentity) >= this.mob.distanceToSqr(livingentity.getX(), livingentity.getY(), livingentity.getZ());
-                }
+                return this.path != null ? true : this.mob.isWithinMeleeAttackRange(livingentity);
             }
         }
     }
 
-    /**
-     * Returns whether an in-progress EntityAIBase should continue executing
-     */
     public boolean canContinueToUse() {
         LivingEntity livingentity = this.mob.getTarget();
         if (livingentity == null) {
@@ -79,16 +59,11 @@ public class NethermanAttackGoal extends Goal {
             return false;
         } else if (!this.followingTargetEvenIfNotSeen) {
             return !this.mob.getNavigation().isDone();
-        } else if (!this.mob.isWithinRestriction(livingentity.blockPosition())) {
-            return false;
         } else {
-            return !(livingentity instanceof Player) || !livingentity.isSpectator() && !((Player)livingentity).isCreative();
+            return !this.mob.isWithinRestriction(livingentity.blockPosition()) ? false : !(livingentity instanceof Player) || !livingentity.isSpectator() && !((Player)livingentity).isCreative();
         }
     }
 
-    /**
-     * Execute a one shot task or start executing a continuous task
-     */
     public void start() {
         this.mob.getNavigation().moveTo(this.path, this.speedModifier);
         this.mob.setAggressive(true);
@@ -96,9 +71,6 @@ public class NethermanAttackGoal extends Goal {
         this.ticksUntilNextAttack = 0;
     }
 
-    /**
-     * Reset the task's internal state. Called when this task is interrupted by another one
-     */
     public void stop() {
         LivingEntity livingentity = this.mob.getTarget();
         if (!EntitySelector.NO_CREATIVE_OR_SPECTATOR.test(livingentity)) {
@@ -113,40 +85,20 @@ public class NethermanAttackGoal extends Goal {
         return true;
     }
 
-    public double getPerceivedTargetDistanceSquareForMeleeAttack(LivingEntity pEntity) {
-        return Math.max(this.mob.distanceToSqr(pEntity.position()), this.mob.distanceToSqr(pEntity.position()));
-    }
-
-
-    /**
-     * Keep ticking a continuous task that has already been started
-     */
     public void tick() {
         LivingEntity livingentity = this.mob.getTarget();
         if (livingentity != null) {
             this.mob.getLookControl().setLookAt(livingentity, 30.0F, 30.0F);
-            double d0 = this.getPerceivedTargetDistanceSquareForMeleeAttack(livingentity);
             this.ticksUntilNextPathRecalculation = Math.max(this.ticksUntilNextPathRecalculation - 1, 0);
-            if ((this.followingTargetEvenIfNotSeen || this.mob.getSensing().hasLineOfSight(livingentity)) && this.ticksUntilNextPathRecalculation <= 0 && (this.pathedTargetX == 0.0D && this.pathedTargetY == 0.0D && this.pathedTargetZ == 0.0D || livingentity.distanceToSqr(this.pathedTargetX, this.pathedTargetY, this.pathedTargetZ) >= 1.0D || this.mob.getRandom().nextFloat() < 0.05F)) {
+            if ((this.followingTargetEvenIfNotSeen || this.mob.getSensing().hasLineOfSight(livingentity)) && this.ticksUntilNextPathRecalculation <= 0 && (this.pathedTargetX == 0.0 && this.pathedTargetY == 0.0 && this.pathedTargetZ == 0.0 || livingentity.distanceToSqr(this.pathedTargetX, this.pathedTargetY, this.pathedTargetZ) >= 1.0 || this.mob.getRandom().nextFloat() < 0.05F)) {
                 this.pathedTargetX = livingentity.getX();
                 this.pathedTargetY = livingentity.getY();
                 this.pathedTargetZ = livingentity.getZ();
                 this.ticksUntilNextPathRecalculation = 4 + this.mob.getRandom().nextInt(7);
-                if (this.canPenalize) {
-                    this.ticksUntilNextPathRecalculation += failedPathFindingPenalty;
-                    if (this.mob.getNavigation().getPath() != null) {
-                        net.minecraft.world.level.pathfinder.Node finalPathPoint = this.mob.getNavigation().getPath().getEndNode();
-                        if (finalPathPoint != null && livingentity.distanceToSqr(finalPathPoint.x, finalPathPoint.y, finalPathPoint.z) < 1)
-                            failedPathFindingPenalty = 0;
-                        else
-                            failedPathFindingPenalty += 10;
-                    } else {
-                        failedPathFindingPenalty += 10;
-                    }
-                }
-                if (d0 > 1024.0D) {
+                double d0 = this.mob.distanceToSqr(livingentity);
+                if (d0 > 1024.0) {
                     this.ticksUntilNextPathRecalculation += 10;
-                } else if (d0 > 256.0D) {
+                } else if (d0 > 256.0) {
                     this.ticksUntilNextPathRecalculation += 5;
                 }
 
@@ -158,16 +110,16 @@ public class NethermanAttackGoal extends Goal {
             }
 
             this.ticksUntilNextAttack = Math.max(this.ticksUntilNextAttack - 1, 0);
-            this.checkAndPerformAttack(livingentity, d0);
+            this.checkAndPerformAttack(livingentity);
         }
+
     }
 
-    protected void checkAndPerformAttack(LivingEntity pEnemy, double pDistToEnemySqr) {
-        double d0 = this.getAttackReachSqr(pEnemy);
-        if (pDistToEnemySqr <= d0 && this.ticksUntilNextAttack <= 0) {
+    protected void checkAndPerformAttack(LivingEntity pTarget) {
+        if (this.canPerformAttack(pTarget)) {
             this.resetAttackCooldown();
             this.mob.swing(InteractionHand.MAIN_HAND);
-            this.mob.doHurtTarget(pEnemy);
+            this.mob.doHurtTarget(pTarget);
         }
 
     }
@@ -180,6 +132,10 @@ public class NethermanAttackGoal extends Goal {
         return this.ticksUntilNextAttack <= 0;
     }
 
+    protected boolean canPerformAttack(LivingEntity pEntity) {
+        return this.isTimeToAttack() && this.mob.isWithinMeleeAttackRange(pEntity) && this.mob.getSensing().hasLineOfSight(pEntity);
+    }
+
     protected int getTicksUntilNextAttack() {
         return this.ticksUntilNextAttack;
     }
@@ -188,7 +144,4 @@ public class NethermanAttackGoal extends Goal {
         return this.adjustedTickDelay(20);
     }
 
-    protected double getAttackReachSqr(LivingEntity pAttackTarget) {
-        return (double)(this.mob.getBbWidth() * 2.0F * this.mob.getBbWidth() * 2.0F + pAttackTarget.getBbWidth());
-    }
 }

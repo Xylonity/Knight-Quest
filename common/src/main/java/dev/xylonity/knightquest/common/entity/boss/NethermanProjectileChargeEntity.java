@@ -1,7 +1,6 @@
 package dev.xylonity.knightquest.common.entity.boss;
 
 import dev.xylonity.knightquest.config.values.KQConfigValues;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
@@ -21,11 +20,6 @@ public class NethermanProjectileChargeEntity extends AbstractNethermanProjectile
         this.setNoGravity(true);
         this.explosionTimer = this.random.nextInt(100) + 20;
         if (!level().isClientSide) this.shouldGoDown = this.random.nextBoolean();
-    }
-
-    @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
-
     }
 
     @Override
@@ -49,7 +43,7 @@ public class NethermanProjectileChargeEntity extends AbstractNethermanProjectile
     }
 
     private void explode() {
-        this.level().explode(this, this.getX(), this.getY(), this.getZ(), KQConfigValues.NETHERMAN_PROJECTILE_EXPLOSION_RADIUS.get().floatValue(), Level.ExplosionInteraction.NONE);
+        this.level().explode(this, this.getX(), this.getY(), this.getZ(), KQConfigValues.NETHERMAN_PROJECTILE_EXPLOSION_RADIUS.get().floatValue(), Level.ExplosionInteraction.MOB);
         this.discard();
     }
 

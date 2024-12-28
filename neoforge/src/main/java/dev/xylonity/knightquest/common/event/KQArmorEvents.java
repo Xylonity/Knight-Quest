@@ -1,9 +1,16 @@
 package dev.xylonity.knightquest.common.event;
 
 import dev.xylonity.knightquest.KnightQuest;
+import dev.xylonity.knightquest.common.item.weapons.CleaverWeapon;
+import dev.xylonity.knightquest.common.item.weapons.KhopeshWeapon;
+import dev.xylonity.knightquest.common.item.weapons.NailWeapon;
+import dev.xylonity.knightquest.common.item.weapons.UchigatanaWeapon;
+import dev.xylonity.knightquest.registry.KnightQuestWeapons;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -17,6 +24,7 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.phys.Vec3;
@@ -61,6 +69,62 @@ public class KQArmorEvents {
 
         @SubscribeEvent
         public static void onLivingHurt(LivingIncomingDamageEvent event) {
+
+            // Kukri
+            if (event.getSource().getEntity() instanceof LivingEntity livingEntity) {
+                if (livingEntity.getMainHandItem().getItem() == KnightQuestWeapons.KUKRI.get() && KQConfigValues.KUKRI.get()) {
+                    event.getEntity().setTicksFrozen(event.getEntity().getTicksFrozen() + KQConfigValues.FREEZE_TICKS_KUKRI.get());
+                }
+            }
+
+            if (event.getSource().getEntity() instanceof Player player && event.getEntity() != null) {
+
+                ItemStack stack = player.getMainHandItem();
+
+                // Uchigatana
+                if (stack.getItem() instanceof UchigatanaWeapon && KQConfigValues.UCHIGATANA.get()) {
+
+                    CustomData customData = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
+                    CompoundTag dataTag = customData.copyTag();
+
+                    if (dataTag.getBoolean("ShouldDoActiveAttack")) {
+                        dataTag.putBoolean("ShouldDoActiveAttack", false);
+                        event.setAmount(event.getAmount() + event.getAmount() * KQConfigValues.EXTRA_DAMAGE_UCHIGATANA.get().floatValue());
+                        event.getEntity().addEffect(new MobEffectInstance(MobEffects.DARKNESS, 80, 1, false, false));
+                    }
+                    if (event.getEntity().getHealth() < KQConfigValues.ENEMY_HEALTH_PASSIVE_UCHIGATANA.get().floatValue() * event.getEntity().getMaxHealth()) {
+                        event.setAmount(event.getAmount() + event.getAmount() * KQConfigValues.EXTRA_DAMAGE_PASSIVE_UCHIGATANA.get().floatValue());
+                    }
+                }
+
+                // Cleaver
+                if (stack.getItem() instanceof CleaverWeapon && KQConfigValues.CLEAVER.get()) {
+                    if (event.getEntity().getHealth() > KQConfigValues.ENEMY_HEALTH_PASSIVE_CLEAVER.get().floatValue() * event.getEntity().getMaxHealth()) {
+                        event.setAmount(event.getAmount() + event.getAmount() * KQConfigValues.EXTRA_DAMAGE_PASSIVE_CLEAVER.get().floatValue());
+                    }
+                }
+            }
+
+            // Khopesh
+            if (event.getEntity() instanceof Player player) {
+                ItemStack stack = player.getMainHandItem();
+                if (stack.getItem() instanceof KhopeshWeapon && event.getSource().getEntity() != null && KQConfigValues.KHOPESH.get()) {
+
+                    CustomData customData = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
+                    CompoundTag dataTag = customData.copyTag();
+
+                    if (player.level().getGameTime() - dataTag.getLong("KhopeshActive") < KQConfigValues.REFLECTION_TIME_KHOPESH.get().floatValue()) {
+                        event.getSource().getEntity().hurt(event.getSource(), event.getAmount() * 0.5F);
+                    }
+                }
+            }
+
+            // Khopesh
+            if (event.getSource().getEntity() instanceof LivingEntity livingEntity) {
+                if (livingEntity.getMainHandItem().getItem() == KnightQuestWeapons.KHOPESH.get() && KQConfigValues.KHOPESH.get() && livingEntity.getRandom().nextFloat() <= KQConfigValues.CHANCE_BURN_KHOPESH.get().floatValue()) {
+                    event.getEntity().setRemainingFireTicks((livingEntity.getRandom().nextInt(7) + 1) * 20);
+                }
+            }
 
             // Victim: Player (Source ~-> Attacker)
 
@@ -273,8 +337,14 @@ public class KQArmorEvents {
         public static void onLivingTick(EntityTickEvent.Post event) {
             if (event.getEntity() instanceof Player player) {
                 ItemStack helmet = player.getInventory().getArmor(3);
-                if (KQConfigValues.TENGU_HELMET.get())
-                    if (helmet.getItem().equals(KnightQuestItems.TENGU_HELMET.get())) {
+                ItemStack nail = player.getMainHandItem();
+
+                if (KQConfigValues.TENGU_HELMET.get() || KQConfigValues.NAIL.get()) {
+
+                    CustomData customData = nail.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
+                    CompoundTag dataTag = customData.copyTag();
+
+                    if (helmet.getItem().equals(KnightQuestItems.TENGU_HELMET.get()) || (nail.getItem() instanceof NailWeapon && dataTag.getBoolean("Activated"))) {
                         boolean canDoubleJump = doubleJumpStates.getOrDefault(player.getUUID(), true);
 
                         if (!player.onGround() && player.getDeltaMovement().y < 0 && canDoubleJump)
@@ -283,6 +353,7 @@ public class KQArmorEvents {
                         if (player.onGround())
                             doubleJumpStates.put(player.getUUID(), true);
                     }
+                }
 
                 if (KQConfigValues.HUSKSET.get())
                     if (hasFullSetOn(player, KQArmorMaterials.HUSKSET) && (player.level().getBiome(new BlockPos((int) player.getX(), (int) player.getY(), (int) player.getZ())).is(Biomes.DESERT)

@@ -7,12 +7,16 @@ import dev.xylonity.knightquest.KnightQuest;
 import dev.xylonity.knightquest.client.armor.GeoItemArmor;
 import dev.xylonity.knightquest.common.item.KQArmorItem;
 import dev.xylonity.knightquest.common.material.KQItemMaterials;
+import dev.xylonity.knightquest.registry.KnightQuestSounds;
 import dev.xylonity.knightquest.registry.KnightQuestWeapons;
 import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -130,7 +134,7 @@ public class KnightQuestNeoForgePlatform implements KnightQuestPlatform {
 
     @Override
     public <T extends Item> Supplier<T> registerMusicDisc(String id, int signal, Supplier<SoundEvent> soundEvent, Item.Properties properties, int length) {
-        return null;
+        return (Supplier<T>) registerItem(id, () -> new Item(properties.jukeboxPlayable(ResourceKey.create(Registries.JUKEBOX_SONG, ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "the_architect_of_chaos")))));
     }
 
     @Override

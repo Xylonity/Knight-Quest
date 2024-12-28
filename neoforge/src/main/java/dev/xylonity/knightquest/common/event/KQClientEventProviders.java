@@ -31,6 +31,7 @@ public class KQClientEventProviders {
         EntityRenderers.register(KnightQuestEntities.ELDBOMB.get(), EldBombRenderer::new);
         EntityRenderers.register(KnightQuestEntities.ELDKNIGHT.get(), EldKnightRenderer::new);
         EntityRenderers.register(KnightQuestEntities.SWAMPMAN.get(), SwampmanRenderer::new);
+        EntityRenderers.register(KnightQuestEntities.FALLEN_KNIGHT.get(), FallenKnightRenderer::new);
         EntityRenderers.register(KnightQuestEntities.RATMAN.get(), RatmanRenderer::new);
         EntityRenderers.register(KnightQuestEntities.SAMHAIN.get(), SamhainRenderer::new);
         EntityRenderers.register(KnightQuestEntities.LIZZY.get(), LizzyRenderer::new);

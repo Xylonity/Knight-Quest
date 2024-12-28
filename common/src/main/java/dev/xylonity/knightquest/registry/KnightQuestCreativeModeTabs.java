@@ -39,6 +39,8 @@ public class KnightQuestCreativeModeTabs {
                         entries.accept(KnightQuestItems.RATMAN_EYE.get());
                         entries.accept(KnightQuestItems.LIZZY_SCALE.get());
 
+                        entries.accept(KnightQuestItems.THE_ARCHITECT_OF_CHAOS_DISC.get());
+
                         for (Supplier<Item> itemSupplier : weaponItems) {
                             Item item = itemSupplier.get();
                             if (item != null) {
@@ -46,14 +48,15 @@ public class KnightQuestCreativeModeTabs {
                             }
                         }
 
-                        entries.accept(KnightQuestItems.STEEL_AXE.get());
                         entries.accept(KnightQuestItems.STEEL_SWORD.get());
+                        entries.accept(KnightQuestItems.STEEL_AXE.get());
 
                         entries.accept(KnightQuestItems.GREMLIN_EGG.get());
                         entries.accept(KnightQuestItems.ELD_KNIGHT_EGG.get());
                         entries.accept(KnightQuestItems.ELD_BOMB_EGG.get());
                         entries.accept(KnightQuestItems.SAMHAIN_EGG.get());
                         entries.accept(KnightQuestItems.SWAMPMAN_EGG.get());
+                        entries.accept(KnightQuestItems.FALLEN_KNIGHT_EGG.get());
                         entries.accept(KnightQuestItems.RATMAN_EGG.get());
                         entries.accept(KnightQuestItems.LIZZY_EGG.get());
                         entries.accept(KnightQuestItems.BADPATCH_EGG.get());

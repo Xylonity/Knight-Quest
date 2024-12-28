@@ -2,9 +2,6 @@ package dev.xylonity.knightquest;
 
 import dev.xylonity.knightlib.compat.config.FCAPChecker;
 import dev.xylonity.knightquest.client.entity.renderer.*;
-import dev.xylonity.knightquest.common.entity.boss.NethermanCloneEntity;
-import dev.xylonity.knightquest.common.entity.boss.NethermanEntity;
-import dev.xylonity.knightquest.common.entity.entities.*;
 import dev.xylonity.knightquest.common.event.KQArmorEvents;
 import dev.xylonity.knightquest.common.event.KQExtraEvents;
 import dev.xylonity.knightquest.common.particle.*;
@@ -58,18 +55,7 @@ public class KnightQuest implements ModInitializer, ClientModInitializer {
         KnightQuestCreativeModeTabs.registerWeaponItem(() -> KnightQuestWeapons.UCHIGATANA);
         KnightQuestCreativeModeTabs.registerWeaponItem(() -> KnightQuestWeapons.NAIL);
 
-        FabricDefaultAttributeRegistry.register(KnightQuestEntities.GREMLIN.get(), GremlinEntity.setAttributes());
-        FabricDefaultAttributeRegistry.register(KnightQuestEntities.ELDBOMB.get(), EldBombEntity.setAttributes());
-        FabricDefaultAttributeRegistry.register(KnightQuestEntities.SAMHAIN.get(), SamhainEntity.setAttributes());
-        FabricDefaultAttributeRegistry.register(KnightQuestEntities.RATMAN.get(), RatmanEntity.setAttributes());
-        FabricDefaultAttributeRegistry.register(KnightQuestEntities.SWAMPMAN.get(), SwampmanEntity.setAttributes());
-        FabricDefaultAttributeRegistry.register(KnightQuestEntities.ELDKNIGHT.get(), EldKnightEntity.setAttributes());
-        FabricDefaultAttributeRegistry.register(KnightQuestEntities.LIZZY.get(), LizzyEntity.setAttributes());
-        FabricDefaultAttributeRegistry.register(KnightQuestEntities.BADPATCH.get(), BadPatchEntity.setAttributes());
-        FabricDefaultAttributeRegistry.register(KnightQuestEntities.GHOSTY.get(), GhostyEntity.setAttributes());
-        FabricDefaultAttributeRegistry.register(KnightQuestEntities.SHIELD.get(), GhastlingEntity.setAttributes());
-        FabricDefaultAttributeRegistry.register(KnightQuestEntities.NETHERMAN.get(), NethermanEntity.setAttributes());
-        FabricDefaultAttributeRegistry.register(KnightQuestEntities.NETHERMAN_CLONE.get(), NethermanCloneEntity.setAttributes());
+        KnightQuestEntities.registerEntityAttributes(FabricDefaultAttributeRegistry::register);
 
         KnightQuestCommon.init();
     }
@@ -88,6 +74,7 @@ public class KnightQuest implements ModInitializer, ClientModInitializer {
         EntityRendererRegistry.register(KnightQuestEntities.SAMHAIN.get(), SamhainRenderer::new);
         EntityRendererRegistry.register(KnightQuestEntities.RATMAN.get(), RatmanRenderer::new);
         EntityRendererRegistry.register(KnightQuestEntities.SWAMPMAN.get(), SwampmanRenderer::new);
+        EntityRendererRegistry.register(KnightQuestEntities.FALLEN_KNIGHT.get(), FallenKnightRenderer::new);
         EntityRendererRegistry.register(KnightQuestEntities.ELDKNIGHT.get(), EldKnightRenderer::new);
         EntityRendererRegistry.register(KnightQuestEntities.LIZZY.get(), LizzyRenderer::new);
         EntityRendererRegistry.register(KnightQuestEntities.BADPATCH.get(), BadPatchRenderer::new);

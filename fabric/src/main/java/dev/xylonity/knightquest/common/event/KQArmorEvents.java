@@ -4,6 +4,7 @@ import dev.xylonity.knightquest.common.item.KQFullSetChecker;
 import dev.xylonity.knightquest.common.material.KQArmorMaterials;
 import dev.xylonity.knightquest.config.values.KQConfigValues;
 import dev.xylonity.knightquest.registry.KnightQuestItems;
+import dev.xylonity.knightquest.registry.KnightQuestWeapons;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -13,7 +14,9 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -29,6 +32,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.phys.Vec3;
@@ -56,6 +60,20 @@ public class KQArmorEvents {
 
             if (isProcessingDamage.get()) {
                 return true;
+            }
+
+            // Kukri
+            if (source.getEntity() instanceof LivingEntity livingEntity) {
+                if (livingEntity.getMainHandItem().getItem() == KnightQuestWeapons.KUKRI && KQConfigValues.KUKRI.get()) {
+                    entity.setTicksFrozen(entity.getTicksFrozen() + KQConfigValues.FREEZE_TICKS_KUKRI.get());
+                }
+            }
+
+            // Khopesh
+            if (source.getEntity() instanceof LivingEntity livingEntity) {
+                if (livingEntity.getMainHandItem().getItem() == KnightQuestWeapons.KHOPESH && KQConfigValues.KHOPESH.get() && livingEntity.getRandom().nextFloat() <= KQConfigValues.CHANCE_BURN_KHOPESH.get().floatValue()) {
+                    entity.setRemainingFireTicks((livingEntity.getRandom().nextInt(7) + 1) * 20);
+                }
             }
 
             // Victim: Player (Source ~-> Attacker)
@@ -243,8 +261,8 @@ public class KQArmorEvents {
         public void onLoad(Entity entity, ServerLevel world) {
             if (KQConfigValues.SKELETONSET.get())
                 if (entity instanceof AbstractArrow arrow)
-                    if (arrow.getOwner() instanceof Player player && KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.SKELETONSET)) {}
-                        //arrow.setPierceLevel((byte) 5);
+                    if (arrow.getOwner() instanceof Player player && KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.SKELETONSET))
+                        arrow.setBaseDamage(arrow.getBaseDamage() * 2);
         }
 
     }
@@ -287,7 +305,11 @@ public class KQArmorEvents {
             LocalPlayer player = client.player;
             if (player == null) return;
 
-            if (KQConfigValues.TENGU_HELMET.get() && player.getInventory().getArmor(3).getItem() == KnightQuestItems.TENGU_HELMET.get()) {
+            CustomData customData = client.player.getMainHandItem().getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
+            CompoundTag dataTag = customData.copyTag();
+
+            if (KQConfigValues.TENGU_HELMET.get() && player.getInventory().getArmor(3).getItem() == KnightQuestItems.TENGU_HELMET.get()
+                    || (KQConfigValues.NAIL.get() && player.getMainHandItem().getItem() == KnightQuestWeapons.NAIL && dataTag.getBoolean("Activated"))) {
 
                 boolean canDoubleJump = doubleJumpStates.getOrDefault(player.getUUID(), true);
 

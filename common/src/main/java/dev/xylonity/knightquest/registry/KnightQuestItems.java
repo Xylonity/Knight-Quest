@@ -27,8 +27,8 @@ public class KnightQuestItems {
 
     public static final Supplier<Item> THE_ARCHITECT_OF_CHAOS_DISC = registerMusicDisc("music_disc_the_architect_of_chaos", 6, KnightQuestSounds.THE_ARCHITECT_OF_CHAOS, new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant(), 3540);
 
-    public static final Supplier<Item> STEEL_SWORD = registerSwordItem("steel_sword", KQItemMaterials.STEEL_SWORD, new Item.Properties(), -2f, false);
-    public static final Supplier<Item> STEEL_AXE = registerAxeItem("steel_axe", KQItemMaterials.STEEL_SWORD, new Item.Properties(), 4, -2f);
+    public static final Supplier<Item> STEEL_SWORD = registerSwordItem("steel_sword", KQItemMaterials.STEEL_SWORD, new Item.Properties(), -2.4f, false);
+    public static final Supplier<Item> STEEL_AXE = registerAxeItem("steel_axe", KQItemMaterials.STEEL_SWORD, new Item.Properties(), 4f, -3f);
 
     public static final Supplier<Item> APPLE_HELMET = registerGeoArmorItem("apple_helmet", KQArmorMaterials.APPLE_SET, ArmorItem.Type.HELMET, true, false, new Item.Properties(), 35);
     public static final Supplier<Item> APPLE_CHESTPLATE = registerArmorItem("apple_chestplate", KQArmorMaterials.APPLE_SET, ArmorItem.Type.CHESTPLATE, true, new Item.Properties(), 35);
@@ -245,6 +245,7 @@ public class KnightQuestItems {
     public static final Supplier<Item> GHOSTY_EGG = registerSpawnEggItem("ghosty_spawn_egg", KnightQuestEntities.GHOSTY, 0x2cb87e, 0xfbe105);
     public static final Supplier<Item> NETHERMAN_EGG = registerSpawnEggItem("netherman_spawn_egg", KnightQuestEntities.NETHERMAN, 0xebedec, 0xc3c3c3);
     public static final Supplier<Item> MOMMA_LIZZY_EGG = registerSpawnEggItem("momma_lizzy_spawn_egg", KnightQuestEntities.MOMMA_LIZZY, 0x0babf2, 0x9f5b14);
+    public static final Supplier<Item> FALLEN_KNIGHT_EGG = registerSpawnEggItem("fallen_knight_spawn_egg", KnightQuestEntities.FALLEN_KNIGHT, 0xc5c5c5, 0x5783f9);
 
     private static <T extends Item> Supplier<T> registerItem(String id, Supplier<T> item) {
         return KnightQuestCommon.COMMON_PLATFORM.registerItem(id, item);

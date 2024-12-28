@@ -2,8 +2,10 @@ package dev.xylonity.knightquest.common.item;
 
 import dev.xylonity.knightquest.common.material.KQArmorMaterials;
 import dev.xylonity.knightquest.config.values.KQConfigValues;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -105,12 +107,33 @@ public class KQArmorItem extends ArmorItem {
     public void appendHoverText(@NotNull ItemStack stack, @NotNull TooltipContext context, @NotNull List<Component> tooltipComponents, @NotNull TooltipFlag tooltipFlag) {
         if (hasTooltip && isArmorSetConfigEnabled(bonusTooltip))
             if (!Objects.equals(bonusTooltip, "chainmail") && !Objects.equals(bonusTooltip, "tengu")) {
-                tooltipComponents.add(Component.translatable("tooltip.item.knightquest.full_set_bonus"));
-                tooltipComponents.add(Component.translatable("tooltip.item.knightquest." + bonusTooltip + "_helmet.bonus"));
+                if (KQConfigValues.REQUIRED_ARMOR_PIECES.get() < 4) {
+                    tooltipComponents.add(Component.translatable("tooltip.item.knightquest.set_bonus"));
+                } else {
+                    tooltipComponents.add(Component.translatable("tooltip.item.knightquest.full_set_bonus"));
+                }
+
+                tooltipComponents.add(Component.translatable("tooltip.item.knightquest." + bonusTooltip + "_helmet.bonus",
+                        Component.literal("-" + (int) Math.floor(KQConfigValues.EVOKER_DARKNESS_CHANCE.get().floatValue() * 100) + "%").withStyle(ChatFormatting.ITALIC, ChatFormatting.GRAY),
+                        Component.literal("-" + (int) Math.floor(KQConfigValues.BLAZE_FIRE_CHANCE.get().floatValue() * 100) + "%").withStyle(ChatFormatting.ITALIC, ChatFormatting.GRAY),
+                        Component.literal("-" + ((int) Math.floor(KQConfigValues.DRAGONSET_DAMAGE_MULTIPLIER.get().floatValue() * 100 - 100)) + "%").withStyle(ChatFormatting.ITALIC, ChatFormatting.GRAY),
+                        Component.literal(String.valueOf(KQConfigValues.SKULK_MAX_LIGHT_LEVEL.get())).withStyle(ChatFormatting.ITALIC, ChatFormatting.GRAY),
+                        Component.literal("-" + (int) Math.floor(KQConfigValues.CHANCE_ENDERMANSET.get().floatValue() * 100) + "%").withStyle(ChatFormatting.ITALIC, ChatFormatting.GRAY),
+                        Component.literal(String.valueOf(KQConfigValues.TELEPORT_RADIUS_ENDERMANSET.get())).withStyle(ChatFormatting.ITALIC, ChatFormatting.GRAY).withStyle(ChatFormatting.ITALIC, ChatFormatting.GRAY),
+                        Component.literal("-" + (int) Math.floor(KQConfigValues.FORZESET_DEFLECT_CHANCE.get().floatValue() * 100) + "%").withStyle(ChatFormatting.ITALIC, ChatFormatting.GRAY),
+                        Component.literal((100 - KQConfigValues.CREEPER_EXPLOSION_DAMAGE_MULTIPLIER.get() * 100) + "%").withStyle(ChatFormatting.ITALIC, ChatFormatting.GRAY),
+                        Component.literal("-" + (int) Math.floor(KQConfigValues.SILVERSET_BURN_CHANCE.get().floatValue() * 100) + "%").withStyle(ChatFormatting.ITALIC, ChatFormatting.GRAY),
+                        Component.literal((int) Math.floor(KQConfigValues.HOLLOWSET_HEALING_MULTIPLIER.get().floatValue() * 100) + "%").withStyle(ChatFormatting.ITALIC, ChatFormatting.GRAY),
+                        Component.literal("-" + (int) Math.floor(KQConfigValues.WITHERSET_WITHER_CHANCE.get().floatValue() * 100) + "%").withStyle(ChatFormatting.ITALIC, ChatFormatting.GRAY),
+                        Component.literal(String.valueOf(Math.floor(KQConfigValues.ZOMBIESET_HEALING_AMOUNT.get().floatValue()))).withStyle(ChatFormatting.ITALIC, ChatFormatting.GRAY),
+                        Component.literal(String.valueOf(KQConfigValues.ZOMBIESET_HEALING_TICKS.get() / 20)).withStyle(ChatFormatting.ITALIC, ChatFormatting.GRAY),
+                        Component.literal(String.valueOf(KQConfigValues.SILVERFISH_EFFECT_MAX_HEIGHT.get())).withStyle(ChatFormatting.ITALIC, ChatFormatting.GRAY)
+                ));
             } else if (Objects.equals(bonusTooltip, "tengu")) {
                 tooltipComponents.add(Component.translatable("tooltip.item.knightquest.full_helmet_bonus"));
                 tooltipComponents.add(Component.translatable("tooltip.item.knightquest." + bonusTooltip + "_helmet.bonus"));
             }
+
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
     }
 

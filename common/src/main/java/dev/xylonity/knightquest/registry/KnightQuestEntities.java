@@ -22,6 +22,7 @@ public class KnightQuestEntities {
     public static final Supplier<EntityType<EldBombEntity>> ELDBOMB;
     public static final Supplier<EntityType<EldKnightEntity>> ELDKNIGHT;
     public static final Supplier<EntityType<SwampmanEntity>> SWAMPMAN;
+    public static final Supplier<EntityType<FallenKnightEntity>> FALLEN_KNIGHT;
     public static final Supplier<EntityType<SamhainEntity>> SAMHAIN;
     public static final Supplier<EntityType<RatmanEntity>> RATMAN;
     public static final Supplier<EntityType<LizzyEntity>> LIZZY;
@@ -40,6 +41,7 @@ public class KnightQuestEntities {
         ELDKNIGHT = register("eldknight", EldKnightEntity::new, MobCategory.MONSTER , 1f, 2.6f);
         SAMHAIN = register("samhain", SamhainEntity::new, MobCategory.MONSTER , 1f, 1.5f);
         SWAMPMAN = register("swampman", SwampmanEntity::new, MobCategory.MONSTER , 1f, 2f);
+        FALLEN_KNIGHT = register("fallen_knight", FallenKnightEntity::new, MobCategory.MONSTER , 1f, 2f);
         RATMAN = register("ratman", RatmanEntity::new, MobCategory.MONSTER , 1f, 1f);
         LIZZY = register("lizzy", LizzyEntity::new, MobCategory.AMBIENT , 1f, 0.3f);
         BADPATCH = register("bad_patch", BadPatchEntity::new, MobCategory.MONSTER , 1f, 1f);
@@ -74,6 +76,7 @@ public class KnightQuestEntities {
         registrar.accept(KnightQuestEntities.GHOSTY.get(), GhostyEntity.setAttributes().build());
         registrar.accept(KnightQuestEntities.NETHERMAN.get(), NethermanEntity.setAttributes().build());
         registrar.accept(KnightQuestEntities.NETHERMAN_CLONE.get(), NethermanCloneEntity.setAttributes().build());
+        registrar.accept(KnightQuestEntities.FALLEN_KNIGHT.get(), FallenKnightEntity.setAttributes().build());
     }
 
 }

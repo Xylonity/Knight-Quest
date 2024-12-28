@@ -225,6 +225,7 @@ public class GremlinEntity extends Monster implements GeoEntity {
             Item item = itemstack.getItem();
 
             if (item.equals(desiredItem)) {
+                pPlayer.getUseItem().shrink(1);
                 this.setTarget(null);
                 this.getBrain().eraseMemory(MemoryModuleType.ATTACK_TARGET);
                 this.getBrain().eraseMemory(MemoryModuleType.NEAREST_VISIBLE_PLAYER);

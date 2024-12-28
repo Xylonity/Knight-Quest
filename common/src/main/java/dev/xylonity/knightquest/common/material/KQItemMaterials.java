@@ -16,17 +16,17 @@ import java.util.function.Supplier;
 
 public enum KQItemMaterials implements Tier {
 
-    PALADIN(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 2131, 9.0F, 4F, 15, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
-    NAIL(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 1821, 9.0F, 2.5F, 15, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
-    UCHIGATANA(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 1080, 9.0F, 3F, 15, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
-    KUKRI(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 200, 9.0F, 0F, 14, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
-    KHOPESH(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 1831, 9.0F, 3.5F, 15, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
-    CLEAVER(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 1931, 9.0F, 3.8F, 15, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
-    CRIMSON_SWORD(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 1450, 9.0F, 2.5F, 14, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
-    WATER_SWORD(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 850, 9.0F, 2F, 14, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
-    STEEL_SWORD(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 300, 9.0F, 2.5F, 14, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
-    WATER_AXE(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 850, 9.0F, 1.5F, 14, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
-    STEEL_AXE(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 300, 9.0F, 1.5F, 14, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get()));
+    PALADIN(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 2350, 0.5f, 10f, 15, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
+    NAIL(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 2120, 0.5f, 9f, 15, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
+    UCHIGATANA(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 2031, 0.5f, 8f, 15, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
+    KUKRI(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 400, 0.5f, 4f, 15, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
+    KHOPESH(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 2120, 0.5f, 9f, 15, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
+    CLEAVER(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 2031, 0.5f, 12f, 15, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
+
+    WATER_SWORD(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 850, 0.5f, 1.8f, 15, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
+    STEEL_SWORD(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 300, 0.5f, 1.5f, 15, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
+    WATER_AXE(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 850, 6.0f, 1.3f, 15, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get())),
+    STEEL_AXE(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 300, 6.5f, 4f, 15, () -> Ingredient.of(KnightQuestCommon.COMMON_PLATFORM.getGreatEssence().get()));
 
     private final TagKey<Block> incorrectBlocksForDrops;
     private final int uses;
@@ -35,14 +35,14 @@ public enum KQItemMaterials implements Tier {
     private final int enchantmentValue;
     private final Supplier<Ingredient> repairIngredient;
 
-    KQItemMaterials(final TagKey p_334032_, final int p_43332_, final float p_43334_, final float p_43335_, final int p_43333_, final Supplier<Ingredient> p_43337_) {
-        this.incorrectBlocksForDrops = p_334032_;
-        this.uses = p_43332_;
-        this.speed = p_43334_;
-        this.damage = p_43335_;
-        this.enchantmentValue = p_43333_;
-        Objects.requireNonNull(p_43337_);
-        this.repairIngredient = Suppliers.memoize(p_43337_::get);
+    KQItemMaterials(final TagKey tagKey, final int uses, final float speed, final float damage, final int enchantment, final Supplier<Ingredient> ingredient) {
+        this.incorrectBlocksForDrops = tagKey;
+        this.uses = uses;
+        this.speed = speed;
+        this.damage = damage;
+        this.enchantmentValue = enchantment;
+        Objects.requireNonNull(ingredient);
+        this.repairIngredient = Suppliers.memoize(ingredient::get);
     }
 
     public int getUses() {
@@ -66,7 +66,7 @@ public enum KQItemMaterials implements Tier {
     }
 
     public Ingredient getRepairIngredient() {
-        return (Ingredient)this.repairIngredient.get();
+        return this.repairIngredient.get();
     }
 
     @Override

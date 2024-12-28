@@ -144,10 +144,6 @@ public class SwampmanEntity extends Monster implements GeoEntity, RangedAttackMo
             event.getController().setAnimation(RawAnimation.begin().then("idle", Animation.LoopType.LOOP));
         }
 
-        if (this.dead) {
-            event.getController().setAnimation(RawAnimation.begin().then("death", Animation.LoopType.LOOP));
-        }
-
         return PlayState.CONTINUE;
     }
 

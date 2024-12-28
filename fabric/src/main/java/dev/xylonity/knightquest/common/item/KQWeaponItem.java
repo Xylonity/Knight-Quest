@@ -96,7 +96,7 @@ public abstract class KQWeaponItem extends SwordItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @NotNull TooltipContext pContext, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pTooltipFlag) {
-
+        super.appendHoverText(pStack, pContext, pTooltipComponents, pTooltipFlag);
         if (isEnabled()) {
             pTooltipComponents.add(Component.translatable("tooltip.weapon.knightquest." + getName()));
 
@@ -128,7 +128,7 @@ public abstract class KQWeaponItem extends SwordItem {
             }
         }
 
-        super.appendHoverText(pStack, pContext, pTooltipComponents, pTooltipFlag);
+
     }
 
     abstract public void interaction(Level level, Player player, InteractionHand hand);

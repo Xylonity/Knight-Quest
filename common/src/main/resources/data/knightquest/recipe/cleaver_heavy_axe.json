@@ -6,10 +6,10 @@
             "item": "knightquest:ratman_eye"
         },
         "S": {
-            "item": "minecraft:diamond_axe"
+            "item": "minecraft:netherite_axe"
         },
         "X": {
-            "item": "minecraft:ink_sac"
+            "item": "minecraft:iron_block"
         }
     },
     "pattern": [

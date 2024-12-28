@@ -16,6 +16,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
+import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -34,17 +35,17 @@ public class KnightQuest {
 
         KQLootModifiers.LOOT_MODIFIER_SERIALIZERS.register(modEventBus);
 
+        ARMOR_MATERIALS.register(modEventBus);
+        SOUNDS.register(modEventBus);
+        ITEMS.register(modEventBus);
         CREATIVE_TABS.register(modEventBus);
         PARTICLES.register(modEventBus);
-        SOUNDS.register(modEventBus);
         ENTITY.register(modEventBus);
-        ARMOR_MATERIALS.register(modEventBus);
-        ITEMS.register(modEventBus);
 
         modEventBus.<EntityAttributeCreationEvent>addListener(event -> KnightQuestEntities.registerEntityAttributes(event::put));
-        modContainer.registerConfig(ModConfig.Type.COMMON, KnightQuestCommonConfigs.SPEC, "knightquest.toml");
 
-        //KnightQuestCommonConfigs.assignValues();
+        modContainer.registerConfig(ModConfig.Type.COMMON, KnightQuestCommonConfigs.SPEC, "knightquest.toml");
+        modEventBus.addListener(this::onCommonSetup);
 
         KnightQuestCreativeModeTabs.registerWeaponItem(KnightQuestWeapons.PALADIN_SWORD);
         KnightQuestCreativeModeTabs.registerWeaponItem(KnightQuestWeapons.KHOPESH);
@@ -55,6 +56,12 @@ public class KnightQuest {
 
         KnightQuestCommon.init();
 
+    }
+
+    private void onCommonSetup(ModConfigEvent e) {
+        if (e.getConfig().getType() == ModConfig.Type.COMMON) {
+            KnightQuestCommonConfigs.assignValues();
+        }
     }
 
 }

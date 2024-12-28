@@ -1,6 +1,7 @@
 package dev.xylonity.knightquest.config;
 
 import dev.xylonity.knightquest.config.values.KQConfigValues;
+import net.neoforged.fml.config.ModConfig;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
 public class KnightQuestCommonConfigs {

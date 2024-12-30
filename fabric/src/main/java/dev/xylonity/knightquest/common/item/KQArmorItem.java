@@ -2,6 +2,7 @@ package dev.xylonity.knightquest.common.item;
 
 import dev.xylonity.knightquest.common.item.weapons.CleaverWeapon;
 import dev.xylonity.knightquest.common.item.weapons.KhopeshWeapon;
+import dev.xylonity.knightquest.common.item.weapons.PaladinWeapon;
 import dev.xylonity.knightquest.common.item.weapons.UchigatanaWeapon;
 import dev.xylonity.knightquest.common.material.KQArmorMaterials;
 import dev.xylonity.knightquest.config.values.KQConfigValues;
@@ -603,8 +604,10 @@ public class KQArmorItem extends ArmorItem {
             LocalPlayer player = client.player;
             if (player == null) return;
 
+            ItemStack stack = player.getMainHandItem();
+
             if (KQConfigValues.TENGU_HELMET && player.getInventory().getArmor(3).getItem() == KnightQuestItems.TENGU_HELMET.get()
-                || (KQConfigValues.NAIL && player.getMainHandItem().getItem() == KnightQuestWeapons.NAIL)) {
+                || (KQConfigValues.NAIL && stack.getItem() == KnightQuestWeapons.NAIL && stack.getOrCreateTag().getBoolean("Activated"))) {
 
                 boolean canDoubleJump = doubleJumpStates.getOrDefault(player.getUUID(), true);
 
@@ -647,6 +650,13 @@ public class KQArmorItem extends ArmorItem {
         public void onEndTick(MinecraftServer server) {
 
             for (ServerPlayer player : server.getPlayerList().getPlayers()) {
+
+                ItemStack stack = player.getMainHandItem();
+
+                if (stack.getItem() instanceof PaladinWeapon && KQConfigValues.PALADIN) {
+                    if (player.tickCount % KQConfigValues.REGEN_TICKS_PALADIN == 0 && player.getHealth() < player.getMaxHealth() * KQConfigValues.REGEN_MAX_PALADIN && stack.getOrCreateTag().getBoolean("Activated"))
+                        player.heal(KQConfigValues.REGEN_HP_PALADIN);
+                }
 
                 if (KQConfigValues.HUSKSET)
                     if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.HUSKSET) && (player.level().getBiome(player.blockPosition()).is(Biomes.DESERT)

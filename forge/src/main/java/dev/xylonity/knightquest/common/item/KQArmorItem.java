@@ -623,9 +623,10 @@ public class KQArmorItem extends ArmorItem {
             if (event.getEntity() instanceof Player player) {
 
                 ItemStack helmet = player.getInventory().getArmor(3);
-                ItemStack nail = player.getMainHandItem();
+                ItemStack stack = player.getMainHandItem();
+
                 if (KQConfigValues.TENGU_HELMET || KQConfigValues.NAIL)
-                   if (helmet.getItem().equals(KnightQuestItems.TENGU_HELMET.get()) || (nail.getItem() instanceof NailWeapon && nail.getOrCreateTag().getBoolean("Activated"))) {
+                   if (helmet.getItem().equals(KnightQuestItems.TENGU_HELMET.get()) || (stack.getItem() instanceof NailWeapon && stack.getOrCreateTag().getBoolean("Activated"))) {
                        boolean canDoubleJump = doubleJumpStates.getOrDefault(player.getUUID(), true);
 
                        if (!player.onGround() && player.getDeltaMovement().y < 0 && canDoubleJump) {
@@ -635,6 +636,11 @@ public class KQArmorItem extends ArmorItem {
                        if (player.onGround())
                            doubleJumpStates.put(player.getUUID(), true);
                    }
+
+                if (stack.getItem() instanceof PaladinWeapon && KQConfigValues.PALADIN) {
+                    if (player.tickCount % KQConfigValues.REGEN_TICKS_PALADIN == 0 && player.getHealth() < player.getMaxHealth() * KQConfigValues.REGEN_MAX_PALADIN && stack.getOrCreateTag().getBoolean("Activated"))
+                        player.heal(KQConfigValues.REGEN_HP_PALADIN);
+                }
 
                 if (KQConfigValues.HUSKSET)
                     if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.HUSKSET) && (player.level().getBiome(new BlockPos((int) player.getX(), (int) player.getY(), (int) player.getZ())).is(Biomes.DESERT)

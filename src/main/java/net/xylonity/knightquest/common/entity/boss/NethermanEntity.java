@@ -132,8 +132,8 @@ public class NethermanEntity extends Monster implements IAnimatable {
 
         var maxHealth = this.getAttribute(Attributes.MAX_HEALTH);
         if (maxHealth != null) {
-            maxHealth.setBaseValue(80);
-            this.setHealth((float) 80);
+            maxHealth.setBaseValue(KQConfigValues.NETHERMAN_HEALTH);
+            this.setHealth((float) KQConfigValues.NETHERMAN_HEALTH);
         }
 
         var attackDamageAttribute = this.getAttribute(Attributes.ATTACK_DAMAGE);

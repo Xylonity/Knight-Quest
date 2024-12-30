@@ -52,7 +52,7 @@ public class EldKnightEntity extends Monster implements IAnimatable {
                 .add(Attributes.ATTACK_DAMAGE, 12f)
                 .add(Attributes.ATTACK_SPEED, 0.4f)
                 .add(Attributes.MOVEMENT_SPEED, 0.55f)
-                .add(Attributes.KNOCKBACK_RESISTANCE, 0.4f).build();
+                .add(Attributes.KNOCKBACK_RESISTANCE, 0.8f).build();
     }
 
     @Override

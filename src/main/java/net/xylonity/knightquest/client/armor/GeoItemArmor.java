@@ -8,6 +8,7 @@ import net.minecraft.world.level.Level;
 import net.xylonity.knightquest.KnightQuest;
 import net.xylonity.knightquest.common.item.KQArmorItem;
 import net.xylonity.knightquest.common.material.KQArmorMaterials;
+import net.xylonity.knightquest.config.values.KQConfigValues;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.core.IAnimatable;
@@ -59,8 +60,27 @@ public class GeoItemArmor extends GeoArmorItem implements IAnimatable {
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         if (isArmorSetConfigEnabled(bonusTooltip))
             if (!Objects.equals(bonusTooltip, "chainmail") && !Objects.equals(bonusTooltip, "tengu")) {
-                pTooltipComponents.add(Component.translatable("tooltip.item.knightquest.full_set_bonus"));
-                pTooltipComponents.add(Component.translatable("tooltip.item.knightquest." + bonusTooltip + "_helmet.bonus"));
+                if (KQConfigValues.REQUIRED_ARMOR_PIECES < 4) {
+                    pTooltipComponents.add(Component.translatable("tooltip.item.knightquest.set_bonus"));
+                } else {
+                    pTooltipComponents.add(Component.translatable("tooltip.item.knightquest.full_set_bonus"));
+                }
+
+                pTooltipComponents.add(Component.translatable("tooltip.item.knightquest." + bonusTooltip + "_helmet.bonus",
+                        "§7§o-" + (int) Math.floor(KQConfigValues.EVOKER_DARKNESS_CHANCE * 100) + "%",
+                        "§7§o-" + (int) Math.floor(KQConfigValues.BLAZE_FIRE_CHANCE * 100) + "%",
+                        "§7§o-" + ((int) Math.floor(KQConfigValues.DRAGONSET_DAMAGE_MULTIPLIER * 100 - 100)) + "%",
+                        "§7§o" + KQConfigValues.SKULK_MAX_LIGHT_LEVEL,
+                        "§7§o-" + (int) Math.floor(KQConfigValues.CHANCE_ENDERMANSET * 100) + "%",
+                        "§7§o" + KQConfigValues.TELEPORT_RADIUS_ENDERMANSET,
+                        "§7§o-" + (int) Math.floor(KQConfigValues.FORZESET_DEFLECT_CHANCE * 100) + "%",
+                        "§7§o" + (100 - KQConfigValues.CREEPER_EXPLOSION_DAMAGE_MULTIPLIER * 100) + "%",
+                        "§7§o-" + (int) Math.floor(KQConfigValues.SILVERSET_BURN_CHANCE * 100) + "%",
+                        "§7§o" + (int) Math.floor(KQConfigValues.HOLLOWSET_HEALING_MULTIPLIER * 100) + "%",
+                        "§7§o-" + (int) Math.floor(KQConfigValues.WITHERSET_WITHER_CHANCE * 100) + "%",
+                        "§7§o" + Math.floor(KQConfigValues.ZOMBIESET_HEALING_AMOUNT),
+                        "§7§o" + KQConfigValues.ZOMBIESET_HEALING_TICKS / 20,
+                        "§7§o" + KQConfigValues.SILVERFISH_EFFECT_MAX_HEIGHT));
             } else if (Objects.equals(bonusTooltip, "tengu")) {
                 pTooltipComponents.add(Component.translatable("tooltip.item.knightquest.full_helmet_bonus"));
                 pTooltipComponents.add(Component.translatable("tooltip.item.knightquest." + bonusTooltip + "_helmet.bonus"));

@@ -79,7 +79,7 @@ dependencies {
 
     implementation fg.deobf('software.bernie.geckolib:geckolib-forge-1.19:3.1.40')
 
-    implementation fg.deobf("curse.maven:knight-lib-1105855:5767706")
+    implementation fg.deobf("curse.maven:knight-lib-1105855:6036816")
 
 }
 

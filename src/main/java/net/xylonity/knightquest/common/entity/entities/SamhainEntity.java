@@ -30,6 +30,7 @@ import net.minecraftforge.event.ForgeEventFactory;
 import net.xylonity.knightquest.common.entity.entities.ai.MoveToPumpkinGoal;
 import net.xylonity.knightquest.common.entity.entities.ai.RangedAttackGoal;
 import net.xylonity.knightquest.registry.KnightQuestItems;
+import net.xylonity.knightquest.registry.KnightQuestWeapons;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.core.AnimationState;
@@ -202,13 +203,12 @@ public class SamhainEntity extends TamableAnimal implements IAnimatable, RangedA
                 Items.NETHERITE_SWORD,
                 Items.DIAMOND_SWORD,
                 Items.BOW,
-                KnightQuestItems.PALADIN_SWORD.get(),
-                KnightQuestItems.NAIL_SWORD.get(),
-                KnightQuestItems.UCHIGATANA.get(),
-                KnightQuestItems.KUKRI.get(),
-                KnightQuestItems.KHOPESH.get(),
-                KnightQuestItems.CLEAVER.get(),
-                KnightQuestItems.CRIMSON_SWORD.get(),
+                KnightQuestWeapons.PALADIN_SWORD.get(),
+                KnightQuestWeapons.NAIL.get(),
+                KnightQuestWeapons.UCHIGATANA.get(),
+                KnightQuestWeapons.KUKRI.get(),
+                KnightQuestWeapons.KHOPESH.get(),
+                KnightQuestWeapons.CLEAVER.get(),
                 KnightQuestItems.WATER_SWORD.get(),
                 KnightQuestItems.STEEL_SWORD.get(),
                 KnightQuestItems.WATER_AXE.get(),

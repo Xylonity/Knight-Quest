@@ -31,9 +31,11 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.xylonity.knightquest.KnightQuest;
+import net.xylonity.knightquest.common.item.weapons.*;
 import net.xylonity.knightquest.common.material.KQArmorMaterials;
 import net.xylonity.knightquest.config.values.KQConfigValues;
 import net.xylonity.knightquest.registry.KnightQuestItems;
+import net.xylonity.knightquest.registry.KnightQuestWeapons;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -122,8 +124,27 @@ public class KQArmorItem extends ArmorItem {
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         if (isArmorSetConfigEnabled(bonusTooltip))
             if (!Objects.equals(bonusTooltip, "chainmail") && !Objects.equals(bonusTooltip, "tengu")) {
-                pTooltipComponents.add(Component.translatable("tooltip.item.knightquest.full_set_bonus"));
-                pTooltipComponents.add(Component.translatable("tooltip.item.knightquest." + bonusTooltip + "_helmet.bonus"));
+                if (KQConfigValues.REQUIRED_ARMOR_PIECES < 4) {
+                    pTooltipComponents.add(Component.translatable("tooltip.item.knightquest.set_bonus"));
+                } else {
+                    pTooltipComponents.add(Component.translatable("tooltip.item.knightquest.full_set_bonus"));
+                }
+
+                pTooltipComponents.add(Component.translatable("tooltip.item.knightquest." + bonusTooltip + "_helmet.bonus",
+                        "§7§o-" + (int) Math.floor(KQConfigValues.EVOKER_DARKNESS_CHANCE * 100) + "%",
+                        "§7§o-" + (int) Math.floor(KQConfigValues.BLAZE_FIRE_CHANCE * 100) + "%",
+                        "§7§o-" + ((int) Math.floor(KQConfigValues.DRAGONSET_DAMAGE_MULTIPLIER * 100 - 100)) + "%",
+                        "§7§o" + KQConfigValues.SKULK_MAX_LIGHT_LEVEL,
+                        "§7§o-" + (int) Math.floor(KQConfigValues.CHANCE_ENDERMANSET * 100) + "%",
+                        "§7§o" + KQConfigValues.TELEPORT_RADIUS_ENDERMANSET,
+                        "§7§o-" + (int) Math.floor(KQConfigValues.FORZESET_DEFLECT_CHANCE * 100) + "%",
+                        "§7§o" + (100 - KQConfigValues.CREEPER_EXPLOSION_DAMAGE_MULTIPLIER * 100) + "%",
+                        "§7§o-" + (int) Math.floor(KQConfigValues.SILVERSET_BURN_CHANCE * 100) + "%",
+                        "§7§o" + (int) Math.floor(KQConfigValues.HOLLOWSET_HEALING_MULTIPLIER * 100) + "%",
+                        "§7§o-" + (int) Math.floor(KQConfigValues.WITHERSET_WITHER_CHANCE * 100) + "%",
+                        "§7§o" + Math.floor(KQConfigValues.ZOMBIESET_HEALING_AMOUNT),
+                        "§7§o" + KQConfigValues.ZOMBIESET_HEALING_TICKS / 20,
+                        "§7§o" + KQConfigValues.SILVERFISH_EFFECT_MAX_HEIGHT));
             } else if (Objects.equals(bonusTooltip, "tengu")) {
                 pTooltipComponents.add(Component.translatable("tooltip.item.knightquest.full_helmet_bonus"));
                 pTooltipComponents.add(Component.translatable("tooltip.item.knightquest." + bonusTooltip + "_helmet.bonus"));
@@ -367,6 +388,54 @@ public class KQArmorItem extends ArmorItem {
         @SubscribeEvent
         public static void onLivingHurt(LivingHurtEvent event) {
 
+            // Kukri
+            if (event.getSource().getEntity() instanceof LivingEntity livingEntity) {
+                if (livingEntity.getMainHandItem().getItem() == KnightQuestWeapons.KUKRI.get() && KQConfigValues.KUKRI) {
+                    event.getEntity().setTicksFrozen(event.getEntity().getTicksFrozen() + KQConfigValues.FREEZE_TICKS_KUKRI);
+                }
+            }
+
+            if (event.getSource().getEntity() instanceof Player player && event.getEntity() != null) {
+
+                ItemStack stack = player.getMainHandItem();
+
+                // Uchigatana
+                if (stack.getItem() instanceof UchigatanaWeapon && KQConfigValues.UCHIGATANA) {
+                    if (stack.getOrCreateTag().getBoolean("ShouldDoActiveAttack")) {
+                        stack.getOrCreateTag().putBoolean("ShouldDoActiveAttack", false);
+                        event.setAmount((float) (event.getAmount() + event.getAmount() * KQConfigValues.EXTRA_DAMAGE_UCHIGATANA));
+                        event.getEntity().addEffect(new MobEffectInstance(MobEffects.DARKNESS, 80, 1, false, false));
+                    }
+                    if (event.getEntity().getHealth() < KQConfigValues.ENEMY_HEALTH_PASSIVE_UCHIGATANA * event.getEntity().getMaxHealth()) {
+                        event.setAmount((float) (event.getAmount() + event.getAmount() * KQConfigValues.EXTRA_DAMAGE_PASSIVE_UCHIGATANA));
+                    }
+                }
+
+                // Cleaver
+                if (stack.getItem() instanceof CleaverWeapon && KQConfigValues.CLEAVER) {
+                    if (event.getEntity().getHealth() > KQConfigValues.ENEMY_HEALTH_PASSIVE_CLEAVER * event.getEntity().getMaxHealth()) {
+                        event.setAmount((float) (event.getAmount() + event.getAmount() * KQConfigValues.EXTRA_DAMAGE_PASSIVE_CLEAVER));
+                    }
+                }
+            }
+
+            // Khopesh
+            if (event.getEntity() instanceof Player player) {
+                ItemStack stack = player.getMainHandItem();
+                if (stack.getItem() instanceof KhopeshWeapon && event.getSource().getEntity() != null && KQConfigValues.KHOPESH) {
+                    if (player.level.getGameTime() - stack.getOrCreateTag().getLong("KhopeshActive") < KQConfigValues.REFLECTION_TIME_KHOPESH) {
+                        event.getSource().getEntity().hurt(event.getSource(), event.getAmount() * 0.5F);
+                    }
+                }
+            }
+
+            // Khopesh
+            if (event.getSource().getEntity() instanceof LivingEntity livingEntity) {
+                if (livingEntity.getMainHandItem().getItem() == KnightQuestWeapons.KHOPESH.get() && KQConfigValues.KHOPESH && livingEntity.getRandom().nextFloat() <= KQConfigValues.CHANCE_BURN_KHOPESH) {
+                    event.getEntity().setSecondsOnFire(livingEntity.getRandom().nextInt(7) + 1);
+                }
+            }
+
             // Victim: Player (Source ~-> Attacker)
 
             if (event.getEntity() instanceof Player player) {
@@ -449,7 +518,7 @@ public class KQArmorItem extends ArmorItem {
                     if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.ENDERMANSET) && event.getSource().getEntity() != null) {
 
                         Random random = new Random();
-                        if (random.nextFloat() < 0.4) {
+                        if (random.nextFloat() < KQConfigValues.CHANCE_ENDERMANSET) {
                             int radius = KQConfigValues.TELEPORT_RADIUS_ENDERMANSET;
                             BlockPos playerPos = player.blockPosition();
                             List<BlockPos> validPositions = new ArrayList<>();
@@ -559,9 +628,11 @@ public class KQArmorItem extends ArmorItem {
         @SubscribeEvent
         public static void onLivingTick(LivingEvent.LivingTickEvent event) {
             if (event.getEntity() instanceof Player player) {
+
                 ItemStack helmet = player.getInventory().getArmor(3);
-                if (KQConfigValues.TENGU_HELMET)
-                    if (helmet.getItem().equals(KnightQuestItems.TENGU_HELMET.get())) {
+                ItemStack stack = player.getMainHandItem();
+                if (KQConfigValues.TENGU_HELMET || KQConfigValues.NAIL)
+                    if (helmet.getItem().equals(KnightQuestItems.TENGU_HELMET.get()) || (stack.getItem() instanceof NailWeapon && stack.getOrCreateTag().getBoolean("Activated"))) {
                         boolean canDoubleJump = doubleJumpStates.getOrDefault(player.getUUID(), true);
 
                         if (!player.isOnGround() && player.getDeltaMovement().y < 0 && canDoubleJump) {
@@ -571,6 +642,11 @@ public class KQArmorItem extends ArmorItem {
                         if (player.isOnGround())
                             doubleJumpStates.put(player.getUUID(), true);
                     }
+
+                if (stack.getItem() instanceof PaladinWeapon && KQConfigValues.PALADIN) {
+                    if (player.tickCount % KQConfigValues.REGEN_TICKS_PALADIN == 0 && player.getHealth() < player.getMaxHealth() * KQConfigValues.REGEN_MAX_PALADIN && stack.getOrCreateTag().getBoolean("Activated"))
+                        player.heal(KQConfigValues.REGEN_HP_PALADIN);
+                }
 
                 if (KQConfigValues.HUSKSET)
                     if (hasFullSetOn(player, KQArmorMaterials.HUSKSET) && (player.getLevel().getBiome(new BlockPos((int) player.getX(), (int) player.getY(), (int) player.getZ())).is(Biomes.DESERT)

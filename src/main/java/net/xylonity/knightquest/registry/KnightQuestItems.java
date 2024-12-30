@@ -1,9 +1,7 @@
 package net.xylonity.knightquest.registry;
 
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.*;
-import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -16,10 +14,6 @@ import net.xylonity.knightquest.common.item.KQArmorItem;
 import net.xylonity.knightquest.common.item.KQItem;
 import net.xylonity.knightquest.common.material.KQArmorMaterials;
 import net.xylonity.knightquest.common.material.KQItemMaterials;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
 
 public class KnightQuestItems {
 
@@ -32,35 +26,13 @@ public class KnightQuestItems {
     public static final RegistryObject<Item> RATMAN_EYE = ITEMS.register("ratman_eye", () -> new KQItem(new Item.Properties(), "ratman_eye"));
     public static final RegistryObject<Item> LIZZY_SCALE = ITEMS.register("lizzy_scale", () -> new KQItem(new Item.Properties(), "lizzy_scale"));
 
-    public static final RegistryObject<Item> PALADIN_SWORD = ITEMS.register("paladin_sword",
-            () -> new SwordItem(KQItemMaterials.PALADIN, 4, -2.8f, new Item.Properties().tab(KnightQuest.CREATIVE_MODE_TAB))
-            {
-                @Override
-                public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-                    pTooltipComponents.add(Component.translatable("tooltip.item.knightquest.paladin_sword"));
-                    super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
-                }
-            });
-
-    public static final RegistryObject<Item> NAIL_SWORD = ITEMS.register("nail_glaive",
-            () -> new SwordItem(KQItemMaterials.NAIL, 4, -2.6f, new Item.Properties().tab(KnightQuest.CREATIVE_MODE_TAB)));
-    public static final RegistryObject<Item> UCHIGATANA = ITEMS.register("uchigatana_katana",
-            () -> new SwordItem(KQItemMaterials.UCHIGATANA, 4, -2.2f, new Item.Properties().tab(KnightQuest.CREATIVE_MODE_TAB)));
-    public static final RegistryObject<Item> KUKRI = ITEMS.register("kukri_dagger",
-            () -> new SwordItem(KQItemMaterials.KUKRI, 4, -1f, new Item.Properties().tab(KnightQuest.CREATIVE_MODE_TAB)));
-    public static final RegistryObject<Item> KHOPESH = ITEMS.register("khopesh_claymore",
-            () -> new SwordItem(KQItemMaterials.KHOPESH, 4, -2.2f, new Item.Properties().tab(KnightQuest.CREATIVE_MODE_TAB)));
-    public static final RegistryObject<Item> CLEAVER = ITEMS.register("cleaver_heavy_axe",
-            () -> new SwordItem(KQItemMaterials.CLEAVER, 4, -3f, new Item.Properties().tab(KnightQuest.CREATIVE_MODE_TAB)));
-    public static final RegistryObject<Item> CRIMSON_SWORD = ITEMS.register("crimson_sword",
-            () -> new SwordItem(KQItemMaterials.CRIMSON_SWORD, 4, -2f, new Item.Properties().tab(KnightQuest.CREATIVE_MODE_TAB)));
     public static final RegistryObject<Item> WATER_SWORD = ITEMS.register("water_sword",
-            () -> new SwordItem(KQItemMaterials.WATER_SWORD, 4, -2f, new Item.Properties().tab(KnightQuest.CREATIVE_MODE_TAB)));
+            () -> new SwordItem(KQItemMaterials.WATER_SWORD, 4, -2f, new Item.Properties()));
     public static final RegistryObject<Item> STEEL_SWORD = ITEMS.register("steel_sword",
             () -> new SwordItem(KQItemMaterials.STEEL_SWORD, 4, -2f, new Item.Properties().tab(KnightQuest.CREATIVE_MODE_TAB)));
 
     public static final RegistryObject<Item> WATER_AXE = ITEMS.register("water_axe",
-            () -> new AxeItem(KQItemMaterials.WATER_AXE, 4, -2.8f, new Item.Properties().tab(KnightQuest.CREATIVE_MODE_TAB)));
+            () -> new AxeItem(KQItemMaterials.WATER_AXE, 4, -2.8f, new Item.Properties()));
     public static final RegistryObject<Item> STEEL_AXE = ITEMS.register("steel_axe",
             () -> new AxeItem(KQItemMaterials.STEEL_AXE, 4, -2.8f, new Item.Properties().tab(KnightQuest.CREATIVE_MODE_TAB)));
 
@@ -506,13 +478,7 @@ public class KnightQuestItems {
             () -> new ForgeSpawnEggItem(KnightQuestEntities.GHOSTY, 0x2cb87e, 0xfbe105, new Item.Properties().tab(KnightQuest.CREATIVE_MODE_TAB)));
     public static final RegistryObject<Item> MOMMA_LIZZY_EGG = ITEMS.register("momma_lizzy_spawn_egg",
             () -> new ForgeSpawnEggItem(KnightQuestEntities.MOMMA_LIZZY, 0x0babf2, 0x9f5b14, new Item.Properties().tab(KnightQuest.CREATIVE_MODE_TAB)));
-    //public static final RegistryObject<Item> GHASTLING_EGG = ITEMS.register("ghastling_spawn_egg",
-    //        () -> new ForgeSpawnEggItem(KnightQuestEntities.SHIELD, 0x930c13, 0xfb9600, new Item.Properties().tab(KnightQuest.CREATIVE_MODE_TAB)){
-    //            @Override
-    //            public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-    //                pTooltipComponents.add(Component.translatable("tooltip.item.knightquest.ghastling_spawn_egg"));
-    //                super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
-    //            }
-    //        });
-    
+    public static final RegistryObject<Item> NETHERMAN_EGG = ITEMS.register("netherman_spawn_egg",
+            () -> new ForgeSpawnEggItem(KnightQuestEntities.NETHERMAN, 0xebedec, 0xc3c3c3, new Item.Properties().tab(KnightQuest.CREATIVE_MODE_TAB)));
+
 }

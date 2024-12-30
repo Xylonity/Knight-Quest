@@ -2,14 +2,18 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
+    "X": {
+      "item": "knightquest:filled_goblet"
+    },
     "I": {
       "item": "minecraft:iron_ingot"
     },
     "S": {
-      "item": "minecraft:dark_oak_log"
+      "item": "minecraft:stick"
     }
   },
   "pattern": [
+    "X",
     "I",
     "S"
   ],

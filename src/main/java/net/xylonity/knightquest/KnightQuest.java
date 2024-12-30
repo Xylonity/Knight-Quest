@@ -34,6 +34,7 @@ public class KnightQuest
         KQLootModifiers.LOOT_MODIFIER_SERIALIZERS.register(modEventBus);
         KnightQuestParticles.PARTICLES.register(modEventBus);
 
+        KnightQuestWeapons.init();
         GeckoLib.initialize();
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, KnightQuestCommonConfigs.SPEC, "knightquest.toml");

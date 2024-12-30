@@ -1,62 +1,70 @@
 package net.xylonity.knightquest.common.material;
 
 import dev.xylonity.knightlib.compat.registry.KnightLibItems;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Tier;
-import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraftforge.common.ForgeTier;
-import net.minecraftforge.common.TierSortingRegistry;
-import net.xylonity.knightquest.KnightQuest;
-import net.xylonity.knightquest.common.tags.KQTags;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
+import java.util.function.Supplier;
 
-public class KQItemMaterials {
+public enum KQItemMaterials implements Tier {
 
-    public static final Tier PALADIN = TierSortingRegistry.registerTier(new ForgeTier(4, 2131, 0.5f, 3.5f, 15,
-            KQTags.Blocks.KNIGHTQUEST_TOOLS, () -> Ingredient.of(KnightLibItems.GREAT_ESSENCE.get())),
-            new ResourceLocation(KnightQuest.MOD_ID, "paladin_sword"), List.of(Tiers.NETHERITE), List.of());
+    PALADIN(4, 2350, 0.5f, 10f, 15, () -> Ingredient.of(KnightLibItems.GREAT_ESSENCE.get())),
+    NAIL(4, 2120, 0.5f, 9f, 15, () -> Ingredient.of(KnightLibItems.GREAT_ESSENCE.get())),
+    UCHIGATANA(4, 2031, 0.5f, 8f, 15, () -> Ingredient.of(KnightLibItems.GREAT_ESSENCE.get())),
+    KUKRI(4, 400, 0.5f, 4f, 15, () -> Ingredient.of(KnightLibItems.GREAT_ESSENCE.get())),
+    KHOPESH(4, 2120, 0.5f, 9f, 15, () -> Ingredient.of(KnightLibItems.GREAT_ESSENCE.get())),
+    CLEAVER(4, 2031, 0.5f, 12f, 15, () -> Ingredient.of(KnightLibItems.GREAT_ESSENCE.get())),
 
-    public static final Tier NAIL = TierSortingRegistry.registerTier(new ForgeTier(4, 1821, 0.5f, 2.5f, 15,
-                    KQTags.Blocks.KNIGHTQUEST_TOOLS, () -> Ingredient.of(KnightLibItems.GREAT_ESSENCE.get())),
-            new ResourceLocation(KnightQuest.MOD_ID, "nail_glaive"), List.of(Tiers.NETHERITE), List.of());
+    WATER_SWORD(4, 850, 0.5f, 1.8f, 15, () -> Ingredient.of(KnightLibItems.GREAT_ESSENCE.get())),
+    STEEL_SWORD(4, 300, 0.5f, 1.5f, 15, () -> Ingredient.of(KnightLibItems.GREAT_ESSENCE.get())),
+    WATER_AXE(4, 850, 6.0f, 1.3f, 15, () -> Ingredient.of(KnightLibItems.GREAT_ESSENCE.get())),
+    STEEL_AXE(4, 300, 6.5f, 4f, 15, () -> Ingredient.of(KnightLibItems.GREAT_ESSENCE.get()));
 
-    public static final Tier UCHIGATANA = TierSortingRegistry.registerTier(new ForgeTier(4, 1080, 0.5f, 3f, 14,
-                    KQTags.Blocks.KNIGHTQUEST_TOOLS, () -> Ingredient.of(KnightLibItems.GREAT_ESSENCE.get())),
-            new ResourceLocation(KnightQuest.MOD_ID, "uchigatana_katana"), List.of(Tiers.NETHERITE), List.of());
+    private final int miningLevel;
+    private final int itemDurability;
+    private final float miningSpeed;
+    private final float attackDamage;
+    private final int enchantability;
+    private final Supplier<Ingredient> repairIngredient;
 
-    public static final Tier KUKRI = TierSortingRegistry.registerTier(new ForgeTier(4, 200, 0.5f, 1f, 14,
-                    KQTags.Blocks.KNIGHTQUEST_TOOLS, () -> Ingredient.of(KnightLibItems.GREAT_ESSENCE.get())),
-            new ResourceLocation(KnightQuest.MOD_ID, "kukri_dagger"), List.of(Tiers.NETHERITE), List.of());
+    KQItemMaterials(int miningLevel, int itemDurability, float miningSpeed, float attackDamage, int enchantability, Supplier<Ingredient> repairIngredient) {
+        this.miningLevel = miningLevel;
+        this.itemDurability = itemDurability;
+        this.miningSpeed = miningSpeed;
+        this.attackDamage = attackDamage;
+        this.enchantability = enchantability;
+        this.repairIngredient = repairIngredient;
+    }
 
-    public static final Tier KHOPESH = TierSortingRegistry.registerTier(new ForgeTier(4, 1831, 0.5f, 3.5f, 15,
-                    KQTags.Blocks.KNIGHTQUEST_TOOLS, () -> Ingredient.of(KnightLibItems.GREAT_ESSENCE.get())),
-            new ResourceLocation(KnightQuest.MOD_ID, "khopesh_claymore"), List.of(Tiers.NETHERITE), List.of());
+    @Override
+    public int getUses() {
+        return this.itemDurability;
+    }
 
-    public static final Tier CLEAVER = TierSortingRegistry.registerTier(new ForgeTier(4, 1831, 0.5f, 3.2f, 15,
-                    KQTags.Blocks.KNIGHTQUEST_TOOLS, () -> Ingredient.of(KnightLibItems.GREAT_ESSENCE.get())),
-            new ResourceLocation(KnightQuest.MOD_ID, "cleaver_heavy_axe"), List.of(Tiers.NETHERITE), List.of());
+    @Override
+    public float getSpeed() {
+        return this.miningSpeed;
+    }
 
-    public static final Tier CRIMSON_SWORD = TierSortingRegistry.registerTier(new ForgeTier(4, 1450, 0.5f, 2.5f, 14,
-                    KQTags.Blocks.KNIGHTQUEST_TOOLS, () -> Ingredient.of(KnightLibItems.GREAT_ESSENCE.get())),
-            new ResourceLocation(KnightQuest.MOD_ID, "crimson_sword"), List.of(Tiers.NETHERITE), List.of());
+    @Override
+    public float getAttackDamageBonus() {
+        return this.attackDamage;
+    }
 
-    public static final Tier WATER_SWORD = TierSortingRegistry.registerTier(new ForgeTier(4, 850, 0.5f, 2f, 14,
-                    KQTags.Blocks.KNIGHTQUEST_TOOLS, () -> Ingredient.of(KnightLibItems.GREAT_ESSENCE.get())),
-            new ResourceLocation(KnightQuest.MOD_ID, "water_sword"), List.of(Tiers.NETHERITE), List.of());
+    @Override
+    public int getLevel() {
+        return this.miningLevel;
+    }
 
-    public static final Tier STEEL_SWORD = TierSortingRegistry.registerTier(new ForgeTier(4, 300, 0.5f, 2.5f, 14,
-                    KQTags.Blocks.KNIGHTQUEST_TOOLS, () -> Ingredient.of(KnightLibItems.GREAT_ESSENCE.get())),
-            new ResourceLocation(KnightQuest.MOD_ID, "steel_sword"), List.of(Tiers.NETHERITE), List.of());
+    @Override
+    public int getEnchantmentValue() {
+        return this.enchantability;
+    }
 
-    public static final Tier WATER_AXE = TierSortingRegistry.registerTier(new ForgeTier(4, 850, 6.0f, 1.5f, 14,
-                    KQTags.Blocks.KNIGHTQUEST_TOOLS, () -> Ingredient.of(KnightLibItems.GREAT_ESSENCE.get())),
-            new ResourceLocation(KnightQuest.MOD_ID, "water_axe"), List.of(Tiers.NETHERITE), List.of());
-
-    public static final Tier STEEL_AXE = TierSortingRegistry.registerTier(new ForgeTier(4, 300, 6.5f, 1.5f, 14,
-                    KQTags.Blocks.KNIGHTQUEST_TOOLS, () -> Ingredient.of(KnightLibItems.GREAT_ESSENCE.get())),
-            new ResourceLocation(KnightQuest.MOD_ID, "steel_axe"), List.of(Tiers.NETHERITE), List.of());
-
+    @Override
+    public @NotNull Ingredient getRepairIngredient() {
+        return this.repairIngredient.get();
+    }
 
 }

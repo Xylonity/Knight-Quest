@@ -3,10 +3,12 @@ package net.xylonity.knightquest.registry;
 import dev.xylonity.knightlib.compat.registry.KnightLibBlocks;
 import dev.xylonity.knightlib.compat.registry.KnightLibItems;
 import net.minecraft.core.NonNullList;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.xylonity.knightquest.KnightQuest;
+import org.jetbrains.annotations.NotNull;
 
 public class KnightQuestCreativeModeTabs extends CreativeModeTab {
 
@@ -18,8 +20,13 @@ public class KnightQuestCreativeModeTabs extends CreativeModeTab {
     }
 
     @Override
-    public ItemStack makeIcon() {
-        return new ItemStack(KnightQuestItems.PALADIN_SWORD.get());
+    public @NotNull ItemStack makeIcon() {
+        return new ItemStack(KnightQuestWeapons.PALADIN_SWORD.get());
+    }
+
+    @Override
+    public @NotNull Component getDisplayName() {
+        return Component.translatable("itemgroup.knightquest");
     }
 
     @Override

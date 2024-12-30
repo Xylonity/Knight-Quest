@@ -394,14 +394,6 @@ public class KQArmorItem extends ArmorItem {
                             entity.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 120, 0, false, false, true));
                     }
 
-                // BLAZESET
-                if (KQConfigValues.BLAZESET)
-                    if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.BLAZESET)) {
-                        RandomSource random = entity.level().getRandom();
-                        if (source.getEntity() != null && random.nextFloat() < KQConfigValues.BLAZE_FIRE_CHANCE)
-                            source.getEntity().setSecondsOnFire(random.nextIntBetweenInclusive(KQConfigValues.BLAZE_FIRE_DURATION_MIN, KQConfigValues.BLAZE_FIRE_DURATION_MAX));
-                    }
-
                 // DRAGONSET
                 if (KQConfigValues.DRAGONSET)
                     if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.DRAGONSET))

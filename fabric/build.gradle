@@ -17,7 +17,7 @@ dependencies {
 
     modApi "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${project.fuzs_version}"
 
-    modImplementation "curse.maven:knight-lib-1105855:5823031"
+    modImplementation "curse.maven:knight-lib-1105855:6025315"
 
     modImplementation("software.bernie.geckolib:geckolib-fabric-${minecraft_version}:4.4.7")
 

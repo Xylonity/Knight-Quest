@@ -6,6 +6,7 @@ import dev.xylonity.knightquest.common.item.weapons.KhopeshWeapon;
 import dev.xylonity.knightquest.common.item.weapons.UchigatanaWeapon;
 import dev.xylonity.knightquest.common.material.KQArmorMaterials;
 import dev.xylonity.knightquest.config.values.KQConfigValues;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -25,6 +26,14 @@ public abstract class PlayerEntityMixin {
 
         // Victim: Player
         if ((Object) this instanceof Player player) {
+
+            // BLAZESET
+            if (KQConfigValues.BLAZESET)
+                if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.BLAZESET)) {
+                    RandomSource random = player.level().getRandom();
+                    if (source.getEntity() != null && random.nextFloat() < KQConfigValues.BLAZE_FIRE_CHANCE)
+                        source.getEntity().setSecondsOnFire(random.nextIntBetweenInclusive(KQConfigValues.BLAZE_FIRE_DURATION_MIN, KQConfigValues.BLAZE_FIRE_DURATION_MAX));
+                }
 
             if (KQConfigValues.DEEPSLATESET && KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.DEEPSLATESET) && source.is(DamageTypes.FALL))
                 return (float) (damageOriginal * KQConfigValues.DEEPSLATE_FALL_DAMAGE_MULTIPLIER);

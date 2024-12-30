@@ -16,6 +16,9 @@ public class KQConfigValues {
     static Path CONFIG_PATH = FMLPaths.CONFIGDIR.get().resolve("knightquest.toml");
     private static final boolean V = Files.exists(CONFIG_PATH);
 
+    // General Configuration Section
+    public static int REQUIRED_ARMOR_PIECES = V ? KnightQuestCommonConfigs.REQUIRED_ARMOR_PIECES.get() : 4;
+
     // Eld Knight Configuration Section
     public static boolean POISON_ELDKNIGHT = V ? KnightQuestCommonConfigs.POISON_ELDKNIGHT.get() : true;
     public static int NUM_ELDBOMB_ELDKNIGHT = V ? KnightQuestCommonConfigs.NUM_ELDBOMB_ELDKNIGHT.get() : 3;
@@ -41,22 +44,24 @@ public class KQConfigValues {
     public static boolean POISON_PHASE_2_SWAMPMAN = V ? KnightQuestCommonConfigs.POISON_PHASE_2_SWAMPMAN.get() : true;
 
     // Netherman Configuration Section
-    public static double WINTER_STORM_RADIUS = V ? KnightQuestCommonConfigs.WINTER_STORM_RADIUS.get() : 50.0;
-    public static int FROZEN_TICKS = V ? KnightQuestCommonConfigs.FROZEN_TICKS.get() : 4;
-    public static boolean CAN_SUMMON_NETHERMAN = V ? KnightQuestCommonConfigs.CAN_SUMMON_NETHERMAN.get() : true;
-    public static boolean SPAWN_LIGHTNING_ON_SPAWN = V ? KnightQuestCommonConfigs.SPAWN_LIGHTNING_ON_SPAWN.get() : true;
-    public static boolean GENERATE_PARTICLES_ON_SUMMON = V ? KnightQuestCommonConfigs.GENERATE_PARTICLES_ON_SUMMON.get() : true;
-    public static double TELEPORT_PROBABILITY = V ? KnightQuestCommonConfigs.TELEPORT_PROBABILITY.get() : 0.5;
+    public static double NETHERMAN_HEALTH = V ? KnightQuestCommonConfigs.NETHERMAN_HEALTH.get() : 450.0;
+    public static double NETHERMAN_DAMAGE = V ? KnightQuestCommonConfigs.NETHERMAN_DAMAGE.get() : 16.0;
+    public static boolean TELEPORT_ON_HIT = V ? KnightQuestCommonConfigs.TELEPORT_ON_HIT.get() : true;
+    public static int FIRE_ATTACK_MIN_TIME = V ? KnightQuestCommonConfigs.FIRE_ATTACK_MIN_TIME.get() : 3;
+    public static int FIRE_ATTACK_MAX_TIME = V ? KnightQuestCommonConfigs.FIRE_ATTACK_MAX_TIME.get() : 7;
+    public static int MAX_NETHERMAN_CLONES = V ? KnightQuestCommonConfigs.MAX_NETHERMAN_CLONES.get() : 4;
+    public static int ICE_ATTACK_FREEZE_TICKS = V ? KnightQuestCommonConfigs.ICE_ATTACK_FREEZE_TICKS.get() : 300;
+    public static int DARKNESS_ATTACK_MIN_TIME = V ? KnightQuestCommonConfigs.DARKNESS_ATTACK_MIN_TIME.get() : 3;
+    public static int DARKNESS_ATTACK_MAX_TIME = V ? KnightQuestCommonConfigs.DARKNESS_ATTACK_MAX_TIME.get() : 7;
+    public static int CLONE_EXPLOSION_FREEZE_TICKS = V ? KnightQuestCommonConfigs.CLONE_EXPLOSION_FREEZE_TICKS.get() : 200;
+    public static double NETHERMAN_PROJECTILE_EXPLOSION_RADIUS = V ? KnightQuestCommonConfigs.NETHERMAN_PROJECTILE_EXPLOSION_RADIUS.get() : 3.0;
     public static boolean RESTORE_BLOCKS_POST_DEATH = V ? KnightQuestCommonConfigs.RESTORE_BLOCKS_POST_DEATH.get() : true;
     public static int EXPERIENCE_DROP_AMOUNT = V ? KnightQuestCommonConfigs.EXPERIENCE_DROP_AMOUNT.get() : 500;
-    public static boolean LIGHTNING_STRIKE_IN_PHASE_THREE = V ? KnightQuestCommonConfigs.LIGHTNING_STRIKE_IN_PHASE_THREE.get() : true;
-    public static int LIGHTNING_TICK_INTERVAL = V ? KnightQuestCommonConfigs.LIGHTNING_TICK_INTERVAL.get() : 40;
-    public static double SNOW_PARTICLE_SPEED = V ? KnightQuestCommonConfigs.SNOW_PARTICLE_SPEED.get() : 1.5;
-    public static int SNOW_PARTICLE_COUNT = V ? KnightQuestCommonConfigs.SNOW_PARTICLE_COUNT.get() : 60;
 
     // Armor Passives Configuration Section
     public static boolean BAMBOOSET_PUSH_PLAYERS = V ? KnightQuestCommonConfigs.ENABLE_BAMBOOSET_PUSH_PLAYERS.get() : false;
     public static int TELEPORT_RADIUS_ENDERMANSET = V ? KnightQuestCommonConfigs.TELEPORT_RADIUS_ENDERMANSET.get() : 10;
+    public static double CHANCE_ENDERMANSET = V ? KnightQuestCommonConfigs.CHANCE_ENDERMANSET.get() : 0.4;
     public static double FORZESET_DEFLECT_CHANCE = V ? KnightQuestCommonConfigs.FORZESET_DEFLECT_CHANCE.get() : 0.3;
     public static double FORZESET_DEFLECT_DAMAGE = V ? KnightQuestCommonConfigs.FORZESET_DEFLECT_DAMAGE.get() : 0.5;
     public static double SILVERSET_BURN_CHANCE = V ? KnightQuestCommonConfigs.SILVERSET_BURN_CHANCE.get() : 0.3;
@@ -117,4 +122,33 @@ public class KQConfigValues {
     public static boolean SILVERFISHSET = V ? KnightQuestCommonConfigs.ENABLE_SILVERFISHSET.get() : true;
     public static boolean SKELETONSET = V ? KnightQuestCommonConfigs.ENABLE_SKELETONSET.get() : true;
 
+    public static boolean CLEAVER = V ? KnightQuestCommonConfigs.ENABLE_CLEAVER.get() : true;
+    public static boolean KHOPESH = V ? KnightQuestCommonConfigs.ENABLE_KHOPESH.get() : true;
+    public static boolean KUKRI = V ? KnightQuestCommonConfigs.ENABLE_KUKRI.get() : true;
+    public static boolean NAIL = V ? KnightQuestCommonConfigs.ENABLE_NAIL.get() : true;
+    public static boolean PALADIN = V ? KnightQuestCommonConfigs.ENABLE_PALADIN.get() : true;
+    public static boolean UCHIGATANA = V ? KnightQuestCommonConfigs.ENABLE_UCHIGATANA.get() : true;
+
+    public static int COOLDOWN_CLEAVER = V ? KnightQuestCommonConfigs.COOLDOWN_CLEAVER.get() : 1800;
+    public static int COOLDOWN_KHOPESH = V ? KnightQuestCommonConfigs.COOLDOWN_KHOPESH.get() : 500;
+    public static int COOLDOWN_KUKRI = V ? KnightQuestCommonConfigs.COOLDOWN_KUKRI.get() : 300;
+    public static int COOLDOWN_NAIL = V ? KnightQuestCommonConfigs.COOLDOWN_NAIL.get() : 100;
+    public static int COOLDOWN_PALADIN = V ? KnightQuestCommonConfigs.COOLDOWN_PALADIN.get() : 500;
+    public static int COOLDOWN_UCHIGATANA = V ? KnightQuestCommonConfigs.COOLDOWN_UCHIGATANA.get() : 400;
+
+    public static int SPEED_TICKS_KUKRI = V ? KnightQuestCommonConfigs.SPEED_TICKS_KUKRI.get() : 120;
+    public static int FREEZE_TICKS_KUKRI = V ? KnightQuestCommonConfigs.FREEZE_TICKS_KUKRI.get() : 125;
+    public static int INV_TICKS_PALADIN = V ? KnightQuestCommonConfigs.INV_TICKS_PALADIN.get() : 100;
+    public static double DASH_POWER_NAIL = V ? KnightQuestCommonConfigs.DASH_POWER_NAIL.get() : 1.5;
+    public static double EXTRA_DAMAGE_UCHIGATANA = V ? KnightQuestCommonConfigs.EXTRA_DAMAGE_UCHIGATANA.get() : 0.6;
+    public static double EXTRA_DAMAGE_PASSIVE_UCHIGATANA = V ? KnightQuestCommonConfigs.EXTRA_DAMAGE_PASSIVE_UCHIGATANA.get() : 0.2;
+    public static double ENEMY_HEALTH_PASSIVE_UCHIGATANA = V ? KnightQuestCommonConfigs.ENEMY_HEALTH_PASSIVE_UCHIGATANA.get() : 0.5;
+    public static int REFLECTION_TIME_KHOPESH = V ? KnightQuestCommonConfigs.REFLECTION_TIME_KHOPESH.get() : 160;
+    public static double CHANCE_BURN_KHOPESH = V ? KnightQuestCommonConfigs.CHANCE_BURN_KHOPESH.get() : 0.15;
+    public static double REGEN_MAX_PALADIN = V ? KnightQuestCommonConfigs.REGEN_MAX_PALADIN.get() : 0.50;
+    public static int REGEN_TICKS_PALADIN = V ? KnightQuestCommonConfigs.REGEN_TICKS_PALADIN.get() : 30;
+    public static int REGEN_HP_PALADIN = V ? KnightQuestCommonConfigs.REGEN_HP_PALADIN.get() : 1;
+    public static int TICKS_CLEAVER = V ? KnightQuestCommonConfigs.TICKS_CLEAVER.get() : 600;
+    public static double EXTRA_DAMAGE_PASSIVE_CLEAVER = V ? KnightQuestCommonConfigs.EXTRA_DAMAGE_PASSIVE_CLEAVER.get() : 0.2;
+    public static double ENEMY_HEALTH_PASSIVE_CLEAVER = V ? KnightQuestCommonConfigs.ENEMY_HEALTH_PASSIVE_CLEAVER.get() : 0.5;
 }

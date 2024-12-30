@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "knightquest:item/music_disc_the_architect_of_chaos"
+  }
+}

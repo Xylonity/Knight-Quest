@@ -5,14 +5,15 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.xylonity.knightquest.common.entity.boss.NethermanEntity;
@@ -25,26 +26,15 @@ public class NethermanLavaTeleportGoal extends Goal {
         this.netherman = netherman;
     }
 
-    /**
-     * Returns whether execution should begin. You can also read and cache any state necessary for execution in this
-     * method as well.
-     */
     public boolean canUse() {
-        return this.netherman.getTarget() != null;
+        return this.netherman.getTarget() != null && this.netherman.getPhase() == 1;
     }
 
-    /**
-     * Execute a one shot task or start executing a continuous task
-     */
     public void start() {
         this.chargeTime = 300;
     }
 
-    /**
-     * Reset the task's internal state. Called when this task is interrupted by another one
-     */
     public void stop() {
-        this.netherman.setCharging(false);
         this.chargeTime = 0;
     }
 
@@ -88,9 +78,12 @@ public class NethermanLavaTeleportGoal extends Goal {
 
             BlockPos targetPos = new BlockPos((int) x, (int) y, (int) z);
             if (isValidTeleportPosition(targetPos)) {
-                BlockPos blockBelow = targetPos.below();
-                this.netherman.saveBlockState(blockBelow);
-                this.netherman.level.setBlock(blockBelow, Blocks.LAVA.defaultBlockState(), 3);
+
+                if (this.netherman.level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
+                    BlockPos blockBelow = targetPos.below();
+                    this.netherman.saveBlockState(blockBelow);
+                    this.netherman.level.setBlock(blockBelow, Blocks.LAVA.defaultBlockState(), 3);
+                }
 
                 for (Player player : this.netherman.level.players()) {
                     if (player instanceof ServerPlayer serverPlayer) {
@@ -118,7 +111,9 @@ public class NethermanLavaTeleportGoal extends Goal {
                     }
                 }
 
-                this.netherman.level.playSound(null, this.netherman.blockPosition(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.BLOCKS, 1f, 1f);
+                this.netherman.level.gameEvent(GameEvent.TELEPORT, this.netherman.position(), GameEvent.Context.of(this.netherman));
+                this.netherman.level.playSound(null, this.netherman.xo, this.netherman.yo, this.netherman.zo, SoundEvents.ENDERMAN_TELEPORT, this.netherman.getSoundSource(), 1.0F, 1.0F);
+                this.netherman.playSound(SoundEvents.ENDERMAN_TELEPORT, 1.0F, 1.0F);
                 this.netherman.teleportTo(x, y, z);
                 return;
             } else if (bestPos == null || isBetterPosition(targetPos, bestPos)) {
@@ -127,12 +122,9 @@ public class NethermanLavaTeleportGoal extends Goal {
         }
     }
 
-    /**
-     * Keep ticking a continuous task that has already been started
-     */
     public void tick() {
         LivingEntity livingentity = this.netherman.getTarget();
-        if (livingentity != null && this.netherman.getPhase() == 1 && this.netherman.getHealth() >= this.netherman.getMaxHealth() * 0.7) {
+        if (livingentity != null) {
 
             if (livingentity.distanceToSqr(this.netherman) < 4096.0D && this.netherman.hasLineOfSight(livingentity)) {
 
@@ -154,7 +146,6 @@ public class NethermanLavaTeleportGoal extends Goal {
                 this.chargeTime = 300;
             }
 
-            this.netherman.setCharging(this.chargeTime > 0);
         } else {
             this.chargeTime = 300;
         }

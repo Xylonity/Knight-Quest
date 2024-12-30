@@ -1,8 +1,7 @@
 {
-  "netherman_boss_music": {
-    "subtitles": "sounds.knightquest.netherman_boss_music",
+  "the_architect_of_chaos": {
     "sounds": [
-      "knightquest:netherman_boss_music"
+      "knightquest:the_architect_of_chaos"
     ]
   }
 }

@@ -1,5 +1,6 @@
 package net.xylonity.knightquest.common.entity.boss.ai;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
 import net.minecraft.server.level.ServerPlayer;
@@ -9,8 +10,12 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
 import net.xylonity.knightquest.common.entity.boss.NethermanEntity;
+import net.xylonity.knightquest.config.values.KQConfigValues;
+
 
 public class NethermanFlameGoal extends Goal {
     private final NethermanEntity netherman;
@@ -20,29 +25,15 @@ public class NethermanFlameGoal extends Goal {
         this.netherman = netherman;
     }
 
-    /**
-     * Returns whether execution should begin. You can also read and cache any state necessary for execution in this
-     * method as well.
-     */
-
     public boolean canUse() {
-        return this.netherman.getTarget() != null;
+        return this.netherman.getTarget() != null && this.netherman.getPhase() == 1;
     }
-
-    /**
-     * Execute a one shot task or start executing a continuous task
-     */
 
     public void start() {
         this.chargeTime = 200;
     }
 
-    /**
-     * Reset the task's internal state. Called when this task is interrupted by another one
-     */
-
     public void stop() {
-        this.netherman.setCharging(false);
         this.chargeTime = 0;
     }
 
@@ -50,13 +41,9 @@ public class NethermanFlameGoal extends Goal {
         return true;
     }
 
-    /**
-     * Keep ticking a continuous task that has already been started
-     */
-
     public void tick() {
         LivingEntity livingentity = this.netherman.getTarget();
-        if (livingentity != null && this.netherman.getPhase() == 1 && this.netherman.getHealth() >= this.netherman.getMaxHealth() * 0.75) {
+        if (livingentity != null) {
             if (livingentity.distanceToSqr(this.netherman) < 4096.0D && this.netherman.hasLineOfSight(livingentity)) {
                 Level level = this.netherman.level;
 
@@ -64,9 +51,13 @@ public class NethermanFlameGoal extends Goal {
                     --this.chargeTime;
                 }
 
-                if (this.chargeTime == 30) {
-                    this.netherman.setNoMovement(true);
-                    this.netherman.setIsAttacking(true);
+                if (chargeTime == 35) {
+                    teleportToRandomLocationAroundTarget(netherman.getTarget());
+                }
+
+                if (chargeTime == 30) {
+                    netherman.setNoMovement(true);
+                    netherman.setIsDoingFlameAttack(true);
                 }
 
                 if (this.chargeTime == 20 && !this.netherman.isSilent()) {
@@ -94,7 +85,7 @@ public class NethermanFlameGoal extends Goal {
                                         ParticleTypes.FLAME,
                                         true,
                                         x, y, z,
-                                        (float) vx, (float) vy, (float) vz,
+                                        (float) vx, (float) vy + 1f, (float) vz,
                                         0.2f,
                                         2
                                 ));
@@ -135,22 +126,45 @@ public class NethermanFlameGoal extends Goal {
                         }
                     }
 
-                    this.netherman.getTarget().setRemainingFireTicks(this.netherman.getTarget().getRandom().nextInt(3, 7) * 20);
-                    this.netherman.setNoMovement(false);
+                    this.netherman.getTarget().setRemainingFireTicks(this.netherman.getTarget().getRandom().nextInt(KQConfigValues.FIRE_ATTACK_MIN_TIME, KQConfigValues.FIRE_ATTACK_MAX_TIME) * 20);
                 }
 
                 if (this.chargeTime == 0) {
-                    this.netherman.setIsAttacking(false);
                     this.chargeTime = 200;
+                    teleportToRandomLocationAroundTarget(netherman.getTarget());
                 }
 
             } else {
                 this.chargeTime = 200;
             }
 
-            this.netherman.setCharging(this.chargeTime > 0);
         } else {
             this.chargeTime = 200;
         }
     }
+
+    private void teleportToRandomLocationAroundTarget(LivingEntity target) {
+        boolean teleported = false;
+
+        this.netherman.level.gameEvent(GameEvent.TELEPORT, this.netherman.position(), GameEvent.Context.of(this.netherman));
+        this.netherman.level.playSound(null, this.netherman.xo, this.netherman.yo, this.netherman.zo, SoundEvents.ENDERMAN_TELEPORT, this.netherman.getSoundSource(), 1.0F, 1.0F);
+        this.netherman.playSound(SoundEvents.ENDERMAN_TELEPORT, 1.0F, 1.0F);
+
+        for (int i = 0; i < 32 && !teleported; i++) {
+            double angle = netherman.getRandom().nextDouble() * 2 * Math.PI;
+            double distance = 10 + netherman.getRandom().nextDouble() * 20;
+            double dx = target.getX() + distance * Math.cos(angle);
+            double dz = target.getZ() + distance * Math.sin(angle);
+            double dy = netherman.level.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, new BlockPos((int) dx, (int) netherman.getY(), (int) dz)).getY();
+
+            if (netherman.randomTeleport(dx, dy, dz, true)) {
+                teleported = true;
+            }
+        }
+
+        if (!teleported) {
+            netherman.teleportTo(target.getX(), target.getY(), target.getZ());
+        }
+    }
+
 }

@@ -2,26 +2,25 @@ package net.xylonity.knightquest.common.item;
 
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
-import net.xylonity.knightquest.common.material.KQArmorMaterials;
+import net.xylonity.knightquest.config.values.KQConfigValues;
 
 public class KQFullSetChecker {
 
-    protected static boolean hasFullSuitOfArmorOn(Player player, KQArmorMaterials material) {
+    public static boolean hasFullSetOn(Player player, ArmorMaterial material) {
+        int requiredPieces = KQConfigValues.REQUIRED_ARMOR_PIECES;
+        int equippedPieces = 0;
 
         for (ItemStack armorStack : player.getInventory().armor) {
-            if(!(armorStack.getItem() instanceof ArmorItem)) {
-                return false;
+            if (!armorStack.isEmpty() && armorStack.getItem() instanceof ArmorItem armorItem) {
+                if (armorItem.getMaterial() == material) {
+                    equippedPieces++;
+                }
             }
         }
 
-        ArmorItem helmet = (ArmorItem) player.getInventory().getArmor(3).getItem();
-        ArmorItem chestplate = (ArmorItem) player.getInventory().getArmor(2).getItem();
-        ArmorItem leggings = (ArmorItem) player.getInventory().getArmor(1).getItem();
-        ArmorItem boots = (ArmorItem) player.getInventory().getArmor(0).getItem();
-
-        return helmet.getMaterial() == material && chestplate.getMaterial() == material &&
-                leggings.getMaterial() == material && boots.getMaterial() == material;
+        return equippedPieces >= requiredPieces;
     }
 
 }

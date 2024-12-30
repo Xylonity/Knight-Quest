@@ -26,13 +26,20 @@ public class NethermanCloneRenderer extends GeoEntityRenderer<NethermanCloneEnti
 
     @Override
     public @NotNull ResourceLocation getTextureLocation(@NotNull NethermanCloneEntity animatable) {
-
         return new ResourceLocation(KnightQuest.MOD_ID, "textures/entity/netherman_clone.png");
     }
 
     @Override
     public RenderType getRenderType(NethermanCloneEntity animatable, float partialTick, PoseStack poseStack, @Nullable MultiBufferSource bufferSource, @Nullable VertexConsumer buffer, int packedLight, ResourceLocation texture) {
         return RenderType.entityTranslucent(getTextureLocation(animatable));
+    }
+
+    @Override
+    protected void applyRotations(NethermanCloneEntity animatable, PoseStack poseStack, float ageInTicks, float rotationYaw, float partialTick) {
+
+        rotationYaw += (float)(Math.sin(3 * animatable.getRandom().nextInt(-100, 100)) * 2.5);
+
+        super.applyRotations(animatable, poseStack, ageInTicks, rotationYaw, partialTick);
     }
 
     @Override

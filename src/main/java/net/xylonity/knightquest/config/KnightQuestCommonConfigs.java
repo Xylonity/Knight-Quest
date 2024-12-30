@@ -6,6 +6,9 @@ public class KnightQuestCommonConfigs {
     public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
     public static final ForgeConfigSpec SPEC;
 
+    // General Configurations
+    public static final ForgeConfigSpec.IntValue REQUIRED_ARMOR_PIECES;
+
     // Eld Knight Configurations
     public static final ForgeConfigSpec.BooleanValue POISON_ELDKNIGHT;
     public static final ForgeConfigSpec.IntValue NUM_ELDBOMB_ELDKNIGHT;
@@ -31,22 +34,24 @@ public class KnightQuestCommonConfigs {
     public static final ForgeConfigSpec.BooleanValue POISON_PHASE_2_SWAMPMAN;
 
     // Netherman Configurations
-    public static final ForgeConfigSpec.BooleanValue CAN_SUMMON_NETHERMAN;
-    public static final ForgeConfigSpec.BooleanValue SPAWN_LIGHTNING_ON_SPAWN;
-    public static final ForgeConfigSpec.BooleanValue GENERATE_PARTICLES_ON_SUMMON;
-    public static final ForgeConfigSpec.DoubleValue TELEPORT_PROBABILITY;
+    public static final ForgeConfigSpec.DoubleValue NETHERMAN_HEALTH;
+    public static final ForgeConfigSpec.DoubleValue NETHERMAN_DAMAGE;
+    public static final ForgeConfigSpec.BooleanValue TELEPORT_ON_HIT;
+    public static final ForgeConfigSpec.IntValue FIRE_ATTACK_MIN_TIME;
+    public static final ForgeConfigSpec.IntValue FIRE_ATTACK_MAX_TIME;
+    public static final ForgeConfigSpec.IntValue MAX_NETHERMAN_CLONES;
+    public static final ForgeConfigSpec.IntValue ICE_ATTACK_FREEZE_TICKS;
+    public static final ForgeConfigSpec.IntValue DARKNESS_ATTACK_MIN_TIME;
+    public static final ForgeConfigSpec.IntValue DARKNESS_ATTACK_MAX_TIME;
+    public static final ForgeConfigSpec.IntValue CLONE_EXPLOSION_FREEZE_TICKS;
+    public static final ForgeConfigSpec.DoubleValue NETHERMAN_PROJECTILE_EXPLOSION_RADIUS;
     public static final ForgeConfigSpec.BooleanValue RESTORE_BLOCKS_POST_DEATH;
     public static final ForgeConfigSpec.IntValue EXPERIENCE_DROP_AMOUNT;
-    public static final ForgeConfigSpec.BooleanValue LIGHTNING_STRIKE_IN_PHASE_THREE;
-    public static final ForgeConfigSpec.IntValue LIGHTNING_TICK_INTERVAL;
-    public static final ForgeConfigSpec.DoubleValue SNOW_PARTICLE_SPEED;
-    public static final ForgeConfigSpec.IntValue SNOW_PARTICLE_COUNT;
-    public static final ForgeConfigSpec.DoubleValue WINTER_STORM_RADIUS;
-    public static final ForgeConfigSpec.IntValue FROZEN_TICKS;
 
     // Armor Set Configurations
     public static final ForgeConfigSpec.BooleanValue ENABLE_BAMBOOSET_PUSH_PLAYERS;
     public static final ForgeConfigSpec.IntValue TELEPORT_RADIUS_ENDERMANSET;
+    public static final ForgeConfigSpec.DoubleValue CHANCE_ENDERMANSET;
     public static final ForgeConfigSpec.DoubleValue FORZESET_DEFLECT_CHANCE;
     public static final ForgeConfigSpec.DoubleValue FORZESET_DEFLECT_DAMAGE;
     public static final ForgeConfigSpec.DoubleValue SILVERSET_BURN_CHANCE;
@@ -107,7 +112,70 @@ public class KnightQuestCommonConfigs {
     public static final ForgeConfigSpec.BooleanValue ENABLE_SILVERFISHSET;
     public static final ForgeConfigSpec.BooleanValue ENABLE_SKELETONSET;
 
+    public static final ForgeConfigSpec.BooleanValue ENABLE_CLEAVER;
+    public static final ForgeConfigSpec.BooleanValue ENABLE_KHOPESH;
+    public static final ForgeConfigSpec.BooleanValue ENABLE_KUKRI;
+    public static final ForgeConfigSpec.BooleanValue ENABLE_NAIL;
+    public static final ForgeConfigSpec.BooleanValue ENABLE_PALADIN;
+    public static final ForgeConfigSpec.BooleanValue ENABLE_UCHIGATANA;
+
+    public static final ForgeConfigSpec.IntValue COOLDOWN_CLEAVER;
+    public static final ForgeConfigSpec.IntValue COOLDOWN_KHOPESH;
+    public static final ForgeConfigSpec.IntValue COOLDOWN_KUKRI;
+    public static final ForgeConfigSpec.IntValue COOLDOWN_NAIL;
+    public static final ForgeConfigSpec.IntValue COOLDOWN_PALADIN;
+    public static final ForgeConfigSpec.IntValue COOLDOWN_UCHIGATANA;
+
+    public static final ForgeConfigSpec.IntValue SPEED_TICKS_KUKRI;
+    public static final ForgeConfigSpec.IntValue FREEZE_TICKS_KUKRI;
+    public static final ForgeConfigSpec.IntValue INV_TICKS_PALADIN;
+    public static final ForgeConfigSpec.DoubleValue DASH_POWER_NAIL;
+    public static final ForgeConfigSpec.DoubleValue EXTRA_DAMAGE_UCHIGATANA;
+    public static final ForgeConfigSpec.DoubleValue EXTRA_DAMAGE_PASSIVE_UCHIGATANA;
+    public static final ForgeConfigSpec.DoubleValue ENEMY_HEALTH_PASSIVE_UCHIGATANA;
+    public static final ForgeConfigSpec.IntValue REFLECTION_TIME_KHOPESH;
+    public static final ForgeConfigSpec.DoubleValue CHANCE_BURN_KHOPESH;
+    public static final ForgeConfigSpec.DoubleValue REGEN_MAX_PALADIN;
+    public static final ForgeConfigSpec.IntValue REGEN_TICKS_PALADIN;
+    public static final ForgeConfigSpec.IntValue REGEN_HP_PALADIN;
+    public static final ForgeConfigSpec.IntValue TICKS_CLEAVER;
+    public static final ForgeConfigSpec.DoubleValue EXTRA_DAMAGE_PASSIVE_CLEAVER;
+    public static final ForgeConfigSpec.DoubleValue ENEMY_HEALTH_PASSIVE_CLEAVER;
+
     static {
+        // General configuration Section
+        BUILDER.push("General Configuration");
+        BUILDER.comment("The amount of armor pieces required to apply a set effect, which means that if this value is set to 1, you can equip 4 different armors pieces and receive the passive effects of each set.");
+        REQUIRED_ARMOR_PIECES = BUILDER.defineInRange("Required armor pieces to apply a full-set bonus effect", 4, 1, 4);
+        BUILDER.pop();
+
+        // Weapon configuration Section
+        BUILDER.push("Weapon Configuration");
+        BUILDER.comment("The following cooldowns and timings, per se, are measured in ticks (1 second = 20 ticks)");
+        COOLDOWN_CLEAVER = BUILDER.defineInRange("Cooldown of the Cleaver weapon when using its active ability", 1800, 0, 20000);
+        COOLDOWN_KHOPESH = BUILDER.defineInRange("Cooldown of the Khopesh weapon when using its active ability", 500, 0, 20000);
+        COOLDOWN_KUKRI = BUILDER.defineInRange("Cooldown of the Kukri weapon when using its active ability", 300, 0, 20000);
+        COOLDOWN_NAIL = BUILDER.defineInRange("Cooldown of the Nail weapon when using its active ability", 100, 0, 20000);
+        COOLDOWN_PALADIN = BUILDER.defineInRange("Cooldown of the Paladin weapon when using its active ability", 500, 0, 20000);
+        COOLDOWN_UCHIGATANA = BUILDER.defineInRange("Cooldown of the Uchigatana weapon when using its active ability", 400, 0, 20000);
+        SPEED_TICKS_KUKRI = BUILDER.defineInRange("Duration of the speed boost from the Kukri's active ability", 120, 0, 6000);
+        FREEZE_TICKS_KUKRI = BUILDER.defineInRange("Number of freeze ticks applied by the Kukri per hit", 125, 0, 10000);
+        INV_TICKS_PALADIN = BUILDER.defineInRange("Duration of invulnerability from the Paladin's active ability", 100, 0, 600);
+        DASH_POWER_NAIL = BUILDER.defineInRange("Dash power of the nail (this should stay low unless you wanna go to the moon)", 1.5, 0.0, 50);
+        BUILDER.comment("Extra damage modifiers are measured as percentages: 0 means no extra damage, 1 means 100% extra base damage (resulting in 200% total).");
+        EXTRA_DAMAGE_UCHIGATANA = BUILDER.defineInRange("Extra damage dealt by the Uchigatana when using its active ability", 0.6, 0.0, 4.0);
+        EXTRA_DAMAGE_PASSIVE_UCHIGATANA = BUILDER.defineInRange("Extra damage dealt by the Uchigatana through its passive ability", 0.2, 0.0, 4.0);
+        ENEMY_HEALTH_PASSIVE_UCHIGATANA = BUILDER.defineInRange("Maximum health the opponent can have for the Uchigatana's passive ability to take effect", 0.5, 0.0, 1.0);
+        REFLECTION_TIME_KHOPESH = BUILDER.defineInRange("Duration of the Khopesh's active ability (reflection)", 160, 0, 1000);
+        CHANCE_BURN_KHOPESH = BUILDER.defineInRange("Chance to burn the opponent with the Khopesh's passive ability", 0.15, 0.0, 1.0);
+        REGEN_TICKS_PALADIN = BUILDER.defineInRange("Interval (in ticks) at which the Paladin's passive ability regenerates health", 30, 0, 400);
+        REGEN_MAX_PALADIN = BUILDER.defineInRange("Maximum percentage of health that the Paladin's passive ability can regenerate", 0.50, 0.0, 1.0);
+        REGEN_HP_PALADIN = BUILDER.defineInRange("Amount of health restored by the Paladin's passive ability", 1, 0, 100);
+        TICKS_CLEAVER = BUILDER.defineInRange("Duration of the Cleaver's active ability", 600, 0, 4000);
+        EXTRA_DAMAGE_PASSIVE_CLEAVER = BUILDER.defineInRange("Extra damage dealt by the Cleaver through its passive ability", 0.2, 0.0, 4.0);
+        ENEMY_HEALTH_PASSIVE_CLEAVER = BUILDER.defineInRange("Minimum health the opponent must have for the Cleaver's passive ability to take effect", 0.5, 0.0, 1.0);
+        BUILDER.pop();
+
         // Eld Knight Configuration Section
         BUILDER.push("Eld Knight Configuration");
         POISON_ELDKNIGHT = BUILDER.define("Should do the poison passive attack", true);
@@ -137,23 +205,24 @@ public class KnightQuestCommonConfigs {
 
         // Netherman Configuration Section
         BUILDER.push("Netherman Configuration");
-        CAN_SUMMON_NETHERMAN = BUILDER.define("Can the Netherman be summoned?", true);
-        SPAWN_LIGHTNING_ON_SPAWN = BUILDER.define("Should spawn a lightning bolt when summoned?", true);
-        GENERATE_PARTICLES_ON_SUMMON = BUILDER.define("Should generate particles when spawning?", true);
-        TELEPORT_PROBABILITY = BUILDER.comment("Probability of teleporting when hit").defineInRange("Teleport Probability", 0.5, 0.0, 1.0);
-        RESTORE_BLOCKS_POST_DEATH = BUILDER.comment("Should it restore blocks converted to lava back to their original state after dying?").define("Restore Blocks Post Death", true);
-        EXPERIENCE_DROP_AMOUNT = BUILDER.comment("Amount of experience dropped upon death").defineInRange("Experience Drop Amount", 500, 0, 3000);
-        LIGHTNING_STRIKE_IN_PHASE_THREE = BUILDER.comment("Should lightning strike in its third phase?").define("Lightning Strike in Phase Three", true);
-        LIGHTNING_TICK_INTERVAL = BUILDER.comment("How often should a lightning bolt fall in the third phase (20 ticks = 1 second)?").defineInRange("Lightning Tick Interval", 40, 10, 200);
-        SNOW_PARTICLE_SPEED = BUILDER.defineInRange("Speed of the snow particles in the winter storm", 1.5, 1.0, 3.0);
-        SNOW_PARTICLE_COUNT = BUILDER.defineInRange("Number of particles generated in the winter storm", 60, 10, 200);
-        WINTER_STORM_RADIUS = BUILDER.comment("Defines the radius for Netherman's Winter Storm Attack").defineInRange("Winter Storm Attack Radius", 26.0, 1.0, 30.0);
-        FROZEN_TICKS = BUILDER.comment("Defines the speed at which players freeze during the Winter Attack").defineInRange("Frozen Ticks", 4, 0, 20);
+        NETHERMAN_HEALTH = BUILDER.defineInRange("How much health should the Netherman spawn with?", 450.0, 100.0, 2000.0);
+        NETHERMAN_DAMAGE = BUILDER.defineInRange("Amount of damage dealt per normal hit", 16.0, 6.0, 50.0);
+        TELEPORT_ON_HIT = BUILDER.define("Should the Netherman teleport when hit?", true);
+        BUILDER.comment("Random number between the interval stated below");
+        FIRE_ATTACK_MIN_TIME = BUILDER.defineInRange("Minimum time for fire attack (seconds)", 3, 0, 30);
+        FIRE_ATTACK_MAX_TIME = BUILDER.defineInRange("Maximum time for fire attack (seconds)", 7, 0, 60);
+        MAX_NETHERMAN_CLONES = BUILDER.defineInRange("Maximum number of Netherman clones that can spawn per attack", 4, 0, 10);
+        ICE_ATTACK_FREEZE_TICKS = BUILDER.defineInRange("Freeze ticks applied by ice attack", 300, 0, 2000);
+        DARKNESS_ATTACK_MIN_TIME = BUILDER.defineInRange("Minimum time for darkness attack (seconds)", 3, 0, 30);
+        DARKNESS_ATTACK_MAX_TIME = BUILDER.defineInRange("Maximum time for darkness attack (seconds)", 7, 0, 60);
+        CLONE_EXPLOSION_FREEZE_TICKS = BUILDER.defineInRange("Ticks of freeze applied by Netherman clone explosions", 200, 0, 2000);
+        NETHERMAN_PROJECTILE_EXPLOSION_RADIUS = BUILDER.defineInRange("Explosion radius of Netherman projectiles", 3.0, 0.0, 10.0);
+        RESTORE_BLOCKS_POST_DEATH = BUILDER.define("Should it restore blocks converted to lava back to their original state after dying?", true);
+        EXPERIENCE_DROP_AMOUNT = BUILDER.defineInRange("Amount of experience dropped upon death", 500, 0, 3000);
         BUILDER.pop();
 
         // Drop Chance Configuration Section
         BUILDER.push("Drop Chance Configuration");
-        // DROP_CHANCE_SMALL_ESSENCE = BUILDER.comment("Drop chance for small essence").defineInRange("Drop chance for small essence", 0.15, 0, 1);
         BUILDER.comment("Drop chance for small essence must be changed inside knightlib.toml");
         DROP_CHANCE_RATMAN_EYE = BUILDER.defineInRange("Drop chance for ratman eye", 0.40, 0, 1);
         DROP_CHANCE_LIZZY_SCALE = BUILDER.defineInRange("Drop chance for lizzy scale", 0.30, 0, 1);
@@ -162,6 +231,7 @@ public class KnightQuestCommonConfigs {
         // Armor Set Passives Configuration Section
         BUILDER.push("Armor Set Passives Configuration");
         ENABLE_BAMBOOSET_PUSH_PLAYERS = BUILDER.define("Should Bamboo Set push players?", false);
+        CHANCE_ENDERMANSET = BUILDER.defineInRange("Teleport chance for Enderman Set", 0.4, 0.1, 1.0);
         TELEPORT_RADIUS_ENDERMANSET = BUILDER.defineInRange("Teleport radius for Enderman Set", 10, 5, 30);
         FORZESET_DEFLECT_CHANCE = BUILDER.defineInRange("Chance for Forze Set to deflect", 0.3, 0.1, 1.0);
         FORZESET_DEFLECT_DAMAGE = BUILDER.defineInRange("Damage multiplier for Forze Set deflection", 0.5, 0.1, 2.0);
@@ -171,7 +241,7 @@ public class KnightQuestCommonConfigs {
         WITHERSET_WITHER_CHANCE = BUILDER.defineInRange("Chance of applying Wither with Wither Set", 0.3, 0.1, 1.0);
         SHOULD_WARLORD_SET_EFFECT_APPLY_TO_ITSELF = BUILDER.define("Should Warlord Set effect apply to itself?", false);
         WARLORD_SET_EFFECT_RADIUS = BUILDER.defineInRange("Effect radius for Warlord Set", 15, 1, 40);
-        ZOMBIESET_HEALING_AMOUNT = BUILDER.defineInRange("Healing amount for Zombie Set", 1.0, 0.5, 10.0);
+        ZOMBIESET_HEALING_AMOUNT = BUILDER.defineInRange("Healing amount for Zombie Set", 1.0, 1.0, 10.0);
         ZOMBIESET_HEALING_TICKS = BUILDER.defineInRange("Time in ticks for Zombie Set healing interval", 120, 1, 1000);
         DEEPSLATE_FALL_DAMAGE_MULTIPLIER = BUILDER.defineInRange("Fall damage multiplier for Deepslate Set", 0.2, 0.0, 1.0);
         EVOKER_DARKNESS_CHANCE = BUILDER.defineInRange("Chance to apply Darkness for Evoker Set", 0.25, 0.0, 1.0);
@@ -224,8 +294,18 @@ public class KnightQuestCommonConfigs {
         ENABLE_ZOMBIESET = BUILDER.define("Enable Zombie Set Passive", true);
         ENABLE_SILVERFISHSET = BUILDER.define("Enable Silverfish Set Passive", true);
         ENABLE_SKELETONSET = BUILDER.define("Enable Skeleton Set Passive", true);
-
         BUILDER.pop();
+
+        // Weapon Enabler Configuration Section
+        BUILDER.push("Weapon Enabler Configuration");
+        ENABLE_CLEAVER = BUILDER.define("Enable Cleaver weapon abilities", true);
+        ENABLE_KHOPESH = BUILDER.define("Enable Khopesh weapon abilities", true);
+        ENABLE_KUKRI = BUILDER.define("Enable Kukri weapon abilities", true);
+        ENABLE_NAIL = BUILDER.define("Enable Nail weapon abilities", true);
+        ENABLE_PALADIN = BUILDER.define("Enable Paladin weapon abilities", true);
+        ENABLE_UCHIGATANA = BUILDER.define("Enable Uchigatana weapon abilities", true);
+        BUILDER.pop();
+
         SPEC = BUILDER.build();
     }
 }

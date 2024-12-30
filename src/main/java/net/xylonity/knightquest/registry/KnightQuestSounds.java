@@ -10,7 +10,7 @@ import net.xylonity.knightquest.KnightQuest;
 public class KnightQuestSounds {
     public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, KnightQuest.MOD_ID);
 
-    public static final RegistryObject<SoundEvent> NETHERMAN_BOSS_MUSIC = register("netherman_boss_music");
+    public static final RegistryObject<SoundEvent> NETHERMAN_BOSS_MUSIC = register("the_architect_of_chaos");
 
     private static RegistryObject<SoundEvent> register(String name) {
         return SOUNDS.register(name, () -> new SoundEvent(new ResourceLocation(KnightQuest.MOD_ID, name)));

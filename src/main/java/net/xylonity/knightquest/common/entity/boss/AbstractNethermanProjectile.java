@@ -10,7 +10,6 @@ import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.level.Level;
@@ -27,30 +26,7 @@ public class AbstractNethermanProjectile extends Projectile {
         super(pEntityType, pLevel);
     }
 
-    public AbstractNethermanProjectile(EntityType<? extends AbstractNethermanProjectile> pEntityType, double pX, double pY, double pZ, double pOffsetX, double pOffsetY, double pOffsetZ, Level pLevel) {
-        this(pEntityType, pLevel);
-        this.moveTo(pX, pY, pZ, this.getYRot(), this.getXRot());
-        this.reapplyPosition();
-        double d0 = Math.sqrt(pOffsetX * pOffsetX + pOffsetY * pOffsetY + pOffsetZ * pOffsetZ);
-        if (d0 != 0.0D) {
-            this.xPower = pOffsetX / d0 * 0.1D;
-            this.yPower = pOffsetY / d0 * 0.1D;
-            this.zPower = pOffsetZ / d0 * 0.1D;
-        }
-
-    }
-
-    public AbstractNethermanProjectile(EntityType<? extends AbstractNethermanProjectile> pEntityType, LivingEntity pShooter, double pOffsetX, double pOffsetY, double pOffsetZ, Level pLevel) {
-        this(pEntityType, pShooter.getX(), pShooter.getY(), pShooter.getZ(), pOffsetX, pOffsetY, pOffsetZ, pLevel);
-        this.setOwner(pShooter);
-        this.setRot(pShooter.getYRot(), pShooter.getXRot());
-    }
-
     protected void defineSynchedData() {  }
-
-    /**
-     * Checks if the entity is in range to render.
-     */
 
     public boolean shouldRenderAtSqrDistance(double distance) {
         double size = this.getBoundingBox().getSize() * 4.0D;
@@ -58,17 +34,13 @@ public class AbstractNethermanProjectile extends Projectile {
         return distance < size * size;
     }
 
-    /**
-     * Called to update the entity's position/logic.
-     */
-
     public void tick() {
         Entity entity = this.getOwner();
         if (this.level.isClientSide || (entity == null || !entity.isRemoved()) && this.level.hasChunkAt(this.blockPosition())) {
             super.tick();
 
             HitResult hitresult = ProjectileUtil.getHitResult(this, this::canHitEntity);
-            if (hitresult.getType() != HitResult.Type.MISS && !net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, hitresult)) {
+            if (hitresult.getType() != HitResult.Type.MISS) {
                 this.onHit(hitresult);
             }
 
@@ -103,10 +75,6 @@ public class AbstractNethermanProjectile extends Projectile {
         return ParticleTypes.SMOKE;
     }
 
-    /**
-     * Return the motion factor for this projectile. The factor is multiplied by the original motion.
-     */
-
     protected float getInertia() {
         return 0.95F;
     }
@@ -115,10 +83,6 @@ public class AbstractNethermanProjectile extends Projectile {
         super.addAdditionalSaveData(pCompound);
         pCompound.put("power", this.newDoubleList(this.xPower, this.yPower, this.zPower));
     }
-
-    /**
-     * (abstract) Protected helper method to read subclass entity data from NBT.
-     */
 
     public void readAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
@@ -133,10 +97,6 @@ public class AbstractNethermanProjectile extends Projectile {
 
     }
 
-    /**
-     * Returns {@code true} if other Entities should be prevented from moving through this Entity.
-     */
-
     public boolean isPickable() {
         return true;
     }
@@ -144,10 +104,6 @@ public class AbstractNethermanProjectile extends Projectile {
     public float getPickRadius() {
         return 1.0F;
     }
-
-    /**
-     * Called when the entity is attacked.
-     */
 
     public boolean hurt(@NotNull DamageSource pSource, float pAmount) {
         if (this.isInvulnerableTo(pSource)) {

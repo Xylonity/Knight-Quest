@@ -25,7 +25,8 @@ public class KnightQuestItems {
 
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, KnightQuest.MOD_ID);
 
-    public static final RegistryObject<Item> RADIANT_ESSENCE = ITEMS.register("radiant_essence", () -> new KQItem(new Item.Properties(), "small_essence"));
+    public static final RegistryObject<Item> RADIANT_ESSENCE = ITEMS.register("radiant_essence", () -> new KQItem(new Item.Properties(), "radiant_essence"));
+    public static final RegistryObject<Item> CHAOTIC_ESSENCE = ITEMS.register("chaotic_essence", () -> new KQItem(new Item.Properties(), "chaotic_essence"));
     public static final RegistryObject<Item> EMPTY_GOBLET = ITEMS.register("empty_goblet", () -> new KQItem(new Item.Properties(), "empty_goblet"));
     public static final RegistryObject<Item> FILLED_GOBLET = ITEMS.register("filled_goblet", () -> new KQItem(new Item.Properties(), "filled_goblet"));
     public static final RegistryObject<Item> RATMAN_EYE = ITEMS.register("ratman_eye", () -> new KQItem(new Item.Properties(), "ratman_eye"));

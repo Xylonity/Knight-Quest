@@ -7,7 +7,6 @@ import dev.xylonity.knightquest.KnightQuest;
 import dev.xylonity.knightquest.client.armor.GeoItemArmor;
 import dev.xylonity.knightquest.common.item.KQArmorItem;
 import dev.xylonity.knightquest.common.material.KQItemMaterials;
-import dev.xylonity.knightquest.registry.KnightQuestSounds;
 import dev.xylonity.knightquest.registry.KnightQuestWeapons;
 import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleOptions;
@@ -99,6 +98,11 @@ public class KnightQuestNeoForgePlatform implements KnightQuestPlatform {
     }
 
     @Override
+    public <T extends Item> Supplier<T> registerArmorItem(String id, Holder<ArmorMaterial> armorMaterial, ArmorItem.Type armorType, boolean containsTooltip, Item.Properties properties, int durabilityAmount) {
+        return (Supplier<T>) KnightQuest.ITEMS.register(id, () -> new KQArmorItem(armorMaterial, armorType, properties.durability(armorType.getDurability(durabilityAmount)), containsTooltip));
+    }
+
+    @Override
     public <T extends Item> Supplier<T> registerSwordItem(String id, KQItemMaterials itemMaterial, Item.Properties properties, float speedMalus, boolean containsTooltip) {
         if (containsTooltip)
             return (Supplier<T>) KnightQuest.ITEMS.register(id, () -> new SwordItem(itemMaterial, properties.attributes(SwordItem.createAttributes(itemMaterial, 4, speedMalus))) {
@@ -120,11 +124,6 @@ public class KnightQuestNeoForgePlatform implements KnightQuestPlatform {
     @Override
     public <T extends Entity> Supplier<EntityType<T>> registerEntity(String id, Supplier<EntityType<T>> entity) {
         return KnightQuest.ENTITY.register(id, entity);
-    }
-
-    @Override
-    public <T extends Item> Supplier<T> registerArmorItem(String id, Holder<ArmorMaterial> armorMaterial, ArmorItem.Type armorType, boolean containsTooltip, Item.Properties properties, int durabilityAmount) {
-        return (Supplier<T>) KnightQuest.ITEMS.register(id, () -> new KQArmorItem(armorMaterial, armorType, properties, containsTooltip));
     }
 
     @Override

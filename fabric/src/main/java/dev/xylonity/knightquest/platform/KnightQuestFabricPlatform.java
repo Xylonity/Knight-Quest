@@ -100,6 +100,11 @@ public class KnightQuestFabricPlatform implements KnightQuestPlatform {
     }
 
     @Override
+    public <T extends Item> Supplier<T> registerArmorItem(String id, Holder<ArmorMaterial> armorMaterial, ArmorItem.Type armorType, boolean containsTooltip, Item.Properties properties, int durabilityAmount) {
+        return (Supplier<T>) registerSupplier(BuiltInRegistries.ITEM, id, () -> new KQArmorItem(armorMaterial, armorType, properties.durability(armorType.getDurability(durabilityAmount)), containsTooltip));
+    }
+
+    @Override
     public <T extends Item> Supplier<T> registerSwordItem(String id, KQItemMaterials itemMaterial, Item.Properties properties, float speedMalus, boolean containsTooltip) {
         if (containsTooltip)
             return (Supplier<T>) registerSupplier(BuiltInRegistries.ITEM, id, () -> new SwordItem(itemMaterial, properties.attributes(SwordItem.createAttributes(itemMaterial, 4, speedMalus))) {
@@ -121,11 +126,6 @@ public class KnightQuestFabricPlatform implements KnightQuestPlatform {
     @Override
     public <T extends Entity> Supplier<EntityType<T>> registerEntity(String id, Supplier<EntityType<T>> entity) {
         return registerSupplier(BuiltInRegistries.ENTITY_TYPE, id, entity);
-    }
-
-    @Override
-    public <T extends Item> Supplier<T> registerArmorItem(String id, Holder<ArmorMaterial> armorMaterial, ArmorItem.Type armorType, boolean containsTooltip, Item.Properties properties, int durabilityAmount) {
-        return (Supplier<T>) registerSupplier(BuiltInRegistries.ITEM, id, () -> new KQArmorItem(armorMaterial, armorType, properties.durability(armorType.getDurability(durabilityAmount)), containsTooltip));
     }
 
     @Override

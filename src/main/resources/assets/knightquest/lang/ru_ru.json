@@ -1,6 +1,6 @@
 {
   "itemgroup.knightquest": "Knight Quest",
-  "achievement.knightquest.description": "The start of the journey",
+
   "item.knightquest.great_essence": "Великая эссенция",
   "item.knightquest.small_essence": "Малая эссенция",
   "item.knightquest.radiant_essence": "Сияющая эссенция",
@@ -11,7 +11,7 @@
   "item.knightquest.uchigatana_katana": "Утигатана",
   "item.knightquest.kukri_dagger": "Кукри",
   "item.knightquest.khopesh_claymore": "Кхопеш",
-  "item.knightquest.cleaver_heavy_axe": "Кливер",
+  "item.knightquest.cleaver": "Кливер",
   "item.knightquest.crimson_sword": "Багровый меч",
   "item.knightquest.water_sword": "Водный меч",
   "item.knightquest.steel_sword": "Стальной меч",
@@ -19,6 +19,7 @@
   "item.knightquest.steel_axe": "Стальной топор",
   "item.knightquest.ratman_eye": "Глаз крысолюда",
   "item.knightquest.lizzy_scale": "Чешуя Лиззи",
+
   "item.knightquest.gremlin_spawn_egg": "Яйцо призыва гремлина",
   "item.knightquest.eldbomb_spawn_egg": "Яйцо призыва Элдбомба",
   "item.knightquest.eldknight_spawn_egg": "Яйцо призыва Элднайта",
@@ -31,6 +32,7 @@
   "item.knightquest.ghastling_spawn_egg": "Яйцо призыва гастлинга",
   "item.knightquest.ghosty_spawn_egg": "Яйцо призыва Гости",
   "item.knightquest.netherman_spawn_egg": "Яйцо призыва Недермана",
+
   "item.knightquest.apple_helmet": "Яблочный шлем",
   "item.knightquest.apple_chestplate": "Яблочный нагрудник",
   "item.knightquest.apple_leggings": "Яблочные поножи",
@@ -198,6 +200,7 @@
   "item.knightquest.witch_chestplate": "Нагрудник ведьмы",
   "item.knightquest.witch_leggings": "Поножи ведьмы",
   "item.knightquest.witch_boots": "Ботинки ведьмы",
+
   "tooltip.item.knightquest.lizzy_scale": "§8§oЧешуя ящерицы.",
   "tooltip.item.knightquest.ratman_eye": "§8§oРаскрывает секреты, обнаруживает опасности. Используйте с умом.",
   "tooltip.item.knightquest.paladin_sword": "§8§oИзлучает справедливость и доблесть утраченного паладина...",
@@ -211,6 +214,7 @@
   "tooltip.item.knightquest.ghastling_spawn_egg": "§8§oМожет быть вызван только рядом с гремлином второй фазы.",
   "tooltip.item.knightquest.squire_helmet": "§8§oПочему-то Самхайн обожает эту шляпу...",
   "block.knightquest.great_chalice": "Великая чаша",
+
   "tooltip.item.knightquest.full_set_bonus": "Бонус полного набора:",
   "tooltip.item.knightquest.full_helmet_bonus": "Бонус шлема:",
   "tooltip.item.knightquest.bat_helmet.bonus": "§7§o-Дарует ночное зрение ночью",
@@ -251,6 +255,7 @@
   "tooltip.item.knightquest.skulk_helmet.bonus": "§7§o-Дарует сопротивление при уровне освещённости ниже 4",
   "tooltip.item.knightquest.skeleton_helmet.bonus": "§7§o-Позволяет стрелам пронзать врагов",
   "tooltip.item.knightquest.strawhat_helmet.bonus": "§7§o-Дарует водное дыхание",
+
   "entity.knightquest.netherman": "Недермен, Архитектор Хаоса",
   "entity.knightquest.gremlin": "Гремлин",
   "entity.knightquest.bad_patch": "Плохой Патч",
@@ -262,5 +267,33 @@
   "entity.knightquest.ratman": "Крысолюд",
   "entity.knightquest.ghastling": "Гастлинг",
   "entity.knightquest.ghosty": "Гости",
-  "entity.knightquest.momma_lizzy": "Мама Лиззи"
+  "entity.knightquest.momma_lizzy": "Мама Лиззи",
+  "achievement.knightquest.description": "Начало путешествия",
+  "item.knightquest.chaotic_essence": "Хаотическая сущность",
+  "item.knightquest.music_disc_the_architect_of_chaos": "Музыкальный диск Архитектора Хаоса",
+  "tooltip.item.knightquest.chaotic_essence": "§8§oПредложите наполненной Великой Чаше, чтобы активировать способности оружия.",
+  "entity.knightquest.fallen_knight": "Падший Рыцарь",
+  "item.knightquest.fallen_knight_spawn_egg": "Яйцо Появления Падшего Рыцаря",
+  "item.knightquest.music_disc_the_architect_of_chaos.desc": "Makai Symphony - Богиня судьбы",
+  "tooltip.item.knightquest.set_bonus": "Бонус набора:",
+  "tooltip.weapon.knightquest.paladin": "§8§oИзлучает справедливость и доблесть забытого паладина...",
+  "tooltip.weapon.knightquest.cleaver": "§8§oБьёт с яростью тысячи воинов.",
+  "tooltip.weapon.knightquest.nail": "§8§oТонкое и острое, в руках тех, кто осмеливается идти в пустоту...",
+  "tooltip.weapon.knightquest.khopesh": "§8§oВыкован в огне, вырезает судьбу завоевателей.",
+  "tooltip.weapon.knightquest.kukri": "§8§oТихий как тень, безжалостный как зима.",
+  "tooltip.weapon.knightquest.uchigatana": "§8§oДревний клинок, шепчущий о тьме.",
+  "tooltip.weapon.knightquest.disabled_abilities": "§c✖ Отключённые способности",
+  "tooltip.weapon.knightquest.use_chalice": "§9ℹ Взаимодействуйте с Великой Чашей, наполненной хаотической сущностью, чтобы активировать!",
+  "tooltip.weapon.knightquest.paladin.active": "§6⚔ Активная способность:§f Даёт неуязвимость на %2$d сек.",
+  "tooltip.weapon.knightquest.paladin.passive": "§e⚡ Пассивная способность:§f Восстанавливает %4$dHP каждые %5$d сек. до достижения %6$d%% HP",
+  "tooltip.weapon.knightquest.cleaver.active": "§6⚔ Активная способность:§f Входит в состояние ярости, увеличивая сопротивление и урон на %5$d сек.",
+  "tooltip.weapon.knightquest.cleaver.passive": "§e⚡ Пассивная способность:§f Увеличивает урон на %7$d%% против врагов с более чем %8$d%% здоровья",
+  "tooltip.weapon.knightquest.nail.active": "§6⚔ Активная способность:§f Выполняет быстрое рывковое движение вперёд",
+  "tooltip.weapon.knightquest.nail.passive": "§e⚡ Пассивная способность:§f Позволяет выполнить двойной прыжок в воздухе",
+  "tooltip.weapon.knightquest.khopesh.active": "§6⚔ Активная способность:§f Отражает входящие атаки в течение %4$d сек.",
+  "tooltip.weapon.knightquest.khopesh.passive": "§e⚡ Пассивная способность:§f %3$d%% шанс поджечь противника при ударе",
+  "tooltip.weapon.knightquest.kukri.active": "§6⚔ Активная способность:§f Увеличивает скорость передвижения на %1$d сек.",
+  "tooltip.weapon.knightquest.kukri.passive": "§e⚡ Пассивная способность:§f Серия быстрых ударов замораживает цель",
+  "tooltip.weapon.knightquest.uchigatana.active": "§6⚔ Активная способность:§f Следующая атака наложит тьму и нанесёт дополнительный урон в размере %3$d%%",
+  "tooltip.weapon.knightquest.uchigatana.passive": "§e⚡ Пассивная способность:§f Наносит на %1$d%% больше урона, если здоровье противника ниже %2$d%%"
 }

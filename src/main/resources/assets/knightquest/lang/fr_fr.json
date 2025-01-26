@@ -1,6 +1,6 @@
 {
   "itemgroup.knightquest": "Knight Quest",
-  "achievement.knightquest.description": "The start of the journey",
+
   "item.knightquest.great_essence": "Grande Essence",
   "item.knightquest.small_essence": "Petite Essence",
   "item.knightquest.radiant_essence": "Essence Radieuse",
@@ -11,7 +11,7 @@
   "item.knightquest.uchigatana_katana": "Uchigatana",
   "item.knightquest.kukri_dagger": "Kukri",
   "item.knightquest.khopesh_claymore": "Claymore Khopesh",
-  "item.knightquest.cleaver_heavy_axe": "Hachoir",
+  "item.knightquest.cleaver": "Hachoir",
   "item.knightquest.crimson_sword": "Épée Cramoisi",
   "item.knightquest.water_sword": "Épée d'Eau",
   "item.knightquest.steel_sword": "Épée d'Acier",
@@ -19,6 +19,7 @@
   "item.knightquest.steel_axe": "Hache d'Acier",
   "item.knightquest.ratman_eye": "Œil de Ratman",
   "item.knightquest.lizzy_scale": "Écaille de Lizzy",
+
   "item.knightquest.gremlin_spawn_egg": "Œuf de Spawn de Gremlin",
   "item.knightquest.eldbomb_spawn_egg": "Œuf de Spawn d'Eldbomb",
   "item.knightquest.eldknight_spawn_egg": "Œuf de Spawn d'Eldknight",
@@ -31,6 +32,7 @@
   "item.knightquest.ghastling_spawn_egg": "Œuf de Spawn de Ghastling",
   "item.knightquest.ghosty_spawn_egg": "Œuf de Spawn de Ghosty",
   "item.knightquest.netherman_spawn_egg": "Œuf de Spawn de Netherman",
+
   "item.knightquest.apple_helmet": "Casque en Pomme",
   "item.knightquest.apple_chestplate": "Plastron en Pomme",
   "item.knightquest.apple_leggings": "Jambières en Pomme",
@@ -198,6 +200,7 @@
   "item.knightquest.witch_chestplate": "Plastron de Sorcière",
   "item.knightquest.witch_leggings": "Jambières de Sorcière",
   "item.knightquest.witch_boots": "Bottes de Sorcière",
+
   "tooltip.item.knightquest.lizzy_scale": "§8§oUne écaille de lézard.",
   "tooltip.item.knightquest.ratman_eye": "§8§oDévoile les secrets, détecte les dangers. Utilisez-le avec précaution.",
   "tooltip.item.knightquest.paladin_sword": "§8§oRayonne la justice et la bravoure d'un paladin perdu...",
@@ -211,6 +214,7 @@
   "tooltip.item.knightquest.ghastling_spawn_egg": "§8§oNe peut être invoqué qu'en présence d'un Gremlin de deuxième phase.",
   "tooltip.item.knightquest.squire_helmet": "§8§oPour une raison inconnue, Samhain adore ce chapeau...",
   "block.knightquest.great_chalice": "Grand Calice",
+
   "tooltip.item.knightquest.full_set_bonus": "Bonus de Set Complet :",
   "tooltip.item.knightquest.full_helmet_bonus": "Bonus de Casque :",
   "tooltip.item.knightquest.bat_helmet.bonus": "§7§o-Accorde la vision nocturne la nuit",
@@ -251,6 +255,7 @@
   "tooltip.item.knightquest.skulk_helmet.bonus": "§7§o-Accorde de la résistance en dessous du niveau de lumière 4",
   "tooltip.item.knightquest.skeleton_helmet.bonus": "§7§o-Permet aux flèches de traverser les ennemis",
   "tooltip.item.knightquest.strawhat_helmet.bonus": "§7§o-Accorde la respiration aquatique",
+
   "entity.knightquest.netherman": "Netherman, l'Architecte du Chaos",
   "entity.knightquest.gremlin": "Gremlin",
   "entity.knightquest.bad_patch": "Bad Patch",
@@ -262,5 +267,33 @@
   "entity.knightquest.ratman": "Ratman",
   "entity.knightquest.ghastling": "Petit Ghast",
   "entity.knightquest.ghosty": "Fantôme",
-  "entity.knightquest.momma_lizzy": "Maman Lizzy"
+  "entity.knightquest.momma_lizzy": "Maman Lizzy",
+  "achievement.knightquest.description": "Le début du voyage",
+  "item.knightquest.chaotic_essence": "Essence chaotique",
+  "item.knightquest.music_disc_the_architect_of_chaos": "Disque musical de l’Architecte du Chaos",
+  "tooltip.item.knightquest.chaotic_essence": "§8§oOffrez-la à un Grand Calice rempli pour activer les capacités d’une arme.",
+  "entity.knightquest.fallen_knight": "Chevalier Déchu",
+  "item.knightquest.music_disc_the_architect_of_chaos.desc": "Makai Symphony - Déesse du Destin",
+  "item.knightquest.fallen_knight_spawn_egg": "Oeuf de Réapparition de Chevalier Déchu",
+  "tooltip.item.knightquest.set_bonus": "Bonus de set :",
+  "tooltip.weapon.knightquest.paladin": "§8§oIrradie la justice et la vaillance d’un paladin perdu...",
+  "tooltip.weapon.knightquest.cleaver": "§8§oFrappe avec la fureur de mille guerriers.",
+  "tooltip.weapon.knightquest.nail": "§8§oFin et tranchant, manié par ceux qui osent affronter le vide...",
+  "tooltip.weapon.knightquest.khopesh": "§8§oForgé dans le feu, il façonne le destin des conquérants.",
+  "tooltip.weapon.knightquest.kukri": "§8§oSilencieux comme une ombre, cruel comme l’hiver.",
+  "tooltip.weapon.knightquest.uchigatana": "§8§oUne lame ancestrale qui murmure les ténèbres.",
+  "tooltip.weapon.knightquest.disabled_abilities": "§c✖ Capacités désactivées",
+  "tooltip.weapon.knightquest.use_chalice": "§9ℹ Interagissez avec un Grand Calice rempli d’essence chaotique pour l’activer !",
+  "tooltip.weapon.knightquest.paladin.active": "§6⚔ Capacité active :§f Confère l’invulnérabilité pendant %2$d secondes",
+  "tooltip.weapon.knightquest.paladin.passive": "§e⚡ Capacité passive :§f Régénère %4$dPV toutes les %5$d secondes jusqu’à atteindre %6$d%% PV",
+  "tooltip.weapon.knightquest.cleaver.active": "§6⚔ Capacité active :§f Entre dans un état de rage, conférant résistance et dégâts supplémentaires pendant %5$d secondes",
+  "tooltip.weapon.knightquest.cleaver.passive": "§e⚡ Capacité passive :§f Augmente les dégâts de %7$d%% contre les ennemis ayant plus de %8$d%% de PV",
+  "tooltip.weapon.knightquest.nail.active": "§6⚔ Capacité active :§f Effectue une ruée rapide vers l’avant",
+  "tooltip.weapon.knightquest.nail.passive": "§e⚡ Capacité passive :§f Permet un double saut en l’air",
+  "tooltip.weapon.knightquest.khopesh.active": "§6⚔ Capacité active :§f Renvoie les attaques entrantes pendant %4$d secondes",
+  "tooltip.weapon.knightquest.khopesh.passive": "§e⚡ Capacité passive :§f %3$d%% de chance d’enflammer l’ennemi au toucher",
+  "tooltip.weapon.knightquest.kukri.active": "§6⚔ Capacité active :§f Augmente la vitesse de déplacement pendant %1$d secondes",
+  "tooltip.weapon.knightquest.kukri.passive": "§e⚡ Capacité passive :§f Les attaques rapides consécutives gèlent la cible",
+  "tooltip.weapon.knightquest.uchigatana.active": "§6⚔ Capacité active :§f La prochaine attaque inflige les ténèbres et inflige %3$d%% de dégâts supplémentaires",
+  "tooltip.weapon.knightquest.uchigatana.passive": "§e⚡ Capacité passive :§f Inflige %1$d%% de dégâts supplémentaires si les PV de l’ennemi sont en dessous de %2$d%%"
 }

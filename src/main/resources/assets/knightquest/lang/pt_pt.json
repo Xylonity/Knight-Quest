@@ -1,6 +1,6 @@
 {
   "itemgroup.knightquest": "Knight Quest",
-  "achievement.knightquest.description": "The start of the journey",
+
   "item.knightquest.great_essence": "Essência Grande",
   "item.knightquest.small_essence": "Essência Pequena",
   "item.knightquest.radiant_essence": "Essência Radiante",
@@ -11,7 +11,7 @@
   "item.knightquest.uchigatana_katana": "Uchigatana",
   "item.knightquest.kukri_dagger": "Kukri",
   "item.knightquest.khopesh_claymore": "Khopesh",
-  "item.knightquest.cleaver_heavy_axe": "Cutelo",
+  "item.knightquest.cleaver": "Cutelo",
   "item.knightquest.crimson_sword": "Espada Carmesim",
   "item.knightquest.water_sword": "Espada da Água",
   "item.knightquest.steel_sword": "Espada de Aço",
@@ -19,6 +19,7 @@
   "item.knightquest.steel_axe": "Machado de aço",
   "item.knightquest.ratman_eye": "Olho de Homem Rato",
   "item.knightquest.lizzy_scale": "Escama de Lagartin",
+
   "item.knightquest.gremlin_spawn_egg": "Ovo de Invocação de Gremilin",
   "item.knightquest.eldbomb_spawn_egg": "Ovo de Invocação de Bomba de Campo",
   "item.knightquest.eldknight_spawn_egg": "Ovo de Invocação de Cavaleiro de Campo",
@@ -31,6 +32,7 @@
   "item.knightquest.ghastling_spawn_egg": "Ovo de Invocação de Fantasmão",
   "item.knightquest.ghosty_spawn_egg": "Ovo de Invocação de Fantasminha",
   "item.knightquest.netherman_spawn_egg": "Ovo de Invocação de Netherman",
+
   "item.knightquest.apple_helmet": "Elmo de Maçã",
   "item.knightquest.apple_chestplate": "Peitoral de Maçã",
   "item.knightquest.apple_leggings": "Calças de Maçã",
@@ -198,6 +200,7 @@
   "item.knightquest.witch_chestplate": "Peitoral de Bruxa",
   "item.knightquest.witch_leggings": "Calças de Bruxa",
   "item.knightquest.witch_boots": "Botas de Bruxa",
+
   "tooltip.item.knightquest.lizzy_scale": "§8§oUma escama de lagarto.",
   "tooltip.item.knightquest.ratman_eye": "§8§oRevela segredos, detecta perigos. Use com sabedoria.",
   "tooltip.item.knightquest.paladin_sword": "§8§oIrradia a justiça e o valor de um paladino perdido...",
@@ -211,6 +214,7 @@
   "tooltip.item.knightquest.ghastling_spawn_egg": "§8§oSó pode ser invocado quando um Gremlin da segunda fase estiver próximo.",
   "tooltip.item.knightquest.squire_helmet": "§8§oPor alguma razão, Samhain adora esse chapéu...",
   "block.knightquest.great_chalice": "Grande Cálice",
+
   "tooltip.item.knightquest.full_set_bonus": "Bônus de conjunto completo:",
   "tooltip.item.knightquest.full_helmet_bonus": "Bônus de elmo:",
   "tooltip.item.knightquest.bat_helmet.bonus": "§7§o-Concede visão noturna à noite",
@@ -251,6 +255,7 @@
   "tooltip.item.knightquest.skulk_helmet.bonus": "§7§o-Concede resistência abaixo do nível de luz 4",
   "tooltip.item.knightquest.skeleton_helmet.bonus": "§7§o-Permite que flechas atravessem inimigos",
   "tooltip.item.knightquest.strawhat_helmet.bonus": "§7§o-Concede respiração aquática",
+
   "entity.knightquest.netherman": "Netherman, o Arquiteto do Caos",
   "entity.knightquest.gremlin": "Gremilin",
   "entity.knightquest.bad_patch": "Bad Patch",
@@ -262,5 +267,33 @@
   "entity.knightquest.ratman": "Homem Rato",
   "entity.knightquest.ghastling": "Fantasmão",
   "entity.knightquest.ghosty": "Fantasminha",
-  "entity.knightquest.momma_lizzy": "Mamãe Lagartin"
+  "entity.knightquest.momma_lizzy": "Mamãe Lagartin",
+  "achievement.knightquest.description": "O início da jornada",
+  "item.knightquest.chaotic_essence": "Essência Caótica",
+  "item.knightquest.music_disc_the_architect_of_chaos": "Disco de Música do Arquiteto do Caos",
+  "tooltip.item.knightquest.chaotic_essence": "§8§oOferece-a a um Grande Cálice cheio para ativar as habilidades de uma arma.",
+  "entity.knightquest.fallen_knight": "Cavaleiro Caído",
+  "item.knightquest.fallen_knight_spawn_egg": "Ovo de Geração de Cavaleiro Caído",
+  "item.knightquest.music_disc_the_architect_of_chaos.desc": "Makai Symphony - Deusa do Destino",
+  "tooltip.item.knightquest.set_bonus": "Bónus de Conjunto:",
+  "tooltip.weapon.knightquest.paladin": "§8§oEmana a justiça e a coragem de um paladino perdido...",
+  "tooltip.weapon.knightquest.cleaver": "§8§oGolpeia com a fúria de mil guerreiros.",
+  "tooltip.weapon.knightquest.nail": "§8§oFino e afiado, empunhado por aqueles que ousam o vazio...",
+  "tooltip.weapon.knightquest.khopesh": "§8§oForjado em fogo, molda o destino dos conquistadores.",
+  "tooltip.weapon.knightquest.kukri": "§8§oSilencioso como uma sombra, cruel como o inverno.",
+  "tooltip.weapon.knightquest.uchigatana": "§8§oUma lâmina ancestral que sussurra as trevas.",
+  "tooltip.weapon.knightquest.disabled_abilities": "§c✖ Habilidades Desativadas",
+  "tooltip.weapon.knightquest.use_chalice": "§9ℹ Interage com um Grande Cálice cheio de essência caótica para ativar!",
+  "tooltip.weapon.knightquest.paladin.active": "§6⚔ Habilidade Ativa:§f Concede invulnerabilidade durante %2$d segundos",
+  "tooltip.weapon.knightquest.paladin.passive": "§e⚡ Habilidade Passiva:§f Regenera %4$dHP a cada %5$d segundos, até atingir %6$d%% de HP",
+  "tooltip.weapon.knightquest.cleaver.active": "§6⚔ Habilidade Ativa:§f Entra num estado de fúria, ganhando resistência e dano extra por %5$d segundos",
+  "tooltip.weapon.knightquest.cleaver.passive": "§e⚡ Habilidade Passiva:§f Aumenta o dano em %7$d%% contra inimigos com mais de %8$d%% de HP",
+  "tooltip.weapon.knightquest.nail.active": "§6⚔ Habilidade Ativa:§f Executa um rápido avanço para a frente",
+  "tooltip.weapon.knightquest.nail.passive": "§e⚡ Habilidade Passiva:§f Permite um salto duplo no ar",
+  "tooltip.weapon.knightquest.khopesh.active": "§6⚔ Habilidade Ativa:§f Reflete ataques recebidos por %4$d segundos",
+  "tooltip.weapon.knightquest.khopesh.passive": "§e⚡ Habilidade Passiva:§f %3$d%% de hipótese de queimar o oponente ao atingir",
+  "tooltip.weapon.knightquest.kukri.active": "§6⚔ Habilidade Ativa:§f Aumenta a velocidade de movimento durante %1$d segundos",
+  "tooltip.weapon.knightquest.kukri.passive": "§e⚡ Habilidade Passiva:§f Ataques rápidos consecutivos congelam o alvo",
+  "tooltip.weapon.knightquest.uchigatana.active": "§6⚔ Habilidade Ativa:§f O próximo ataque inflige trevas e causa %3$d%% de dano extra",
+  "tooltip.weapon.knightquest.uchigatana.passive": "§e⚡ Habilidade Passiva:§f Causa %1$d%% de dano extra se a HP do oponente estiver abaixo de %2$d%%"
 }

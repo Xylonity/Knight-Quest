@@ -26,7 +26,7 @@ public class KnightQuestEntities {
     public static final RegistryObject<EntityType<LizzyEntity>> LIZZY;
     public static final RegistryObject<EntityType<BadPatchEntity>> BADPATCH;
     public static final RegistryObject<EntityType<GhastlingEntity>> SHIELD;
-    public static final RegistryObject<EntityType<MommaLizzyEntity>> MOMMA_LIZZY;
+    //public static final RegistryObject<EntityType<MommaLizzyEntity>> MOMMA_LIZZY;
     public static final RegistryObject<EntityType<GhostyEntity>> GHOSTY;
     public static final RegistryObject<EntityType<NethermanEntity>> NETHERMAN;
     public static final RegistryObject<EntityType<NethermanCloneEntity>> NETHERMAN_CLONE;
@@ -43,7 +43,7 @@ public class KnightQuestEntities {
         LIZZY = register("lizzy", LizzyEntity::new, MobCategory.AMBIENT , 1f, 0.3f);
         BADPATCH = register("bad_patch", BadPatchEntity::new, MobCategory.MONSTER , 1f, 1f);
         SHIELD = register("ghastling", GhastlingEntity::new, MobCategory.MONSTER , 0.65f, 0.65f);
-        MOMMA_LIZZY = register("momma_lizzy", MommaLizzyEntity::new, MobCategory.MONSTER, 1f, 0.3f);
+        //MOMMA_LIZZY = register("momma_lizzy", MommaLizzyEntity::new, MobCategory.MONSTER, 1f, 0.3f);
         GHOSTY = register("ghosty", GhostyEntity::new, MobCategory.MONSTER, 1f, 1f);
         NETHERMAN = register("netherman", NethermanEntity::new, MobCategory.MONSTER, 0.8f, 2.8f);
         NETHERMAN_CLONE = register("netherman_clone", NethermanCloneEntity::new, MobCategory.MONSTER, 0.8f, 2.8f);

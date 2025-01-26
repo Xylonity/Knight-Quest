@@ -36,7 +36,7 @@ public class KQEventRegisters {
         event.put(KnightQuestEntities.LIZZY.get(), LizzyEntity.setAttributes());
         event.put(KnightQuestEntities.BADPATCH.get(), BadPatchEntity.setAttributes());
         event.put(KnightQuestEntities.SHIELD.get(), GhastlingEntity.setAttributes());
-        event.put(KnightQuestEntities.MOMMA_LIZZY.get(), MommaLizzyEntity.setAttributes());
+        //event.put(KnightQuestEntities.MOMMA_LIZZY.get(), MommaLizzyEntity.setAttributes());
         event.put(KnightQuestEntities.GHOSTY.get(), GhostyEntity.setAttributes());
         event.put(KnightQuestEntities.NETHERMAN.get(), NethermanEntity.setAttributes());
         event.put(KnightQuestEntities.NETHERMAN_CLONE.get(), NethermanCloneEntity.setAttributes());

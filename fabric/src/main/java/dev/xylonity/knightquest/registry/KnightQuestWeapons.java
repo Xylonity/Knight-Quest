@@ -20,7 +20,7 @@ public class KnightQuestWeapons {
     public static final Item UCHIGATANA = register("uchigatana_katana", () -> new UchigatanaWeapon(KQItemMaterials.UCHIGATANA, new Item.Properties().fireResistant().attributes(SwordItem.createAttributes(KQItemMaterials.UCHIGATANA, -1, -2.2f))));
     public static final Item KUKRI = register("kukri_dagger", () -> new KukriWeapon(KQItemMaterials.KUKRI, new Item.Properties().attributes(SwordItem.createAttributes(KQItemMaterials.KUKRI, -1, -1f))));
     public static final Item KHOPESH = register("khopesh_claymore", () -> new KhopeshWeapon(KQItemMaterials.KHOPESH, new Item.Properties().fireResistant().attributes(SwordItem.createAttributes(KQItemMaterials.KHOPESH, -1, -2.6f))));
-    public static final Item CLEAVER = register("cleaver_heavy_axe", () -> new CleaverWeapon(KQItemMaterials.CLEAVER, new Item.Properties().fireResistant().attributes(SwordItem.createAttributes(KQItemMaterials.CLEAVER, -1, -3.2f))));
+    public static final Item CLEAVER = register("cleaver", () -> new CleaverWeapon(KQItemMaterials.CLEAVER, new Item.Properties().fireResistant().attributes(SwordItem.createAttributes(KQItemMaterials.CLEAVER, -1, -3.2f))));
 
     private static Item register(String id, Supplier<Item> item) {
         return Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, id), item.get());

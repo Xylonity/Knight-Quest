@@ -28,7 +28,7 @@ public class KnightQuestEntities {
     public static final Supplier<EntityType<LizzyEntity>> LIZZY;
     public static final Supplier<EntityType<BadPatchEntity>> BADPATCH;
     public static final Supplier<EntityType<GhastlingEntity>> SHIELD;
-    public static final Supplier<EntityType<MommaLizzyEntity>> MOMMA_LIZZY;
+    //public static final Supplier<EntityType<MommaLizzyEntity>> MOMMA_LIZZY;
     public static final Supplier<EntityType<GhostyEntity>> GHOSTY;
     public static final Supplier<EntityType<NethermanEntity>> NETHERMAN;
     public static final Supplier<EntityType<NethermanCloneEntity>> NETHERMAN_CLONE;
@@ -46,7 +46,7 @@ public class KnightQuestEntities {
         LIZZY = register("lizzy", LizzyEntity::new, MobCategory.AMBIENT , 1f, 0.3f);
         BADPATCH = register("bad_patch", BadPatchEntity::new, MobCategory.MONSTER , 1f, 1f);
         SHIELD = register("ghastling", GhastlingEntity::new, MobCategory.MONSTER , 0.65f, 0.65f);
-        MOMMA_LIZZY = register("momma_lizzy", MommaLizzyEntity::new, MobCategory.MONSTER, 1f, 0.3f);
+        //MOMMA_LIZZY = register("momma_lizzy", MommaLizzyEntity::new, MobCategory.MONSTER, 1f, 0.3f);
         GHOSTY = register("ghosty", GhostyEntity::new, MobCategory.MONSTER, 1f, 1f);
         NETHERMAN = register("netherman", NethermanEntity::new, MobCategory.MONSTER, 0.8f, 2.8f);
         NETHERMAN_CLONE = register("netherman_clone", NethermanCloneEntity::new, MobCategory.MONSTER, 0.8f, 2.8f);
@@ -61,7 +61,6 @@ public class KnightQuestEntities {
     /**
      * Sets attributes to every entity defined in the scope.
      */
-
     public static void registerEntityAttributes(BiConsumer<EntityType<? extends LivingEntity>, AttributeSupplier> registrar) {
         registrar.accept(KnightQuestEntities.GREMLIN.get(), GremlinEntity.setAttributes().build());
         registrar.accept(KnightQuestEntities.ELDBOMB.get(), EldBombEntity.setAttributes().build());
@@ -72,7 +71,7 @@ public class KnightQuestEntities {
         registrar.accept(KnightQuestEntities.LIZZY.get(), LizzyEntity.setAttributes().build());
         registrar.accept(KnightQuestEntities.BADPATCH.get(), BadPatchEntity.setAttributes().build());
         registrar.accept(KnightQuestEntities.SHIELD.get(), GhastlingEntity.setAttributes().build());
-        registrar.accept(KnightQuestEntities.MOMMA_LIZZY.get(), MommaLizzyEntity.setAttributes().build());
+        //registrar.accept(KnightQuestEntities.MOMMA_LIZZY.get(), MommaLizzyEntity.setAttributes().build());
         registrar.accept(KnightQuestEntities.GHOSTY.get(), GhostyEntity.setAttributes().build());
         registrar.accept(KnightQuestEntities.NETHERMAN.get(), NethermanEntity.setAttributes().build());
         registrar.accept(KnightQuestEntities.NETHERMAN_CLONE.get(), NethermanCloneEntity.setAttributes().build());

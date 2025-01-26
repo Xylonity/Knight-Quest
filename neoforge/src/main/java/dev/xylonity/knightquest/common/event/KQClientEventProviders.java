@@ -37,7 +37,7 @@ public class KQClientEventProviders {
         EntityRenderers.register(KnightQuestEntities.LIZZY.get(), LizzyRenderer::new);
         EntityRenderers.register(KnightQuestEntities.BADPATCH.get(), BadPatchRenderer::new);
         EntityRenderers.register(KnightQuestEntities.SHIELD.get(), ShieldRenderer::new);
-        EntityRenderers.register(KnightQuestEntities.MOMMA_LIZZY.get(), MommaLizzyRenderer::new);
+        //EntityRenderers.register(KnightQuestEntities.MOMMA_LIZZY.get(), MommaLizzyRenderer::new);
         EntityRenderers.register(KnightQuestEntities.GHOSTY.get(), GhostyRenderer::new);
         EntityRenderers.register(KnightQuestEntities.NETHERMAN.get(), NethermanRenderer::new);
         EntityRenderers.register(KnightQuestEntities.NETHERMAN_PROJECTILE_CHARGE.get(), NethermanProjectileChargeRenderer::new);

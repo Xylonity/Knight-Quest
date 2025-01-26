@@ -244,7 +244,7 @@ public class KnightQuestItems {
     public static final Supplier<Item> BADPATCH_EGG = registerSpawnEggItem("bad_patch_spawn_egg", KnightQuestEntities.BADPATCH, 0xec160b, 0xeff1f8);
     public static final Supplier<Item> GHOSTY_EGG = registerSpawnEggItem("ghosty_spawn_egg", KnightQuestEntities.GHOSTY, 0x2cb87e, 0xfbe105);
     public static final Supplier<Item> NETHERMAN_EGG = registerSpawnEggItem("netherman_spawn_egg", KnightQuestEntities.NETHERMAN, 0xebedec, 0xc3c3c3);
-    public static final Supplier<Item> MOMMA_LIZZY_EGG = registerSpawnEggItem("momma_lizzy_spawn_egg", KnightQuestEntities.MOMMA_LIZZY, 0x0babf2, 0x9f5b14);
+    //public static final Supplier<Item> MOMMA_LIZZY_EGG = registerSpawnEggItem("momma_lizzy_spawn_egg", KnightQuestEntities.MOMMA_LIZZY, 0x0babf2, 0x9f5b14);
     public static final Supplier<Item> FALLEN_KNIGHT_EGG = registerSpawnEggItem("fallen_knight_spawn_egg", KnightQuestEntities.FALLEN_KNIGHT, 0xc5c5c5, 0x5783f9);
 
     private static <T extends Item> Supplier<T> registerItem(String id, Supplier<T> item) {

@@ -24,7 +24,6 @@ public class KQEventRegisters {
     /**
      * Sets attributes to every entity defined in the scope.
      */
-
     @SubscribeEvent
     public static void registerEntityAttributes(EntityAttributeCreationEvent event) {
         event.put(KnightQuestEntities.GREMLIN.get(), GremlinEntity.setAttributes());
@@ -62,7 +61,6 @@ public class KQEventRegisters {
      * Recipe json generator for certain mobs defined on the array MOB_IDS.
      * @see KQGlobalLootModifiersProvider
      */
-
     @SubscribeEvent
     public static void gatherData(GatherDataEvent event) {
         DataGenerator generator = event.getGenerator();

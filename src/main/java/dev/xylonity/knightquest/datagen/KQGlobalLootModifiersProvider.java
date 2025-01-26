@@ -1,5 +1,6 @@
 package dev.xylonity.knightquest.datagen;
 
+import dev.xylonity.knightquest.KnightQuest;
 import dev.xylonity.knightquest.registry.KnightQuestItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
@@ -18,8 +19,8 @@ public class KQGlobalLootModifiersProvider extends GlobalLootModifierProvider {
         super(output, modid, registries);
     }
 
-    private static final ResourceLocation RATMAN_ID = ResourceLocation.fromNamespaceAndPath("assets/knightquest", "entities/ratman");
-    private static final ResourceLocation LIZZY_ID = ResourceLocation.fromNamespaceAndPath("assets/knightquest", "entities/lizzy");
+    private static final ResourceLocation RATMAN_ID = ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "entities/ratman");
+    private static final ResourceLocation LIZZY_ID = ResourceLocation.fromNamespaceAndPath(KnightQuest.MOD_ID, "entities/lizzy");
 
     @Override
     protected void start(HolderLookup.@NotNull Provider registries) {

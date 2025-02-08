@@ -73,7 +73,7 @@ dependencies {
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
-    implementation "curse.maven:knight-lib-1105855:5777866"
+    implementation "curse.maven:knight-lib-1105855:6128841"
 
     implementation('net.sf.jopt-simple:jopt-simple:5.0.4') { version { strictly '5.0.4' } }
 }

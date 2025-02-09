@@ -1,19 +1,25 @@
 package net.xylonity.knightquest.client.entity.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.xylonity.knightquest.KnightQuest;
 import net.xylonity.knightquest.client.entity.model.EldKnightModel;
 import net.xylonity.knightquest.common.entity.entities.EldKnightEntity;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
+import software.bernie.geckolib3.renderers.geo.layer.LayerGlowingAreasGeo;
+import software.bernie.geckolib3.renderers.texture.AutoGlowingTexture;
 
 public class EldKnightRenderer extends GeoEntityRenderer<EldKnightEntity> {
 
     public EldKnightRenderer(EntityRendererProvider.Context renderManager) {
         super(renderManager, new EldKnightModel());
+        //addLayer(new LayerGlowingAreasGeo<>(this, this::getTextureLocation, e -> getGeoModelProvider().getModelResource(e), RenderType::eyes));
     }
 
     @Override
@@ -32,5 +38,6 @@ public class EldKnightRenderer extends GeoEntityRenderer<EldKnightEntity> {
 
         super.render(entity, entityYaw, partialTick, poseStack, bufferSource, packedLight);
     }
+
 }
 

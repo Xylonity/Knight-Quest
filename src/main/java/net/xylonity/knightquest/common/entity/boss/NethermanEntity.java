@@ -17,6 +17,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.MobSpawnType;
@@ -409,6 +410,11 @@ public class NethermanEntity extends Monster implements IAnimatable {
     }
 
     @Override
+    public boolean removeWhenFarAway(double pDistanceToClosestPlayer) {
+        return false;
+    }
+
+    @Override
     public boolean hurt(@NotNull DamageSource pSource, float pAmount) {
         if (getInvulnerability()
                 || (pSource.isFire() && this.getPhase() == 1)
@@ -420,7 +426,8 @@ public class NethermanEntity extends Monster implements IAnimatable {
 
             boolean isDamaged = super.hurt(pSource, pAmount);
 
-            if (KQConfigValues.TELEPORT_ON_HIT) teleport();
+            if (KQConfigValues.TELEPORT_ON_HIT
+                    && !(pSource.isMagic() && this.hasEffect(MobEffects.POISON))) teleport();
 
             return isDamaged;
 

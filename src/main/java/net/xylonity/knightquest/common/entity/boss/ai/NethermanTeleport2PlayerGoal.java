@@ -31,7 +31,7 @@ public class NethermanTeleport2PlayerGoal extends Goal {
 
     @Override
     public void start() {
-        this.idleTime = 100;
+        this.idleTime = 70;
     }
 
     @Override
@@ -60,13 +60,9 @@ public class NethermanTeleport2PlayerGoal extends Goal {
     }
 
     private void teleportNearPlayer() {
-        List<? extends Player> players = this.netherman.level.players();
-        Player closestPlayer = players.stream()
-                .filter(player -> !player.isCreative() && !player.isSpectator())
-                .min((p1, p2) -> Double.compare(p1.distanceTo(this.netherman), p2.distanceTo(this.netherman)))
-                .orElse(null);
+        Player closestPlayer = this.netherman.level.getNearestPlayer(this.netherman, 60);
 
-        if (closestPlayer != null) {
+        if (closestPlayer != null && !closestPlayer.isCreative() && !closestPlayer.isSpectator()) {
             RandomSource random = this.netherman.getRandom();
             for (int attempt = 0; attempt < 50; attempt++) {
                 double angle = random.nextDouble() * 2 * Math.PI;
@@ -94,7 +90,7 @@ public class NethermanTeleport2PlayerGoal extends Goal {
 
         if (this.idleTime == 0) {
             teleportNearPlayer();
-            this.idleTime = 100;
+            this.idleTime = 70;
         }
     }
 }

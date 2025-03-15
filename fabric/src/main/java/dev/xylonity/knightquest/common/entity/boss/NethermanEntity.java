@@ -26,6 +26,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
@@ -85,6 +86,7 @@ public class NethermanEntity extends Monster implements GeoEntity {
 
     private boolean hasBeenSwitchedToPhase2 = false;
     private boolean hasBeenSwitchedToPhase3 = false;
+    private boolean initAttributes = false;
 
     public NethermanEntity(EntityType<? extends Monster> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -125,28 +127,6 @@ public class NethermanEntity extends Monster implements GeoEntity {
 
         this.targetSelector.addGoal(1, new NethermanNearestAttackableTargetGoal<>(this, Player.class, true));
     }
-
-    @Nullable
-    @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
-
-        var maxHealth = this.getAttribute(Attributes.MAX_HEALTH);
-        if (maxHealth != null) {
-            maxHealth.setBaseValue(KQConfigValues.NETHERMAN_HEALTH);
-            this.setHealth((float) KQConfigValues.NETHERMAN_HEALTH);
-        }
-
-        var attackDamageAttribute = this.getAttribute(Attributes.ATTACK_DAMAGE);
-        if (attackDamageAttribute != null) {
-            attackDamageAttribute.setBaseValue(KQConfigValues.NETHERMAN_DAMAGE);
-        }
-
-        return super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
-    }
-
-    /**
-     * Getters and setters for synched entity data.
-     */
 
     public boolean getInvulnerability() {
         return this.entityData.get(INVULNERABLE);
@@ -274,6 +254,21 @@ public class NethermanEntity extends Monster implements GeoEntity {
     public void tick() {
         super.tick();
 
+        if (!initAttributes) {
+            AttributeInstance maxHealth = this.getAttribute(Attributes.MAX_HEALTH);
+            if (maxHealth != null) {
+                maxHealth.setBaseValue(KQConfigValues.NETHERMAN_HEALTH);
+                this.setHealth((float) KQConfigValues.NETHERMAN_HEALTH);
+            }
+
+            AttributeInstance attackDmg = this.getAttribute(Attributes.ATTACK_DAMAGE);
+            if (attackDmg != null) {
+                attackDmg.setBaseValue(KQConfigValues.NETHERMAN_DAMAGE);
+            }
+
+            initAttributes = true;
+        }
+
         // Summon animation ending
         if (!this.level().isClientSide() && tickCount == 100) {
             setIsSummoning(false);
@@ -400,7 +395,6 @@ public class NethermanEntity extends Monster implements GeoEntity {
     /**
      * Saves every permuted block state per `NethermanLavaTeleportGoal` executed.
      */
-
     public void saveBlockState(BlockPos pos) {
         if (!changedBlocks.containsKey(pos)) {
             BlockState state = this.level().getBlockState(pos);

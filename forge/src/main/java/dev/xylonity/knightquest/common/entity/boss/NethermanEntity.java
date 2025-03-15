@@ -3,6 +3,7 @@ package dev.xylonity.knightquest.common.entity.boss;
 import dev.xylonity.knightquest.common.ai.navigator.GroundNavigator;
 import dev.xylonity.knightquest.common.entity.boss.ai.*;
 import dev.xylonity.knightquest.config.values.KQConfigValues;
+import dev.xylonity.knightquest.registry.KnightQuestEntities;
 import dev.xylonity.knightquest.registry.KnightQuestItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -11,6 +12,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -23,6 +25,7 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
@@ -92,8 +95,8 @@ public class NethermanEntity extends Monster implements GeoEntity {
 
     public static AttributeSupplier setAttributes() {
         return Monster.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 450D)
-                .add(Attributes.ATTACK_DAMAGE, 16.0f)
+                .add(Attributes.MAX_HEALTH, 450.0)
+                .add(Attributes.ATTACK_DAMAGE, 16.0)
                 .add(Attributes.ATTACK_SPEED, 1.2f)
                 .add(Attributes.MOVEMENT_SPEED, 0.8f)
                 .add(Attributes.FOLLOW_RANGE, 75.0)
@@ -121,27 +124,22 @@ public class NethermanEntity extends Monster implements GeoEntity {
         this.targetSelector.addGoal(1, new NethermanNearestAttackableTargetGoal<>(this, Player.class, true));
     }
 
-    @Nullable
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
+    public void onAddedToWorld() {
+        super.onAddedToWorld();
 
-        var maxHealth = this.getAttribute(Attributes.MAX_HEALTH);
+        AttributeInstance maxHealth = this.getAttribute(Attributes.MAX_HEALTH);
         if (maxHealth != null) {
             maxHealth.setBaseValue(KQConfigValues.NETHERMAN_HEALTH);
             this.setHealth((float) KQConfigValues.NETHERMAN_HEALTH);
         }
 
-        var attackDamageAttribute = this.getAttribute(Attributes.ATTACK_DAMAGE);
-        if (attackDamageAttribute != null) {
-            attackDamageAttribute.setBaseValue(KQConfigValues.NETHERMAN_DAMAGE);
+        AttributeInstance attackDmg = this.getAttribute(Attributes.ATTACK_DAMAGE);
+        if (attackDmg != null) {
+            attackDmg.setBaseValue(KQConfigValues.NETHERMAN_DAMAGE);
         }
 
-        return super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
     }
-
-    /**
-     * Getters and setters for synched entity data.
-     */
 
     public boolean getInvulnerability() {
         return this.entityData.get(INVULNERABLE);
@@ -250,6 +248,7 @@ public class NethermanEntity extends Monster implements GeoEntity {
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
+        // Why is there so many synched data lol
         this.entityData.define(PHASE, 1);
         this.entityData.define(INVULNERABLE, true);
         this.entityData.define(SUMMON, true);
@@ -377,7 +376,6 @@ public class NethermanEntity extends Monster implements GeoEntity {
     /**
      * Restores the blocks converted into lava saved within the `changedBlocks` hashMap.
      */
-
     private void restoreBlocks() {
         for (Map.Entry<BlockPos, BlockState> entry : changedBlocks.entrySet()) {
             this.level().setBlock(entry.getKey(), entry.getValue(), 3);
@@ -395,7 +393,6 @@ public class NethermanEntity extends Monster implements GeoEntity {
     /**
      * Saves every permuted block state per `NethermanLavaTeleportGoal` executed.
      */
-
     public void saveBlockState(BlockPos pos) {
         if (!changedBlocks.containsKey(pos)) {
             BlockState state = this.level().getBlockState(pos);
@@ -463,10 +460,6 @@ public class NethermanEntity extends Monster implements GeoEntity {
         return SoundEvents.WARDEN_DEATH;
     }
 
-    /**
-     * Handles and expands the elapsed time after the entity dies.
-     */
-
     @Override
     protected void tickDeath() {
         ++this.deathTime;
@@ -532,7 +525,6 @@ public class NethermanEntity extends Monster implements GeoEntity {
     @Override
     public void addAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.addAdditionalSaveData(pCompound);
-
         pCompound.putInt("tickCount", this.tickCount);
         pCompound.putBoolean("shouldPlaySummonAnimation", this.getIsSummoning());
         pCompound.putBoolean("shouldSearchTarget", this.getShouldSearchTarget());

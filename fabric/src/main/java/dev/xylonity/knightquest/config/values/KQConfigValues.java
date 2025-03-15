@@ -151,4 +151,14 @@ public class KQConfigValues {
     public static int TICKS_CLEAVER = V ? KnightQuestCommonConfigs.TICKS_CLEAVER.get() : 600;
     public static double EXTRA_DAMAGE_PASSIVE_CLEAVER = V ? KnightQuestCommonConfigs.EXTRA_DAMAGE_PASSIVE_CLEAVER.get() : 0.2;
     public static double ENEMY_HEALTH_PASSIVE_CLEAVER = V ? KnightQuestCommonConfigs.ENEMY_HEALTH_PASSIVE_CLEAVER.get() : 0.5;
+
+    public static double BADPATCH_MAX_HEALTH = V ? KnightQuestCommonConfigs.BADPATCH_MAX_HEALTH.get() : 7.0;
+    public static double ELDBOMB_MAX_HEALTH = V ? KnightQuestCommonConfigs.ELDBOMB_MAX_HEALTH.get() : 7.0;
+    public static double ELDKNIGHT_MAX_HEALTH = V ? KnightQuestCommonConfigs.ELDKNIGHT_MAX_HEALTH.get() : 90.0;
+    public static double FALLENKNIGHT_MAX_HEALTH = V ? KnightQuestCommonConfigs.FALLENKNIGHT_MAX_HEALTH.get() : 35.0;
+    public static double GREMLIN_MAX_HEALTH = V ? KnightQuestCommonConfigs.GREMLIN_MAX_HEALTH.get() : 35.0;
+    public static double LIZZY_MAX_HEALTH = V ? KnightQuestCommonConfigs.LIZZY_MAX_HEALTH.get() : 10.0;
+    public static double RATMAN_MAX_HEALTH = V ? KnightQuestCommonConfigs.RATMAN_MAX_HEALTH.get() : 22.0;
+    public static double SWAMPMAN_MAX_HEALTH = V ? KnightQuestCommonConfigs.SWAMPMAN_MAX_HEALTH.get() : 50.0;
+
 }

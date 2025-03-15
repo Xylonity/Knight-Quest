@@ -40,6 +40,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class KQArmorItem extends ArmorItem {
 
@@ -70,7 +71,7 @@ public class KQArmorItem extends ArmorItem {
      * incompatibility when either post-indirect or pre-direct status effects are applied.
      */
 
-    private static final Map<UUID, Map<KQArmorMaterials, Boolean>> effectAppliedByArmorMap = new HashMap<>();
+    private static final Map<UUID, Map<KQArmorMaterials, Boolean>> effectAppliedByArmorMap = new ConcurrentHashMap<>();
 
     public KQArmorItem(KQArmorMaterials material, Type type, Properties settings, boolean hasTooltip) {
         super(material, type, settings);
@@ -192,12 +193,12 @@ public class KQArmorItem extends ArmorItem {
 
             if (KQConfigValues.PATHSET)
                 if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.PATHSET) && level.isDay()) {
-                    if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new HashMap<>()).getOrDefault(KQArmorMaterials.PATHSET, false))) {
+                    if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new ConcurrentHashMap<>()).getOrDefault(KQArmorMaterials.PATHSET, false))) {
                         player.addEffect(PATH_ARMOR);
                         effectAppliedByArmorMap.get(playerUUID).put(KQArmorMaterials.PATHSET, true);
                     }
                 } else {
-                    if (Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new HashMap<>()).getOrDefault(KQArmorMaterials.PATHSET, false))) {
+                    if (Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new ConcurrentHashMap<>()).getOrDefault(KQArmorMaterials.PATHSET, false))) {
                         player.removeEffect(MobEffects.MOVEMENT_SPEED);
                         effectAppliedByArmorMap.get(playerUUID).put(KQArmorMaterials.PATHSET, false);
                     }
@@ -205,12 +206,12 @@ public class KQArmorItem extends ArmorItem {
 
             if (KQConfigValues.BOWSET)
                 if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.BOWSET) && player.getMainHandItem().getItem() instanceof ProjectileWeaponItem) {
-                    if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new HashMap<>()).getOrDefault(KQArmorMaterials.BOWSET, false))) {
+                    if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new ConcurrentHashMap<>()).getOrDefault(KQArmorMaterials.BOWSET, false))) {
                         player.addEffect(BOW_ARMOR);
                         effectAppliedByArmorMap.get(playerUUID).put(KQArmorMaterials.BOWSET, true);
                     }
                 } else {
-                    if (Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new HashMap<>()).getOrDefault(KQArmorMaterials.BOWSET, false))) {
+                    if (Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new ConcurrentHashMap<>()).getOrDefault(KQArmorMaterials.BOWSET, false))) {
                         player.removeEffect(MobEffects.MOVEMENT_SPEED);
                         effectAppliedByArmorMap.get(playerUUID).put(KQArmorMaterials.BOWSET, false);
                     }
@@ -218,12 +219,12 @@ public class KQArmorItem extends ArmorItem {
 
             if (KQConfigValues.BATSET)
                 if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.BATSET) && level.isNight()) {
-                    if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new HashMap<>()).getOrDefault(KQArmorMaterials.BATSET, false))) {
+                    if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new ConcurrentHashMap<>()).getOrDefault(KQArmorMaterials.BATSET, false))) {
                         player.addEffect(BAT_ARMOR);
                         effectAppliedByArmorMap.get(playerUUID).put(KQArmorMaterials.BATSET, true);
                     }
                 } else {
-                    if (Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new HashMap<>()).getOrDefault(KQArmorMaterials.BATSET, false))) {
+                    if (Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new ConcurrentHashMap<>()).getOrDefault(KQArmorMaterials.BATSET, false))) {
                         player.removeEffect(MobEffects.NIGHT_VISION);
                         effectAppliedByArmorMap.get(playerUUID).put(KQArmorMaterials.BATSET, false);
                     }
@@ -231,12 +232,12 @@ public class KQArmorItem extends ArmorItem {
 
             if (KQConfigValues.SHIELDSET)
                 if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.SHIELDSET)) {
-                    if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new HashMap<>()).getOrDefault(KQArmorMaterials.SHIELDSET, false))) {
+                    if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new ConcurrentHashMap<>()).getOrDefault(KQArmorMaterials.SHIELDSET, false))) {
                         player.addEffect(SHIELD_ARMOR);
                         effectAppliedByArmorMap.get(playerUUID).put(KQArmorMaterials.SHIELDSET, true);
                     }
                 } else {
-                    if (Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new HashMap<>()).getOrDefault(KQArmorMaterials.SHIELDSET, false))) {
+                    if (Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new ConcurrentHashMap<>()).getOrDefault(KQArmorMaterials.SHIELDSET, false))) {
                         player.removeEffect(MobEffects.DAMAGE_RESISTANCE);
                         effectAppliedByArmorMap.get(playerUUID).put(KQArmorMaterials.SHIELDSET, false);
                     }
@@ -244,12 +245,12 @@ public class KQArmorItem extends ArmorItem {
 
             if (KQConfigValues.PHANTOMSET)
                 if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.PHANTOMSET) && level.isNight()) {
-                    if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new HashMap<>()).getOrDefault(KQArmorMaterials.PHANTOMSET, false))) {
+                    if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new ConcurrentHashMap<>()).getOrDefault(KQArmorMaterials.PHANTOMSET, false))) {
                         player.addEffect(PHANTOM_ARMOR);
                         effectAppliedByArmorMap.get(playerUUID).put(KQArmorMaterials.PHANTOMSET, true);
                     }
                 } else {
-                    if (Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new HashMap<>()).getOrDefault(KQArmorMaterials.PHANTOMSET, false))) {
+                    if (Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new ConcurrentHashMap<>()).getOrDefault(KQArmorMaterials.PHANTOMSET, false))) {
                         player.removeEffect(MobEffects.MOVEMENT_SPEED);
                         effectAppliedByArmorMap.get(playerUUID).put(KQArmorMaterials.PHANTOMSET, false);
                     }
@@ -257,12 +258,12 @@ public class KQArmorItem extends ArmorItem {
 
             if (KQConfigValues.HORNSET)
                 if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.HORNSET) && player.getLastAttacker() != null) {
-                    if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new HashMap<>()).getOrDefault(KQArmorMaterials.HORNSET, false))) {
+                    if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new ConcurrentHashMap<>()).getOrDefault(KQArmorMaterials.HORNSET, false))) {
                         player.addEffect(HORN_ARMOR);
                         effectAppliedByArmorMap.get(playerUUID).put(KQArmorMaterials.HORNSET, true);
                     }
                 } else {
-                    if (Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new HashMap<>()).getOrDefault(KQArmorMaterials.HORNSET, false))) {
+                    if (Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new ConcurrentHashMap<>()).getOrDefault(KQArmorMaterials.HORNSET, false))) {
                         player.removeEffect(MobEffects.DAMAGE_BOOST);
                         effectAppliedByArmorMap.get(playerUUID).put(KQArmorMaterials.HORNSET, false);
                     }
@@ -270,12 +271,12 @@ public class KQArmorItem extends ArmorItem {
 
             if (KQConfigValues.SEASET)
                 if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.SEASET) && player.isUnderWater()) {
-                    if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new HashMap<>()).getOrDefault(KQArmorMaterials.SEASET, false))) {
+                    if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new ConcurrentHashMap<>()).getOrDefault(KQArmorMaterials.SEASET, false))) {
                         player.addEffect(SEA_ARMOR);
                         effectAppliedByArmorMap.get(playerUUID).put(KQArmorMaterials.SEASET, true);
                     }
                 } else {
-                    if (Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new HashMap<>()).getOrDefault(KQArmorMaterials.SEASET, false))) {
+                    if (Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new ConcurrentHashMap<>()).getOrDefault(KQArmorMaterials.SEASET, false))) {
                         player.removeEffect(MobEffects.DOLPHINS_GRACE);
                         effectAppliedByArmorMap.get(playerUUID).put(KQArmorMaterials.SEASET, false);
                     }
@@ -283,12 +284,12 @@ public class KQArmorItem extends ArmorItem {
 
             if (KQConfigValues.PIRATESET)
                 if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.PIRATESET)) {
-                    if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new HashMap<>()).getOrDefault(KQArmorMaterials.PIRATESET, false))) {
+                    if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new ConcurrentHashMap<>()).getOrDefault(KQArmorMaterials.PIRATESET, false))) {
                         player.addEffect(PIRATE_ARMOR);
                         effectAppliedByArmorMap.get(playerUUID).put(KQArmorMaterials.PIRATESET, true);
                     }
                 } else {
-                    if (Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new HashMap<>()).getOrDefault(KQArmorMaterials.PIRATESET, false))) {
+                    if (Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new ConcurrentHashMap<>()).getOrDefault(KQArmorMaterials.PIRATESET, false))) {
                         player.removeEffect(MobEffects.LUCK);
                         effectAppliedByArmorMap.get(playerUUID).put(KQArmorMaterials.PIRATESET, false);
                     }
@@ -296,12 +297,12 @@ public class KQArmorItem extends ArmorItem {
 
             if (KQConfigValues.SPIDERSET)
                 if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.SPIDERSET) && player.isShiftKeyDown()) {
-                    if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new HashMap<>()).getOrDefault(KQArmorMaterials.SPIDERSET, false))) {
+                    if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new ConcurrentHashMap<>()).getOrDefault(KQArmorMaterials.SPIDERSET, false))) {
                         player.addEffect(SPIDER_ARMOR);
                         effectAppliedByArmorMap.get(playerUUID).put(KQArmorMaterials.SPIDERSET, true);
                     }
                 } else {
-                    if (Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new HashMap<>()).getOrDefault(KQArmorMaterials.SPIDERSET, false))) {
+                    if (Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new ConcurrentHashMap<>()).getOrDefault(KQArmorMaterials.SPIDERSET, false))) {
                         player.removeEffect(MobEffects.JUMP);
                         effectAppliedByArmorMap.get(playerUUID).put(KQArmorMaterials.SPIDERSET, false);
                     }
@@ -309,12 +310,12 @@ public class KQArmorItem extends ArmorItem {
 
             if (KQConfigValues.NETHERSET)
                 if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.NETHERSET)) {
-                    if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new HashMap<>()).getOrDefault(KQArmorMaterials.NETHERSET, false))) {
+                    if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new ConcurrentHashMap<>()).getOrDefault(KQArmorMaterials.NETHERSET, false))) {
                         player.addEffect(NETHER_ARMOR);
                         effectAppliedByArmorMap.get(playerUUID).put(KQArmorMaterials.NETHERSET, true);
                     }
                 } else {
-                    if (Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new HashMap<>()).getOrDefault(KQArmorMaterials.NETHERSET, false))) {
+                    if (Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new ConcurrentHashMap<>()).getOrDefault(KQArmorMaterials.NETHERSET, false))) {
                         player.removeEffect(MobEffects.FIRE_RESISTANCE);
                         effectAppliedByArmorMap.get(playerUUID).put(KQArmorMaterials.NETHERSET, false);
                     }
@@ -322,25 +323,25 @@ public class KQArmorItem extends ArmorItem {
 
             if (KQConfigValues.SKULK)
                 if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.SKULK) && player.level().getMaxLocalRawBrightness(player.blockPosition()) <= KQConfigValues.SKULK_MAX_LIGHT_LEVEL) {
-                    if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new HashMap<>()).getOrDefault(KQArmorMaterials.SKULK, false))) {
+                    if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new ConcurrentHashMap<>()).getOrDefault(KQArmorMaterials.SKULK, false))) {
                         player.addEffect(SKULK_ARMOR);
                         effectAppliedByArmorMap.get(playerUUID).put(KQArmorMaterials.SKULK, true);
                     }
                 } else {
-                    if (Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new HashMap<>()).getOrDefault(KQArmorMaterials.SKULK, false))) {
+                    if (Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new ConcurrentHashMap<>()).getOrDefault(KQArmorMaterials.SKULK, false))) {
                         player.removeEffect(MobEffects.DAMAGE_RESISTANCE);
                         effectAppliedByArmorMap.get(playerUUID).put(KQArmorMaterials.SKULK, false);
                     }
                 }
 
             if (KQConfigValues.STRAWHATSET)
-                if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.STRAWHATSET) && player.isUnderWater()) {
-                    if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new HashMap<>()).getOrDefault(KQArmorMaterials.STRAWHATSET, false))) {
+                if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.STRAWHATSET)) {
+                    if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new ConcurrentHashMap<>()).getOrDefault(KQArmorMaterials.STRAWHATSET, false))) {
                         player.addEffect(STRAWHAT_ARMOR);
                         effectAppliedByArmorMap.get(playerUUID).put(KQArmorMaterials.STRAWHATSET, true);
                     }
                 } else {
-                    if (Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new HashMap<>()).getOrDefault(KQArmorMaterials.STRAWHATSET, false))) {
+                    if (Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new ConcurrentHashMap<>()).getOrDefault(KQArmorMaterials.STRAWHATSET, false))) {
                         player.removeEffect(MobEffects.WATER_BREATHING);
                         effectAppliedByArmorMap.get(playerUUID).put(KQArmorMaterials.STRAWHATSET, false);
                     }

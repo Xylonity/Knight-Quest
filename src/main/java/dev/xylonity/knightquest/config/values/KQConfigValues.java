@@ -147,6 +147,15 @@ public class KQConfigValues {
     public static final ConfigValue<Boolean> PALADIN = register("ENABLE_PALADIN", true);
     public static final ConfigValue<Boolean> UCHIGATANA = register("ENABLE_UCHIGATANA", true);
 
+    public static final ConfigValue<Double> BADPATCH_MAX_HEALTH = register("BADPATCH_MAX_HEALTH", 7.0);
+    public static final ConfigValue<Double> ELDBOMB_MAX_HEALTH = register("ELDBOMB_MAX_HEALTH", 7.0);
+    public static final ConfigValue<Double> ELDKNIGHT_MAX_HEALTH = register("ELDKNIGHT_MAX_HEALTH", 90.0);
+    public static final ConfigValue<Double> FALLENKNIGHT_MAX_HEALTH = register("FALLENKNIGHT_MAX_HEALTH", 35.0);
+    public static final ConfigValue<Double> GREMLIN_MAX_HEALTH = register("GREMLIN_MAX_HEALTH", 35.0);
+    public static final ConfigValue<Double> LIZZY_MAX_HEALTH = register("LIZZY_MAX_HEALTH", 10.0);
+    public static final ConfigValue<Double> RATMAN_MAX_HEALTH = register("RATMAN_MAX_HEALTH", 22.0);
+    public static final ConfigValue<Double> SWAMPMAN_MAX_HEALTH = register("SWAMPMAN_MAX_HEALTH", 50.0);
+
     private static <T> ConfigValue<T> register(String key, T defaultValue) {
         values.put(key, defaultValue);
         return new ConfigValue<>(key);

@@ -19,13 +19,11 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.BossEvent;
-import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ExperienceOrb;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
@@ -35,7 +33,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
@@ -102,6 +99,23 @@ public class NethermanEntity extends Monster implements GeoEntity {
     }
 
     @Override
+    public void onAddedToWorld() {
+        super.onAddedToWorld();
+
+        AttributeInstance maxHealth = this.getAttribute(Attributes.MAX_HEALTH);
+        if (maxHealth != null) {
+            maxHealth.setBaseValue(KQConfigValues.NETHERMAN_HEALTH.get());
+            this.setHealth(KQConfigValues.NETHERMAN_HEALTH.get().floatValue());
+        }
+
+        AttributeInstance attackDmg = this.getAttribute(Attributes.ATTACK_DAMAGE);
+        if (attackDmg != null) {
+            attackDmg.setBaseValue(KQConfigValues.NETHERMAN_DAMAGE.get());
+        }
+
+    }
+
+    @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new NethermanAttackGoal(this, 0.5f, true));
@@ -120,24 +134,6 @@ public class NethermanEntity extends Monster implements GeoEntity {
         this.goalSelector.addGoal(3, new NethermanDarknessGoal(this));
 
         this.targetSelector.addGoal(1, new NethermanNearestAttackableTargetGoal<>(this, Player.class, true));
-    }
-
-    @Nullable
-    @Override
-    public SpawnGroupData finalizeSpawn(@NotNull ServerLevelAccessor pLevel, @NotNull DifficultyInstance pDifficulty, @NotNull MobSpawnType pSpawnType, @Nullable SpawnGroupData pSpawnGroupData) {
-
-        var maxHealth = this.getAttribute(Attributes.MAX_HEALTH);
-        if (maxHealth != null) {
-            maxHealth.setBaseValue(KQConfigValues.NETHERMAN_HEALTH.get());
-            this.setHealth(KQConfigValues.NETHERMAN_HEALTH.get().floatValue());
-        }
-
-        var attackDamageAttribute = this.getAttribute(Attributes.ATTACK_DAMAGE);
-        if (attackDamageAttribute != null) {
-            attackDamageAttribute.setBaseValue(KQConfigValues.NETHERMAN_DAMAGE.get());
-        }
-
-        return super.finalizeSpawn(pLevel, pDifficulty, pSpawnType, pSpawnGroupData);
     }
 
     /**

@@ -1,5 +1,6 @@
 package dev.xylonity.knightquest.common.entity.entities;
 
+import dev.xylonity.knightquest.config.values.KQConfigValues;
 import dev.xylonity.knightquest.registry.KnightQuestItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -11,6 +12,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
@@ -105,6 +107,12 @@ public class FallenKnightEntity extends Monster implements GeoEntity {
         this.setItemSlot(EquipmentSlot.CHEST, new ItemStack(chestplates[index]));
         this.setItemSlot(EquipmentSlot.LEGS, new ItemStack(leggings[index]));
         this.setItemSlot(EquipmentSlot.FEET, new ItemStack(boots[index]));
+
+        AttributeInstance maxHealth = this.getAttribute(Attributes.MAX_HEALTH);
+        if (maxHealth != null) {
+            maxHealth.setBaseValue(KQConfigValues.FALLENKNIGHT_MAX_HEALTH.get());
+            this.setHealth(KQConfigValues.FALLENKNIGHT_MAX_HEALTH.get().floatValue());
+        }
 
         return super.finalizeSpawn(pLevel, pDifficulty, pSpawnType, pSpawnGroupData);
     }

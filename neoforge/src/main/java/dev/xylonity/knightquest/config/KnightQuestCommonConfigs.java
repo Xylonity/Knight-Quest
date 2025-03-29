@@ -1,7 +1,6 @@
 package dev.xylonity.knightquest.config;
 
 import dev.xylonity.knightquest.config.values.KQConfigValues;
-import net.neoforged.fml.config.ModConfig;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
 public class KnightQuestCommonConfigs {
@@ -144,6 +143,15 @@ public class KnightQuestCommonConfigs {
     public static final ModConfigSpec.DoubleValue EXTRA_DAMAGE_PASSIVE_CLEAVER;
     public static final ModConfigSpec.DoubleValue ENEMY_HEALTH_PASSIVE_CLEAVER;
 
+    public static final ModConfigSpec.DoubleValue BADPATCH_MAX_HEALTH;
+    public static final ModConfigSpec.DoubleValue ELDBOMB_MAX_HEALTH;
+    public static final ModConfigSpec.DoubleValue ELDKNIGHT_MAX_HEALTH;
+    public static final ModConfigSpec.DoubleValue FALLENKNIGHT_MAX_HEALTH;
+    public static final ModConfigSpec.DoubleValue GREMLIN_MAX_HEALTH;
+    public static final ModConfigSpec.DoubleValue LIZZY_MAX_HEALTH;
+    public static final ModConfigSpec.DoubleValue RATMAN_MAX_HEALTH;
+    public static final ModConfigSpec.DoubleValue SWAMPMAN_MAX_HEALTH;
+
     static {
         // General configuration Section
         BUILDER.push("General Configuration");
@@ -183,11 +191,37 @@ public class KnightQuestCommonConfigs {
         POISON_ELDKNIGHT = BUILDER.define("Should do the poison passive attack", true);
         NUM_ELDBOMB_ELDKNIGHT = BUILDER.defineInRange("Number of Eld Bombs generated at half hp", 3, 0, 6);
         HEAL_ELDKNIGHT = BUILDER.defineInRange("Quantity of healing each 4 seconds", 3.0, 0.0, 20.0);
+        ELDKNIGHT_MAX_HEALTH = BUILDER.defineInRange("Max health for Eld Knight", 90.0, 1.0, 500.0);
+        BUILDER.pop();
+
+        // Ratman Configuration Section
+        BUILDER.push("Ratman Configuration");
+        RATMAN_MAX_HEALTH = BUILDER.defineInRange("Max health for Ratman", 22.0, 1.0, 500.0);
+        BUILDER.pop();
+
+        // Bad Patch Configuration Section
+        BUILDER.push("Bad Patch Configuration");
+        BADPATCH_MAX_HEALTH = BUILDER.defineInRange("Max health for Bad Patch", 7.0, 1.0, 500.0);
+        BUILDER.pop();
+
+        // EldBomb Configuration Section
+        BUILDER.push("EldBomb Configuration");
+        ELDBOMB_MAX_HEALTH = BUILDER.defineInRange("Max health for Eld Bomb", 7.0, 1.0, 500.0);
+        BUILDER.pop();
+
+        // Fallen Knight Configuration Section
+        BUILDER.push("Fallen Knight Configuration");
+        FALLENKNIGHT_MAX_HEALTH = BUILDER.defineInRange("Max health for Fallen Knight", 35.0, 1.0, 500.0);
         BUILDER.pop();
 
         // Ghosty Configuration Section
         BUILDER.push("Ghosty Configuration");
         INVULNERABILITY_RADIUS_GHOSTY = BUILDER.defineInRange("Ghosty invulnerability radius", 7.0, 0.0, 25.0);
+        BUILDER.pop();
+
+        // Lizzy Configuration Section
+        BUILDER.push("Lizzy Configuration");
+        LIZZY_MAX_HEALTH = BUILDER.defineInRange("Max health for Lizzy", 10.0, 1.0, 500.0);
         BUILDER.pop();
 
         // Gremlin Configuration Section
@@ -196,6 +230,7 @@ public class KnightQuestCommonConfigs {
         MULTIPLIER_GREMLIN_MOVEMENT_SPEED = BUILDER.defineInRange("Second phase movement speed multipler", 1.1, 1.0, 10.0);
         MULTIPLIER_GREMLIN_ATTACK_SPEED = BUILDER.defineInRange("Second phase attack speed multipler", 1.15, 1.0, 10.0);
         MULTIPLIER_GREMLIN_ATTACK_DAMAGE = BUILDER.defineInRange("Second phase attack damage multipler", 1.2, 1.0, 10.0);
+        GREMLIN_MAX_HEALTH = BUILDER.defineInRange("Max health for Gremlin", 35.0, 1.0, 500.0);
         BUILDER.pop();
 
         // Swampman Configuration Section
@@ -203,11 +238,12 @@ public class KnightQuestCommonConfigs {
         PHASE_2_HEALING_SWAMPMAN = BUILDER.defineInRange("Amount of healing per second on second phase", 0.0, 0.0, 20.0);
         CAN_CHANGE_PHASE_SWAMPMAN = BUILDER.define("Can change phase", true);
         POISON_PHASE_2_SWAMPMAN = BUILDER.define("Should axe throwables apply poison effect", false);
+        SWAMPMAN_MAX_HEALTH = BUILDER.defineInRange("Max health for Swampman", 50.0, 1.0, 500.0);
         BUILDER.pop();
 
         // Netherman Configuration Section
         BUILDER.push("Netherman Configuration");
-        NETHERMAN_HEALTH = BUILDER.defineInRange("How much health should the Netherman spawn with?", 450.0, 100.0, 2000.0);
+        NETHERMAN_HEALTH = BUILDER.defineInRange("How much health should the Netherman spawn with?", 450.0, 100.0, 10000.0);
         NETHERMAN_DAMAGE = BUILDER.defineInRange("Amount of damage dealt per normal hit", 16.0, 6.0, 50.0);
         TELEPORT_ON_HIT = BUILDER.define("Should the Netherman teleport when hit?", true);
         BUILDER.comment("Random number between the interval stated below");
@@ -447,5 +483,15 @@ public class KnightQuestCommonConfigs {
         KQConfigValues.NAIL.set(ENABLE_NAIL.get());
         KQConfigValues.PALADIN.set(ENABLE_PALADIN.get());
         KQConfigValues.UCHIGATANA.set(ENABLE_UCHIGATANA.get());
+
+        KQConfigValues.BADPATCH_MAX_HEALTH.set(BADPATCH_MAX_HEALTH.get());
+        KQConfigValues.ELDBOMB_MAX_HEALTH.set(ELDBOMB_MAX_HEALTH.get());
+        KQConfigValues.ELDKNIGHT_MAX_HEALTH.set(ELDKNIGHT_MAX_HEALTH.get());
+        KQConfigValues.FALLENKNIGHT_MAX_HEALTH.set(FALLENKNIGHT_MAX_HEALTH.get());
+        KQConfigValues.GREMLIN_MAX_HEALTH.set(GREMLIN_MAX_HEALTH.get());
+        KQConfigValues.LIZZY_MAX_HEALTH.set(LIZZY_MAX_HEALTH.get());
+        KQConfigValues.RATMAN_MAX_HEALTH.set(RATMAN_MAX_HEALTH.get());
+        KQConfigValues.SWAMPMAN_MAX_HEALTH.set(SWAMPMAN_MAX_HEALTH.get());
+
     }
 }

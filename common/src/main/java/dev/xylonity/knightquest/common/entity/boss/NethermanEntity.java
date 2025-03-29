@@ -19,10 +19,10 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.BossEvent;
-import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
@@ -32,7 +32,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
@@ -79,6 +78,7 @@ public class NethermanEntity extends Monster implements GeoEntity {
 
     private boolean hasBeenSwitchedToPhase2 = false;
     private boolean hasBeenSwitchedToPhase3 = false;
+    private boolean initAttributes = false;
 
     public NethermanEntity(EntityType<? extends Monster> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -118,24 +118,6 @@ public class NethermanEntity extends Monster implements GeoEntity {
         this.goalSelector.addGoal(3, new NethermanDarknessGoal(this));
 
         this.targetSelector.addGoal(1, new NethermanNearestAttackableTargetGoal<>(this, Player.class, true));
-    }
-
-    @Nullable
-    @Override
-    public SpawnGroupData finalizeSpawn(@NotNull ServerLevelAccessor pLevel, @NotNull DifficultyInstance pDifficulty, @NotNull MobSpawnType pSpawnType, @Nullable SpawnGroupData pSpawnGroupData) {
-
-        var maxHealth = this.getAttribute(Attributes.MAX_HEALTH);
-        if (maxHealth != null) {
-            maxHealth.setBaseValue(KQConfigValues.NETHERMAN_HEALTH.get());
-            this.setHealth(KQConfigValues.NETHERMAN_HEALTH.get().floatValue());
-        }
-
-        var attackDamageAttribute = this.getAttribute(Attributes.ATTACK_DAMAGE);
-        if (attackDamageAttribute != null) {
-            attackDamageAttribute.setBaseValue(KQConfigValues.NETHERMAN_DAMAGE.get());
-        }
-
-        return super.finalizeSpawn(pLevel, pDifficulty, pSpawnType, pSpawnGroupData);
     }
 
     /**
@@ -267,6 +249,21 @@ public class NethermanEntity extends Monster implements GeoEntity {
     @Override
     public void tick() {
         super.tick();
+
+        if (!initAttributes) {
+            AttributeInstance maxHealth = this.getAttribute(Attributes.MAX_HEALTH);
+            if (maxHealth != null) {
+                maxHealth.setBaseValue(KQConfigValues.NETHERMAN_HEALTH.get());
+                this.setHealth(KQConfigValues.NETHERMAN_HEALTH.get().floatValue());
+            }
+
+            AttributeInstance attackDmg = this.getAttribute(Attributes.ATTACK_DAMAGE);
+            if (attackDmg != null) {
+                attackDmg.setBaseValue(KQConfigValues.NETHERMAN_DAMAGE.get());
+            }
+
+            initAttributes = true;
+        }
 
         // Summon animation ending
         if (!this.level().isClientSide() && tickCount == 100) {
@@ -488,6 +485,8 @@ public class NethermanEntity extends Monster implements GeoEntity {
 
         this.tickCount = pCompound.getInt("tickCount");
 
+        this.initAttributes = pCompound.getBoolean("initAttributes");
+
         if (!pCompound.contains("shouldPlaySummonAnimation")) {
             this.setIsSummoning(true);
         } else {
@@ -521,7 +520,7 @@ public class NethermanEntity extends Monster implements GeoEntity {
             this.setPhase(pCompound.getInt("phase"));
         }
 
-        if (this.hasCustomName()) {
+        if (this.hasCustomName() && this.getDisplayName() != null) {
             this.bossInfo.setName(this.getDisplayName());
         }
 
@@ -539,6 +538,7 @@ public class NethermanEntity extends Monster implements GeoEntity {
         pCompound.putInt("counterSwitchPhase2", this.getCounterSwitchPhase2());
         pCompound.putInt("counterSwitchPhase3", this.getCounterSwitchPhase3());
         pCompound.putInt("phase", this.getPhase());
+        pCompound.putBoolean("initAttributes", this.initAttributes);
     }
 
     @Override

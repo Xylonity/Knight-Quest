@@ -40,6 +40,7 @@ import dev.xylonity.knightquest.registry.KnightQuestItems;
 import dev.xylonity.knightquest.common.material.KQArmorMaterials;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static dev.xylonity.knightquest.common.item.KQArmorItem.effectAppliedByArmorMap;
 import static dev.xylonity.knightquest.common.item.KQFullSetChecker.hasFullSetOn;
@@ -51,7 +52,7 @@ public class KQArmorEvents {
      * not be infinite jumps when there are more than two players present.
      */
 
-    private static final Map<UUID, Boolean> doubleJumpStates = new HashMap<>();
+    private static final Map<UUID, Boolean> doubleJumpStates = new ConcurrentHashMap<>();
 
     private static final MobEffectInstance HUSK_ARMOR = new MobEffectInstance (MobEffects.DAMAGE_RESISTANCE, -1, 1, false, false, true);
     private static final MobEffectInstance BAMBOO_BLUE = new MobEffectInstance (MobEffects.MOVEMENT_SPEED, -1, 1, false, false, true);
@@ -363,12 +364,12 @@ public class KQArmorEvents {
                     if (hasFullSetOn(player, KQArmorMaterials.HUSKSET) && (player.level().getBiome(new BlockPos((int) player.getX(), (int) player.getY(), (int) player.getZ())).is(Biomes.DESERT)
                             || player.level().getBiome(new BlockPos((int) player.getX(), (int) player.getY(), (int) player.getZ())).is(Biomes.BADLANDS)
                             || player.level().getBiome(new BlockPos((int) player.getX(), (int) player.getY(), (int) player.getZ())).is(Biomes.BEACH))) {
-                        if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(player.getUUID(), k -> new HashMap<>()).getOrDefault(KQArmorMaterials.HUSKSET, false))) {
+                        if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(player.getUUID(), k -> new ConcurrentHashMap<>()).getOrDefault(KQArmorMaterials.HUSKSET, false))) {
                             player.addEffect(HUSK_ARMOR);
                             effectAppliedByArmorMap.get(player.getUUID()).put(KQArmorMaterials.HUSKSET, true);
                         }
                     } else {
-                        if (Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(player.getUUID(), k -> new HashMap<>()).getOrDefault(KQArmorMaterials.HUSKSET, false))) {
+                        if (Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(player.getUUID(), k -> new ConcurrentHashMap<>()).getOrDefault(KQArmorMaterials.HUSKSET, false))) {
                             player.removeEffect(MobEffects.DAMAGE_RESISTANCE);
                             effectAppliedByArmorMap.get(player.getUUID()).put(KQArmorMaterials.HUSKSET, false);
                         }
@@ -384,12 +385,12 @@ public class KQArmorEvents {
                     if (hasFullSetOn(player, KQArmorMaterials.BAMBOOSET_BLUE) && (player.level().getBiome(new BlockPos((int) player.getX(), (int) player.getY(), (int) player.getZ())).is(Biomes.JUNGLE)
                             || player.level().getBiome(new BlockPos((int) player.getX(), (int) player.getY(), (int) player.getZ())).is(Biomes.BAMBOO_JUNGLE)
                             || player.level().getBiome(new BlockPos((int) player.getX(), (int) player.getY(), (int) player.getZ())).is(Biomes.SPARSE_JUNGLE))) {
-                        if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(player.getUUID(), k -> new HashMap<>()).getOrDefault(KQArmorMaterials.BAMBOOSET_BLUE, false))) {
+                        if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(player.getUUID(), k -> new ConcurrentHashMap<>()).getOrDefault(KQArmorMaterials.BAMBOOSET_BLUE, false))) {
                             player.addEffect(BAMBOO_BLUE);
                             effectAppliedByArmorMap.get(player.getUUID()).put(KQArmorMaterials.BAMBOOSET_BLUE, true);
                         }
                     } else {
-                        if (Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(player.getUUID(), k -> new HashMap<>()).getOrDefault(KQArmorMaterials.BAMBOOSET_BLUE, false))) {
+                        if (Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(player.getUUID(), k -> new ConcurrentHashMap<>()).getOrDefault(KQArmorMaterials.BAMBOOSET_BLUE, false))) {
                             player.removeEffect(MobEffects.MOVEMENT_SPEED);
                             effectAppliedByArmorMap.get(player.getUUID()).put(KQArmorMaterials.BAMBOOSET_BLUE, false);
                         }
@@ -425,12 +426,12 @@ public class KQArmorEvents {
 
                 if (KQConfigValues.SILVERFISHSET.get())
                     if (hasFullSetOn(player, KQArmorMaterials.SILVERFISHSET) && player.getY() < KQConfigValues.SILVERFISH_EFFECT_MAX_HEIGHT.get()) {
-                        if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(player.getUUID(), k -> new HashMap<>()).getOrDefault(KQArmorMaterials.SILVERFISHSET, false))) {
+                        if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(player.getUUID(), k -> new ConcurrentHashMap<>()).getOrDefault(KQArmorMaterials.SILVERFISHSET, false))) {
                             player.addEffect(SILVERFISH_ARMOR);
                             effectAppliedByArmorMap.get(player.getUUID()).put(KQArmorMaterials.SILVERFISHSET, true);
                         }
                     } else {
-                        if (Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(player.getUUID(), k -> new HashMap<>()).getOrDefault(KQArmorMaterials.SILVERFISHSET, false))) {
+                        if (Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(player.getUUID(), k -> new ConcurrentHashMap<>()).getOrDefault(KQArmorMaterials.SILVERFISHSET, false))) {
                             player.removeEffect(MobEffects.DIG_SPEED);
                             effectAppliedByArmorMap.get(player.getUUID()).put(KQArmorMaterials.SILVERFISHSET, false);
                         }

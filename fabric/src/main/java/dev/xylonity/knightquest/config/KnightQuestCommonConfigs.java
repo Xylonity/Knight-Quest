@@ -1,147 +1,156 @@
 package dev.xylonity.knightquest.config;
 
 import dev.xylonity.knightquest.config.values.KQConfigValues;
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 public class KnightQuestCommonConfigs {
-    public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
-    public static final ForgeConfigSpec SPEC;
+    public static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
+    public static final ModConfigSpec SPEC;
 
     // General Configurations
-    public static final ForgeConfigSpec.IntValue REQUIRED_ARMOR_PIECES;
+    public static final ModConfigSpec.IntValue REQUIRED_ARMOR_PIECES;
 
     // Eld Knight Configurations
-    public static final ForgeConfigSpec.BooleanValue POISON_ELDKNIGHT;
-    public static final ForgeConfigSpec.IntValue NUM_ELDBOMB_ELDKNIGHT;
-    public static final ForgeConfigSpec.DoubleValue HEAL_ELDKNIGHT;
+    public static final ModConfigSpec.BooleanValue POISON_ELDKNIGHT;
+    public static final ModConfigSpec.IntValue NUM_ELDBOMB_ELDKNIGHT;
+    public static final ModConfigSpec.DoubleValue HEAL_ELDKNIGHT;
 
     // Drop Chance Configurations
-    // public static final ForgeConfigSpec.DoubleValue DROP_CHANCE_SMALL_ESSENCE;
-    public static final ForgeConfigSpec.DoubleValue DROP_CHANCE_RATMAN_EYE;
-    public static final ForgeConfigSpec.DoubleValue DROP_CHANCE_LIZZY_SCALE;
+    // public static final ModConfigSpec.DoubleValue DROP_CHANCE_SMALL_ESSENCE;
+    public static final ModConfigSpec.DoubleValue DROP_CHANCE_RATMAN_EYE;
+    public static final ModConfigSpec.DoubleValue DROP_CHANCE_LIZZY_SCALE;
 
     // Ghosty Configurations
-    public static final ForgeConfigSpec.DoubleValue INVULNERABILITY_RADIUS_GHOSTY;
+    public static final ModConfigSpec.DoubleValue INVULNERABILITY_RADIUS_GHOSTY;
 
     // Gremlin Configurations
-    public static final ForgeConfigSpec.BooleanValue CAN_TAKE_GOLD_GREMLIN;
-    public static final ForgeConfigSpec.DoubleValue MULTIPLIER_GREMLIN_MOVEMENT_SPEED;
-    public static final ForgeConfigSpec.DoubleValue MULTIPLIER_GREMLIN_ATTACK_SPEED;
-    public static final ForgeConfigSpec.DoubleValue MULTIPLIER_GREMLIN_ATTACK_DAMAGE;
+    public static final ModConfigSpec.BooleanValue CAN_TAKE_GOLD_GREMLIN;
+    public static final ModConfigSpec.DoubleValue MULTIPLIER_GREMLIN_MOVEMENT_SPEED;
+    public static final ModConfigSpec.DoubleValue MULTIPLIER_GREMLIN_ATTACK_SPEED;
+    public static final ModConfigSpec.DoubleValue MULTIPLIER_GREMLIN_ATTACK_DAMAGE;
 
     // Swampman Configurations
-    public static final ForgeConfigSpec.DoubleValue PHASE_2_HEALING_SWAMPMAN;
-    public static final ForgeConfigSpec.BooleanValue CAN_CHANGE_PHASE_SWAMPMAN;
-    public static final ForgeConfigSpec.BooleanValue POISON_PHASE_2_SWAMPMAN;
+    public static final ModConfigSpec.DoubleValue PHASE_2_HEALING_SWAMPMAN;
+    public static final ModConfigSpec.BooleanValue CAN_CHANGE_PHASE_SWAMPMAN;
+    public static final ModConfigSpec.BooleanValue POISON_PHASE_2_SWAMPMAN;
 
     // Netherman Configurations
-    public static final ForgeConfigSpec.DoubleValue NETHERMAN_HEALTH;
-    public static final ForgeConfigSpec.DoubleValue NETHERMAN_DAMAGE;
-    public static final ForgeConfigSpec.BooleanValue TELEPORT_ON_HIT;
-    public static final ForgeConfigSpec.IntValue FIRE_ATTACK_MIN_TIME;
-    public static final ForgeConfigSpec.IntValue FIRE_ATTACK_MAX_TIME;
-    public static final ForgeConfigSpec.IntValue MAX_NETHERMAN_CLONES;
-    public static final ForgeConfigSpec.IntValue ICE_ATTACK_FREEZE_TICKS;
-    public static final ForgeConfigSpec.IntValue DARKNESS_ATTACK_MIN_TIME;
-    public static final ForgeConfigSpec.IntValue DARKNESS_ATTACK_MAX_TIME;
-    public static final ForgeConfigSpec.IntValue CLONE_EXPLOSION_FREEZE_TICKS;
-    public static final ForgeConfigSpec.DoubleValue NETHERMAN_PROJECTILE_EXPLOSION_RADIUS;
-    public static final ForgeConfigSpec.BooleanValue RESTORE_BLOCKS_POST_DEATH;
-    public static final ForgeConfigSpec.IntValue EXPERIENCE_DROP_AMOUNT;
+    public static final ModConfigSpec.DoubleValue NETHERMAN_HEALTH;
+    public static final ModConfigSpec.DoubleValue NETHERMAN_DAMAGE;
+    public static final ModConfigSpec.BooleanValue TELEPORT_ON_HIT;
+    public static final ModConfigSpec.IntValue FIRE_ATTACK_MIN_TIME;
+    public static final ModConfigSpec.IntValue FIRE_ATTACK_MAX_TIME;
+    public static final ModConfigSpec.IntValue MAX_NETHERMAN_CLONES;
+    public static final ModConfigSpec.IntValue ICE_ATTACK_FREEZE_TICKS;
+    public static final ModConfigSpec.IntValue DARKNESS_ATTACK_MIN_TIME;
+    public static final ModConfigSpec.IntValue DARKNESS_ATTACK_MAX_TIME;
+    public static final ModConfigSpec.IntValue CLONE_EXPLOSION_FREEZE_TICKS;
+    public static final ModConfigSpec.DoubleValue NETHERMAN_PROJECTILE_EXPLOSION_RADIUS;
+    public static final ModConfigSpec.BooleanValue RESTORE_BLOCKS_POST_DEATH;
+    public static final ModConfigSpec.IntValue EXPERIENCE_DROP_AMOUNT;
 
     // Armor Set Configurations
-    public static final ForgeConfigSpec.BooleanValue ENABLE_BAMBOOSET_PUSH_PLAYERS;
-    public static final ForgeConfigSpec.IntValue TELEPORT_RADIUS_ENDERMANSET;
-    public static final ForgeConfigSpec.DoubleValue CHANCE_ENDERMANSET;
-    public static final ForgeConfigSpec.DoubleValue FORZESET_DEFLECT_CHANCE;
-    public static final ForgeConfigSpec.DoubleValue FORZESET_DEFLECT_DAMAGE;
-    public static final ForgeConfigSpec.DoubleValue SILVERSET_BURN_CHANCE;
-    public static final ForgeConfigSpec.DoubleValue HOLLOWSET_HEALING_MULTIPLIER;
-    public static final ForgeConfigSpec.DoubleValue DRAGONSET_DAMAGE_MULTIPLIER;
-    public static final ForgeConfigSpec.DoubleValue WITHERSET_WITHER_CHANCE;
-    public static final ForgeConfigSpec.BooleanValue SHOULD_WARLORD_SET_EFFECT_APPLY_TO_ITSELF;
-    public static final ForgeConfigSpec.IntValue WARLORD_SET_EFFECT_RADIUS;
-    public static final ForgeConfigSpec.DoubleValue ZOMBIESET_HEALING_AMOUNT;
-    public static final ForgeConfigSpec.IntValue ZOMBIESET_HEALING_TICKS;
-    public static final ForgeConfigSpec.DoubleValue DEEPSLATE_FALL_DAMAGE_MULTIPLIER;
-    public static final ForgeConfigSpec.DoubleValue EVOKER_DARKNESS_CHANCE;
-    public static final ForgeConfigSpec.DoubleValue SQUIRE_DAMAGE_RECEIVED_MULTIPLIER;
-    public static final ForgeConfigSpec.DoubleValue BLAZE_FIRE_CHANCE;
-    public static final ForgeConfigSpec.IntValue BLAZE_FIRE_DURATION_MIN;
-    public static final ForgeConfigSpec.IntValue BLAZE_FIRE_DURATION_MAX;
-    public static final ForgeConfigSpec.DoubleValue CREEPER_EXPLOSION_DAMAGE_MULTIPLIER;
-    public static final ForgeConfigSpec.IntValue SILVERFISH_EFFECT_MAX_HEIGHT;
-    public static final ForgeConfigSpec.IntValue SKULK_MAX_LIGHT_LEVEL;
+    public static final ModConfigSpec.BooleanValue ENABLE_BAMBOOSET_PUSH_PLAYERS;
+    public static final ModConfigSpec.IntValue TELEPORT_RADIUS_ENDERMANSET;
+    public static final ModConfigSpec.DoubleValue CHANCE_ENDERMANSET;
+    public static final ModConfigSpec.DoubleValue FORZESET_DEFLECT_CHANCE;
+    public static final ModConfigSpec.DoubleValue FORZESET_DEFLECT_DAMAGE;
+    public static final ModConfigSpec.DoubleValue SILVERSET_BURN_CHANCE;
+    public static final ModConfigSpec.DoubleValue HOLLOWSET_HEALING_MULTIPLIER;
+    public static final ModConfigSpec.DoubleValue DRAGONSET_DAMAGE_MULTIPLIER;
+    public static final ModConfigSpec.DoubleValue WITHERSET_WITHER_CHANCE;
+    public static final ModConfigSpec.BooleanValue SHOULD_WARLORD_SET_EFFECT_APPLY_TO_ITSELF;
+    public static final ModConfigSpec.IntValue WARLORD_SET_EFFECT_RADIUS;
+    public static final ModConfigSpec.DoubleValue ZOMBIESET_HEALING_AMOUNT;
+    public static final ModConfigSpec.IntValue ZOMBIESET_HEALING_TICKS;
+    public static final ModConfigSpec.DoubleValue DEEPSLATE_FALL_DAMAGE_MULTIPLIER;
+    public static final ModConfigSpec.DoubleValue EVOKER_DARKNESS_CHANCE;
+    public static final ModConfigSpec.DoubleValue SQUIRE_DAMAGE_RECEIVED_MULTIPLIER;
+    public static final ModConfigSpec.DoubleValue BLAZE_FIRE_CHANCE;
+    public static final ModConfigSpec.IntValue BLAZE_FIRE_DURATION_MIN;
+    public static final ModConfigSpec.IntValue BLAZE_FIRE_DURATION_MAX;
+    public static final ModConfigSpec.DoubleValue CREEPER_EXPLOSION_DAMAGE_MULTIPLIER;
+    public static final ModConfigSpec.IntValue SILVERFISH_EFFECT_MAX_HEIGHT;
+    public static final ModConfigSpec.IntValue SKULK_MAX_LIGHT_LEVEL;
 
     // Armor Set Passive Enabler Configurations
-    public static final ForgeConfigSpec.BooleanValue ENABLE_DEEPSLATESET;
-    public static final ForgeConfigSpec.BooleanValue ENABLE_EVOKERSET;
-    public static final ForgeConfigSpec.BooleanValue ENABLE_SQUIRESET;
-    public static final ForgeConfigSpec.BooleanValue ENABLE_BLAZESET;
-    public static final ForgeConfigSpec.BooleanValue ENABLE_DRAGONSET;
-    public static final ForgeConfigSpec.BooleanValue ENABLE_BAMBOOSET_GREEN;
-    public static final ForgeConfigSpec.BooleanValue ENABLE_SHINOBI;
-    public static final ForgeConfigSpec.BooleanValue ENABLE_BAMBOOSET;
-    public static final ForgeConfigSpec.BooleanValue ENABLE_PATHSET;
-    public static final ForgeConfigSpec.BooleanValue ENABLE_BOWSET;
-    public static final ForgeConfigSpec.BooleanValue ENABLE_BATSET;
-    public static final ForgeConfigSpec.BooleanValue ENABLE_SHIELDSET;
-    public static final ForgeConfigSpec.BooleanValue ENABLE_PHANTOMSET;
-    public static final ForgeConfigSpec.BooleanValue ENABLE_HORNSET;
-    public static final ForgeConfigSpec.BooleanValue ENABLE_SEASET;
-    public static final ForgeConfigSpec.BooleanValue ENABLE_PIRATESET;
-    public static final ForgeConfigSpec.BooleanValue ENABLE_SPIDERSET;
-    public static final ForgeConfigSpec.BooleanValue ENABLE_NETHERSET;
-    public static final ForgeConfigSpec.BooleanValue ENABLE_SKULK;
-    public static final ForgeConfigSpec.BooleanValue ENABLE_STRAWHATSET;
-    public static final ForgeConfigSpec.BooleanValue ENABLE_ENDERMANSET;
-    public static final ForgeConfigSpec.BooleanValue ENABLE_VETERANSET;
-    public static final ForgeConfigSpec.BooleanValue ENABLE_FORZESET;
-    public static final ForgeConfigSpec.BooleanValue ENABLE_CREEPERSET;
-    public static final ForgeConfigSpec.BooleanValue ENABLE_POLAR;
-    public static final ForgeConfigSpec.BooleanValue ENABLE_SILVERSET;
-    public static final ForgeConfigSpec.BooleanValue ENABLE_HOLLOWSET;
-    public static final ForgeConfigSpec.BooleanValue ENABLE_WITHERSET;
-    public static final ForgeConfigSpec.BooleanValue ENABLE_APPLE_SET;
-    public static final ForgeConfigSpec.BooleanValue ENABLE_CONQUISTADORSET;
-    public static final ForgeConfigSpec.BooleanValue ENABLE_WITCH;
-    public static final ForgeConfigSpec.BooleanValue ENABLE_TENGU_HELMET;
-    public static final ForgeConfigSpec.BooleanValue ENABLE_HUSKSET;
-    public static final ForgeConfigSpec.BooleanValue ENABLE_BAMBOOSET_BLUE;
-    public static final ForgeConfigSpec.BooleanValue ENABLE_WARLORDSET;
-    public static final ForgeConfigSpec.BooleanValue ENABLE_ZOMBIESET;
-    public static final ForgeConfigSpec.BooleanValue ENABLE_SILVERFISHSET;
-    public static final ForgeConfigSpec.BooleanValue ENABLE_SKELETONSET;
+    public static final ModConfigSpec.BooleanValue ENABLE_DEEPSLATESET;
+    public static final ModConfigSpec.BooleanValue ENABLE_EVOKERSET;
+    public static final ModConfigSpec.BooleanValue ENABLE_SQUIRESET;
+    public static final ModConfigSpec.BooleanValue ENABLE_BLAZESET;
+    public static final ModConfigSpec.BooleanValue ENABLE_DRAGONSET;
+    public static final ModConfigSpec.BooleanValue ENABLE_BAMBOOSET_GREEN;
+    public static final ModConfigSpec.BooleanValue ENABLE_SHINOBI;
+    public static final ModConfigSpec.BooleanValue ENABLE_BAMBOOSET;
+    public static final ModConfigSpec.BooleanValue ENABLE_PATHSET;
+    public static final ModConfigSpec.BooleanValue ENABLE_BOWSET;
+    public static final ModConfigSpec.BooleanValue ENABLE_BATSET;
+    public static final ModConfigSpec.BooleanValue ENABLE_SHIELDSET;
+    public static final ModConfigSpec.BooleanValue ENABLE_PHANTOMSET;
+    public static final ModConfigSpec.BooleanValue ENABLE_HORNSET;
+    public static final ModConfigSpec.BooleanValue ENABLE_SEASET;
+    public static final ModConfigSpec.BooleanValue ENABLE_PIRATESET;
+    public static final ModConfigSpec.BooleanValue ENABLE_SPIDERSET;
+    public static final ModConfigSpec.BooleanValue ENABLE_NETHERSET;
+    public static final ModConfigSpec.BooleanValue ENABLE_SKULK;
+    public static final ModConfigSpec.BooleanValue ENABLE_STRAWHATSET;
+    public static final ModConfigSpec.BooleanValue ENABLE_ENDERMANSET;
+    public static final ModConfigSpec.BooleanValue ENABLE_VETERANSET;
+    public static final ModConfigSpec.BooleanValue ENABLE_FORZESET;
+    public static final ModConfigSpec.BooleanValue ENABLE_CREEPERSET;
+    public static final ModConfigSpec.BooleanValue ENABLE_POLAR;
+    public static final ModConfigSpec.BooleanValue ENABLE_SILVERSET;
+    public static final ModConfigSpec.BooleanValue ENABLE_HOLLOWSET;
+    public static final ModConfigSpec.BooleanValue ENABLE_WITHERSET;
+    public static final ModConfigSpec.BooleanValue ENABLE_APPLE_SET;
+    public static final ModConfigSpec.BooleanValue ENABLE_CONQUISTADORSET;
+    public static final ModConfigSpec.BooleanValue ENABLE_WITCH;
+    public static final ModConfigSpec.BooleanValue ENABLE_TENGU_HELMET;
+    public static final ModConfigSpec.BooleanValue ENABLE_HUSKSET;
+    public static final ModConfigSpec.BooleanValue ENABLE_BAMBOOSET_BLUE;
+    public static final ModConfigSpec.BooleanValue ENABLE_WARLORDSET;
+    public static final ModConfigSpec.BooleanValue ENABLE_ZOMBIESET;
+    public static final ModConfigSpec.BooleanValue ENABLE_SILVERFISHSET;
+    public static final ModConfigSpec.BooleanValue ENABLE_SKELETONSET;
 
-    public static final ForgeConfigSpec.BooleanValue ENABLE_CLEAVER;
-    public static final ForgeConfigSpec.BooleanValue ENABLE_KHOPESH;
-    public static final ForgeConfigSpec.BooleanValue ENABLE_KUKRI;
-    public static final ForgeConfigSpec.BooleanValue ENABLE_NAIL;
-    public static final ForgeConfigSpec.BooleanValue ENABLE_PALADIN;
-    public static final ForgeConfigSpec.BooleanValue ENABLE_UCHIGATANA;
+    public static final ModConfigSpec.BooleanValue ENABLE_CLEAVER;
+    public static final ModConfigSpec.BooleanValue ENABLE_KHOPESH;
+    public static final ModConfigSpec.BooleanValue ENABLE_KUKRI;
+    public static final ModConfigSpec.BooleanValue ENABLE_NAIL;
+    public static final ModConfigSpec.BooleanValue ENABLE_PALADIN;
+    public static final ModConfigSpec.BooleanValue ENABLE_UCHIGATANA;
 
-    public static final ForgeConfigSpec.IntValue COOLDOWN_CLEAVER;
-    public static final ForgeConfigSpec.IntValue COOLDOWN_KHOPESH;
-    public static final ForgeConfigSpec.IntValue COOLDOWN_KUKRI;
-    public static final ForgeConfigSpec.IntValue COOLDOWN_NAIL;
-    public static final ForgeConfigSpec.IntValue COOLDOWN_PALADIN;
-    public static final ForgeConfigSpec.IntValue COOLDOWN_UCHIGATANA;
+    public static final ModConfigSpec.IntValue COOLDOWN_CLEAVER;
+    public static final ModConfigSpec.IntValue COOLDOWN_KHOPESH;
+    public static final ModConfigSpec.IntValue COOLDOWN_KUKRI;
+    public static final ModConfigSpec.IntValue COOLDOWN_NAIL;
+    public static final ModConfigSpec.IntValue COOLDOWN_PALADIN;
+    public static final ModConfigSpec.IntValue COOLDOWN_UCHIGATANA;
 
-    public static final ForgeConfigSpec.IntValue SPEED_TICKS_KUKRI;
-    public static final ForgeConfigSpec.IntValue FREEZE_TICKS_KUKRI;
-    public static final ForgeConfigSpec.IntValue INV_TICKS_PALADIN;
-    public static final ForgeConfigSpec.DoubleValue DASH_POWER_NAIL;
-    public static final ForgeConfigSpec.DoubleValue EXTRA_DAMAGE_UCHIGATANA;
-    public static final ForgeConfigSpec.DoubleValue EXTRA_DAMAGE_PASSIVE_UCHIGATANA;
-    public static final ForgeConfigSpec.DoubleValue ENEMY_HEALTH_PASSIVE_UCHIGATANA;
-    public static final ForgeConfigSpec.IntValue REFLECTION_TIME_KHOPESH;
-    public static final ForgeConfigSpec.DoubleValue CHANCE_BURN_KHOPESH;
-    public static final ForgeConfigSpec.DoubleValue REGEN_MAX_PALADIN;
-    public static final ForgeConfigSpec.IntValue REGEN_TICKS_PALADIN;
-    public static final ForgeConfigSpec.IntValue REGEN_HP_PALADIN;
-    public static final ForgeConfigSpec.IntValue TICKS_CLEAVER;
-    public static final ForgeConfigSpec.DoubleValue EXTRA_DAMAGE_PASSIVE_CLEAVER;
-    public static final ForgeConfigSpec.DoubleValue ENEMY_HEALTH_PASSIVE_CLEAVER;
+    public static final ModConfigSpec.IntValue SPEED_TICKS_KUKRI;
+    public static final ModConfigSpec.IntValue FREEZE_TICKS_KUKRI;
+    public static final ModConfigSpec.IntValue INV_TICKS_PALADIN;
+    public static final ModConfigSpec.DoubleValue DASH_POWER_NAIL;
+    public static final ModConfigSpec.DoubleValue EXTRA_DAMAGE_UCHIGATANA;
+    public static final ModConfigSpec.DoubleValue EXTRA_DAMAGE_PASSIVE_UCHIGATANA;
+    public static final ModConfigSpec.DoubleValue ENEMY_HEALTH_PASSIVE_UCHIGATANA;
+    public static final ModConfigSpec.IntValue REFLECTION_TIME_KHOPESH;
+    public static final ModConfigSpec.DoubleValue CHANCE_BURN_KHOPESH;
+    public static final ModConfigSpec.DoubleValue REGEN_MAX_PALADIN;
+    public static final ModConfigSpec.IntValue REGEN_TICKS_PALADIN;
+    public static final ModConfigSpec.IntValue REGEN_HP_PALADIN;
+    public static final ModConfigSpec.IntValue TICKS_CLEAVER;
+    public static final ModConfigSpec.DoubleValue EXTRA_DAMAGE_PASSIVE_CLEAVER;
+    public static final ModConfigSpec.DoubleValue ENEMY_HEALTH_PASSIVE_CLEAVER;
+
+    public static final ModConfigSpec.DoubleValue BADPATCH_MAX_HEALTH;
+    public static final ModConfigSpec.DoubleValue ELDBOMB_MAX_HEALTH;
+    public static final ModConfigSpec.DoubleValue ELDKNIGHT_MAX_HEALTH;
+    public static final ModConfigSpec.DoubleValue FALLENKNIGHT_MAX_HEALTH;
+    public static final ModConfigSpec.DoubleValue GREMLIN_MAX_HEALTH;
+    public static final ModConfigSpec.DoubleValue LIZZY_MAX_HEALTH;
+    public static final ModConfigSpec.DoubleValue RATMAN_MAX_HEALTH;
+    public static final ModConfigSpec.DoubleValue SWAMPMAN_MAX_HEALTH;
 
     static {
         // General configuration Section
@@ -182,11 +191,37 @@ public class KnightQuestCommonConfigs {
         POISON_ELDKNIGHT = BUILDER.define("Should do the poison passive attack", true);
         NUM_ELDBOMB_ELDKNIGHT = BUILDER.defineInRange("Number of Eld Bombs generated at half hp", 3, 0, 6);
         HEAL_ELDKNIGHT = BUILDER.defineInRange("Quantity of healing each 4 seconds", 3.0, 0.0, 20.0);
+        ELDKNIGHT_MAX_HEALTH = BUILDER.defineInRange("Max health for Eld Knight", 90.0, 1.0, 500.0);
+        BUILDER.pop();
+
+        // Ratman Configuration Section
+        BUILDER.push("Ratman Configuration");
+        RATMAN_MAX_HEALTH = BUILDER.defineInRange("Max health for Ratman", 22.0, 1.0, 500.0);
+        BUILDER.pop();
+
+        // Bad Patch Configuration Section
+        BUILDER.push("Bad Patch Configuration");
+        BADPATCH_MAX_HEALTH = BUILDER.defineInRange("Max health for Bad Patch", 7.0, 1.0, 500.0);
+        BUILDER.pop();
+
+        // EldBomb Configuration Section
+        BUILDER.push("EldBomb Configuration");
+        ELDBOMB_MAX_HEALTH = BUILDER.defineInRange("Max health for Eld Bomb", 7.0, 1.0, 500.0);
+        BUILDER.pop();
+
+        // Fallen Knight Configuration Section
+        BUILDER.push("Fallen Knight Configuration");
+        FALLENKNIGHT_MAX_HEALTH = BUILDER.defineInRange("Max health for Fallen Knight", 35.0, 1.0, 500.0);
         BUILDER.pop();
 
         // Ghosty Configuration Section
         BUILDER.push("Ghosty Configuration");
         INVULNERABILITY_RADIUS_GHOSTY = BUILDER.defineInRange("Ghosty invulnerability radius", 7.0, 0.0, 25.0);
+        BUILDER.pop();
+
+        // Lizzy Configuration Section
+        BUILDER.push("Lizzy Configuration");
+        LIZZY_MAX_HEALTH = BUILDER.defineInRange("Max health for Lizzy", 10.0, 1.0, 500.0);
         BUILDER.pop();
 
         // Gremlin Configuration Section
@@ -195,6 +230,7 @@ public class KnightQuestCommonConfigs {
         MULTIPLIER_GREMLIN_MOVEMENT_SPEED = BUILDER.defineInRange("Second phase movement speed multipler", 1.1, 1.0, 10.0);
         MULTIPLIER_GREMLIN_ATTACK_SPEED = BUILDER.defineInRange("Second phase attack speed multipler", 1.15, 1.0, 10.0);
         MULTIPLIER_GREMLIN_ATTACK_DAMAGE = BUILDER.defineInRange("Second phase attack damage multipler", 1.2, 1.0, 10.0);
+        GREMLIN_MAX_HEALTH = BUILDER.defineInRange("Max health for Gremlin", 35.0, 1.0, 500.0);
         BUILDER.pop();
 
         // Swampman Configuration Section
@@ -202,11 +238,12 @@ public class KnightQuestCommonConfigs {
         PHASE_2_HEALING_SWAMPMAN = BUILDER.defineInRange("Amount of healing per second on second phase", 0.0, 0.0, 20.0);
         CAN_CHANGE_PHASE_SWAMPMAN = BUILDER.define("Can change phase", true);
         POISON_PHASE_2_SWAMPMAN = BUILDER.define("Should axe throwables apply poison effect", false);
+        SWAMPMAN_MAX_HEALTH = BUILDER.defineInRange("Max health for Swampman", 50.0, 1.0, 500.0);
         BUILDER.pop();
 
         // Netherman Configuration Section
         BUILDER.push("Netherman Configuration");
-        NETHERMAN_HEALTH = BUILDER.defineInRange("How much health should the Netherman spawn with?", 450.0, 100.0, 2000.0);
+        NETHERMAN_HEALTH = BUILDER.defineInRange("How much health should the Netherman spawn with?", 450.0, 100.0, 10000.0);
         NETHERMAN_DAMAGE = BUILDER.defineInRange("Amount of damage dealt per normal hit", 16.0, 6.0, 50.0);
         TELEPORT_ON_HIT = BUILDER.define("Should the Netherman teleport when hit?", true);
         BUILDER.comment("Random number between the interval stated below");
@@ -446,5 +483,15 @@ public class KnightQuestCommonConfigs {
         KQConfigValues.NAIL.set(ENABLE_NAIL.get());
         KQConfigValues.PALADIN.set(ENABLE_PALADIN.get());
         KQConfigValues.UCHIGATANA.set(ENABLE_UCHIGATANA.get());
+
+        KQConfigValues.BADPATCH_MAX_HEALTH.set(BADPATCH_MAX_HEALTH.get());
+        KQConfigValues.ELDBOMB_MAX_HEALTH.set(ELDBOMB_MAX_HEALTH.get());
+        KQConfigValues.ELDKNIGHT_MAX_HEALTH.set(ELDKNIGHT_MAX_HEALTH.get());
+        KQConfigValues.FALLENKNIGHT_MAX_HEALTH.set(FALLENKNIGHT_MAX_HEALTH.get());
+        KQConfigValues.GREMLIN_MAX_HEALTH.set(GREMLIN_MAX_HEALTH.get());
+        KQConfigValues.LIZZY_MAX_HEALTH.set(LIZZY_MAX_HEALTH.get());
+        KQConfigValues.RATMAN_MAX_HEALTH.set(RATMAN_MAX_HEALTH.get());
+        KQConfigValues.SWAMPMAN_MAX_HEALTH.set(SWAMPMAN_MAX_HEALTH.get());
+
     }
 }

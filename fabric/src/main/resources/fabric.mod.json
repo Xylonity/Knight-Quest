@@ -31,7 +31,7 @@
         "fabric-api": "*",
         "minecraft": "~${minecraft_version}",
         "java": ">=${java_version}",
-        "knightlib": ">=1.2.0",
+        "knightlib": "~1.2.0",
         "geckolib": ">=4.5.7"
     },
     "suggests": {

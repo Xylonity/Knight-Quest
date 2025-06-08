@@ -31,7 +31,7 @@ side = "BOTH"
 [[dependencies.${mod_id}]]
 modId = "knightlib"
 mandatory = true
-versionRange = "[1.2.0,)"
+versionRange = "[1.2.0,1.3.0)"
 ordering = "NONE"
 side = "BOTH"
 # Features are specific properties of the game environment, that you may want to declare you require. This example declares

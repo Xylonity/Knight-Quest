@@ -1,11 +1,14 @@
 package dev.xylonity.knightquest.common.item;
 
-import dev.xylonity.knightlib.compat.block.ChaliceBlock;
-import dev.xylonity.knightlib.compat.registry.KnightLibBlocks;
+import dev.xylonity.knightlib.api.impl.GreatChaliceState;
+import dev.xylonity.knightlib.common.blockentity.GreatChaliceBlockEntity;
+import dev.xylonity.knightlib.registry.KnightLibBlocks;
 import dev.xylonity.knightquest.config.values.KQConfigValues;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -17,6 +20,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -31,24 +35,24 @@ public abstract class KQWeaponItem extends SwordItem {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties);
     }
 
-    /**
-    Set the chalice state back to 1 once a successful interaction.
-     */
     @Override
     public @NotNull InteractionResult useOn(@NotNull UseOnContext ctx) {
         Level level = ctx.getLevel();
         BlockPos pos = ctx.getClickedPos();
-        BlockState blockState = level.getBlockState(pos);
         ItemStack stack = ctx.getItemInHand();
         CompoundTag tag = stack.getOrCreateTag();
+        BlockEntity blockEntity = level.getBlockEntity(pos);
 
-        if (!level.isClientSide && blockState.is(KnightLibBlocks.GREAT_CHALICE) && blockState.getValue(ChaliceBlock.fill).equals(10) && isEnabled()) {
+        if (blockEntity instanceof GreatChaliceBlockEntity be && !level.isClientSide && be.isFull() && be.getState() == GreatChaliceState.CHAOTIC) {
+            be.setCharges(0);
+            level.playSound(null, pos, SoundEvents.EVOKER_PREPARE_SUMMON, SoundSource.BLOCKS, 1, 1);
             if (!tag.getBoolean("Activated")) {
                 tag.putBoolean("Activated", true);
                 return InteractionResult.SUCCESS;
             } else {
                 return InteractionResult.FAIL;
             }
+
         }
 
         return InteractionResult.PASS;
@@ -57,14 +61,15 @@ public abstract class KQWeaponItem extends SwordItem {
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
+
         BlockHitResult blockHit = getPlayerPOVHitResult(level, player, ClipContext.Fluid.NONE);
 
-       if (blockHit.getType() == HitResult.Type.BLOCK) {
-           BlockState blockState = level.getBlockState(blockHit.getBlockPos());
-           if (blockState.is(KnightLibBlocks.GREAT_CHALICE) && (blockState.getValue(ChaliceBlock.fill).equals(10) || blockState.getValue(ChaliceBlock.fill).equals(1))) {
-               return InteractionResultHolder.fail(stack);
-           }
-       }
+        if (blockHit.getType() == HitResult.Type.BLOCK) {
+            BlockState blockState = level.getBlockState(blockHit.getBlockPos());
+            if (blockState.is(KnightLibBlocks.GREAT_CHALICE.get())) {
+                return InteractionResultHolder.fail(stack);
+            }
+        }
 
         CompoundTag tag = stack.getOrCreateTag();
         if (!tag.getBoolean("Activated")) {

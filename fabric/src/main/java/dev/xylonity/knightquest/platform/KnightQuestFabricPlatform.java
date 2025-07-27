@@ -1,11 +1,14 @@
 package dev.xylonity.knightquest.platform;
 
-import dev.xylonity.knightlib.compat.registry.KnightLibItems;
+import dev.xylonity.knightlib.registry.KnightLibItems;
 import dev.xylonity.knightquest.KnightQuest;
 import dev.xylonity.knightquest.client.armor.GeoItemArmor;
+import dev.xylonity.knightquest.common.item.ChaoticEssenceItem;
 import dev.xylonity.knightquest.common.item.KQArmorItem;
+import dev.xylonity.knightquest.common.item.KnightQuestItem;
 import dev.xylonity.knightquest.common.material.KQArmorMaterials;
 import dev.xylonity.knightquest.common.material.KQItemMaterials;
+import dev.xylonity.knightquest.registry.KnightQuestItems;
 import dev.xylonity.knightquest.registry.KnightQuestWeapons;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
@@ -41,6 +44,15 @@ public class KnightQuestFabricPlatform implements KnightQuestPlatform {
     @Override
     public <T extends ParticleType<?>> Supplier<T> registerParticle(String id, boolean overrideLimiter) {
         return registerSupplier(BuiltInRegistries.PARTICLE_TYPE, id, () -> (T) FabricParticleTypes.simple());
+    }
+
+    @Override
+    public <T extends Item> Supplier<T> registerSpecificItem(String id, Item.Properties properties, KnightQuestItems.KQItemType type) {
+        if (type == KnightQuestItems.KQItemType.CHAOTIC_ESSENCE) {
+            return (Supplier<T>) registerItem(id, () -> new ChaoticEssenceItem(properties, id));
+        }
+
+        return (Supplier<T>) registerItem(id, () -> new KnightQuestItem(properties, id));
     }
 
     @Override

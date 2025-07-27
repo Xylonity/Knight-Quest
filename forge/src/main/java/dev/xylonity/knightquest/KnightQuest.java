@@ -1,7 +1,7 @@
 package dev.xylonity.knightquest;
 
-import dev.xylonity.knightlib.compat.registry.KnightLibBlocks;
-import dev.xylonity.knightlib.compat.registry.KnightLibItems;
+import dev.xylonity.knightlib.registry.KnightLibBlocks;
+import dev.xylonity.knightlib.registry.KnightLibItems;
 import dev.xylonity.knightquest.config.KnightQuestCommonConfigs;
 import dev.xylonity.knightquest.datagen.KQLootModifiers;
 import dev.xylonity.knightquest.registry.KnightQuestCreativeModeTabs;
@@ -44,10 +44,6 @@ public class KnightQuest {
         PARTICLES.register(modEventBus);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, KnightQuestCommonConfigs.SPEC, "knightquest.toml");
-
-        KnightQuestCreativeModeTabs.registerKnightLibItem(KnightLibBlocks.GREAT_CHALICE);
-        KnightQuestCreativeModeTabs.registerKnightLibItem(KnightLibItems.SMALL_ESSENCE);
-        KnightQuestCreativeModeTabs.registerKnightLibItem(KnightLibItems.GREAT_ESSENCE);
 
         KnightQuestCreativeModeTabs.registerWeaponItem(KnightQuestWeapons.PALADIN_SWORD);
         KnightQuestCreativeModeTabs.registerWeaponItem(KnightQuestWeapons.KHOPESH);

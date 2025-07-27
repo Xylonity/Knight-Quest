@@ -1,5 +1,7 @@
 package dev.xylonity.knightquest.registry;
 
+import dev.xylonity.knightlib.registry.KnightLibBlocks;
+import dev.xylonity.knightlib.registry.KnightLibItems;
 import dev.xylonity.knightquest.KnightQuestCommon;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -39,16 +41,15 @@ public class KnightQuestCreativeModeTabs {
                             .displayItems((itemDisplayParameters, output) -> {
 
                                 // KnightLib
-                                for (Supplier<? extends ItemLike> itemSupplier : knightLibItems) {
-                                    if (itemSupplier != null) {
-                                        output.accept(new ItemStack(itemSupplier.get().asItem()));
-                                    }
-                                }
+                                output.accept(KnightLibBlocks.GREAT_CHALICE.get());
+                                output.accept(KnightLibItems.SMALL_ESSENCE.get());
+                                output.accept(KnightLibItems.GREAT_ESSENCE.get());
+                                output.accept(KnightLibItems.EMPTY_GRAIL.get());
+                                output.accept(KnightLibItems.FILLED_GRAIL.get());
+                                output.accept(KnightLibItems.HOMUNCULUS.get());
 
                                 output.accept(KnightQuestItems.RADIANT_ESSENCE.get());
                                 output.accept(KnightQuestItems.CHAOTIC_ESSENCE.get());
-                                output.accept(KnightQuestItems.EMPTY_GOBLET.get());
-                                output.accept(KnightQuestItems.FILLED_GOBLET.get());
                                 output.accept(KnightQuestItems.RATMAN_EYE.get());
                                 output.accept(KnightQuestItems.LIZZY_SCALE.get());
 

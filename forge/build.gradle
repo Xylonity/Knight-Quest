@@ -76,9 +76,12 @@ dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     compileOnly project(":common")
 
-    implementation fg.deobf("curse.maven:knight-lib-1105855:6020359")
+    implementation fg.deobf("dev.xylonity.knightlib:knightlib-forge-${minecraft_version}:1.3.0")
 
     implementation fg.deobf("software.bernie.geckolib:geckolib-forge-${minecraft_version}:4.4.7")
+
+    compileOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}"))
+    implementation fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
 
     annotationProcessor("org.spongepowered:mixin:0.8.5-SNAPSHOT:processor")
 }

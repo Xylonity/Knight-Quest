@@ -1,6 +1,6 @@
 package dev.xylonity.knightquest.common.entity.entities;
 
-import dev.xylonity.knightlib.compat.registry.KnightLibItems;
+import dev.xylonity.knightlib.registry.KnightLibItems;
 import dev.xylonity.knightquest.common.entity.entities.ai.MoveToPumpkinGoal;
 import dev.xylonity.knightquest.common.entity.entities.ai.RangedAttackGoal;
 import net.minecraft.core.BlockPos;

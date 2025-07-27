@@ -1,6 +1,6 @@
 package dev.xylonity.knightquest.common.entity.entities;
 
-import dev.xylonity.knightlib.compat.registry.KnightLibItems;
+import dev.xylonity.knightlib.registry.KnightLibItems;
 import dev.xylonity.knightquest.common.entity.entities.ai.MoveToPumpkinGoal;
 import dev.xylonity.knightquest.common.entity.entities.ai.RangedAttackGoal;
 import net.minecraft.core.BlockPos;
@@ -150,10 +150,6 @@ public class SamhainEntity extends TamableAnimal implements GeoEntity, RangedAtt
                 return InteractionResult.SUCCESS;
             }
         }
-
-        /*
-         * Handles the actions when the Samhain is tamed.
-         */
 
         if (isTame() && !this.level().isClientSide && hand == InteractionHand.MAIN_HAND && getOwner() == player) {
             if ((itemstack.getItem().equals(KnightLibItems.GREAT_ESSENCE.get()) || itemstack.getItem().equals(KnightLibItems.SMALL_ESSENCE.get()))

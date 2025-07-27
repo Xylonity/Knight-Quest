@@ -17,11 +17,14 @@ dependencies {
 
     modApi "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${project.fuzs_version}"
 
-    modImplementation "curse.maven:knight-lib-1105855:6025315"
+    modImplementation("dev.xylonity.knightlib:knightlib-fabric-${minecraft_version}:1.3.0")
 
     modImplementation("software.bernie.geckolib:geckolib-fabric-${minecraft_version}:4.4.7")
 
     modApi "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:8.0.0"
+
+    modCompileOnlyApi "mezz.jei:jei-${minecraft_version}-fabric-api:${jei_version}"
+    modRuntimeOnly "mezz.jei:jei-${minecraft_version}-fabric:${jei_version}"
 
     modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"

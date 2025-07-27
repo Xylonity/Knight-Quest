@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.6-SNAPSHOT' apply(false)
+    id 'fabric-loom' version '1.8.0-alpha.16' apply(false)
     id 'net.minecraftforge.gradle' version '[6.0,6.2)' apply(false)
     id 'org.spongepowered.gradle.vanilla' version '0.2.1-SNAPSHOT' apply(false)
     id("org.spongepowered.mixin") version "0.7-SNAPSHOT" apply(false)
@@ -57,6 +57,10 @@ subprojects {
             url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/"
         }
         maven {
+            name = "Xylonity's maven"
+            url = "https://raw.githubusercontent.com/Xylonity/maven-centralish/main/maven/"
+        }
+        maven {
             name = 'GeckoLib'
             url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
             content {
@@ -65,8 +69,12 @@ subprojects {
             }
         }
         maven {
-            name = "Fuzs Mod Resources"
-            url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/"
+            name = "Jared's maven"
+            url = "https://maven.blamejared.com/"
+        }
+        maven {
+            name = "ModMaven"
+            url = "https://modmaven.dev"
         }
     }
 
@@ -90,7 +98,8 @@ subprojects {
                 "mod_author": mod_author,
                 "mod_id": mod_id,
                 "license": license,
-                "description": project.description
+                "description": project.description,
+                "jei_version": jei_version
         ]
 
         filesMatching(['pack.mcmeta', 'fabric.mod.json', 'META-INF/mods.toml', '*.mixins.json']) {

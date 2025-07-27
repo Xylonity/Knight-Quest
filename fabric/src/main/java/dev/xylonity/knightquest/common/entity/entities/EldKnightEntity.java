@@ -1,6 +1,6 @@
 package dev.xylonity.knightquest.common.entity.entities;
 
-import dev.xylonity.knightlib.compat.registry.KnightLibParticles;
+import dev.xylonity.knightlib.registry.KnightLibParticles;
 import dev.xylonity.knightquest.config.values.KQConfigValues;
 import dev.xylonity.knightquest.registry.KnightQuestEntities;
 import net.minecraft.core.BlockPos;
@@ -249,7 +249,7 @@ public class EldKnightEntity extends Monster implements GeoEntity {
     }
 
     private void summonParticle() {
-        serverWorld.addParticle(KnightLibParticles.STARSET_PARTICLE, this.getX(), getY() - 0.48, getZ(), 4d, 0d, 0d);
+        serverWorld.addParticle(KnightLibParticles.STARSET.get(), this.getX(), getY() - 0.48, getZ(), 4d, 0d, 0d);
     }
 
 }

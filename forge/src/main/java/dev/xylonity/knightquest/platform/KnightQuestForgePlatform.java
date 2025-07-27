@@ -1,11 +1,14 @@
 package dev.xylonity.knightquest.platform;
 
-import dev.xylonity.knightlib.compat.registry.KnightLibItems;
+import dev.xylonity.knightlib.registry.KnightLibItems;
 import dev.xylonity.knightquest.KnightQuest;
 import dev.xylonity.knightquest.client.armor.GeoItemArmor;
+import dev.xylonity.knightquest.common.item.ChaoticEssenceItem;
 import dev.xylonity.knightquest.common.item.KQArmorItem;
+import dev.xylonity.knightquest.common.item.KnightQuestItem;
 import dev.xylonity.knightquest.common.material.KQArmorMaterials;
 import dev.xylonity.knightquest.common.material.KQItemMaterials;
+import dev.xylonity.knightquest.registry.KnightQuestItems;
 import dev.xylonity.knightquest.registry.KnightQuestWeapons;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -37,6 +40,15 @@ public class KnightQuestForgePlatform implements KnightQuestPlatform {
     @Override
     public <T extends Item> Supplier<T> registerItem(String id, Supplier<T> item) {
         return KnightQuest.ITEMS.register(id, item);
+    }
+
+    @Override
+    public <T extends Item> Supplier<T> registerSpecificItem(String id, Item.Properties properties, KnightQuestItems.KQItemType type) {
+        if (type == KnightQuestItems.KQItemType.CHAOTIC_ESSENCE) {
+            return (Supplier<T>) registerItem(id, () -> new ChaoticEssenceItem(properties, id));
+        }
+
+        return (Supplier<T>) registerItem(id, () -> new KnightQuestItem(properties, id));
     }
 
     @Override

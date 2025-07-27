@@ -1,6 +1,7 @@
 package dev.xylonity.knightquest.registry;
 
 import dev.xylonity.knightquest.KnightQuestCommon;
+import dev.xylonity.knightquest.common.item.KnightQuestItem;
 import dev.xylonity.knightquest.common.material.KQArmorMaterials;
 import dev.xylonity.knightquest.common.material.KQItemMaterials;
 import net.minecraft.network.chat.Component;
@@ -18,9 +19,7 @@ public class KnightQuestItems {
     public static void init() { ;; }
 
     public static final Supplier<Item> RADIANT_ESSENCE = registerItem("radiant_essence", () -> new KnightQuestItem(new Item.Properties(), "radiant_essence"));
-    public static final Supplier<Item> CHAOTIC_ESSENCE = registerItem("chaotic_essence", () -> new KnightQuestItem(new Item.Properties(), "chaotic_essence"));
-    public static final Supplier<Item> EMPTY_GOBLET = registerItem("empty_goblet", () -> new KnightQuestItem(new Item.Properties(), "empty_goblet"));
-    public static final Supplier<Item> FILLED_GOBLET = registerItem("filled_goblet", () -> new KnightQuestItem(new Item.Properties(), "filled_goblet"));
+    public static final Supplier<Item> CHAOTIC_ESSENCE = registerSpecificItem("chaotic_essence", new Item.Properties(), KQItemType.CHAOTIC_ESSENCE);
     public static final Supplier<Item> RATMAN_EYE = registerItem("ratman_eye", () -> new KnightQuestItem(new Item.Properties(), "ratman_eye"));
     public static final Supplier<Item> LIZZY_SCALE = registerItem("lizzy_scale", () -> new KnightQuestItem(new Item.Properties(), "lizzy_scale"));
 
@@ -235,9 +234,13 @@ public class KnightQuestItems {
     public static final Supplier<Item> SKULK_CHESTPLATE = registerArmorItem("skulk_chestplate", KQArmorMaterials.SKULK, ArmorItem.Type.CHESTPLATE, true);
     public static final Supplier<Item> SKULK_LEGGINGS = registerArmorItem("skulk_leggings", KQArmorMaterials.SKULK, ArmorItem.Type.LEGGINGS, true);
     public static final Supplier<Item> SKULK_BOOTS = registerArmorItem("skulk_boots", KQArmorMaterials.SKULK, ArmorItem.Type.BOOTS, true);
-    
+
     private static <T extends Item> Supplier<T> registerItem(String id, Supplier<T> item) {
         return KnightQuestCommon.COMMON_PLATFORM.registerItem(id, item);
+    }
+
+    private static <T extends Item> Supplier<T> registerSpecificItem(String id, Item.Properties properties, KQItemType type) {
+        return KnightQuestCommon.COMMON_PLATFORM.registerSpecificItem(id, properties, type);
     }
 
     private static <T extends Item> Supplier<T> registerMusicDisc(String id, int signal, Supplier<SoundEvent> soundEvent, Item.Properties properties, int length) {
@@ -260,22 +263,10 @@ public class KnightQuestItems {
         return KnightQuestCommon.COMMON_PLATFORM.registerGeoArmorItem(id, armorMaterial, armorType, containsTooltip, containsExtraTooltip);
     }
 
-    private static class KnightQuestItem extends Item {
 
-        private final String tooltipInfoName;
 
-        public KnightQuestItem(Properties properties, String tooltipInfoName) {
-            super(properties);
-            this.tooltipInfoName = tooltipInfoName;
-        }
-
-        @Override
-        public void appendHoverText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> list, @NotNull TooltipFlag tooltipFlag) {
-
-            list.add(Component.translatable("tooltip.item.knightquest." + tooltipInfoName));
-
-            super.appendHoverText(itemStack, level, list, tooltipFlag);
-        }
+    public enum KQItemType {
+        CHAOTIC_ESSENCE
     }
 
 }

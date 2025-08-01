@@ -17,7 +17,7 @@ dependencies {
 
     modApi "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${project.fuzs_version}"
 
-    modImplementation("dev.xylonity.knightlib:knightlib-fabric-${minecraft_version}:1.3.0")
+    modImplementation("dev.xylonity.knightlib:knightlib-fabric-${minecraft_version}:1.3.1")
 
     modImplementation("software.bernie.geckolib:geckolib-fabric-${minecraft_version}:4.4.7")
 

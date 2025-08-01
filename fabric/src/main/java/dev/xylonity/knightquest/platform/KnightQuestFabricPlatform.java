@@ -6,6 +6,7 @@ import dev.xylonity.knightquest.client.armor.GeoItemArmor;
 import dev.xylonity.knightquest.common.item.ChaoticEssenceItem;
 import dev.xylonity.knightquest.common.item.KQArmorItem;
 import dev.xylonity.knightquest.common.item.KnightQuestItem;
+import dev.xylonity.knightquest.common.item.RadiantEssenceItem;
 import dev.xylonity.knightquest.common.material.KQArmorMaterials;
 import dev.xylonity.knightquest.common.material.KQItemMaterials;
 import dev.xylonity.knightquest.registry.KnightQuestItems;
@@ -50,6 +51,8 @@ public class KnightQuestFabricPlatform implements KnightQuestPlatform {
     public <T extends Item> Supplier<T> registerSpecificItem(String id, Item.Properties properties, KnightQuestItems.KQItemType type) {
         if (type == KnightQuestItems.KQItemType.CHAOTIC_ESSENCE) {
             return (Supplier<T>) registerItem(id, () -> new ChaoticEssenceItem(properties, id));
+        } else if (type == KnightQuestItems.KQItemType.RADIANT_ESSENCE) {
+            return (Supplier<T>) registerItem(id, () -> new RadiantEssenceItem(properties, id));
         }
 
         return (Supplier<T>) registerItem(id, () -> new KnightQuestItem(properties, id));

@@ -18,7 +18,7 @@ public class KnightQuestItems {
 
     public static void init() { ;; }
 
-    public static final Supplier<Item> RADIANT_ESSENCE = registerItem("radiant_essence", () -> new KnightQuestItem(new Item.Properties(), "radiant_essence"));
+    public static final Supplier<Item> RADIANT_ESSENCE = registerSpecificItem("radiant_essence", new Item.Properties(), KQItemType.RADIANT_ESSENCE);
     public static final Supplier<Item> CHAOTIC_ESSENCE = registerSpecificItem("chaotic_essence", new Item.Properties(), KQItemType.CHAOTIC_ESSENCE);
     public static final Supplier<Item> RATMAN_EYE = registerItem("ratman_eye", () -> new KnightQuestItem(new Item.Properties(), "ratman_eye"));
     public static final Supplier<Item> LIZZY_SCALE = registerItem("lizzy_scale", () -> new KnightQuestItem(new Item.Properties(), "lizzy_scale"));
@@ -266,7 +266,8 @@ public class KnightQuestItems {
 
 
     public enum KQItemType {
-        CHAOTIC_ESSENCE
+        CHAOTIC_ESSENCE,
+        RADIANT_ESSENCE
     }
 
 }

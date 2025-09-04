@@ -1,8 +1,6 @@
 package dev.xylonity.knightquest.common.event;
 
 import dev.xylonity.knightquest.KnightQuest;
-import dev.xylonity.knightquest.common.entity.boss.NethermanCloneEntity;
-import dev.xylonity.knightquest.common.entity.boss.NethermanEntity;
 import dev.xylonity.knightquest.common.entity.entities.*;
 import dev.xylonity.knightquest.datagen.KQGlobalLootModifiersProvider;
 import dev.xylonity.knightquest.registry.KnightQuestEntities;
@@ -15,7 +13,6 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
-import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 
 @EventBusSubscriber(modid = KnightQuest.MOD_ID, bus = EventBusSubscriber.Bus.MOD)

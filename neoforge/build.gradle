@@ -8,7 +8,7 @@ neoForge {
     // Automatically enable neoforge AccessTransformers if the file exists
     def at = project(':common').file('src/main/resources/META-INF/accesstransformer.cfg')
     if (at.exists()) {
-        accessTransformers.add(at.absolutePath)
+        accessTransformers.from(at.absolutePath)
     }
     parchment {
         minecraftVersion = parchment_minecraft
@@ -24,12 +24,11 @@ neoForge {
         }
         data {
             data()
-            programArguments.addAll([
-                    '--mod', project.mod_id.toString(),
-                    '--all',
-                    '--output', file('src/generated/resources/').getAbsolutePath(),
-                    '--existing', file('src/main/resources/').getAbsolutePath()
-            ])
+
+            // DataGen can be run by - "./gradlew :neoforge:runData" in Terminal.
+            // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
+            programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
+
         }
         server {
             server()
@@ -40,26 +39,11 @@ neoForge {
             sourceSet sourceSets.main
         }
     }
-    repositories {
-        mavenCentral()
-        mavenLocal()
-        maven {
-            url "https://cursemaven.com"
-        }
-        maven {
-            name = 'GeckoLib'
-            url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
-            content {
-                includeGroupByRegex("software\\.bernie.*")
-                includeGroup("com.eliotlash.mclib")
-            }
-        }
-    }
-    dependencies {
-        implementation "curse.maven:knight-lib-1105855:6031765"
-        implementation "software.bernie.geckolib:geckolib-neoforge-1.21.1:4.6.5"
-        implementation "dev.xylonity.knightlib:knightlib-neoforge-1.21.1:1.3.0"
-    }
+}
+
+dependencies {
+    implementation "software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:4.6.5"
+    implementation "dev.xylonity.knightlib:knightlib-neoforge-1.21.1:1.3.0"
 }
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }

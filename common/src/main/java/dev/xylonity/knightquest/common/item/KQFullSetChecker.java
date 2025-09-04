@@ -1,6 +1,5 @@
 package dev.xylonity.knightquest.common.item;
 
-import dev.xylonity.knightquest.common.material.KQArmorMaterials;
 import dev.xylonity.knightquest.config.values.KQConfigValues;
 import net.minecraft.core.Holder;
 import net.minecraft.world.entity.player.Player;

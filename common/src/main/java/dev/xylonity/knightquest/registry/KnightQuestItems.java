@@ -1,6 +1,7 @@
 package dev.xylonity.knightquest.registry;
 
 import dev.xylonity.knightquest.KnightQuestCommon;
+import dev.xylonity.knightquest.common.item.KnightQuestItem;
 import dev.xylonity.knightquest.common.material.KQArmorMaterials;
 import dev.xylonity.knightquest.common.material.KQItemMaterials;
 import net.minecraft.core.Holder;
@@ -18,8 +19,8 @@ public class KnightQuestItems {
 
     public static void init() { ;; }
 
-    public static final Supplier<Item> RADIANT_ESSENCE = registerItem("radiant_essence", () -> new KnightQuestItem(new Item.Properties(), "radiant_essence"));
-    public static final Supplier<Item> CHAOTIC_ESSENCE = registerItem("chaotic_essence", () -> new KnightQuestItem(new Item.Properties(), "chaotic_essence"));
+    public static final Supplier<Item> RADIANT_ESSENCE = registerSpecificItem("radiant_essence", new Item.Properties(), KQItemType.RADIANT_ESSENCE);
+    public static final Supplier<Item> CHAOTIC_ESSENCE = registerSpecificItem("chaotic_essence", new Item.Properties(), KQItemType.CHAOTIC_ESSENCE);
     public static final Supplier<Item> EMPTY_GOBLET = registerItem("empty_goblet", () -> new KnightQuestItem(new Item.Properties(), "empty_goblet"));
     public static final Supplier<Item> FILLED_GOBLET = registerItem("filled_goblet", () -> new KnightQuestItem(new Item.Properties(), "filled_goblet"));
     public static final Supplier<Item> RATMAN_EYE = registerItem("ratman_eye", () -> new KnightQuestItem(new Item.Properties(), "ratman_eye"));
@@ -275,23 +276,13 @@ public class KnightQuestItems {
         return KnightQuestCommon.COMMON_PLATFORM.registerGeoArmorItem(id, armorMaterial, armorType, containsTooltip, containsExtraTooltip, properties, durabilityAmount);
     }
 
-    private static class KnightQuestItem extends Item {
+    private static <T extends Item> Supplier<T> registerSpecificItem(String id, Item.Properties properties, KQItemType type) {
+        return KnightQuestCommon.COMMON_PLATFORM.registerSpecificItem(id, properties, type);
+    }
 
-        private final String tooltipInfoName;
-
-        public KnightQuestItem(Properties properties, String tooltipInfoName) {
-            super(properties);
-            this.tooltipInfoName = tooltipInfoName;
-        }
-
-        @Override
-        public void appendHoverText(@NotNull ItemStack pStack, @NotNull TooltipContext pContext, List<Component> pTooltipComponents, @NotNull TooltipFlag pTooltipFlag) {
-
-            pTooltipComponents.add(Component.translatable("tooltip.item.knightquest." + tooltipInfoName));
-
-            super.appendHoverText(pStack, pContext, pTooltipComponents, pTooltipFlag);
-        }
-
+    public enum KQItemType {
+        CHAOTIC_ESSENCE,
+        RADIANT_ESSENCE
     }
 
 }

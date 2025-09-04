@@ -2,7 +2,6 @@ package dev.xylonity.knightquest.common.item.weapons;
 
 import dev.xylonity.knightquest.common.item.KQWeaponItem;
 import dev.xylonity.knightquest.config.values.KQConfigValues;
-import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;

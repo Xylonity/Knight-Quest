@@ -1,7 +1,5 @@
 package dev.xylonity.knightquest.datagen;
 
-import dev.xylonity.knightquest.registry.KnightQuestEntities;
-import dev.xylonity.knightquest.registry.KnightQuestItems;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;

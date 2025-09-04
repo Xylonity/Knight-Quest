@@ -1,12 +1,10 @@
 package dev.xylonity.knightquest;
 
-import dev.xylonity.knightlib.compat.config.FCAPChecker;
 import dev.xylonity.knightquest.client.entity.renderer.*;
 import dev.xylonity.knightquest.common.event.KQArmorEvents;
 import dev.xylonity.knightquest.common.event.KQExtraEvents;
 import dev.xylonity.knightquest.common.particle.*;
 import dev.xylonity.knightquest.config.InitializeConfig;
-import dev.xylonity.knightquest.config.KnightQuestCommonConfigs;
 import dev.xylonity.knightquest.datagen.KQEntitySpawn;
 import dev.xylonity.knightquest.datagen.KQLootTableModifier;
 import dev.xylonity.knightquest.registry.KnightQuestCreativeModeTabs;
@@ -22,6 +20,7 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
+import net.fabricmc.loader.api.FabricLoader;
 
 public class KnightQuest implements ModInitializer, ClientModInitializer {
 
@@ -34,13 +33,8 @@ public class KnightQuest implements ModInitializer, ClientModInitializer {
         KQLootTableModifier.register();
         KnightQuestWeapons.init();
 
-        if (FCAPChecker.isLoaded()) {
-            KnightQuestCommon.LOGGER.info("[Knight Quest] The mod 'forgeconfigapiport' was detected, reading config file `knightquest.toml` for Knight Quest.");
+        if (FabricLoader.getInstance().isModLoaded("forgeconfigapiport"))
             InitializeConfig.init();
-            KnightQuestCommonConfigs.assignValues();
-        } else {
-            KnightQuestCommon.LOGGER.warn("[Knight Quest] The mod 'forgeconfigapiport' is not loaded or is using a version lower than 21.0.2. Skipping configuration generation and reading for Knight Quest...");
-        }
 
         UseBlockCallback.EVENT.register(new KQExtraEvents());
         ServerTickEvents.END_SERVER_TICK.register(new KQArmorEvents.OnEntityTickEvent());

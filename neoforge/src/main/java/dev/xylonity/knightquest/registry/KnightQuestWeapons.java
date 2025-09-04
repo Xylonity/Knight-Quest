@@ -5,7 +5,6 @@ import dev.xylonity.knightquest.common.item.weapons.*;
 import dev.xylonity.knightquest.common.material.KQItemMaterials;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SwordItem;
-import net.minecraft.world.item.Tier;
 
 import java.util.function.Supplier;
 

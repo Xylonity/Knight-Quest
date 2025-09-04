@@ -1,12 +1,16 @@
 package dev.xylonity.knightquest.platform;
 
-import dev.xylonity.knightlib.compat.registry.KnightLibBlocks;
-import dev.xylonity.knightlib.compat.registry.KnightLibItems;
-import dev.xylonity.knightlib.compat.registry.KnightLibParticles;
+import dev.xylonity.knightlib.registry.KnightLibBlocks;
+import dev.xylonity.knightlib.registry.KnightLibItems;
+import dev.xylonity.knightlib.registry.KnightLibParticles;
 import dev.xylonity.knightquest.KnightQuest;
 import dev.xylonity.knightquest.client.armor.GeoItemArmor;
+import dev.xylonity.knightquest.common.item.ChaoticEssenceItem;
 import dev.xylonity.knightquest.common.item.KQArmorItem;
+import dev.xylonity.knightquest.common.item.KnightQuestItem;
+import dev.xylonity.knightquest.common.item.RadiantEssenceItem;
 import dev.xylonity.knightquest.common.material.KQItemMaterials;
+import dev.xylonity.knightquest.registry.KnightQuestItems;
 import dev.xylonity.knightquest.registry.KnightQuestWeapons;
 import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleOptions;
@@ -45,12 +49,12 @@ public class KnightQuestNeoForgePlatform implements KnightQuestPlatform {
 
     @Override
     public Supplier<Block> getGreatChalice() {
-        return KnightLibBlocks.GREAT_CHALICE::get;
+        return KnightLibBlocks.GREAT_CHALICE;
     }
 
     @Override
     public Supplier<ParticleOptions> getStartsetParticle() {
-        return KnightLibParticles.STARSET_PARTICLE::get;
+        return KnightLibParticles.STARSET::get;
     }
 
     @Override
@@ -81,6 +85,17 @@ public class KnightQuestNeoForgePlatform implements KnightQuestPlatform {
     @Override
     public <T extends ParticleType<?>> Supplier<T> registerParticle(String id, boolean overrideLimiter) {
         return KnightQuest.PARTICLES.register(id, () -> (T) new SimpleParticleType(overrideLimiter));
+    }
+
+    @Override
+    public <T extends Item> Supplier<T> registerSpecificItem(String id, Item.Properties properties, KnightQuestItems.KQItemType type) {
+        if (type == KnightQuestItems.KQItemType.CHAOTIC_ESSENCE) {
+            return (Supplier<T>) registerItem(id, () -> new ChaoticEssenceItem(properties, id));
+        } else if (type == KnightQuestItems.KQItemType.RADIANT_ESSENCE) {
+            return (Supplier<T>) registerItem(id, () -> new RadiantEssenceItem(properties, id));
+        }
+
+        return (Supplier<T>) registerItem(id, () -> new KnightQuestItem(properties, id));
     }
 
     @Override

@@ -2,7 +2,6 @@ package dev.xylonity.knightquest.common.entity.entities;
 
 import dev.xylonity.knightquest.common.entity.entities.ai.RangedAttackGoal;
 import dev.xylonity.knightquest.config.values.KQConfigValues;
-import dev.xylonity.knightquest.registry.KnightQuestParticles;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -33,8 +32,8 @@ import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.*;
 import software.bernie.geckolib.animation.AnimationState;
+import software.bernie.geckolib.animation.*;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class SwampmanEntity extends Monster implements GeoEntity, RangedAttackMob {

@@ -139,7 +139,7 @@ def changelogSection = extractChangelogForVersion(project.file('../CHANGELOG.md'
 tasks.register('publishCurseForge', TaskPublishCurseForge) {
     group = 'publishing'
     apiToken = System.getenv("CURSEFORGE_TOKEN")
-    def mainFile = upload("1016595", jar)
+    def mainFile = upload("1016595", remapJar)
 
     mainFile.displayName = "[FABRIC] Knight Quest " + project.property('version').toString() + "-" + minecraft_version
 
@@ -163,7 +163,7 @@ modrinth {
     loaders = ["fabric"]
     gameVersions = ["1.20", "1.20.1"]
 
-    uploadFile = jar
+    uploadFile = remapJar
     versionNumber = project.property('version').toString()
     versionType = "release"
 

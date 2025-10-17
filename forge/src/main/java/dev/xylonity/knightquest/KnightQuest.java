@@ -1,5 +1,6 @@
 package dev.xylonity.knightquest;
 
+import dev.xylonity.knightlib.KnightLib;
 import dev.xylonity.knightlib.registry.KnightLibBlocks;
 import dev.xylonity.knightlib.registry.KnightLibItems;
 import dev.xylonity.knightquest.config.KnightQuestCommonConfigs;
@@ -30,6 +31,8 @@ public class KnightQuest {
     public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(Registries.SOUND_EVENT, KnightQuest.MOD_ID);
 
     public KnightQuest() {
+
+        KnightLib.initialize();
 
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 

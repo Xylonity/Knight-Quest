@@ -1,5 +1,6 @@
 package dev.xylonity.knightquest;
 
+import dev.xylonity.knightlib.KnightLib;
 import dev.xylonity.knightlib.registry.KnightLibBlocks;
 import dev.xylonity.knightlib.registry.KnightLibItems;
 import dev.xylonity.knightquest.client.entity.renderer.*;
@@ -34,6 +35,8 @@ public class KnightQuest implements ModInitializer, ClientModInitializer {
 
     @Override
     public void onInitialize() {
+
+        KnightLib.initialize();
 
         KnightQuestEntities.init();
         KQLootTableModifier.init();

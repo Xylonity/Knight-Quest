@@ -23,7 +23,7 @@ public class KnightQuestItems {
     public static final Supplier<Item> RATMAN_EYE = registerItem("ratman_eye", () -> new KnightQuestItem(new Item.Properties(), "ratman_eye"));
     public static final Supplier<Item> LIZZY_SCALE = registerItem("lizzy_scale", () -> new KnightQuestItem(new Item.Properties(), "lizzy_scale"));
 
-    public static final Supplier<Item> THE_ARCHITECT_OF_CHAOS_DISC = registerMusicDisc("music_disc_the_architect_of_chaos", 6, KnightQuestSounds.THE_ARCHITECT_OF_CHAOS, new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant(), 3540);
+    public static final Supplier<Item> THE_ARCHITECT_OF_CHAOS_DISC = registerMusicDisc("music_disc_the_architect_of_chaos", 6, KnightQuestSounds.THE_ARCHITECT_OF_CHAOS, new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant(), 177);
 
     public static final Supplier<Item> WATER_SWORD = registerSwordItem("water_sword", KQItemMaterials.WATER_SWORD, false);
     public static final Supplier<Item> STEEL_SWORD = registerSwordItem("steel_sword", KQItemMaterials.STEEL_SWORD, false);
@@ -262,8 +262,6 @@ public class KnightQuestItems {
     private static <T extends Item> Supplier<T> registerGeoArmorItem(String id, KQArmorMaterials armorMaterial, ArmorItem.Type armorType, boolean containsTooltip, boolean containsExtraTooltip) {
         return KnightQuestCommon.COMMON_PLATFORM.registerGeoArmorItem(id, armorMaterial, armorType, containsTooltip, containsExtraTooltip);
     }
-
-
 
     public enum KQItemType {
         CHAOTIC_ESSENCE,

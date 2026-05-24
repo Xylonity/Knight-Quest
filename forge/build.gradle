@@ -82,7 +82,7 @@ dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     compileOnly project(":common")
 
-    implementation fg.deobf("dev.xylonity.knightlib:knightlib-forge-${minecraft_version}:1.4.0")
+    implementation fg.deobf("dev.xylonity.knightlib:knightlib-forge-${minecraft_version}:1.5.0")
 
     implementation fg.deobf("software.bernie.geckolib:geckolib-forge-${minecraft_version}:4.4.7")
 

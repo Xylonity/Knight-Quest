@@ -1,6 +1,6 @@
 package dev.xylonity.knightquest.common.entity.boss;
 
-import dev.xylonity.knightlib.api.IBossMusicProvider;
+import dev.xylonity.knightlib.api.sound.music.IBossMusicProvider;
 import dev.xylonity.knightquest.common.ai.navigator.GroundNavigator;
 import dev.xylonity.knightquest.common.entity.boss.ai.*;
 import dev.xylonity.knightquest.config.values.KQConfigValues;

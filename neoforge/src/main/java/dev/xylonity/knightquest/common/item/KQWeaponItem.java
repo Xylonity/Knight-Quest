@@ -1,6 +1,6 @@
 package dev.xylonity.knightquest.common.item;
 
-import dev.xylonity.knightlib.api.impl.GreatChaliceState;
+import dev.xylonity.knightlib.api.interop.GreatChaliceState;
 import dev.xylonity.knightlib.common.blockentity.GreatChaliceBlockEntity;
 import dev.xylonity.knightlib.registry.KnightLibBlocks;
 import dev.xylonity.knightquest.config.values.KQConfigValues;

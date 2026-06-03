@@ -1,7 +1,7 @@
 package dev.xylonity.knightquest.common.item;
 
-import dev.xylonity.knightlib.api.IGreatChaliceInteractable;
-import dev.xylonity.knightlib.api.impl.GreatChaliceState;
+import dev.xylonity.knightlib.api.interop.GreatChaliceState;
+import dev.xylonity.knightlib.api.interop.IGreatChaliceInteractable;
 import dev.xylonity.knightlib.common.blockentity.GreatChaliceBlockEntity;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;

@@ -1,5 +1,6 @@
 package dev.xylonity.knightquest;
 
+import dev.xylonity.knightlib.KnightLib;
 import dev.xylonity.knightquest.common.material.KQArmorMaterials;
 import dev.xylonity.knightquest.platform.KnightQuestPlatform;
 import dev.xylonity.knightquest.registry.*;
@@ -22,6 +23,12 @@ public class KnightQuestCommon {
         KnightQuestParticles.init();
         KnightQuestCreativeModeTabs.init();
         KnightQuestEntities.init();
+
+        KnightLib.initialize(
+                KnightLib.Usage.COPPER_GRAILS,
+                KnightLib.Usage.GREAT_CHALICE,
+                KnightLib.Usage.GREEN_ESSENCES
+        );
     }
 
 }

@@ -35,9 +35,6 @@ public class KnightQuest implements ModInitializer, ClientModInitializer {
 
     @Override
     public void onInitialize() {
-
-        KnightLib.initialize();
-
         KnightQuestEntities.init();
         KQLootTableModifier.init();
         KQEntitySpawn.init();

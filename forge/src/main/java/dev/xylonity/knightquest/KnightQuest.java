@@ -31,9 +31,6 @@ public class KnightQuest {
     public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(Registries.SOUND_EVENT, KnightQuest.MOD_ID);
 
     public KnightQuest() {
-
-        KnightLib.initialize();
-
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         KnightQuestEntities.ENTITY.register(modEventBus);

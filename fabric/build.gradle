@@ -26,7 +26,7 @@ dependencies {
     modImplementation "com.terraformersmc:modmenu:11.0.4"
 
     modImplementation "software.bernie.geckolib:geckolib-fabric-${minecraft_version}:4.6.5"
-    modImplementation "dev.xylonity.knightlib:knightlib-fabric-1.21.1:1.5.0"
+    modImplementation "dev.xylonity.knightlib:knightlib-fabric-1.21.1:2.0.5"
     modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
     modApi "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:21.1.4"

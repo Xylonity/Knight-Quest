@@ -31,7 +31,7 @@ dependencies {
 
     modApi "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${project.fuzs_version}"
 
-    modImplementation("dev.xylonity.knightlib:knightlib-fabric-${minecraft_version}:1.5.0")
+    modImplementation("dev.xylonity.knightlib:knightlib-fabric-${minecraft_version}:2.0.5")
 
     modImplementation("software.bernie.geckolib:geckolib-fabric-${minecraft_version}:4.4.7")
     modImplementation "com.terraformersmc:modmenu:7.2.2"

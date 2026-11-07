@@ -1,5 +1,6 @@
 package dev.xylonity.knightquest.common.event;
 
+import dev.xylonity.knightquest.common.item.KQArmorItem;
 import dev.xylonity.knightquest.common.item.KQFullSetChecker;
 import dev.xylonity.knightquest.common.item.weapons.PaladinWeapon;
 import dev.xylonity.knightquest.common.material.KQArmorMaterials;
@@ -18,7 +19,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -36,7 +36,6 @@ import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biomes;
-import net.minecraft.world.phys.Vec3;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -121,42 +120,12 @@ public class KQArmorEvents {
                         player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 120, 1, false, false, true));
                     }
 
+                // HORNSET
+                KQArmorItem.applyHornSetBonus(player, source);
+
                 // BAMBOOSET
-                if (KQConfigValues.BAMBOOSET.get())
-                    if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.BAMBOOSET) && source.is(DamageTypes.FALL)) {
-
-                        ServerPlayer serverPlayer = (ServerPlayer) player;
-
-                        int particleCount = 80;
-                        double particleRadius = 1.2;
-
-                        for (int i = 0; i < particleCount; i++) {
-                            double angleOffset = (2 * Math.PI / particleCount) * i;
-                            double xParticleOffset = particleRadius * Math.cos(angleOffset);
-                            double zParticleOffset = particleRadius * Math.sin(angleOffset);
-
-                            serverPlayer.connection.send(new ClientboundLevelParticlesPacket(
-                                    ParticleTypes.CAMPFIRE_COSY_SMOKE,
-                                    true,
-                                    player.getX() + xParticleOffset,
-                                    player.getY() + 0.1,
-                                    player.getZ() + zParticleOffset,
-                                    0.2f,
-                                    0.05f,
-                                    0.2f,
-                                    0.0f,
-                                    1
-                            ));
-                        }
-
-                        Class<? extends Entity> classToPush = KQConfigValues.ENABLE_BAMBOOSET_PUSH_PLAYERS.get() ? Entity.class : Player.class;
-
-                        player.level().getEntitiesOfClass(classToPush, player.getBoundingBox().inflate(3.5)).forEach(entity1 -> {
-                            Vec3 direction = entity1.position().subtract(player.position()).normalize().scale(amount * 0.5);
-                            entity1.push(direction.x, direction.y + 0.5, direction.z);
-                        });
-
-                    }
+                if (player instanceof ServerPlayer serverPlayer)
+                    KQArmorItem.applyBambooSetBonus(serverPlayer, source, amount);
 
                 // ENDERMANSET
                 if (KQConfigValues.ENDERMANSET.get())
@@ -371,7 +340,7 @@ public class KQArmorEvents {
                             || player.level().getBiome(player.blockPosition()).is(Biomes.BADLANDS)
                             || player.level().getBiome(player.blockPosition()).is(Biomes.BEACH))) {
                         if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(player.getUUID(), k -> new ConcurrentHashMap<>()).getOrDefault(KQArmorMaterials.HUSKSET, false))) {
-                            player.addEffect(HUSK_ARMOR);
+                            player.addEffect(new MobEffectInstance(HUSK_ARMOR));
                             effectAppliedByArmorMap.get(player.getUUID()).put(KQArmorMaterials.HUSKSET, true);
                         }
                     } else {
@@ -386,7 +355,7 @@ public class KQArmorEvents {
                             || player.level().getBiome(player.blockPosition()).is(Biomes.BAMBOO_JUNGLE)
                             || player.level().getBiome(player.blockPosition()).is(Biomes.SPARSE_JUNGLE))) {
                         if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(player.getUUID(), k -> new ConcurrentHashMap<>()).getOrDefault(KQArmorMaterials.BAMBOOSET_BLUE, false))) {
-                            player.addEffect(BAMBOO_BLUE);
+                            player.addEffect(new MobEffectInstance(BAMBOO_BLUE));
                             effectAppliedByArmorMap.get(player.getUUID()).put(KQArmorMaterials.BAMBOOSET_BLUE, true);
                         }
                     } else {
@@ -420,13 +389,6 @@ public class KQArmorEvents {
                             }
                         }
 
-                    if (KQConfigValues.APPLE_SET.get())
-                        if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.APPLE_SET)) {
-                            if (player.tickCount % 400 == 0) {
-                                player.heal(1.0F);
-                            }
-                        }
-
                 }
 
                 if (KQConfigValues.POLAR.get())
@@ -437,7 +399,7 @@ public class KQArmorEvents {
                 if (KQConfigValues.SILVERFISHSET.get())
                     if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.SILVERFISHSET) && player.getY() < KQConfigValues.SILVERFISH_EFFECT_MAX_HEIGHT.get()) {
                         if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(player.getUUID(), k -> new ConcurrentHashMap<>()).getOrDefault(KQArmorMaterials.SILVERFISHSET, false))) {
-                            player.addEffect(SILVERFISH_ARMOR);
+                            player.addEffect(new MobEffectInstance(SILVERFISH_ARMOR));
                             effectAppliedByArmorMap.get(player.getUUID()).put(KQArmorMaterials.SILVERFISHSET, true);
                         }
                     } else {

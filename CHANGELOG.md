@@ -1,3 +1,12 @@
+# 1.9.4
+- Ratmen no longer drop a crossbow instead of their eye
+- The Ratman eye now drops at the chance set in the config
+- Entity drops are now properly defined in loot tables
+- Fixed the Horn set's strength lasting less every time it was granted until it stopped working altogether. It's now granted every time the wearer gets hit by a hostile mob
+- Fixed armor set effects sharing the same effect instance, which could make their durations shrink over time
+- Fixed the Bamboo set pushing the wearer instead of the nearby entities when landing
+- Fixed the Apple set not boosting golden apples. It now grants Regeneration II, Absorption II and Resistance, replacing the passive healing it had on Fabric
+
 # 1.9.3
 - Fixed a case where hostile entities wouldn't drop green essence even though knight quest was in the pack
 

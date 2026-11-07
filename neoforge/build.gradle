@@ -48,7 +48,7 @@ neoForge {
 }
 
 dependencies {
-    implementation "software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:4.6.5"
+    implementation "software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:4.6.6"
     implementation "dev.xylonity.knightlib:knightlib-neoforge-1.21.1:2.0.5"
 }
 

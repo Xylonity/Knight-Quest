@@ -23,6 +23,7 @@ public class KnightQuestCommon {
         KnightQuestParticles.init();
         KnightQuestCreativeModeTabs.init();
         KnightQuestEntities.init();
+        KnightQuestEntityDrops.init();
 
         KnightLib.initialize(
                 KnightLib.Usage.COPPER_GRAILS,

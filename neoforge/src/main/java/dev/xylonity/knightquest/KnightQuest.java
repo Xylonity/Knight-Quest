@@ -1,7 +1,6 @@
 package dev.xylonity.knightquest;
 
 import dev.xylonity.knightquest.config.KnightQuestCommonConfigs;
-import dev.xylonity.knightquest.datagen.KQLootModifiers;
 import dev.xylonity.knightquest.registry.KnightQuestCreativeModeTabs;
 import dev.xylonity.knightquest.registry.KnightQuestEntities;
 import dev.xylonity.knightquest.registry.KnightQuestWeapons;
@@ -32,8 +31,6 @@ public class KnightQuest {
     public static final DeferredRegister<EntityType<?>> ENTITY = DeferredRegister.create(Registries.ENTITY_TYPE, KnightQuest.MOD_ID);
 
     public KnightQuest(IEventBus modEventBus, ModContainer modContainer) {
-
-        KQLootModifiers.LOOT_MODIFIER_SERIALIZERS.register(modEventBus);
 
         ARMOR_MATERIALS.register(modEventBus);
         SOUNDS.register(modEventBus);

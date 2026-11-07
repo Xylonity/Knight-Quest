@@ -4,7 +4,6 @@ import dev.xylonity.knightlib.api.sound.music.IBossMusicProvider;
 import dev.xylonity.knightquest.common.ai.navigator.GroundNavigator;
 import dev.xylonity.knightquest.common.entity.boss.ai.*;
 import dev.xylonity.knightquest.config.values.KQConfigValues;
-import dev.xylonity.knightquest.registry.KnightQuestItems;
 import dev.xylonity.knightquest.registry.KnightQuestSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -32,7 +31,6 @@ import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -363,13 +361,6 @@ public class NethermanEntity extends Monster implements GeoEntity, IBossMusicPro
             hasBeenSwitchedToPhase3 = true;
         }
 
-    }
-
-    @Override
-    protected void dropCustomDeathLoot(ServerLevel pLevel, DamageSource pDamageSource, boolean pRecentlyHit) {
-        super.dropCustomDeathLoot(pLevel, pDamageSource, pRecentlyHit);
-        this.spawnAtLocation(new ItemStack(KnightQuestItems.CHAOTIC_ESSENCE.get()));
-        if (this.getRandom().nextFloat() < 0.1) this.spawnAtLocation(new ItemStack(KnightQuestItems.THE_ARCHITECT_OF_CHAOS_DISC.get()));
     }
 
     /**

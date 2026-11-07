@@ -6,7 +6,6 @@ import dev.xylonity.knightquest.common.event.KQExtraEvents;
 import dev.xylonity.knightquest.common.particle.*;
 import dev.xylonity.knightquest.config.InitializeConfig;
 import dev.xylonity.knightquest.datagen.KQEntitySpawn;
-import dev.xylonity.knightquest.datagen.KQLootTableModifier;
 import dev.xylonity.knightquest.registry.KnightQuestCreativeModeTabs;
 import dev.xylonity.knightquest.registry.KnightQuestEntities;
 import dev.xylonity.knightquest.registry.KnightQuestParticles;
@@ -30,7 +29,6 @@ public class KnightQuest implements ModInitializer, ClientModInitializer {
     public void onInitialize() {
 
         KQEntitySpawn.register();
-        KQLootTableModifier.register();
         KnightQuestWeapons.init();
 
         if (FabricLoader.getInstance().isModLoaded("forgeconfigapiport"))

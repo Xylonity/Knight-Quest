@@ -4,9 +4,10 @@ import dev.xylonity.knightlib.KnightLib;
 import dev.xylonity.knightlib.registry.KnightLibBlocks;
 import dev.xylonity.knightlib.registry.KnightLibItems;
 import dev.xylonity.knightquest.config.KnightQuestCommonConfigs;
-import dev.xylonity.knightquest.datagen.KQLootModifiers;
+import dev.xylonity.knightquest.config.values.KQConfigValues;
 import dev.xylonity.knightquest.registry.KnightQuestCreativeModeTabs;
 import dev.xylonity.knightquest.registry.KnightQuestEntities;
+import dev.xylonity.knightquest.registry.KnightQuestEntityDrops;
 import dev.xylonity.knightquest.registry.KnightQuestWeapons;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.Registries;
@@ -34,7 +35,7 @@ public class KnightQuest {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         KnightQuestEntities.ENTITY.register(modEventBus);
-        KQLootModifiers.LOOT_MODIFIER_SERIALIZERS.register(modEventBus);
+        KnightQuestEntityDrops.init(() -> KQConfigValues.DROP_CHANCE_RATMAN_EYE, () -> KQConfigValues.DROP_CHANCE_LIZZY_SCALE);
 
         GeckoLib.initialize();
 

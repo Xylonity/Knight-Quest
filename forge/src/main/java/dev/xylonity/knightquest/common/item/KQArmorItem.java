@@ -14,12 +14,13 @@ import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.*;
@@ -194,7 +195,7 @@ public class KQArmorItem extends ArmorItem {
             if (KQConfigValues.PATHSET)
                 if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.PATHSET) && level.isDay()) {
                     if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new ConcurrentHashMap<>()).getOrDefault(KQArmorMaterials.PATHSET, false))) {
-                        player.addEffect(PATH_ARMOR);
+                        player.addEffect(new MobEffectInstance(PATH_ARMOR));
                         effectAppliedByArmorMap.get(playerUUID).put(KQArmorMaterials.PATHSET, true);
                     }
                 } else {
@@ -207,7 +208,7 @@ public class KQArmorItem extends ArmorItem {
             if (KQConfigValues.BOWSET)
                 if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.BOWSET) && player.getMainHandItem().getItem() instanceof ProjectileWeaponItem) {
                     if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new ConcurrentHashMap<>()).getOrDefault(KQArmorMaterials.BOWSET, false))) {
-                        player.addEffect(BOW_ARMOR);
+                        player.addEffect(new MobEffectInstance(BOW_ARMOR));
                         effectAppliedByArmorMap.get(playerUUID).put(KQArmorMaterials.BOWSET, true);
                     }
                 } else {
@@ -220,7 +221,7 @@ public class KQArmorItem extends ArmorItem {
             if (KQConfigValues.BATSET)
                 if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.BATSET) && level.isNight()) {
                     if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new ConcurrentHashMap<>()).getOrDefault(KQArmorMaterials.BATSET, false))) {
-                        player.addEffect(BAT_ARMOR);
+                        player.addEffect(new MobEffectInstance(BAT_ARMOR));
                         effectAppliedByArmorMap.get(playerUUID).put(KQArmorMaterials.BATSET, true);
                     }
                 } else {
@@ -233,7 +234,7 @@ public class KQArmorItem extends ArmorItem {
             if (KQConfigValues.SHIELDSET)
                 if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.SHIELDSET)) {
                     if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new ConcurrentHashMap<>()).getOrDefault(KQArmorMaterials.SHIELDSET, false))) {
-                        player.addEffect(SHIELD_ARMOR);
+                        player.addEffect(new MobEffectInstance(SHIELD_ARMOR));
                         effectAppliedByArmorMap.get(playerUUID).put(KQArmorMaterials.SHIELDSET, true);
                     }
                 } else {
@@ -246,7 +247,7 @@ public class KQArmorItem extends ArmorItem {
             if (KQConfigValues.PHANTOMSET)
                 if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.PHANTOMSET) && level.isNight()) {
                     if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new ConcurrentHashMap<>()).getOrDefault(KQArmorMaterials.PHANTOMSET, false))) {
-                        player.addEffect(PHANTOM_ARMOR);
+                        player.addEffect(new MobEffectInstance(PHANTOM_ARMOR));
                         effectAppliedByArmorMap.get(playerUUID).put(KQArmorMaterials.PHANTOMSET, true);
                     }
                 } else {
@@ -256,23 +257,10 @@ public class KQArmorItem extends ArmorItem {
                     }
                 }
 
-            if (KQConfigValues.HORNSET)
-                if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.HORNSET) && player.getLastAttacker() != null) {
-                    if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new ConcurrentHashMap<>()).getOrDefault(KQArmorMaterials.HORNSET, false))) {
-                        player.addEffect(HORN_ARMOR);
-                        effectAppliedByArmorMap.get(playerUUID).put(KQArmorMaterials.HORNSET, true);
-                    }
-                } else {
-                    if (Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new ConcurrentHashMap<>()).getOrDefault(KQArmorMaterials.HORNSET, false))) {
-                        player.removeEffect(MobEffects.DAMAGE_BOOST);
-                        effectAppliedByArmorMap.get(playerUUID).put(KQArmorMaterials.HORNSET, false);
-                    }
-                }
-
             if (KQConfigValues.SEASET)
                 if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.SEASET) && player.isUnderWater()) {
                     if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new ConcurrentHashMap<>()).getOrDefault(KQArmorMaterials.SEASET, false))) {
-                        player.addEffect(SEA_ARMOR);
+                        player.addEffect(new MobEffectInstance(SEA_ARMOR));
                         effectAppliedByArmorMap.get(playerUUID).put(KQArmorMaterials.SEASET, true);
                     }
                 } else {
@@ -285,7 +273,7 @@ public class KQArmorItem extends ArmorItem {
             if (KQConfigValues.PIRATESET)
                 if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.PIRATESET)) {
                     if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new ConcurrentHashMap<>()).getOrDefault(KQArmorMaterials.PIRATESET, false))) {
-                        player.addEffect(PIRATE_ARMOR);
+                        player.addEffect(new MobEffectInstance(PIRATE_ARMOR));
                         effectAppliedByArmorMap.get(playerUUID).put(KQArmorMaterials.PIRATESET, true);
                     }
                 } else {
@@ -298,7 +286,7 @@ public class KQArmorItem extends ArmorItem {
             if (KQConfigValues.SPIDERSET)
                 if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.SPIDERSET) && player.isShiftKeyDown()) {
                     if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new ConcurrentHashMap<>()).getOrDefault(KQArmorMaterials.SPIDERSET, false))) {
-                        player.addEffect(SPIDER_ARMOR);
+                        player.addEffect(new MobEffectInstance(SPIDER_ARMOR));
                         effectAppliedByArmorMap.get(playerUUID).put(KQArmorMaterials.SPIDERSET, true);
                     }
                 } else {
@@ -311,7 +299,7 @@ public class KQArmorItem extends ArmorItem {
             if (KQConfigValues.NETHERSET)
                 if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.NETHERSET)) {
                     if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new ConcurrentHashMap<>()).getOrDefault(KQArmorMaterials.NETHERSET, false))) {
-                        player.addEffect(NETHER_ARMOR);
+                        player.addEffect(new MobEffectInstance(NETHER_ARMOR));
                         effectAppliedByArmorMap.get(playerUUID).put(KQArmorMaterials.NETHERSET, true);
                     }
                 } else {
@@ -324,7 +312,7 @@ public class KQArmorItem extends ArmorItem {
             if (KQConfigValues.SKULK)
                 if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.SKULK) && player.level().getMaxLocalRawBrightness(player.blockPosition()) <= KQConfigValues.SKULK_MAX_LIGHT_LEVEL) {
                     if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new ConcurrentHashMap<>()).getOrDefault(KQArmorMaterials.SKULK, false))) {
-                        player.addEffect(SKULK_ARMOR);
+                        player.addEffect(new MobEffectInstance(SKULK_ARMOR));
                         effectAppliedByArmorMap.get(playerUUID).put(KQArmorMaterials.SKULK, true);
                     }
                 } else {
@@ -337,7 +325,7 @@ public class KQArmorItem extends ArmorItem {
             if (KQConfigValues.STRAWHATSET)
                 if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.STRAWHATSET)) {
                     if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(playerUUID, k -> new ConcurrentHashMap<>()).getOrDefault(KQArmorMaterials.STRAWHATSET, false))) {
-                        player.addEffect(STRAWHAT_ARMOR);
+                        player.addEffect(new MobEffectInstance(STRAWHAT_ARMOR));
                         effectAppliedByArmorMap.get(playerUUID).put(KQArmorMaterials.STRAWHATSET, true);
                     }
                 } else {
@@ -350,6 +338,44 @@ public class KQArmorItem extends ArmorItem {
         }
 
         super.onInventoryTick(stack, level, player, slotIndex, selectedIndex);
+    }
+
+    public static void applyHornSetBonus(Player player, DamageSource source) {
+        if (KQConfigValues.HORNSET && source.getEntity() instanceof Enemy && KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.HORNSET)) {
+            player.addEffect(new MobEffectInstance(HORN_ARMOR));
+        }
+
+    }
+
+    public static void applyBambooSetBonus(ServerPlayer player, DamageSource source, float amount) {
+        if (!KQConfigValues.BAMBOOSET || !source.is(DamageTypes.FALL) || !KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.BAMBOOSET)) {
+            return;
+        }
+
+        final int particleCount = 80;
+        final double particleRadius = 1.2;
+
+        for (int i = 0; i < particleCount; i++) {
+            final double angleOffset = (2 * Math.PI / particleCount) * i;
+            final double xParticleOffset = particleRadius * Math.cos(angleOffset);
+            final double zParticleOffset = particleRadius * Math.sin(angleOffset);
+
+            player.connection.send(new ClientboundLevelParticlesPacket(
+                    ParticleTypes.CAMPFIRE_COSY_SMOKE, true, player.getX() + xParticleOffset, player.getY() + 0.1, player.getZ() + zParticleOffset,
+                    0.2f, 0.05f, 0.2f, 0.0f, 1
+            ));
+
+        }
+
+        boolean pushPlayers = KQConfigValues.BAMBOOSET_PUSH_PLAYERS;
+
+        for (LivingEntity target : player.level().getEntitiesOfClass(LivingEntity.class, player.getBoundingBox().inflate(3.5),
+                e -> e != player && e.isPushable() && (pushPlayers || !(e instanceof Player)))) {
+            Vec3 direction = target.position().subtract(player.position()).normalize().scale(amount * 0.5);
+            target.push(direction.x, direction.y + 0.5, direction.z);
+            target.hurtMarked = true;
+        }
+
     }
 
     /**
@@ -468,41 +494,10 @@ public class KQArmorItem extends ArmorItem {
                         player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 120, 1, false, false, true));
                     }
 
-                if (KQConfigValues.BAMBOOSET)
-                    if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.BAMBOOSET) && event.getSource().is(DamageTypes.FALL)) {
+                applyHornSetBonus(player, event.getSource());
 
-                        ServerPlayer serverPlayer = (ServerPlayer) player;
-
-                        int particleCount = 80;
-                        double particleRadius = 1.2;
-
-                        for (int i = 0; i < particleCount; i++) {
-                            double angleOffset = (2 * Math.PI / particleCount) * i;
-                            double xParticleOffset = particleRadius * Math.cos(angleOffset);
-                            double zParticleOffset = particleRadius * Math.sin(angleOffset);
-
-                            serverPlayer.connection.send(new ClientboundLevelParticlesPacket(
-                                    ParticleTypes.CAMPFIRE_COSY_SMOKE,
-                                    true,
-                                    player.getX() + xParticleOffset,
-                                    player.getY() + 0.1,
-                                    player.getZ() + zParticleOffset,
-                                    0.2f,
-                                    0.05f,
-                                    0.2f,
-                                    0.0f,
-                                    1
-                            ));
-                        }
-
-                        Class<? extends Entity> classToPush = KQConfigValues.BAMBOOSET_PUSH_PLAYERS ? Entity.class : Monster.class;
-
-                        player.level().getEntitiesOfClass(classToPush, player.getBoundingBox().inflate(3.5)).forEach(entity -> {
-                            Vec3 direction = entity.position().subtract(player.position()).normalize().scale(event.getAmount() * 0.5);
-                            entity.push(direction.x, direction.y + 0.5, direction.z);
-                        });
-
-                    }
+                if (player instanceof ServerPlayer serverPlayer)
+                    applyBambooSetBonus(serverPlayer, event.getSource(), event.getAmount());
 
                 if (KQConfigValues.ENDERMANSET)
                     if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.ENDERMANSET) && event.getSource().getEntity() != null) {
@@ -648,7 +643,7 @@ public class KQArmorItem extends ArmorItem {
                             || player.level().getBiome(new BlockPos((int) player.getX(), (int) player.getY(), (int) player.getZ())).is(Biomes.BADLANDS)
                                 || player.level().getBiome(new BlockPos((int) player.getX(), (int) player.getY(), (int) player.getZ())).is(Biomes.BEACH))) {
                         if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(player.getUUID(), k -> new HashMap<>()).getOrDefault(KQArmorMaterials.HUSKSET, false))) {
-                            player.addEffect(HUSK_ARMOR);
+                            player.addEffect(new MobEffectInstance(HUSK_ARMOR));
                             effectAppliedByArmorMap.get(player.getUUID()).put(KQArmorMaterials.HUSKSET, true);
                         }
                     } else {
@@ -663,7 +658,7 @@ public class KQArmorItem extends ArmorItem {
                             || player.level().getBiome(new BlockPos((int) player.getX(), (int) player.getY(), (int) player.getZ())).is(Biomes.BAMBOO_JUNGLE)
                                 || player.level().getBiome(new BlockPos((int) player.getX(), (int) player.getY(), (int) player.getZ())).is(Biomes.SPARSE_JUNGLE))) {
                         if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(player.getUUID(), k -> new HashMap<>()).getOrDefault(KQArmorMaterials.BAMBOOSET_BLUE, false))) {
-                            player.addEffect(BAMBOO_BLUE);
+                            player.addEffect(new MobEffectInstance(BAMBOO_BLUE));
                             effectAppliedByArmorMap.get(player.getUUID()).put(KQArmorMaterials.BAMBOOSET_BLUE, true);
                         }
                     } else {
@@ -704,7 +699,7 @@ public class KQArmorItem extends ArmorItem {
                 if (KQConfigValues.SILVERFISHSET)
                     if (KQFullSetChecker.hasFullSetOn(player, KQArmorMaterials.SILVERFISHSET) && player.getY() < KQConfigValues.SILVERFISH_EFFECT_MAX_HEIGHT) {
                         if (!Boolean.TRUE.equals(effectAppliedByArmorMap.computeIfAbsent(player.getUUID(), k -> new HashMap<>()).getOrDefault(KQArmorMaterials.SILVERFISHSET, false))) {
-                            player.addEffect(SILVERFISH_ARMOR);
+                            player.addEffect(new MobEffectInstance(SILVERFISH_ARMOR));
                             effectAppliedByArmorMap.get(player.getUUID()).put(KQArmorMaterials.SILVERFISHSET, true);
                         }
                     } else {

@@ -11,10 +11,11 @@ import dev.xylonity.knightquest.common.event.KQExtraEvents;
 import dev.xylonity.knightquest.common.item.KQArmorItem;
 import dev.xylonity.knightquest.common.particle.*;
 import dev.xylonity.knightquest.config.InitializeConfig;
+import dev.xylonity.knightquest.config.values.KQConfigValues;
 import dev.xylonity.knightquest.datagen.KQEntitySpawn;
-import dev.xylonity.knightquest.datagen.KQLootTableModifier;
 import dev.xylonity.knightquest.registry.KnightQuestCreativeModeTabs;
 import dev.xylonity.knightquest.registry.KnightQuestEntities;
+import dev.xylonity.knightquest.registry.KnightQuestEntityDrops;
 import dev.xylonity.knightquest.registry.KnightQuestParticles;
 import dev.xylonity.knightquest.registry.KnightQuestWeapons;
 import net.fabricmc.api.ClientModInitializer;
@@ -36,7 +37,7 @@ public class KnightQuest implements ModInitializer, ClientModInitializer {
     @Override
     public void onInitialize() {
         KnightQuestEntities.init();
-        KQLootTableModifier.init();
+        KnightQuestEntityDrops.init(() -> KQConfigValues.DROP_CHANCE_RATMAN_EYE, () -> KQConfigValues.DROP_CHANCE_LIZZY_SCALE);
         KQEntitySpawn.init();
         KnightQuestWeapons.init();
 

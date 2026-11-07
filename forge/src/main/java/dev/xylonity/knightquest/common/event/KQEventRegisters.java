@@ -4,15 +4,11 @@ import dev.xylonity.knightquest.KnightQuest;
 import dev.xylonity.knightquest.common.entity.boss.NethermanCloneEntity;
 import dev.xylonity.knightquest.common.entity.boss.NethermanEntity;
 import dev.xylonity.knightquest.common.entity.entities.*;
-import dev.xylonity.knightquest.datagen.KQGlobalLootModifiersProvider;
 import dev.xylonity.knightquest.registry.KnightQuestEntities;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.PackOutput;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -58,19 +54,6 @@ public class KQEventRegisters {
         event.register(KnightQuestEntities.RATMAN.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
         event.register(KnightQuestEntities.SWAMPMAN.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
         event.register(KnightQuestEntities.FALLEN_KNIGHT.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
-    }
-
-    /**
-     * Recipe json generator for certain mobs defined on the array MOB_IDS.
-     * @see dev.xylonity.knightquest.datagen.KQGlobalLootModifiersProvider
-     */
-
-    @SubscribeEvent
-    public static void gatherData(GatherDataEvent event) {
-        DataGenerator generator = event.getGenerator();
-        PackOutput packOutput = generator.getPackOutput();
-
-        generator.addProvider(event.includeServer(), new KQGlobalLootModifiersProvider(packOutput));
     }
 
 }
